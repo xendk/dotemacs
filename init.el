@@ -2,11 +2,6 @@
 (setq load-path (cons "~/lib/lisp/" load-path))
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
 (add-to-list 'load-path "~/.emacs.d/php-extras/")
-;(load "/home/xen/lib/lisp/frame-restore.el")
-;(load "/home/xen/lib/post.el")
-;(load "/home/xen/lib/mutt.el")
-;(load "/home/xen/lib/mud.el")
-;(load "/home/xen/lib/php-mode.el")
 ; from http://adamspiers.org/computing/elisp/smooth-scrolling.el via
 ; http://www.emacswiki.org/emacs/SmoothScrolling
 ;(load "/home/xen/lib/lisp/smooth-scrolling.el")
