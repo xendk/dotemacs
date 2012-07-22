@@ -169,10 +169,6 @@ or a marker."
 (setq default-frame-alist '((background-color . "black")
                             (foreground-color . "white")))
 
- ;; (add-hook 'post-command-hook
- ;;   (lambda ()
- ;;     (recenter '("don't redraw"))))
-
 (iswitchb-mode)
 
 ;; log4j for logfile viewing
