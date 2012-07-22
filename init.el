@@ -178,10 +178,7 @@ or a marker."
         (nth 1 (current-input-mode))
         0)
 
-;(require 'ljupdate)
-;(setq lj-default-profile (lj-defprofile 'livejournal "blueowl"))
 
-;; Org mode
 (setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
