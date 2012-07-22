@@ -874,18 +874,6 @@ Value is (0 0) if the modification time cannot be determined."
 ; (require 'ffap)
 ; (ffap-bindings)
 
-;(load-file "/home/xen/lib/lisp/eproject-0.3/eproject.el")
-;(load-file "/home/xen/lib/lisp/projman.el")
-;; (setq projman-types
-;;   '((c "C/C++" ("*.[CcHh]" "*.[CcHh][PpXx+][PpXx+]" "*.[Cc][Cc]" "*.[Hh][Hh]"))
-;;     (elisp "elisp" ("*.el"))
-;;     (python "Python" ("*.py"))
-;;     (tg "TurboGears" ("*.py" "*.html" "*.kid" "*.js" "*.css"))
-;;     (aspx "ASP.NET" ("*.as[pca]x" "*.asa" "*.cs" "*.js" "*.css"))
-;;     (drupal "Drupal" ("*.module" "*.info" "*.install" "*.inc" "*.php" "*.js" "*.css"))
-;;     ))
-
-
 (setq next-line-add-newlines nil)
 (setq hs-minor-mode-hook nil)
 ;(hscroll-global-mode)
