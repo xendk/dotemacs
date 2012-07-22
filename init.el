@@ -894,13 +894,6 @@ Value is (0 0) if the modification time cannot be determined."
 ; Matches the visited file name against the elements of `auto-insert-alist'.
 (add-hook 'find-file-hooks 'auto-insert)
 
-;(load "desktop")
-;(setq desktop-enable t)
-;(desktop-save-mode 1)
-;(desktop-load-default)
-;(desktop-read)
-;(require 'frame-restore)
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
