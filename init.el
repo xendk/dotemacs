@@ -794,20 +794,10 @@ Value is (0 0) if the modification time cannot be determined."
 	     (define-key c++-mode-map [f3] 'compile)
 	     (define-key c++-mode-map [f4] 'gdb)
 	     ))
-;(defun my-key-setup ()
-;  "some keybindings for c-mode, c++-mode, objc-mode, java-mode"
-;  (my-key-mode 1)
-;  (define-key my-key-mode-map [?\S-down] 'forward-sexp)
-;  (define-key my-key-mode-map [?\S-up] 'backward-sexp)
-;  (define-key my-key-mode-map [?\S-right] 'down-list)
-;  (define-key my-key-mode-map [?\S-left] 'backward-list)
-;  )
+
 (defun my-c-mode-common-hook ()
   ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
   (c-set-offset 'substatement-open 0)
-  ;; other customizations can go here
-  ;;(my-key-setup)
-  ;;(define-key c-mode-base-map "\C-m" 'newline-and-indent)
   (define-key c-mode-base-map [return] 'newline-and-indent)
   (define-key c-mode-base-map "\C-j" 'newline)
   (define-key c-mode-base-map [C-return] 'newline)
