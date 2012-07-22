@@ -174,10 +174,6 @@ or a marker."
 ; speedbar fix
 (setq dframe-xemacsp nil)
 
-;(speedbar)
-;(speedbar-add-supported-extension ".module")
-;(speedbar-add-supported-extension ".install")
-
 ;(set-language-environment "Latin-1")
 ;(standard-display-european t)
 (set-input-mode (car (current-input-mode))
