@@ -747,21 +747,6 @@ Value is (0 0) if the modification time cannot be determined."
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
-;; (setq auto-mode-alist
-;;  (append '(("\\.\\(php\\|module\\|engine\\|inc\\|thtml\\)\\'" . php-mode)) auto-mode-alist))
-
-;; (defun setup-php ()
-;;   ; Drupal
-;;   (add-to-list 'auto-mode-alist '("\\.\\(module\\|profile\\|test\\|install\\|tpl.php\\)$" . drupal-mode))
-;;   (add-to-list 'auto-mode-alist '("/drupal.*\\.\\(php\\|inc\\)$" . drupal-mode))
-;;   (add-to-list 'auto-mode-alist '("/var/www/d.*\\.\\(php\\|inc\\)$" . drupal-mode))
-;;   (add-to-list 'auto-mode-alist '("\\(modules\\|themes\\|profiles\\).*\\.\\(php\\|inc\\)$" . drupal-mode))
-;;   (add-to-list 'auto-mode-alist '("\\.info" . conf-windows-mode))
-
-;;   ; More startup-setup for PHP customizations to work here
-;; )
-;; (setup-php)
-
 (setq interpreter-mode-alist (append '(("php" . php-mode))
          interpreter-mode-alist))
 
