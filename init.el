@@ -174,8 +174,6 @@ or a marker."
 ; speedbar fix
 (setq dframe-xemacsp nil)
 
-;(set-language-environment "Latin-1")
-;(standard-display-european t)
 (set-input-mode (car (current-input-mode))
         (nth 1 (current-input-mode))
         0)
