@@ -11,8 +11,6 @@
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
 
-(define-key global-map [S-menu] 'ido-switch-buffer)
-(define-key global-map [C-menu] 'find-file)
 (define-key global-map [M-z] 'zap-up-to-char)
 
 (eval-after-load 'php-mode '(require 'php-extras))
