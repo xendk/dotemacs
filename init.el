@@ -685,10 +685,6 @@ or a marker."
 
 (add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
 
-(setq ri-ruby-script "/home/xen/bin/ri-emacs.rb")
-(autoload 'ri "/home/xen/lib/ri-ruby.el" nil t)
-;(add-hook 'ruby-mode-hook (lambda () (local-set-key 'f1 'ri)))
-
 (defun kill-buffer-delete-window () "" (interactive)
   (kill-buffer nil)
   (delete-window)
