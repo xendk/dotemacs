@@ -767,21 +767,6 @@ Value is (0 0) if the modification time cannot be determined."
 (setq bookmark-save-flag 1)
 (add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
 (setq font-lock-maximum-decoration t)
-(load-library "hideshow")
-(defun my-hs-setup () "enables hideshow and binds some commands"
-  (hs-minor-mode 1)
-  (define-key hs-minor-mode-map [?\C-c ?h] 'hs-hide-block)
-  (define-key hs-minor-mode-map [?\C-c ?s] 'hs-show-block)
-  (define-key hs-minor-mode-map [?\C-c ?\S-h] 'hs-hide-all)
-  (define-key hs-minor-mode-map [?\C-c ?\S-S] 'hs-show-all)
-  (define-key hs-minor-mode-map [?\C-c ?\S-R] 'hs-show-region))
-(add-hook 'c++-mode-hook 'my-hs-setup t)   ; other modes similarly
-(add-hook 'c-mode-hook 'my-hs-setup t)
-(add-hook 'java-mode-hook 'my-hs-setup t)
-(add-hook 'lisp-mode-hook 'my-hs-setup t)
-(add-hook 'python-mode-hook 'my-hs-setup t)
-(add-hook 'tcl-mode-hook 'my-hs-setup t)
-;(add-hook 'php-mode-hook 'my-hs-setup t)
 
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
 (add-hook 'c-mode-hook
