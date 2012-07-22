@@ -11,7 +11,7 @@
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
 
-(define-key global-map [M-z] 'zap-up-to-char)
+(define-key global-map (kbd "M-Z") 'zap-up-to-char)
 
 (eval-after-load 'php-mode '(require 'php-extras))
 
@@ -666,8 +666,6 @@ or a marker."
   (local-set-key [M-down] 'tempo-forward-mark)
   (local-set-key (kbd "«") 'tempo-backward-mark)
   (local-set-key (kbd "»") 'tempo-forward-mark)
-  (local-set-key (kbd "M-Z") 'zap-up-to-char)
-  ;; (local-set-key (kbd "M-z") 'zap-up-to-char)
   (flyspell-prog-mode)
   (local-set-key [S-return] 'php-end-new-line)
 ;  (local-set-key [?\S- ] 'php-end-line)
