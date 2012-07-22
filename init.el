@@ -5,8 +5,7 @@
 ; from http://adamspiers.org/computing/elisp/smooth-scrolling.el via
 ; http://www.emacswiki.org/emacs/SmoothScrolling
 ;(load "/home/xen/lib/lisp/smooth-scrolling.el")
-; todo: make this into a require...
-(load "/home/xen/.emacs.d/drupal-mode/drupal-mode.el")
+(require 'drupal-mode)
 ;(setq ange-ftp-ftp-program-name "/home/xen/bin/nftp.pl")
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
