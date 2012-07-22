@@ -689,8 +689,6 @@ or a marker."
 (autoload 'ri "/home/xen/lib/ri-ruby.el" nil t)
 ;(add-hook 'ruby-mode-hook (lambda () (local-set-key 'f1 'ri)))
 
-;(require 'jde)
-
 (defun kill-buffer-delete-window () "" (interactive)
   (kill-buffer nil)
   (delete-window)
