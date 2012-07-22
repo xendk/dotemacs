@@ -691,24 +691,6 @@ or a marker."
 
 ;(require 'jde)
 
-; There's some sort of bug in ange-ftp-file-modtime in 21
-; (at least in 21.1-7), so I redefine it to a noop here...
-(load "ange-ftp")
-(defun ange-ftp-file-modtime (file)
-  "Return the modification time of remote file FILE.
-Value is (0 0) if the modification time cannot be determined."
-  (let* ((parsed (ange-ftp-ftp-name file))
-	 ;; At least one FTP server (wu-ftpd) can return a "226
-	 ;; Transfer complete" before the "213 MODTIME".  Let's skip
-	 ;; that.
-	 (modtime '(0 0)))
-    ;; MDTM should return "213 YYYYMMDDhhmmss" GMT on success
-    ;; following the Internet draft for FTP extensions.
-    ;; Bob@rattlesnake.com reports that is returns something different
-    ;; for at least one FTP server.  So, let's use the response only
-    ;; if it matches the Internet draft.
-    modtime))
-
 (defun kill-buffer-delete-window () "" (interactive)
   (kill-buffer nil)
   (delete-window)
