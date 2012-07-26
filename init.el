@@ -53,6 +53,11 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(add-to-list 'load-path
+              "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+(yas/global-mode 1)
+
 ; End EmacsRocks
 
 ; Flymake-phpcs
