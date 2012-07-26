@@ -27,6 +27,33 @@
               (define-key gtags-mode-map [mouse-3] nil)
               ))
 
+; Start EmacsRocks
+; Really cool stuff: https://github.com/magnars
+; From these:
+; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
+; http://emacsrocks.com/
+
+(add-to-list 'load-path "~/.emacs.d/mark-multiple/")
+(require 'inline-string-rectangle)
+(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
+(require 'mark-more-like-this)
+(global-set-key (kbd "C-<") 'mark-previous-like-this)
+(global-set-key (kbd "C->") 'mark-next-like-this)
+(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+(global-set-key (kbd "C-*") 'mark-all-like-this)
+(global-set-key (kbd "C-%") 'mark-all-like-this-in-region)
+
+;; Experimental multiple-cursors
+(add-to-list 'load-path "~/.emacs.d/multiple-cursors/")
+(require 'multiple-cursors)
+(set-face-background 'mc/cursor-face "Turquoise")  ;; Emacs 22 Only
+
+(add-to-list 'load-path "~/.emacs.d/expand-region/")
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+; End EmacsRocks
 
 ; Flymake-phpcs
 ; https://github.com/illusori/emacs-flymake-phpcs
