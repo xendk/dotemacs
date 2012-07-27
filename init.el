@@ -58,6 +58,21 @@
 (require 'yasnippet)
 (yas/global-mode 1)
 
+;; this would be nice:
+;; # -*- mode: snippet -*-
+;; # name: Drupal hook
+;; # key: dh
+;; # --
+;; /**
+;;  * Implements hook_$1().
+;;  */
+;; function `(drupal-module-name)`_${1:name}(${2:${1:$(unless yas/modified-p (drupal-get-function-args yas/text (drupal-major-version)))}}) {
+;;   $0
+;; }
+
+;; http://www.emacswiki.org/emacs/iy-go-to-char.el or
+;; https://github.com/lewang/jump-char/blob/master/jump-char.el ?
+
 ; End EmacsRocks
 
 ; Flymake-phpcs
@@ -493,7 +508,8 @@ or a marker."
           )
       (indent-for-tab-command)
     (or
-     (tempo-expand-if-complete)
+     (yas/expand)
+     ;; (tempo-expand-if-complete)
      (call-interactively 'dabbrev-expand)
      )
     )
@@ -885,6 +901,7 @@ or a marker."
  '(org-support-shift-select t)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(query-replace-highlight t)
+ '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
  '(save-place t nil (saveplace))
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(show-paren-mode t)
@@ -921,7 +938,10 @@ or a marker."
  '(w3-toolbar-orientation (quote default) t)
  '(w3-toolbar-type (quote both) t)
  '(w3-use-menus (quote (file edit view go bookmark options buffers style emacs nil help)))
- '(w3-user-colors-take-precedence (quote nil)))
+ '(w3-user-colors-take-precedence (quote nil))
+ '(yas/fallback-behavior (quote return-nil))
+ '(yas/triggers-in-field t)
+ '(yas/wrap-around-region nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
