@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Drupal Devel debug function
+# key: dpm
+# --
+dpm($0);

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Drupal function
+# key: df
+# --
+/**
+ * $3
+ */
+function `(drupal-module-name)`_${1:name}($2) {
+  $0
+}

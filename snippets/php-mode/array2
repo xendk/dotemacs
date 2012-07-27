@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Array2
+# key: array(
+# --
+array(
+$0

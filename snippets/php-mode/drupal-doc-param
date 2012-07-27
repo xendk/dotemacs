@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Drupal doc comment param
+# key: @p
+# --
+@param ${1:mixed} \$$2
+ *   $0

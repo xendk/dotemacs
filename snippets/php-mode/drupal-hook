@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Drupal hook
+# key: dh
+# --
+/**
+ * Implements hook_$1().
+ */
+function `(drupal-module-name)`_${1:name}($2) {
+  $0
+}

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: debug_backtrace function
+# key: db
+# --
+debug_backtrace()
