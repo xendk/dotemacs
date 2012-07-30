@@ -10,6 +10,8 @@
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
+(global-set-key [tab] 'xen-tab)
+(global-set-key [S-iso-lefttab] 'indent-for-tab-command)
 
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
 
@@ -293,6 +295,31 @@ or a marker."
     )
   )
 )
+
+(defun xen-semi () 
+  ""
+  (interactive)
+  (save-excursion 
+    (progn 
+      (let*
+          (
+           (here (point))
+           )(progn
+              (skip-syntax-forward "->")
+              (message (string (following-char)))
+              (if (string-match "[:;(),]" (string (following-char)) ) ()
+                (progn
+                  (goto-char here)
+                  (insert ";")
+                  )))
+            )
+      )
+    )
+  )
+
+;; text type:
+;; (f (get-text-property (- pos 1) 'face))
+;; (if (memq f xen-prog-text-faces)
 
 (defun xen-paired-delete (arg &optional killp)
   "Test.."
@@ -693,7 +720,6 @@ or a marker."
   (local-set-key (kbd "C-$") 'hs-toggle-hiding)
   (local-set-key [backspace] 'xen-paired-delete-backward)
   (local-set-key [delete] 'xen-paired-delete)
-  (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'dabbrev-expand)
   (local-set-key [M-up] 'tempo-backward-mark)
