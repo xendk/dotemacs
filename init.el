@@ -706,7 +706,14 @@ or a marker."
     (call-interactively 'self-insert-command)
     )
   )
-
+;; (setq skeleton-end-hook
+;;   (lambda ()
+;; ;(progn
+;; ;(xen-semi)
+;;     (or (eolp) (not skeleton-end-newline) (newline-and-indent))
+;; ;)
+;;   ))
+(add-hook 'skeleton-end-hook 'xen-semi)
 (require 'misc)
 
 (defun my-php-mode-hook ()
