@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Class
+# key: cl
+# --
+/**
+ * $6
+ */
+class ${1:name}${2: extends ${3:base_class}}${4: implements ${5:base_class}} {
+  $0
+}
