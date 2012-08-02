@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Drupal doc comment return
+# key: @r
+# --
+@return ${1:mixed}
+ *   $0
