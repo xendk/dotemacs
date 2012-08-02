@@ -10,8 +10,6 @@
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
-(global-set-key [tab] 'xen-tab)
-(global-set-key [S-iso-lefttab] 'indent-for-tab-command)
 
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
 
