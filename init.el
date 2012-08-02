@@ -294,6 +294,14 @@ or a marker."
   )
 )
 
+(defun xen-open ()
+"Open new line, with proper indentation."
+(interactive)
+(call-interactively 'move-beginning-of-line)
+(call-interactively 'open-line)
+(indent-for-tab-command)
+)
+
 (defun xen-semi () 
   ""
   (interactive)
@@ -722,7 +730,7 @@ or a marker."
   (local-set-key (kbd "<") 'skeleton-pair-insert-maybe)
   (local-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
   (local-set-key (kbd "'") 'xen-skeleton-pair-insert-maybe)
-  (local-set-key (kbd "C-$") 'hs-toggle-hiding)
+  (local-set-key (kbd "C-o") 'xen-open)
   (local-set-key [backspace] 'xen-paired-delete-backward)
   (local-set-key [delete] 'xen-paired-delete)
   (local-set-key [tab] 'xen-tab)
