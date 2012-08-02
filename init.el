@@ -725,6 +725,7 @@ or a marker."
   (local-set-key (kbd "C-$") 'hs-toggle-hiding)
   (local-set-key [backspace] 'xen-paired-delete-backward)
   (local-set-key [delete] 'xen-paired-delete)
+  (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'dabbrev-expand)
   (local-set-key [M-up] 'tempo-backward-mark)
