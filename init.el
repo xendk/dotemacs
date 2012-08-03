@@ -563,10 +563,6 @@ or a marker."
   "Skip self-insert if template function is called by an abbrev."
   (put (intern (concat "tempo-template-" (ad-get-arg 0))) 'no-self-insert t))
 
-(defun drupal-module-name ()
-  "Return name of module"
-  (car (split-string (buffer-name) "\\.")))
-
 (tempo-define-template "php-if"
 		       '("if (" p ") {" > n>
 			 r> n>
