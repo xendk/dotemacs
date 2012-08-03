@@ -57,13 +57,13 @@
               "~/.emacs.d/yasnippet")
 (require 'yasnippet)
 ;; Only activate yas in major-modes in knows.
-(defun yas/minor-mode-on ()
-  "Turn on YASnippet minor mode."
-  (interactive)
-  (unless (or yas/dont-activate
-              (null (gethash major-mode
-                             yas/snippet-tables)))
-    (yas/minor-mode 1)))
+;; (defun yas/minor-mode-on ()
+;;   "Turn on YASnippet minor mode."
+;;   (interactive)
+;;   (unless (or yas/dont-activate
+;;               (null (gethash major-mode
+;;                              yas/snippet-tables)))
+;;     (yas/minor-mode 1)))
 (yas/global-mode 1)
 
 ;; this would be nice:
