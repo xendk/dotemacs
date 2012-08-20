@@ -147,9 +147,10 @@
 ; http://www.emacswiki.org/emacs/CopyAndPaste
 (setq x-select-enable-clipboard t)
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-; TODO: As I never use C-v anyway, and its effect when i hit it
-; confuses me, why not bind it to pasting from outside (like the
-; middle button does)?
+; As I never use C-v anyway, and its effect when i hit it confuses me,
+; why not bind it to pasting from outside (like the middle button
+; does)?
+(global-set-key "\C-v" 'clipboard-yank)
 
 ; Don't switch to a frame already containing the selected buffer, but
 ; show the same buffer in a new frame.
