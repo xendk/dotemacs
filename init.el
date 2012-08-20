@@ -27,6 +27,10 @@
               (define-key gtags-mode-map [mouse-3] nil)
               ))
 
+; https://github.com/magit/magit
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
+
 ; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
 ; From these:
@@ -310,11 +314,11 @@ or a marker."
 (indent-for-tab-command)
 )
 
-(defun xen-semi () 
+(defun xen-semi ()
   ""
   (interactive)
-  (save-excursion 
-    (progn 
+  (save-excursion
+    (progn
       (let*
           (
            (here (point))
@@ -363,7 +367,7 @@ or a marker."
               )
             )
 
-          (push-mark newmark nil t)
+          (push-mark newmark nil t) ; todo: doesn't work? or does it?
           )
       (call-interactively 'delete-char (list arg killp))
       )
@@ -929,7 +933,7 @@ or a marker."
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-use-last-dir t)
  '(flymake-cursor-error-display-delay 0.3)
- '(flymake-cursor-number-of-errors-to-display 10)
+ '(flymake-cursor-number-of-errors-to-display 1)
  '(flyspell-default-dictionary "british")
  '(hscroll-margin 15)
  '(ido-everywhere t)
