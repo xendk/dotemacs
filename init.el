@@ -1,4 +1,6 @@
 (server-start)
+;; Lets get rid of the menu bar.
+(menu-bar-mode -1)
 (setq load-path (cons "~/lib/lisp/" load-path))
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
 (add-to-list 'load-path "~/.emacs.d/php-extras/")
