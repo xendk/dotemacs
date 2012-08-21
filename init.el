@@ -150,7 +150,11 @@
 ; As I never use C-v anyway, and its effect when i hit it confuses me,
 ; why not bind it to pasting from outside (like the middle button
 ; does)?
-(global-set-key "\C-v" 'clipboard-yank)
+(global-set-key "\C-v" 'xen-paste)
+(defun xen-paste ()
+  "Paste from outside."
+  (interactive)
+(insert (x-selection-value 'CLIPBOARD)))
 
 ; Don't switch to a frame already containing the selected buffer, but
 ; show the same buffer in a new frame.
