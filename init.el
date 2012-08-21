@@ -1,7 +1,17 @@
+;; Xens emacs configuration.
+
+;; Handy trick:
+;; (set-face-attribute 'default nil :height 140)
+
 (server-start)
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
 (setq load-path (cons "~/lib/lisp/" load-path))
+
+; Solarized color scheme.
+;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized/")
+;(require 'color-theme-solarized)
+
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
 (add-to-list 'load-path "~/.emacs.d/php-extras/")
 ; from http://adamspiers.org/computing/elisp/smooth-scrolling.el via
