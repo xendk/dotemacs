@@ -51,6 +51,10 @@
 ; https://github.com/magit/magit
 (add-to-list 'load-path "~/.emacs.d/magit/")
 (require 'magit)
+(defun xen-magit-log-edit-mode-hook ()
+  (flyspell-mode)
+)
+(add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
 
 ; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
