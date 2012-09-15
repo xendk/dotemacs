@@ -163,7 +163,9 @@
 ; http://www.emacswiki.org/emacs/WindMove
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
-; TODO: add in this: http://www.emacswiki.org/emacs/FrameMove
+; http://www.emacswiki.org/emacs/FrameMove
+(require 'framemove)
+(setq framemove-hook-into-windmove t)
 
 ; http://www.emacswiki.org/emacs/CopyAndPaste
 (setq x-select-enable-clipboard t)
