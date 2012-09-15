@@ -4,6 +4,15 @@
 ;; (set-face-attribute 'default nil :height 140)
 
 (server-start)
+
+;; Beginning of the el4r block:
+;; RCtool generated this block automatically. DO NOT MODIFY this block!
+(add-to-list 'load-path "/usr/share/emacs/site-lisp")
+(require 'el4r)
+(el4r-boot)
+;; End of the el4r block.
+;; User-setting area is below this line.
+
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
 (setq load-path (cons "~/lib/lisp/" load-path))
