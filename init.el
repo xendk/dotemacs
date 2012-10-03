@@ -55,6 +55,7 @@
   (flyspell-mode)
 )
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
+(global-set-key (kbd "C-c C-g") 'magit-status)
 
 ; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
