@@ -6,6 +6,7 @@
 ;; Handy variables for line (non-)wrapping:
 ;; trucante-lines
 ;; word-wrap
+;; Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
 
 (server-start)
 
