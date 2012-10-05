@@ -3,6 +3,10 @@
 ;; Handy trick:
 ;; (set-face-attribute 'default nil :height 140)
 
+;; Handy variables for line (non-)wrapping:
+;; trucante-lines
+;; word-wrap
+
 (server-start)
 
 ;; Beginning of the el4r block:
