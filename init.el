@@ -99,6 +99,7 @@
 ;;               (null (gethash major-mode
 ;;                              yas/snippet-tables)))
 ;;     (yas/minor-mode 1)))
+;; TODO: use the per-buffer method described in the readme.
 (yas/global-mode 1)
 
 ;; this would be nice:
