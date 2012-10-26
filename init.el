@@ -91,16 +91,9 @@
 (add-to-list 'load-path
               "~/.emacs.d/yasnippet")
 (require 'yasnippet)
-;; Only activate yas in major-modes in knows.
-;; (defun yas/minor-mode-on ()
-;;   "Turn on YASnippet minor mode."
-;;   (interactive)
-;;   (unless (or yas/dont-activate
-;;               (null (gethash major-mode
-;;                              yas/snippet-tables)))
-;;     (yas/minor-mode 1)))
-;; TODO: use the per-buffer method described in the readme.
-(yas/global-mode 1)
+;; Initialize yasnippet. It's enabled per mode.
+;; todo: seems to have some issues with undo and xen-tab.
+(yas/reload-all)
 
 ;; this would be nice:
 ;; # -*- mode: snippet -*-
@@ -593,7 +586,7 @@ or a marker."
           )
       (indent-for-tab-command)
     (or
-     (yas/expand)
+     ;; (yas/expand)
      ;; (tempo-expand-if-complete)
      (call-interactively 'dabbrev-expand)
      )
@@ -797,12 +790,20 @@ or a marker."
 ;  (local-set-key [?\S- ] 'php-end-line)
   (local-set-key (kbd "M-,") 'php-end-line)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
+  (yas/minor-mode 1)
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
 (add-hook 'js-mode-hook 'xen-js-mode-hook)
 (defun xen-js-mode-hook ()
   (xen-coding-common-bindings)
+  (yas/minor-mode 1)
+  )
+
+(add-hook 'css-mode-hook 'xen-css-mode-hook)
+(defun xen-css-mode-hook ()
+  (xen-coding-common-bindings)
+  (yas/minor-mode 1)
   )
 
 (defun php-doc-paragraph-boundaries ()
@@ -1036,9 +1037,9 @@ or a marker."
  '(w3-toolbar-type (quote both) t)
  '(w3-use-menus (quote (file edit view go bookmark options buffers style emacs nil help)))
  '(w3-user-colors-take-precedence (quote nil))
- '(yas/fallback-behavior (quote return-nil))
- '(yas/triggers-in-field t)
- '(yas/wrap-around-region nil))
+ '(yas-fallback-behavior (quote call-other-command))
+ '(yas-triggers-in-field t)
+ '(yas-wrap-around-region nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
