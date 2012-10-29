@@ -62,6 +62,9 @@
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
+;; TODO: https://github.com/rolandwalker/fixmee
+;; TODO: Shortcut to opening ~/.emacs.d/init.el
+
 ; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
 ; From these:
