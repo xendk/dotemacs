@@ -63,7 +63,12 @@
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
 ;; TODO: https://github.com/rolandwalker/fixmee
+
 ;; TODO: Shortcut to opening ~/.emacs.d/init.el
+
+;; TODO: CamelCase <-> snake_case conversion:
+;; https://gist.github.com/846766
+;; https://github.com/emacsmirror/s
 
 ; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
