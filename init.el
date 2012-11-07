@@ -96,6 +96,10 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+; Writable grep buffer.
+(add-to-list 'load-path "~/.emacs.d/wgrep/")
+(require 'wgrep)
+
 (add-to-list 'load-path
               "~/.emacs.d/yasnippet")
 (require 'yasnippet)
