@@ -70,8 +70,6 @@
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
-;; TODO: Shortcut to opening ~/.emacs.d/init.el
-
 ;; TODO: CamelCase <-> snake_case conversion:
 ;; https://gist.github.com/846766
 ;; https://github.com/emacsmirror/s
