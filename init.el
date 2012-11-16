@@ -38,6 +38,12 @@
 (global-font-lock-mode t)
 
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
+(defun xen-emacs-init ()
+  "Open ~/.emacs.d/init.el."
+  (interactive)
+  (find-file "~/.emacs.d/init.el")
+)
+(define-key global-map (kbd "C-c C-e") 'xen-emacs-init)
 
 (eval-after-load 'php-mode '(require 'php-extras))
 
