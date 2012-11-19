@@ -100,6 +100,39 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(defun xen-php-mark-next-accessor ()
+  "Presumes that current symbol is already marked, skips over one
+arrow and marks next symbol."
+  (interactive)
+  (when (use-region-p)
+    (when (< (point) (mark))
+      (exchange-point-and-mark))
+    (let ((symbol-regexp "\\s_\\|\\sw"))
+      (when (looking-at "->")
+        (forward-char 2)
+        (skip-syntax-forward "_w")
+        (exchange-point-and-mark)))))
+
+(defun xen-php-mark-method-call-or-array ()
+  "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
+  (interactive)
+  (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
+    (when (or (looking-at symbol-regexp)
+              (looking-back symbol-regexp))
+      (skip-syntax-backward "_w.")
+      (set-mark (point))
+      (while (looking-at symbol-regexp)
+        (forward-char))
+      (if (looking-at "(\\|\\[")
+          (forward-list))
+      (exchange-point-and-mark))))
+
+(defun php-mode-expantions ()
+      (make-variable-buffer-local 'er/try-expand-list)
+      (setq er/try-expand-list '(er/mark-word er/mark-symbol er/mark-symbol-with-prefix xen-php-mark-next-accessor xen-php-mark-method-call-or-array er/mark-comment er/mark-comment-block er/mark-inside-quotes er/mark-outside-quotes er/mark-inside-pairs er/mark-outside-pairs)))
+
+(add-hook 'php-mode-hook 'php-mode-expantions)
+
 ; Writable grep buffer.
 (add-to-list 'load-path "~/.emacs.d/wgrep/")
 (require 'wgrep)
