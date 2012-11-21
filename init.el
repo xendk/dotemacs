@@ -875,21 +875,6 @@ or a marker."
   (kill-buffer-and-window)
 )
 
-; doesn't work right
-(defun other-kill-buffer (&optional window)
-  "Kills other buffer"
-  (interactive "P")
-  (let oldwin (get-buffer-window (current-buffer))
-    (save-excursion
-      (other-window
-       (if window window 1))
-      (kill-buffer nil)
-      (set-window oldwin)
-      ))
-)
-
-;(define-key global-map [?\C-c ?\C-k] 'kill-buffer-delete-window)
-(define-key global-map [?\C-c ?\C-k] 'other-kill-buffer)
 (define-key global-map [?\C-c ?k] 'other-kill-buffer-delete-window)
 (define-key global-map [print] 'speedbar-get-focus)
 (define-key global-map [S-print] 'speedbar)
