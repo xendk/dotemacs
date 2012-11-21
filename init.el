@@ -43,7 +43,7 @@
   (interactive)
   (find-file "~/.emacs.d/init.el")
 )
-(define-key global-map (kbd "C-c C-e") 'xen-emacs-init)
+(define-key global-map (kbd "C-c e") 'xen-emacs-init)
 
 (eval-after-load 'php-mode '(require 'php-extras))
 
