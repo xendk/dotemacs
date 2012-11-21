@@ -794,6 +794,8 @@ or a marker."
 ; (not (funcall xen-generic-check-word-p))
 
 
+;; TODO: try out https://github.com/capitaomorte/autopair
+;; Other alternatives at http://www.emacswiki.org/emacs/AutoPairs
 (defun xen-skeleton-pair-insert-maybe ()
   "Inserts pairs when not in strings and comments."
   (interactive "*")
