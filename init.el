@@ -22,6 +22,8 @@
 (menu-bar-mode -1)
 (setq load-path (cons "~/lib/lisp/" load-path))
 
+; Try out http://www.emacswiki.org/emacs/MiniMap ?
+
 ; Solarized color scheme.
 ;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized/")
 ;(require 'color-theme-solarized)
