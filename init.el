@@ -222,6 +222,9 @@ arrow and marks next symbol."
 (require 'framemove)
 (setq framemove-hook-into-windmove t)
 
+; http://www.emacswiki.org/emacs/WholeLineOrRegion
+(require 'whole-line-or-region)
+
 ; http://www.emacswiki.org/emacs/CopyAndPaste
 (setq x-select-enable-clipboard t)
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
