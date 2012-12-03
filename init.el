@@ -10,6 +10,10 @@
 
 (server-start)
 
+;; Relocate and load customs (so we don't clutter init.el with them).
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file)
+
 ;; Beginning of the el4r block:
 ;; RCtool generated this block automatically. DO NOT MODIFY this block!
 ;(add-to-list 'load-path "/usr/share/emacs/site-lisp")
@@ -1027,95 +1031,3 @@ or a marker."
 ; Insert default contents into new files if variable `auto-insert' is non-nil.
 ; Matches the visited file name against the elements of `auto-insert-alist'.
 (add-hook 'find-file-hooks 'auto-insert)
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ange-ftp-try-passive-mode t)
- '(auto-insert-mode t nil (autoinsert))
- '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "google-chrome")
- '(comint-input-autoexpand t)
- '(css-indent-offset 2)
- '(delete-selection-mode t nil (delsel))
- '(desktop-files-not-to-save "^/none[^/:]*:")
- '(desktop-restore-eager 3)
- '(desktop-save (quote ask-if-new))
- '(desktop-save-mode nil)
- '(drupal/emacs-drush-update-tags-after-save t)
- '(ediff-keep-variants nil)
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-use-last-dir t)
- '(flymake-cursor-error-display-delay 0.3)
- '(flymake-cursor-number-of-errors-to-display 1)
- '(flyspell-default-dictionary "british")
- '(hscroll-margin 15)
- '(ido-everywhere t)
- '(ido-mode (quote both) nil (ido))
- '(js-indent-level 2)
- '(mouse-avoidance-mode (quote animate) nil (avoid))
- '(mouse-sel-default-bindings t)
- '(mouse-sel-mode t nil (mouse-sel))
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
- '(mouse-yank-at-point t)
- '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
- '(org-agenda-files (quote ("~/Documents/Todo.org")))
- '(org-support-shift-select t)
- '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
- '(query-replace-highlight t)
- '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
- '(save-place t nil (saveplace))
- '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
- '(show-paren-mode t)
- '(speedbar-fetch-etags-command "etags" t)
- '(speedbar-hide-button-brackets-flag nil)
- '(speedbar-ignored-modes nil t)
- '(speedbar-show-unknown-files t)
- '(speedbar-supported-extension-expressions (quote ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
- '(speedbar-track-mouse-flag t)
- '(speedbar-update-flag (quote x) t)
- '(tex-command nil t)
- '(tex-dvi-view-command "dvilx")
- '(tool-bar-mode nil nil (tool-bar))
- '(uniquify-after-kill-buffer-p t)
- '(uniquify-ask-about-buffer-names-p t)
- '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
- '(uniquify-trailing-separator-p t)
- '(url-cookie-confirmation (quote nil))
- '(url-honor-refresh-requests (quote t))
- '(url-privacy-level (quote (email)))
- '(w3-default-homepage (quote "http://hades/~beast"))
- '(w3-default-stylesheet (quote nil))
- '(w3-delay-image-loads (quote t))
- '(w3-honor-stylesheets (quote t))
- '(w3-image-mappings (quote (("image/x-xbitmap" . xbm) ("image/xbitmap" . xbm) ("image/xbm" . xbm) ("image/jpeg" . jpeg) ("image/gif" . gif) ("image/png" . png) ("image/x-fax" . g3fax) ("image/x-raster" . rast) ("image/windowdump" . xwd) ("image/x-icon" . icon) ("image/portable-graymap" . pgm) ("image/portable-pixmap" . ppm) ("image/x-pixmap" . xpm) ("image/x-xpixmap" . xpm) ("image/pict" . pict) ("image/x-rgb" . sgi) ("image/x-sgi" . sgi) ("image/x-macpaint" . macpt) ("image/x-targa" . tga) ("image/tiff" . tiff))))
- '(w3-load-hook (quote nil))
- '(w3-mode-hook (quote nil))
- '(w3-netscape-compatible-comments (quote t))
- '(w3-preferences-cancel-hook (quote nil) t)
- '(w3-preferences-default-hook (quote nil) t)
- '(w3-preferences-ok-hook (quote nil) t)
- '(w3-preferences-setup-hook (quote nil) t)
- '(w3-source-file-hook (quote nil))
- '(w3-toolbar-orientation (quote default) t)
- '(w3-toolbar-type (quote both) t)
- '(w3-use-menus (quote (file edit view go bookmark options buffers style emacs nil help)))
- '(w3-user-colors-take-precedence (quote nil))
- '(whole-line-or-region-mode t)
- '(yas-fallback-behavior (quote call-other-command))
- '(yas-triggers-in-field t)
- '(yas-wrap-around-region nil))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(magit-diff-add ((t (:foreground "light green"))))
- '(magit-diff-del ((t (:foreground "tomato"))))
- '(magit-item-highlight ((t (:background "#111"))))
- '(mode-line ((((class color) (min-colors 88)) (:background "grey75" :foreground "black" :box (:line-width -1 :color "grey50")))))
- '(region ((t (:background "#456"))))
- '(secondary-selection ((((class color) (min-colors 88) (background dark)) (:background "Blue3")))))
-(put 'narrow-to-region 'disabled nil)
