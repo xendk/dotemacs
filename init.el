@@ -10,10 +10,6 @@
 
 (server-start)
 
-;; Relocate and load customs (so we don't clutter init.el with them).
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file)
-
 ;; Beginning of the el4r block:
 ;; RCtool generated this block automatically. DO NOT MODIFY this block!
 ;(add-to-list 'load-path "/usr/share/emacs/site-lisp")
@@ -1031,3 +1027,7 @@ or a marker."
 ; Insert default contents into new files if variable `auto-insert' is non-nil.
 ; Matches the visited file name against the elements of `auto-insert-alist'.
 (add-hook 'find-file-hooks 'auto-insert)
+
+;; Relocate and load customs (so we don't clutter init.el with them).
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file)
