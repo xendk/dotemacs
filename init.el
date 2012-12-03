@@ -1100,6 +1100,7 @@ or a marker."
  '(w3-toolbar-type (quote both) t)
  '(w3-use-menus (quote (file edit view go bookmark options buffers style emacs nil help)))
  '(w3-user-colors-take-precedence (quote nil))
+ '(whole-line-or-region-mode t)
  '(yas-fallback-behavior (quote call-other-command))
  '(yas-triggers-in-field t)
  '(yas-wrap-around-region nil))
