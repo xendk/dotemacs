@@ -650,7 +650,7 @@ or a marker."
 (message (char-to-string (char-syntax (char-after)))))
 
 (defun xen-tab ()
-  "Indent if on whitespace, expand tempo or dabbrev-expand."
+  "Indent if on whitespace or dabbrev-expand."
   (interactive "*")
   (if (or (bolp) ; Beginning of line
           (region-active-p) ; We have an active region
@@ -659,150 +659,10 @@ or a marker."
       (indent-for-tab-command)
     (or
      ;; (yas/expand)
-     ;; (tempo-expand-if-complete)
      (call-interactively 'dabbrev-expand)
      )
     )
   )
-
-(require 'tempo)
-(setq tempo-interactive t)
-
-(defadvice tempo-define-template (after no-self-insert-in-abbrevs activate)
-  "Skip self-insert if template function is called by an abbrev."
-  (put (intern (concat "tempo-template-" (ad-get-arg 0))) 'no-self-insert t))
-
-(tempo-define-template "php-if"
-		       '("if (" p ") {" > n>
-			 r> n>
-			 "}")
-		       "if"
-		       "Insert an PHP if statement.")
-
-
-(tempo-define-template "php-else"
-		       '("else {" > n>
-			 r> n>
-			 "}")
-		       "el"
-		       "Insert an PHP else statement.")
-
-(tempo-define-template "php-elseif"
-		       '("elseif (" p ") {" > n>
-			 r> n>
-			 "}")
-		       "ei"
-		       "Insert an PHP elseif statement.")
-
-(tempo-define-template "php-function"
-		       '("function " p "(" r ") {" > n>
-			 r> n
-			 "}")
-		       "fu"
-		       "Insert an PHP function statement.")
-
-(tempo-define-template "php-while"
-		       '("while (" p ") {" > n>
-			 r> n>
-			 "}")
-		       "wh"
-		       "Insert an PHP while statement.")
-
-(tempo-define-template "php-foreach"
-		       '("foreach (" p " as " p ") {" > n>
-			 r> n>
-			 "}")
-		       "fe"
-		       "Insert an PHP foreach statement.")
-
-(tempo-define-template "php-for"
-		       '("for (" p "; " p "; " p ") {" > n>
-			 r> n>
-			 "}")
-		       "fo"
-		       "Insert an PHP foreach statement.")
-
-(tempo-define-template "php-switch"
-		       '("switch (" p ") {" > n>
-			 r> n>
-			 "}")
-		       "sw"
-		       "Insert an PHP switch statement.")
-
-(tempo-define-template "php-case"
-		       '("case " p ":" > n>
-			 r> n>
-			 "break;")
-		       "ca"
-		       "Insert an PHP case statement.")
-
-(tempo-define-template "php-default"
-		       '("default:" > n>
-			 r> n>
-			 "break;")
-		       "de"
-		       "Insert an PHP default statement.")
-
-(tempo-define-template "php-class"
-		       '("class " p " {" > n>
-			 r> n
-			 "}")
-		       "cl"
-		       "Insert an PHP function class.")
-
-(tempo-define-template "drupal-watchdog"
-		       '("watchdog('" p "', '" r "', NULL, WATCHDOG_DEBUG);")
-		       "wd"
-		       "Insert a Drupal watchdog statement.")
-
-(tempo-define-template "drupal-hook"
-		       '("/**" n " * Implementation of hook_"
-                         (p "Hook: " hook) "()." n " */" n
-                         "function " (drupal-module-name) "_"
-                         (s hook) "(" p ") {" > n>
-			 r> n
-			 "}")
-		       "dh"
-		       "Insert a Drupal hook function.")
-
-(tempo-define-template "drupal-function"
-		       '("/**" n " * " r n " */" n
-                         "function " (drupal-module-name) "_"
-                         p "(" r ") {" > n>
-			 r> n
-			 "}")
-		       "df"
-		       "Insert a Drupal function.")
-
-(tempo-define-template "php-tag"
-		       '("<?php " r " ?>")
-		       "<?"
-		       "Insert a PHP tag.")
-
-;; (tempo-define-template "php-true"
-;; 		       '("TRUE")
-;; 		       "php-true"
-;; 		       "Insert an PHP TRUE.")
-
-
-;; (define-abbrev php-mode-abbrev-table "ifst"
-;;   "" 'tempo-template-php-if)
-;; (define-abbrev php-mode-abbrev-table "whst"
-;;   "" 'tempo-template-php-while)
-;; (define-abbrev php-mode-abbrev-table "fest"
-;;   "" 'tempo-template-php-foreach)
-;; (define-abbrev php-mode-abbrev-table "function"
-;;   "" 'tempo-template-php-function)
-;; (define-abbrev php-mode-abbrev-table "true"
-;;   "" 'tempo-template-php-true)
-;; (define-abbrev php-mode-abbrev-table "<?"
-;;   "" 'tempo-template-php-tag)
-;; (define-abbrev html-mode-abbrev-table "<?"
-;;   "" 'tempo-template-php-tag)
-
-;; (defadvice tempo-define-template (after no-self-insert-in-abbrevs activate)
-;;   "Skip self-insert if template function is called by an abbrev."
-;;   (put (intern (concat "tempo-template-" (ad-get-arg 0))) 'no-self-insert t))
 
 ; This face hackery is stolen from flyspell.
 (defvar xen-prog-text-faces
@@ -824,10 +684,6 @@ or a marker."
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'dabbrev-expand)
-  (local-set-key [M-up] 'tempo-backward-mark)
-  (local-set-key [M-down] 'tempo-forward-mark)
-  (local-set-key (kbd "«") 'tempo-backward-mark)
-  (local-set-key (kbd "»") 'tempo-forward-mark)
   (flyspell-prog-mode)
 )
 
