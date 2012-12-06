@@ -366,11 +366,6 @@ or a marker."
 
 ;(add-to-list 'vc-handled-backends 'SVN)
 
-(defvar backward-delete-char-pairwise-alist '((?" _ ?")
-					      (?' _ ?')
-))
-(require 'skeleton)
-
 (defun delete-whitespace ()
   "Delete characters from point up to next non-whitespace char"
   (interactive)
@@ -378,38 +373,6 @@ or a marker."
     (skip-syntax-forward "-")
     (if (/= (point) here)
 	(delete-region (point) here))))
-
-(defun backward-delete-char-pairwise (arg &optional killp)
-  "Test.."
-  (interactive "*p\nP")
-  (let*  ((char (preceding-char))
-	  (end-point (save-excursion
-		   (progn
-		     (skip-syntax-forward "->")
-		     (point))))
-	  (mchar (save-excursion
-		   (progn (goto-char end-point)
-		     (message (string (following-char)))
-		     (following-char))))
-	(skeleton (or ;(assq char '((?{ _ ?})))
-		      (assq char skeleton-pair-alist)
-		      (assq char skeleton-pair-default-alist)
-		      (assq char backward-delete-char-pairwise-alist)
-;		      `(,char _ ,char)
-		      ))
-;	(tmp (message (car (last skeleton))))
-)
-    (if (and (< 2 (length skeleton)) (= mchar (car (last skeleton))))
-	(progn
-;(message "here")
-	  (delete-region (point) end-point)
-(delete-char 1)
-(call-interactively 'backward-delete-char-untabify killp))
-    ;  (message skeleton)
-    (call-interactively 'backward-delete-char-untabify killp)
-    )
-  )
-)
 
 (defun xen-open ()
 "Open new line, with proper indentation."
@@ -604,24 +567,6 @@ or a marker."
       )
     )
   )
-
-
-;; (defun backward-delete-char-pairwise (arg &optional killp)
-;;   "Test.."
-;;   (interactive "*p\nP")
-;;   (let*  ((char (preceding-char)) (mchar (following-char))
-;; 	(skeleton (or (assq char skeleton-pair-alist)
-;; 		      (assq char skeleton-pair-default-alist)
-;; 		      (assq char backward-delete-char-pairwise-alist)
-;; ;		      `(,char _ ,char)
-;; 		      )))
-;;     (if (and (= 3 (length skeleton)) (= mchar (car (cdr (cdr skeleton)))))
-;; 	(progn (delete-char 1) (call-interactively 'backward-delete-char-untabify killp))
-;;     ;  (message skeleton)
-;;     (call-interactively 'backward-delete-char-untabify killp)
-;;     )
-;;   )
-;; )
 
 (defun php-end-new-line ()
 "Test"
