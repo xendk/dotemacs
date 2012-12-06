@@ -370,10 +370,6 @@ or a marker."
 					      (?' _ ?')
 ))
 (require 'skeleton)
-;(setq skeleton-pair-alist '(
-;(?{ ?\n > _ ?\n ?} >)
-;))
-;(setq skeleton-pair-alist nil)
 
 (defun delete-whitespace ()
   "Delete characters from point up to next non-whitespace char"
@@ -813,42 +809,15 @@ or a marker."
   '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
   "Faces corresponding to text in programming-mode buffers.")
 
-(defun xen-generic-progmode-verify ()
-  "Check if we're in a comment or string."
-  (let ((f (get-text-property (point) 'face)))
-    (memq f xen-prog-text-faces)))
+;; https://github.com/capitaomorte/autopair
+(add-to-list 'load-path "~/.emacs.d/autopair/")
+(require 'autopair)
+(autopair-global-mode) ;; enable autopair in all buffers
+(setq autopair-skip-whitespace t)
 
-; (not (funcall xen-generic-check-word-p))
-
-
-;; TODO: try out https://github.com/capitaomorte/autopair
-;; Other alternatives at http://www.emacswiki.org/emacs/AutoPairs
-(defun xen-skeleton-pair-insert-maybe ()
-  "Inserts pairs when not in strings and comments."
-  (interactive "*")
-  (if (not (xen-generic-progmode-verify))
-      (call-interactively 'skeleton-pair-insert-maybe)
-    (call-interactively 'self-insert-command)
-    )
-  )
-;; (setq skeleton-end-hook
-;;   (lambda ()
-;; ;(progn
-;; ;(xen-semi)
-;;     (or (eolp) (not skeleton-end-newline) (newline-and-indent))
-;; ;)
-;;   ))
-(add-hook 'skeleton-end-hook 'xen-semi)
 (require 'misc)
 
 (defun xen-coding-common-bindings ()
-  (setq skeleton-pair t)
-  (local-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-  (local-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-  (local-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-  (local-set-key (kbd "<") 'skeleton-pair-insert-maybe)
-  (local-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-  (local-set-key (kbd "'") 'xen-skeleton-pair-insert-maybe)
   (local-set-key (kbd "C-o") 'xen-open)
   (local-set-key [backspace] 'xen-paired-delete-backward)
   (local-set-key [delete] 'xen-paired-delete)
