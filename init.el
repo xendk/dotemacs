@@ -366,14 +366,6 @@ or a marker."
 
 ;(add-to-list 'vc-handled-backends 'SVN)
 
-(defun delete-whitespace ()
-  "Delete characters from point up to next non-whitespace char"
-  (interactive)
-  (let ((here (point)))
-    (skip-syntax-forward "-")
-    (if (/= (point) here)
-	(delete-region (point) here))))
-
 (defun xen-open ()
 "Open new line, with proper indentation."
 (interactive)
@@ -381,31 +373,6 @@ or a marker."
 (call-interactively 'open-line)
 (indent-for-tab-command)
 )
-
-(defun xen-semi ()
-  ""
-  (interactive)
-  (save-excursion
-    (progn
-      (let*
-          (
-           (here (point))
-           )(progn
-              (skip-syntax-forward "->")
-              (message (string (following-char)))
-              (if (string-match "[:;(),]" (string (following-char)) ) ()
-                (progn
-                  (goto-char here)
-                  (insert ";")
-                  )))
-            )
-      )
-    )
-  )
-
-;; text type:
-;; (f (get-text-property (- pos 1) 'face))
-;; (if (memq f xen-prog-text-faces)
 
 (defun xen-paired-delete (arg &optional killp)
   "Test.."
