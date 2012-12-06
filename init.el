@@ -352,8 +352,6 @@ or a marker."
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-;; (global-set-key [(XF86Back)] 'previous-buffer)
-;; (global-set-key [(XF86Forward)] 'next-buffer)
 
 ; Setting 'globally':
 ; (setq-default show-trailing-whitespace t)
@@ -361,10 +359,7 @@ or a marker."
 
 ;; *** DRUPAL ***
 
-
 (setq-default indent-tabs-mode nil)
-
-;(add-to-list 'vc-handled-backends 'SVN)
 
 (defun xen-open ()
 "Open new line, with proper indentation."
@@ -602,7 +597,6 @@ or a marker."
 (defun my-php-mode-hook ()
   (xen-coding-common-bindings)
   (local-set-key [S-return] 'php-end-new-line)
-;  (local-set-key [?\S- ] 'php-end-line)
   (local-set-key (kbd "M-,") 'php-end-line)
   ;; Work around bug in Emacs 23.3.1 cc-mode c-fill-paragraph
   ;; http://superuser.com/questions/250442/fixing-c-fill-paragraph-with-comments-in-emacs-23-2-1
@@ -737,7 +731,6 @@ or a marker."
 
 (setq next-line-add-newlines nil)
 (setq hs-minor-mode-hook nil)
-;(hscroll-global-mode)
 
 ; Insert default contents into new files if variable `auto-insert' is non-nil.
 ; Matches the visited file name against the elements of `auto-insert-alist'.
