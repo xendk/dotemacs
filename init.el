@@ -581,6 +581,7 @@ or a marker."
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
 (setq autopair-skip-whitespace t)
+(setq autopair-blink-delay 0.05) ;; Even shorter delay.
 
 (require 'misc)
 
