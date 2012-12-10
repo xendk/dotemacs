@@ -104,6 +104,7 @@
 (add-to-list 'load-path "~/.emacs.d/expand-region/")
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-S-SPC") 'er/expand-region)
 
 (defun xen-php-mark-next-accessor ()
   "Presumes that current symbol is already marked, skips over one
