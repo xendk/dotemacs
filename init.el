@@ -1,4 +1,7 @@
 ;; Xens emacs configuration.
+(set-face-attribute 'default nil :font "Anonymous Pro-11")
+; Fun-mode:
+; (set-face-attribute 'default nil :font "Monofur-12")
 
 ;; Handy trick:
 ;; (set-face-attribute 'default nil :height 140)
