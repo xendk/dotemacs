@@ -24,6 +24,13 @@
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
 (setq load-path (cons "~/lib/lisp/" load-path))
+(setq load-path (cons "~/.emacs.d/lib/" load-path))
+
+(require 'package)
+(add-to-list 'package-archives
+    '("marmalade" .
+      "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
