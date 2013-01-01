@@ -74,13 +74,12 @@
               (define-key gtags-mode-map [mouse-3] nil)
               ))
 
-; https://github.com/magit/magit
-(add-to-list 'load-path "~/.emacs.d/magit/")
-(require 'magit)
+; Activate flyspell in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
   (flyspell-mode)
 )
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
+; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
 ;; TODO: https://github.com/rolandwalker/fixmee
