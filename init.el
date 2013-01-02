@@ -26,6 +26,11 @@
 (setq load-path (cons "~/lib/lisp/" load-path))
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
+;; Setup Android SDK.
+(setq android-mode-sdk-dir "~/lib/android-sdk-linux/")
+;; And load it's .el file.
+(load (concat android-mode-sdk-dir "tools/lib/android.el"))
+
 (require 'package)
 (add-to-list 'package-archives
     '("marmalade" .
@@ -731,6 +736,10 @@ or a marker."
   (define-key ruby-mode-map [C-tab] 'tab-to-tab-stop)
   )
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
+
+;; Properly handle annotations in java-mode.
+(require 'java-mode-indent-annotations)
+(add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
 
 ;; *** IDO ***
 
