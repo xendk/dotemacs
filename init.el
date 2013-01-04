@@ -47,7 +47,6 @@
 (require 'powerline)
 
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
-(add-to-list 'load-path "~/.emacs.d/php-extras/")
 ; from http://adamspiers.org/computing/elisp/smooth-scrolling.el via
 ; http://www.emacswiki.org/emacs/SmoothScrolling
 ;(load "/home/xen/lib/lisp/smooth-scrolling.el")
@@ -64,8 +63,6 @@
   (find-file "~/.emacs.d/init.el")
 )
 (define-key global-map (kbd "C-c e") 'xen-emacs-init)
-
-(eval-after-load 'php-mode '(require 'php-extras))
 
 (setq gtags-suggested-key-mapping nil) ; Keymap? Yes, please
 (require 'gtags)
