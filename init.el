@@ -84,6 +84,8 @@
 ; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
+;; TODO: Anything: http://www.emacswiki.org/emacs/Anything
+
 ;; TODO: https://github.com/rolandwalker/fixmee
 
 ;; TODO: CamelCase <-> snake_case conversion:
