@@ -20,7 +20,7 @@
  '(ediff-use-last-dir t)
  '(flymake-cursor-error-display-delay 0.3)
  '(flymake-cursor-number-of-errors-to-display 1)
- '(flyspell-default-dictionary "british")
+ '(flyspell-default-dictionary nil)
  '(hscroll-margin 15)
  '(ido-everywhere t)
  '(ido-mode (quote both) nil (ido))
