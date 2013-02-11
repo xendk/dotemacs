@@ -84,7 +84,7 @@
 ; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
-;; TODO: Anything: http://www.emacswiki.org/emacs/Anything
+;; TODO: Anything: http://www.emacswiki.org/emacs/Anything or rather http://emacs-helm.github.com/helm/
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
