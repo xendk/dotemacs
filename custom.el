@@ -1,8 +1,8 @@
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ange-ftp-try-passive-mode t)
  '(auto-insert-mode t nil (autoinsert))
  '(browse-url-browser-function (quote browse-url-generic))
@@ -42,13 +42,13 @@
  '(save-place t nil (saveplace))
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(show-paren-mode t)
- '(speedbar-fetch-etags-command "etags" t)
+ '(speedbar-fetch-etags-command "etags")
  '(speedbar-hide-button-brackets-flag nil)
- '(speedbar-ignored-modes nil t)
+ '(speedbar-ignored-modes nil)
  '(speedbar-show-unknown-files t)
  '(speedbar-supported-extension-expressions (quote ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
  '(speedbar-track-mouse-flag t)
- '(speedbar-update-flag (quote x) t)
+ '(speedbar-update-flag (quote x))
  '(tex-command nil t)
  '(tex-dvi-view-command "dvilx")
  '(tool-bar-mode nil nil (tool-bar))
@@ -81,10 +81,10 @@
  '(yas-triggers-in-field t)
  '(yas-wrap-around-region nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(magit-diff-add ((t (:foreground "light green"))))
  '(magit-diff-del ((t (:foreground "tomato"))))
  '(magit-item-highlight ((t (:background "#111"))))
