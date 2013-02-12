@@ -86,6 +86,18 @@
 ; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
+; Auto-Complete
+; Setup.
+(require 'auto-complete-config)
+(ac-config-default)
+; Ac and flyspell has issues with eachother.
+(ac-flyspell-workaround)
+
+; Don't complete with return when the menu isn't shown.
+(define-key ac-completing-map [return] nil)
+(setq ac-use-menu-map t)
+(define-key ac-menu-map [return] 'ac-complete)
+
 ;; TODO: Anything: http://www.emacswiki.org/emacs/Anything or rather http://emacs-helm.github.com/helm/
 
 (helm-mode 1)
