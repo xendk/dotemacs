@@ -103,6 +103,7 @@
 (helm-mode 1)
 (require 'helm-files)
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
+(define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
 
 ;; TODO: https://github.com/rolandwalker/fixmee
