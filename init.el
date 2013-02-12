@@ -88,6 +88,11 @@
 
 ;; TODO: Anything: http://www.emacswiki.org/emacs/Anything or rather http://emacs-helm.github.com/helm/
 
+(helm-mode 1)
+(require 'helm-files)
+(define-key global-map (kbd "C-x C-f") 'helm-for-files)
+
+
 ;; TODO: https://github.com/rolandwalker/fixmee
 
 ;; TODO: CamelCase <-> snake_case conversion:

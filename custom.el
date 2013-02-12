@@ -22,6 +22,7 @@
  '(flymake-cursor-number-of-errors-to-display 1)
  '(flyspell-default-dictionary nil)
  '(helm-ff-transformer-show-only-basename t)
+ '(helm-for-files-preferred-list (quote (helm-c-source-buffers-list helm-c-source-files-in-current-dir helm-c-source-recentf helm-c-source-bookmarks helm-c-source-file-cache helm-c-source-locate)))
  '(helm-idle-delay 0.1)
  '(helm-input-idle-delay 0.1)
  '(hscroll-margin 15)
