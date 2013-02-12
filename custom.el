@@ -27,6 +27,7 @@
  '(hscroll-margin 15)
  '(ido-everywhere t)
  '(ido-mode (quote both) nil (ido))
+ '(inhibit-startup-screen t)
  '(js-indent-level 2)
  '(mouse-avoidance-mode (quote animate) nil (avoid))
  '(mouse-sel-default-bindings t)
