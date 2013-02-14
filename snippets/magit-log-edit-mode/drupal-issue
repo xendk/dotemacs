@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Drupal commit message
+# key: issue
+# --
+${1:Issue #$2 }by $3: $0.

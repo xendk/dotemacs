@@ -78,8 +78,9 @@
               (define-key gtags-mode-map [mouse-3] nil)
               ))
 
-; Activate flyspell in magit commit buffer.
+; Activate flyspell and yas in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
+  (yas/minor-mode 1)
   (flyspell-mode)
 )
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
