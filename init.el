@@ -631,17 +631,13 @@ or a marker."
 (message (char-to-string (char-syntax (char-after)))))
 
 (defun xen-tab ()
-  "Indent if on whitespace or dabbrev-expand."
+  "Indent if on whitespace or do nothing (auto-complete and yasnippet will attach themselves.)."
   (interactive "*")
   (if (or (bolp) ; Beginning of line
           (region-active-p) ; We have an active region
           (eq (char-syntax (char-before)) ?\ ) ; Or whitespace
           )
       (indent-for-tab-command)
-    (or
-     ;; (yas/expand)
-     (call-interactively 'dabbrev-expand)
-     )
     )
   )
 
