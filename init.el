@@ -353,6 +353,7 @@ arrow and marks next symbol."
 ; show the same buffer in a new frame.
 (setq ido-default-buffer-method 'selected-window)
 
+; todo: see if http://tuxicity.se/emacs/elisp/2010/03/14/drag-stuff-in-emacs.html is better
 ; http://www.emacswiki.org/emacs/MoveRegion
 (defun move-region (start end n)
   "Move the current region up or down by N lines."
