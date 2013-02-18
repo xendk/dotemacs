@@ -101,7 +101,11 @@
   (jump-to-register :magit-fullscreen))
 
 ; Rebind q to our quitting function.
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+(add-hook 'magit-mode-hook
+          #'(lambda()
+	      (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+              ))
+
 
 ; Auto-Complete
 ; Setup.
