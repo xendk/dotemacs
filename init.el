@@ -74,6 +74,9 @@
 ;(load "/home/xen/lib/lisp/smooth-scrolling.el")
 (require 'drupal-mode)
 
+;; http://www.emacswiki.org/emacs/AceJump  
+(define-key global-map (kbd "S-SPC") 'ace-jump-mode)
+
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
