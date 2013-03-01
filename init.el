@@ -11,6 +11,26 @@
 ;; word-wrap
 ;; Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
 
+;; Highlight too long lines, clashes a bit with hl-line-mode:
+;; (require 'whitespace)
+;; (setq whitespace-style '(face empty tabs lines-tail trailing))
+;; (global-whitespace-mode t)
+;; Will also require something like the following:
+;; (defadvice popup-draw (before my-turn-off-whitespace activate compile)
+;;   "Turn off whitespace mode before showing autocomplete box"
+;;   (if whitespace-mode
+;;       (progn
+;;         (setq my-prev-whitespace-mode t)
+;;         (prelude-turn-off-whitespace))
+;;     (setq my-prev-whitespace-mode nil)))
+
+;; (defadvice popup-delete (after my-restore-whitespace activate compile)
+;;   "Restore previous whitespace mode when deleting autocomplete box"
+;;   (if my-prev-whitespace-mode
+;;       (prelude-turn-on-whitespace)))
+
+;; Try https://github.com/syohex/emacs-git-gutter for laughs..
+
 (server-start)
 
 ;; Beginning of the el4r block:
