@@ -123,7 +123,7 @@
 ; Rebind q to our quitting function.
 (add-hook 'magit-mode-hook
           #'(lambda()
-	      (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+              (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
               ))
 
 
@@ -758,7 +758,7 @@ or a marker."
   (if inverse-mode
       (progn (set-foreground-color "Black")
 	     (set-cursor-color "Turquoise")
-	     (set-background-color "White")
+             (set-background-color "White")
              (set-face-background 'hl-line "#DDD")
 	     (setq inverse-mode nil))
     (progn (set-foreground-color "White")
