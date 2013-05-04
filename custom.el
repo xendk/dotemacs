@@ -46,6 +46,7 @@
  '(save-place t nil (saveplace))
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(show-paren-mode t)
+ '(smartparens-global-mode t)
  '(speedbar-fetch-etags-command "etags")
  '(speedbar-hide-button-brackets-flag nil)
  '(speedbar-ignored-modes nil)

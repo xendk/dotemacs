@@ -691,13 +691,6 @@ or a marker."
   '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
   "Faces corresponding to text in programming-mode buffers.")
 
-;; https://github.com/capitaomorte/autopair
-(add-to-list 'load-path "~/.emacs.d/autopair/")
-(require 'autopair)
-(autopair-global-mode) ;; enable autopair in all buffers
-(setq autopair-skip-whitespace t)
-(setq autopair-blink-delay 0.05) ;; Even shorter delay.
-
 (require 'misc)
 
 (defun xen-coding-common-bindings ()
