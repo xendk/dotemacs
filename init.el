@@ -261,6 +261,7 @@ arrow and marks next symbol."
       (setq er/try-expand-list '(er/mark-word er/mark-symbol er/mark-symbol-with-prefix xen-php-mark-next-accessor xen-php-mark-method-call-or-array er/mark-comment er/mark-comment-block er/mark-inside-quotes er/mark-outside-quotes er/mark-inside-pairs er/mark-outside-pairs)))
 
 (add-hook 'php-mode-hook 'php-mode-expansions)
+(add-hook 'prog-mode-hook #'eldoc-mode)
 
 ; Writable grep buffer.
 (add-to-list 'load-path "~/.emacs.d/wgrep/")
