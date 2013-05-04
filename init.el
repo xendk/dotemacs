@@ -79,6 +79,8 @@
 
 ;; http://www.emacswiki.org/emacs/AceJump  
 (define-key global-map (kbd "S-SPC") 'ace-jump-mode)
+;; 'global doesn't quite work for me, it fails oddly.
+(setq ace-jump-mode-scope 'window)
 
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
