@@ -761,6 +761,8 @@ or a marker."
 (setq interpreter-mode-alist (append '(("php" . php-mode))
          interpreter-mode-alist))
 
+(add-to-list 'auto-mode-alist '("\\.inc\\'" . php-mode))
+
 
 (defvar inverse-mode nil)
 (defun inverse () "" (interactive)
