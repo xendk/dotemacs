@@ -94,14 +94,13 @@
 )
 (define-key global-map (kbd "C-c e") 'xen-emacs-init)
 
-(setq gtags-suggested-key-mapping nil) ; Keymap? Yes, please
 (require 'gtags)
 (add-hook 'gtags-mode-hook
           #'(lambda()
-              (define-key gtags-mode-map [(meta \,)] 'gtags-find-rtag)
-              (define-key gtags-mode-map [(meta .)] 'gtags-find-tag)
+              (define-key gtags-mode-map [(meta \,)] 'helm-gtags-find-rtag)
+              (define-key gtags-mode-map [(meta .)] 'helm-gtags-find-tag)
+              (define-key gtags-mode-map [(meta *)] 'helm-gtags-pop-stack)
               (define-key gtags-mode-map [(control t)] nil)
-              ;; (define-key gtags-mode-map 'button2 nil)
               (define-key gtags-mode-map [mouse-2] nil)
               (define-key gtags-mode-map [mouse-3] nil)
               ))
