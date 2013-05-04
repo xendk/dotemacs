@@ -194,6 +194,8 @@
 ;; TODO: Anything: http://www.emacswiki.org/emacs/Anything or rather http://emacs-helm.github.com/helm/
 
 (helm-mode 1)
+; Bugfix..
+(require 'helm-aliases)
 (require 'helm-files)
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
