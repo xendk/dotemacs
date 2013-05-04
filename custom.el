@@ -31,6 +31,7 @@
  '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
+ '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
  '(mouse-avoidance-mode (quote animate) nil (avoid))
  '(mouse-sel-default-bindings t)
  '(mouse-sel-mode t nil (mouse-sel))

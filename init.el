@@ -129,6 +129,12 @@
               (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
               ))
 
+; I just want the branch to have the same name as origin.
+(defun xen-magit-default-tracking-name
+  (remote branch)
+  "Use just the branch name for tracking branches."
+  branch)
+
 
 ; Auto-Complete
 ; Setup.
