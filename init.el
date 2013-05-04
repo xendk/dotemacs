@@ -372,17 +372,28 @@ arrow and marks next symbol."
 
 (global-set-key (kbd "C-S-d") 'duplicate-current-line)
 
-; http://www.emacswiki.org/emacs/CopyAndPaste
-(setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+(setq x-select-enable-clipboard t) ; Makes yanking interact with the clipboard.
 ; As I never use C-v anyway, and its effect when i hit it confuses me,
 ; why not bind it to pasting from outside (like the middle button
 ; does)?
 (global-set-key "\C-v" 'xen-paste)
 (defun xen-paste ()
-  "Paste from outside."
-  (interactive)
-(insert (x-selection-value 'CLIPBOARD)))
+ "Paste from outside."
+ (interactive)
+ ; x-selection-value returns nil when selection hasn't changed.
+ (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
+ (insert xen-paste-buffer)
+)
+
+; Also, C-c C-c is the dumber comment-region, which I don't use (I use
+; comment-dwim, which is smarter and bound to another key), so why not
+; use the binding for copying to the clipboard?
+(global-set-key (kbd "C-c C-c") 'xen-copy)
+(defun xen-copy (start end)
+  "Copy to the outside."
+  (interactive "r")
+  (x-select-text (buffer-substring-no-properties start end))
+)
 
 ; Don't switch to a frame already containing the selected buffer, but
 ; show the same buffer in a new frame.
