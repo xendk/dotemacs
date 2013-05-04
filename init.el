@@ -59,6 +59,9 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+; Yeah, global undo tree mode...
+(global-undo-tree-mode)
+
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
 ; Solarized color scheme.
