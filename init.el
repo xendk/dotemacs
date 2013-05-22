@@ -106,11 +106,12 @@
 
 ; Activate flyspell and yas in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
-  (yas/minor-mode 1)
+  (yas-minor-mode 1)
   (flyspell-mode)
 )
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
 ; Add shortcut to open magit status buffer.
+
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
 ; Magits window splitting is annoying. Make it full-window.
@@ -266,24 +267,10 @@ arrow and marks next symbol."
 (add-to-list 'load-path "~/.emacs.d/wgrep/")
 (require 'wgrep)
 
-(add-to-list 'load-path
-              "~/.emacs.d/yasnippet")
 (require 'yasnippet)
 ;; Initialize yasnippet. It's enabled per mode.
-;; todo: seems to have some issues with undo and xen-tab.
-(yas/reload-all)
+(yas/reload-all) 
 
-;; this would be nice:
-;; # -*- mode: snippet -*-
-;; # name: Drupal hook
-;; # key: dh
-;; # --
-;; /**
-;;  * Implements hook_$1().
-;;  */
-;; function `(drupal-module-name)`_${1:name}(${2:${1:$(unless yas/modified-p (drupal-get-function-args yas/text (drupal-major-version)))}}) {
-;;   $0
-;; }
 
 ;; http://www.emacswiki.org/emacs/iy-go-to-char.el or
 ;; https://github.com/lewang/jump-char/blob/master/jump-char.el ?
@@ -731,20 +718,20 @@ or a marker."
   ;; http://superuser.com/questions/250442/fixing-c-fill-paragraph-with-comments-in-emacs-23-2-1
   (local-set-key (kbd "M-q") 'fill-paragraph)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
-  (yas/minor-mode 1)
+  (yas-minor-mode 1)
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
 (add-hook 'js-mode-hook 'xen-js-mode-hook)
 (defun xen-js-mode-hook ()
   (xen-coding-common-bindings)
-  (yas/minor-mode 1)
+  (yas-minor-mode 1)
   )
 
 (add-hook 'css-mode-hook 'xen-css-mode-hook)
 (defun xen-css-mode-hook ()
   (xen-coding-common-bindings)
-  (yas/minor-mode 1)
+  (yas-minor-mode 1)
   )
 
 (defun php-doc-paragraph-boundaries ()
