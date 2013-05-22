@@ -76,6 +76,13 @@
 ;(load "/home/xen/lib/lisp/smooth-scrolling.el")
 (require 'drupal-mode)
 
+; From http://www.emacswiki.org/emacs/BackToIndentationOrBeginning
+; Go back to indentation or beginning of line.
+(defun back-to-indentation-or-beginning () (interactive)
+  (if (= (point) (progn (back-to-indentation) (point)))
+      (beginning-of-line)))
+(global-set-key (kbd "C-a") 'back-to-indentation-or-beginning)
+
 ;; http://www.emacswiki.org/emacs/AceJump  
 (define-key global-map (kbd "S-SPC") 'ace-jump-mode)
 ;; 'global doesn't quite work for me, it fails oddly.
