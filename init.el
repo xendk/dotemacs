@@ -373,10 +373,12 @@ arrow and marks next symbol."
 (global-set-key (kbd "C-S-d") 'duplicate-current-line)
 
 (setq x-select-enable-clipboard t) ; Makes yanking interact with the clipboard.
+
 ; As I never use C-v anyway, and its effect when i hit it confuses me,
 ; why not bind it to pasting from outside (like the middle button
 ; does)?
 (global-set-key "\C-v" 'xen-paste)
+(defvar xen-paste-buffer "" "Local paste buffer.")
 (defun xen-paste ()
  "Paste from outside."
  (interactive)
