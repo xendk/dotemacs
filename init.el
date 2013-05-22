@@ -271,10 +271,6 @@ arrow and marks next symbol."
 ;; Initialize yasnippet. It's enabled per mode.
 (yas/reload-all) 
 
-
-;; http://www.emacswiki.org/emacs/iy-go-to-char.el or
-;; https://github.com/lewang/jump-char/blob/master/jump-char.el ?
-
 ; End EmacsRocks
 
 ; Flymake-phpcs
