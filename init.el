@@ -195,8 +195,6 @@
         ad-do-it)
     ad-do-it))
 
-;; TODO: Anything: http://www.emacswiki.org/emacs/Anything or rather http://emacs-helm.github.com/helm/
-
 (helm-mode 1)
 ; Bugfix..
 (require 'helm-aliases)
@@ -311,11 +309,6 @@ arrow and marks next symbol."
 				   (concat "." (file-name-extension file-name)))))))
     (flymake-log 3 "create-temp-inplace: file=%s temp=%s" file-name temp-name)
     temp-name))
-
-; --
-; look into this: https://github.com/openist/drupal-emacs/blob/master/.emacs
-; (add-hook 'window-setup-hook 'resume-windows)
-
 
 ; http://www.emacswiki.org/emacs/WinnerMode
 (when (fboundp 'winner-mode)
