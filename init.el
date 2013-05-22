@@ -114,8 +114,8 @@
   (flyspell-mode)
 )
 (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
-; Add shortcut to open magit status buffer.
 
+; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
 ; Magits window splitting is annoying. Make it full-window.
