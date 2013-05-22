@@ -357,7 +357,10 @@ arrow and marks next symbol."
 ; As I never use C-v anyway, and its effect when i hit it confuses me,
 ; why not bind it to pasting from outside (like the middle button
 ; does)?
-(global-set-key "\C-v" 'xen-paste)
+(global-set-key (kbd "C-v") 'xen-paste)
+; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
+; above if not specifically bound, but let's make it explicit.
+(global-set-key (kbd "S-C-v") 'xen-paste)
 (defvar xen-paste-buffer "" "Local paste buffer.")
 (defun xen-paste ()
  "Paste from outside."
@@ -367,10 +370,10 @@ arrow and marks next symbol."
  (insert xen-paste-buffer)
 )
 
-; Also, C-c C-c is the dumber comment-region, which I don't use (I use
-; comment-dwim, which is smarter and bound to another key), so why not
-; use the binding for copying to the clipboard?
-(global-set-key (kbd "C-c C-c") 'xen-copy)
+; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
+; order to limit the amount of different key combinations I should
+; remember for the same thingn.
+(global-set-key (kbd "S-C-c") 'xen-copy)
 (defun xen-copy (start end)
   "Copy to the outside."
   (interactive "r")
