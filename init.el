@@ -71,9 +71,6 @@
 (require 'powerline)
 
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
-; from http://adamspiers.org/computing/elisp/smooth-scrolling.el via
-; http://www.emacswiki.org/emacs/SmoothScrolling
-;(load "/home/xen/lib/lisp/smooth-scrolling.el")
 (require 'drupal-mode)
 
 ; From http://www.emacswiki.org/emacs/BackToIndentationOrBeginning
