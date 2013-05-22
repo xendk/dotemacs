@@ -38,7 +38,7 @@
  '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
  '(mouse-avoidance-mode (quote animate) nil (avoid))
  '(mouse-sel-default-bindings t)
- '(mouse-sel-mode t nil (mouse-sel))
+ '(mouse-sel-mode t)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(mouse-yank-at-point t)
  '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
