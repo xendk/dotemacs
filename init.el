@@ -43,13 +43,12 @@
 
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
-(setq load-path (cons "~/lib/lisp/" load-path))
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
 ;; Setup Android SDK.
-(setq android-mode-sdk-dir "~/lib/android-sdk-linux/")
+;(setq android-mode-sdk-dir "~/lib/android-sdk-linux/")
 ;; And load it's .el file.
-(load (concat android-mode-sdk-dir "tools/lib/android.el"))
+;(load (concat android-mode-sdk-dir "tools/lib/android.el"))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -306,9 +305,10 @@ arrow and marks next symbol."
 ;; variable warning)
 ;; (setq flymake-phpcs-show-rule nil)
 
-(add-to-list 'load-path "~/lib/emacs-flymake-cursor/")
+(add-to-list 'load-path "~/.emacs.d/emacs-flymake-cursor/")
 (eval-after-load 'flymake '(require 'flymake-cursor))
-(load "/home/xen/lib/emacs-flymake-phpcs/flymake-phpcs.el")
+
+(add-to-list 'load-path "~/.emacs.d/emacs-flymake-phpcs/")
 (require 'flymake-phpcs)
 
 ; Fixes flymake-phpcs, when the file has been accessed through a
