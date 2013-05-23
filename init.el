@@ -225,6 +225,8 @@
 (global-set-key (kbd "C-%") 'mc/mark-all-in-region)
 (global-set-key (kbd "C-=") 'mc/mark-all-like-this-dwim)
 
+; todo: there's also http://www.emacswiki.org/emacs/iedit.el
+
 ; (set-face-background 'mc/cursor-face "Turquoise")  ;; Emacs 22 Only
 
 (add-to-list 'load-path "~/.emacs.d/expand-region/")
