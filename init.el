@@ -725,6 +725,7 @@ or a marker."
   (local-set-key (kbd "M-q") 'fill-paragraph)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
   (yas-minor-mode 1)
+  (gtags-mode)
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
