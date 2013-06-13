@@ -9,7 +9,7 @@
  '(ansi-color-names-vector (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#1d1f21"))
  '(auto-insert-mode t nil (autoinsert))
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "google-chrome")
+ '(browse-url-generic-program "sensible-browser")
  '(comint-input-autoexpand t)
  '(css-indent-offset 2)
  '(custom-safe-themes (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
