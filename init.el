@@ -462,13 +462,6 @@ or a marker."
 (setq default-frame-alist '((background-color . "black")
                             (foreground-color . "white")))
 
-; Highlighting modes:
-; http://nschum.de/src/emacs/highlight-symbol/
-; http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/
-; https://github.com/nealford/emacs/tree/master/elpa/light-symbol-0.1
-; no good http://www.emacswiki.org/cgi-bin/wiki/IdleHighlight
-; http://www.emacswiki.org/emacs/?action=browse;oldid=HighLight;id=HighlightLibrary
-
 (iswitchb-mode)
 
 ; speedbar fix
@@ -713,6 +706,9 @@ or a marker."
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'dabbrev-expand)
+  (highlight-symbol-mode)
+  (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
+  (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
   (flyspell-prog-mode)
 )
 
