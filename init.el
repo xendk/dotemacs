@@ -1,4 +1,5 @@
 ;; Xens emacs configuration.
+; (toggle-debug-on-error)
 (set-face-attribute 'default nil :font "Anonymous Pro-11")
 ; Fun-mode:
 ; (set-face-attribute 'default nil :font "Monofur-12")
