@@ -756,12 +756,6 @@ or a marker."
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
-
-(setq interpreter-mode-alist (append '(("php" . php-mode))
-         interpreter-mode-alist))
-
-(add-to-list 'auto-mode-alist '("\\.inc\\'" . php-mode))
-
 (transient-mark-mode t)
 (show-paren-mode)
 (setq mark-even-if-inactive t)
