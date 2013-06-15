@@ -649,28 +649,6 @@ or a marker."
     )
   )
 
-(defun php-end-new-line ()
-"Test"
-(interactive)
-(move-end-of-line 1)
-(if (= ?\; (preceding-char))
-()
-(insert ";"))
-(newline-and-indent)
-)
-
-(defun php-end-line ()
-  "Test"
-  (interactive)
-  (save-excursion
-    (progn
-      (move-end-of-line 1)
-      (if (= ?\; (preceding-char))
-	  ()
-	(insert ";"))
-      ))
-  )
-
 (defun xen-char-syntax ()
 "Shows the syntax class of the character following point."
 (interactive)
@@ -708,7 +686,6 @@ or a marker."
 (defun my-php-mode-hook ()
   (xen-coding-common-bindings)
   (local-set-key [S-return] 'php-end-new-line)
-  (local-set-key (kbd "M-,") 'php-end-line)
   ;; Work around bug in Emacs 23.3.1 cc-mode c-fill-paragraph
   ;; http://superuser.com/questions/250442/fixing-c-fill-paragraph-with-comments-in-emacs-23-2-1
   (local-set-key (kbd "M-q") 'fill-paragraph)
