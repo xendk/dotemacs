@@ -1,8 +1,5 @@
 ;; Xens emacs configuration.
 ; (toggle-debug-on-error)
-(set-face-attribute 'default nil :font "Anonymous Pro-11")
-; Fun-mode:
-; (set-face-attribute 'default nil :font "Monofur-12")
 
 ;; Handy trick:
 ;; (set-face-attribute 'default nil :height 140)
@@ -456,11 +453,6 @@ or a marker."
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#222")  ;; Emacs 22 Only
-
-; Let's set the frame colors too.
-(setq default-frame-alist '((background-color . "black")
-                            (foreground-color . "white")))
 
 (iswitchb-mode)
 
@@ -761,29 +753,12 @@ or a marker."
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
+
 (setq interpreter-mode-alist (append '(("php" . php-mode))
          interpreter-mode-alist))
 
 (add-to-list 'auto-mode-alist '("\\.inc\\'" . php-mode))
 
-
-(defvar inverse-mode nil)
-(defun inverse () "" (interactive)
-  (if inverse-mode
-      (progn (set-foreground-color "Black")
-	     (set-cursor-color "Turquoise")
-             (set-background-color "White")
-             (set-face-background 'hl-line "#DDD")
-	     (setq inverse-mode nil))
-    (progn (set-foreground-color "White")
-	   (set-cursor-color "Turquoise")
-	   (set-background-color "Black")
-           (set-face-background 'hl-line "#222")
-	   (setq inverse-mode t))
-    )
-  )
-
-(set-cursor-color "Turquoise")
 (transient-mark-mode t)
 (show-paren-mode)
 (setq mark-even-if-inactive t)
