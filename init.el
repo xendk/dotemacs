@@ -810,7 +810,7 @@ or a marker."
   )
 (add-hook 'perl-mode-hook 'my-perl-mode-hook)
 (defun my-ruby-mode-hook ()
-f  (xen-coding-common-bindings)
+  (xen-coding-common-bindings)
   (yas-minor-mode 1)
   )
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
