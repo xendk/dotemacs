@@ -230,8 +230,6 @@
 
 ; todo: there's also http://www.emacswiki.org/emacs/iedit.el
 
-; (set-face-background 'mc/cursor-face "Turquoise")  ;; Emacs 22 Only
-
 (add-to-list 'load-path "~/.emacs.d/expand-region/")
 (require 'expand-region)
 (global-set-key (kbd "C-S-SPC") 'er/expand-region)
@@ -279,21 +277,6 @@ arrow and marks next symbol."
 (yas/reload-all) 
 
 ; End EmacsRocks
-
-; Flymake-phpcs
-; https://github.com/illusori/emacs-flymake-phpcs
-; alternative: https://github.com/mcfunley/dotemacs/blob/master/php-flymake.el
-; addon: https://github.com/illusori/emacs-flymake
-; addon: https://github.com/illusori/emacs-flymake-cursor
-;; (setq flymake-phpcs-command "~/lib/emacs-flymake-phpcs/bin/flymake_phpcs")
-;; (setq flymake-phpcs-standard
-;;   "DrupalCodingStandard")
-;; (setq flymake-phpcs-standard
-;;  "/home/xen/lib/drupalcs/DrupalCodingStandard/ruleset.xml")
-;; Show the name of sniffs in warnings (eg show
-;; "Generic.CodeAnalysis.VariableAnalysis.UnusedVariable" in an unused
-;; variable warning)
-;; (setq flymake-phpcs-show-rule nil)
 
 (add-to-list 'load-path "~/.emacs.d/emacs-flymake-cursor/")
 (eval-after-load 'flymake '(require 'flymake-cursor))
