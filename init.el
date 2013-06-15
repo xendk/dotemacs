@@ -72,8 +72,8 @@
 (add-to-list 'load-path "~/.emacs.d/emacs-powerline/")
 (require 'powerline)
 
-(add-to-list 'load-path "~/.emacs.d/drupal-mode/")
-(require 'drupal-mode)
+;; (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
+;; (require 'drupal-mode)
 
 ; From http://www.emacswiki.org/emacs/BackToIndentationOrBeginning
 ; Go back to indentation or beginning of line.
