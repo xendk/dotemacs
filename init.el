@@ -481,12 +481,12 @@ or a marker."
 (setq-default indent-tabs-mode nil)
 
 (defun xen-open ()
-"Open new line, with proper indentation."
-(interactive)
-(call-interactively 'move-beginning-of-line)
-(call-interactively 'open-line)
-(indent-for-tab-command)
-)
+  "Open new line, with proper indentation."
+  (interactive)
+  (call-interactively 'move-beginning-of-line)
+  (call-interactively 'open-line)
+  (indent-for-tab-command)
+  )
 
 (defun xen-paired-delete (arg &optional killp)
   "Test.."
