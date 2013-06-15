@@ -377,7 +377,7 @@ arrow and marks next symbol."
 
 ; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
 ; order to limit the amount of different key combinations I should
-; remember for the same thingn.
+; remember for the same thing.
 (global-set-key (kbd "S-C-c") 'xen-copy)
 (defun xen-copy (start end)
   "Copy to the outside."
@@ -464,7 +464,6 @@ or a marker."
 (set-input-mode (car (current-input-mode))
         (nth 1 (current-input-mode))
         0)
-
 
 (setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
