@@ -43,6 +43,9 @@
 (menu-bar-mode -1)
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
+;; Getting tired of entering passwords for sudo..
+(setq password-cache-expiry 3600)
+
 ;; Setup Android SDK.
 ;(setq android-mode-sdk-dir "~/lib/android-sdk-linux/")
 ;; And load it's .el file.
