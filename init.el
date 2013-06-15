@@ -729,6 +729,7 @@ or a marker."
   (yas-minor-mode 1)
   )
 
+; To make fill-paragraph work with doxygen comments.
 (defun php-doc-paragraph-boundaries ()
   (setq paragraph-separate "^[ \t]*\\(\\(/[/\\*]+\\)\\|\\(\\*+/\\)\\|\\(\\*?\\)\\|\\(\\*?[ \t]*@[[:alpha:]]+\\([ \t]+.*\\)?\\)\\)[ \t]*$")
   (setq paragraph-start (symbol-value 'paragraph-separate)))
