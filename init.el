@@ -461,9 +461,6 @@ or a marker."
 
 (iswitchb-mode)
 
-; speedbar fix
-(setq dframe-xemacsp nil)
-
 (set-input-mode (car (current-input-mode))
         (nth 1 (current-input-mode))
         0)
@@ -750,8 +747,6 @@ or a marker."
 )
 
 (define-key global-map [?\C-c ?k] 'other-kill-buffer-delete-window)
-(define-key global-map [print] 'speedbar-get-focus)
-(define-key global-map [S-print] 'speedbar)
 
 (transient-mark-mode t)
 (show-paren-mode)
