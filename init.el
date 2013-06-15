@@ -87,6 +87,8 @@
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
 
+; For zap-up-to-char and possibly others.
+(require 'misc)
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
 (defun xen-emacs-init ()
   "Open ~/.emacs.d/init.el."
@@ -199,7 +201,6 @@
 (require 'helm-files)
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
-
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
@@ -688,8 +689,6 @@ or a marker."
 (defvar xen-prog-text-faces
   '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
   "Faces corresponding to text in programming-mode buffers.")
-
-(require 'misc)
 
 (defun xen-coding-common-bindings ()
   (local-set-key (kbd "C-o") 'xen-open)
