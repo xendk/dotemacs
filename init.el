@@ -753,9 +753,6 @@ or a marker."
 (define-key global-map [print] 'speedbar-get-focus)
 (define-key global-map [S-print] 'speedbar)
 
-(autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
-(autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
-
 (transient-mark-mode t)
 (show-paren-mode)
 (setq mark-even-if-inactive t)
