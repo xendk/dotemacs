@@ -30,6 +30,7 @@
 ;; Try https://github.com/syohex/emacs-git-gutter for laughs..
 
 (server-start)
+(add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
 
 ;; Beginning of the el4r block:
 ;; RCtool generated this block automatically. DO NOT MODIFY this block!
@@ -765,7 +766,6 @@ or a marker."
 (show-paren-mode)
 (setq mark-even-if-inactive t)
 (setq bookmark-save-flag 1)
-(add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
 (setq font-lock-maximum-decoration t)
 
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
