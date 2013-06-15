@@ -671,7 +671,8 @@ or a marker."
       ))
   )
 
-(defun test-func ()
+(defun xen-char-syntax ()
+"Shows the syntax class of the character following point."
 (interactive)
 (message (char-to-string (char-syntax (char-after)))))
 
