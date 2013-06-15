@@ -735,19 +735,6 @@ or a marker."
 
 (add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
 
-(defun kill-buffer-delete-window () "" (interactive)
-  (kill-buffer nil)
-  (delete-window)
-)
-
-(defun other-kill-buffer-delete-window () "Kills other window and buffer" (interactive)
-  (other-window 1)
-  ;(kill-buffer-delete-window)
-  (kill-buffer-and-window)
-)
-
-(define-key global-map [?\C-c ?k] 'other-kill-buffer-delete-window)
-
 (transient-mark-mode t)
 (show-paren-mode)
 (setq mark-even-if-inactive t)
