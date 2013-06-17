@@ -449,16 +449,17 @@ or a marker."
         0)
 
 ; Hide some minor-modes I don't need to be told is active.
-(diminish 'highlight-symbol-mode "")
-(diminish 'smartparens-mode "")
-(diminish 'eldoc-mode "")
 (diminish 'whole-line-or-region-mode "")
 (diminish 'undo-tree-mode "")
 (diminish 'auto-complete-mode "")
 (diminish 'helm-mode "")
 (diminish 'yas-minor-mode "")
-(diminish 'flyspell-mode "")
 (diminish 'abbrev-mode "")
+; These aren't yet loaded.
+(eval-after-load "smartparens" '(diminish 'smartparens-mode ""))
+(eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
+(eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
+(eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
 
 (setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
