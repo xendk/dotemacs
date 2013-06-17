@@ -42,6 +42,20 @@
 
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
+
+(transient-mark-mode t)
+(show-paren-mode)
+(setq mark-even-if-inactive t)
+(setq bookmark-save-flag 1)
+(setq font-lock-maximum-decoration t)
+
+(defun xen-emacs-init ()
+  "Open ~/.emacs.d/init.el."
+  (interactive)
+  (find-file "~/.emacs.d/init.el")
+)
+(define-key global-map (kbd "C-c e") 'xen-emacs-init)
+
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
 ;; Getting tired of entering passwords for sudo..
@@ -94,12 +108,6 @@
 ; For zap-up-to-char and possibly others.
 (require 'misc)
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
-(defun xen-emacs-init ()
-  "Open ~/.emacs.d/init.el."
-  (interactive)
-  (find-file "~/.emacs.d/init.el")
-)
-(define-key global-map (kbd "C-c e") 'xen-emacs-init)
 
 (require 'gtags)
 (add-hook 'gtags-mode-hook
@@ -708,12 +716,6 @@ or a marker."
   (setq paragraph-start (symbol-value 'paragraph-separate)))
 
 (add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
-
-(transient-mark-mode t)
-(show-paren-mode)
-(setq mark-even-if-inactive t)
-(setq bookmark-save-flag 1)
-(setq font-lock-maximum-decoration t)
 
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
 (defun my-ruby-mode-hook ()
