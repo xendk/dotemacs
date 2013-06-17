@@ -448,6 +448,17 @@ or a marker."
         (nth 1 (current-input-mode))
         0)
 
+; Hide some minor-modes I don't need to be told is active.
+(diminish 'highlight-symbol-mode "")
+(diminish 'smartparens-mode "")
+(diminish 'eldoc-mode "")
+(diminish 'whole-line-or-region-mode "")
+(diminish 'undo-tree-mode "")
+(diminish 'auto-complete-mode "")
+(diminish 'helm-mode "")
+(diminish 'yas-minor-mode "")
+
+
 (setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
