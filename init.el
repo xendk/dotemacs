@@ -457,7 +457,8 @@ or a marker."
 (diminish 'auto-complete-mode "")
 (diminish 'helm-mode "")
 (diminish 'yas-minor-mode "")
-
+(diminish 'flyspell-mode "")
+(diminish 'abbrev-mode "")
 
 (setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
