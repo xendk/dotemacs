@@ -103,7 +103,7 @@
  '(magit-diff-add ((t (:foreground "light green"))))
  '(magit-diff-del ((t (:foreground "tomato"))))
  '(magit-item-highlight ((t (:background "#111"))))
- '(mode-line ((t (:background "OliveDrab3" :foreground "black" :box (:line-width -1 :color "grey50")))))
+ '(mode-line ((t (:background "OliveDrab3" :foreground "black"))))
  '(region ((t (:background "#456"))))
  '(secondary-selection ((((class color) (min-colors 88) (background dark)) (:background "Blue3")))))
 (put 'narrow-to-region 'disabled nil)
