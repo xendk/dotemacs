@@ -675,6 +675,7 @@ or a marker."
 
 (defun xen-coding-common-bindings ()
   (local-set-key (kbd "C-o") 'xen-open)
+  (local-set-key [return] 'newline-and-indent)
   (local-set-key [backspace] 'xen-paired-delete-backward)
   (local-set-key [delete] 'xen-paired-delete)
   (local-set-key [tab] 'xen-tab)
