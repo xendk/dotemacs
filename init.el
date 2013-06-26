@@ -31,6 +31,8 @@
 
 (server-start)
 (add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
+; I'm grown up, I can manage using y/n for even destructive commands.
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Beginning of the el4r block:
 ;; RCtool generated this block automatically. DO NOT MODIFY this block!
