@@ -47,6 +47,7 @@
  '(org-support-shift-select t)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(query-replace-highlight t)
+ '(recentf-max-saved-items 500)
  '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
  '(save-place t nil (saveplace))
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
