@@ -697,6 +697,8 @@ or a marker."
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
+  (local-set-key (kbd "M-<up>") 'flymake-goto-prev-error)
+  (local-set-key (kbd "M-<down>") 'flymake-goto-next-error)
   (flyspell-prog-mode)
 )
 
