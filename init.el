@@ -51,12 +51,20 @@
 (setq bookmark-save-flag 1)
 (setq font-lock-maximum-decoration t)
 
-(defun xen-emacs-init ()
-  "Open ~/.emacs.d/init.el."
-  (interactive)
-  (find-file "~/.emacs.d/init.el")
+(define-key global-map (kbd "C-c e")
+  #'(lambda()
+      "Open ~/.emacs.d/init.el."
+      (interactive)
+      (find-file "~/.emacs.d/init.el")
+      )
+  )
+(define-key global-map (kbd "C-c t")
+  #'(lambda()
+      "Open my Emacs TODO."
+      (interactive)
+      (find-file "~/.emacs.d/TODO.org")
+      )
 )
-(define-key global-map (kbd "C-c e") 'xen-emacs-init)
 
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
