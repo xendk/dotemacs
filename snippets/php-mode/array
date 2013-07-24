@@ -2,4 +2,20 @@
 # name: Array
 # key: a
 # --
-array($0)`(xen-semi)`
+array($0)`  (save-excursion
+    (progn
+      (let*
+          (
+           (here (point))
+           )(progn
+              (skip-syntax-forward "->")
+              (message (string (following-char)))
+              (if (string-match "[:;(),]" (string (following-char)) ) ()
+                (progn
+                  (goto-char here)
+                  (insert ";")
+                  )))
+            )
+      )
+    )
+`
