@@ -99,7 +99,7 @@
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Anonymous Pro"))))
  '(cursor ((t (:background "turquoise"))))
  '(flymake-errline ((t (:background "#4b0000"))))
- '(flymake-warnline ((t (:background "#3b2500"))))
+ '(flymake-warnline ((t (:background "#4b1500"))))
  '(hl-line ((t (:background "#222"))))
  '(magit-diff-add ((t (:foreground "light green"))))
  '(magit-diff-del ((t (:foreground "tomato"))))
