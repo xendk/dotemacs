@@ -88,7 +88,7 @@
 (global-undo-tree-mode)
 
 ; Only autopair ' when not directly after a word.
-(sp-pair "'" nil :unless '(sp-point-after-word-p))
+(eval-after-load "smartparens" '(sp-pair "'" nil :unless '(sp-point-after-word-p)))
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
