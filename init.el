@@ -226,6 +226,7 @@
 (require 'helm-files)
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
+(define-key global-map (kbd "C-c TAB") 'helm-browse-code)
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
