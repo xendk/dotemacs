@@ -226,7 +226,6 @@
 (require 'helm-files)
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
-(define-key global-map (kbd "C-c TAB") 'helm-browse-code)
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
@@ -694,7 +693,7 @@ or a marker."
   (local-set-key [delete] 'xen-paired-delete)
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
-  (local-set-key [C-tab] 'dabbrev-expand)
+  (local-set-key [C-tab] 'helm-browse-code)
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
