@@ -245,7 +245,7 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-m") 'mc/mark-more-like-this-extended)
-(global-set-key (kbd "C-*") 'mark-all-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-%") 'mc/mark-all-in-region)
 (global-set-key (kbd "C-=") 'mc/mark-all-like-this-dwim)
 
