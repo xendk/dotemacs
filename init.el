@@ -165,6 +165,7 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (require 'gtags)
 (add-hook 'gtags-mode-hook
           #'(lambda()
+	      (diminish 'gtags-mode "G ")
               (define-key gtags-mode-map [(meta \,)] 'helm-gtags-find-rtag)
               (define-key gtags-mode-map [(meta .)] 'helm-gtags-find-tag)
               (define-key gtags-mode-map [(meta *)] 'helm-gtags-pop-stack)
