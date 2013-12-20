@@ -299,11 +299,9 @@ arrow and marks next symbol."
 
 ; End EmacsRocks
 
-(add-to-list 'load-path "~/.emacs.d/emacs-flymake-cursor/")
-(eval-after-load 'flymake '(require 'flymake-cursor))
+; Enable flycheck globally.
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
-(add-to-list 'load-path "~/.emacs.d/emacs-flymake-phpcs/")
-(require 'flymake-phpcs)
 
 ; Fixes flymake-phpcs, when the file has been accessed through a
 ; symlink in its path.
@@ -697,10 +695,16 @@ or a marker."
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
-  (local-set-key (kbd "M-<up>") 'flymake-goto-prev-error)
-  (local-set-key (kbd "M-<down>") 'flymake-goto-next-error)
+  (local-set-key (kbd "M-<up>") 'flycheck-previous-error)
+  (local-set-key (kbd "M-<down>") 'flycheck-next-error)
   (flyspell-prog-mode)
 )
+
+(add-hook 'emacs-lisp-mode-hook 
+(lambda  ()
+  (xen-coding-common-bindings)
+  (yas-minor-mode 1)
+  ))
 
 (defun my-php-mode-hook ()
   (xen-coding-common-bindings)
