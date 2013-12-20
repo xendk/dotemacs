@@ -107,8 +107,40 @@
 (add-to-list 'load-path "~/.emacs.d/emacs-powerline/")
 (require 'powerline)
 
-;; (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
-;; (require 'drupal-mode)
+(add-to-list 'load-path "~/.emacs.d/drupal-mode/")
+(require 'drupal-mode)
+
+;; Redefine drupal-mode-beginning-of-line to use
+;; back-to-indentation-or-beginning instead of beginning-of-line.
+(defun drupal-mode-beginning-of-line (&optional n)
+  "Move point to beginning of property value or to beginning of line.
+The prefix argument N is passed directly to `beginning-of-line'.
+
+This command is identical to `back-to-indentation-or-beginning' if not in a mode
+derived from `conf-mode'.
+
+If point is on a (non-continued) property line, move point to the
+beginning of the property value or the beginning of line,
+whichever is closer.  If point is already at beginning of line,
+move point to beginning of property value.  Therefore, repeated
+calls will toggle point between beginning of property value and
+beginning of line.
+
+Heavily based on `message-beginning-of-line' from Gnus."
+  (interactive "p")
+  (let ((zrs 'zmacs-region-stays))
+    (when (and (featurep 'xemacs) (interactive-p) (boundp zrs))
+      (set zrs t)))
+  (if (derived-mode-p 'conf-mode)
+      (let* ((here (point))
+             (bol (progn (beginning-of-line n) (point)))
+             (eol (point-at-eol))
+             (eoh (re-search-forward "= *" eol t)))
+        (goto-char
+         (if (and eoh (or (< eoh here) (= bol here)))
+             eoh bol)))
+    (back-to-indentation-or-beginning)))
+
 
 ; From http://www.emacswiki.org/emacs/BackToIndentationOrBeginning
 ; Go back to indentation or beginning of line.
