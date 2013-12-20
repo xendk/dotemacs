@@ -31,9 +31,14 @@
 
 ;; Try https://github.com/syohex/emacs-git-gutter for laughs..
 
-(server-start)
-(add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
 ;;; Code:
+(require 'server)
+(if (not (server-running-p))
+    (progn
+      (server-start)
+      (add-hook 'kill-emacs-hook (lambda () (server-start 1)))
+      )
+  )
 ; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
 
