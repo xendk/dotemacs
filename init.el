@@ -267,6 +267,21 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
+;; Show full paths in helm-projectile. Fix gleaned from
+;; https://github.com/bbatsov/projectile/pull/193/files
+(require 'helm-projectile)
+(defun helm-projectile ()
+  "Use projectile with Helm instead of ido."
+  (interactive)
+ (let ((helm-ff-transformer-show-only-basename nil))
+  (helm :sources '(helm-c-source-projectile-files-list
+                   helm-c-source-projectile-buffers-list
+                   helm-c-source-projectile-recentf-list)
+        :buffer "*helm projectile*"
+        :prompt (projectile-prepend-project-name "pattern: "))
+))
+
+
 ;; TODO: https://github.com/rolandwalker/fixmee
 
 ;; TODO: CamelCase <-> snake_case conversion:
