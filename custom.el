@@ -26,7 +26,7 @@
  '(flymake-cursor-error-display-delay 0.3)
  '(flymake-cursor-number-of-errors-to-display 1)
  '(flyspell-default-dictionary nil)
- '(helm-browse-code-regexp-alist (quote ((lisp-interaction-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (emacs-lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (python-mode . "\\<def\\>\\|\\<class\\>") (php-mode . "\\<class\\>\\|\\<interface\\>\\|\\<function\\>"))))
+ '(helm-browse-code-regexp-alist (quote ((lisp-interaction-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (emacs-lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (python-mode . "\\<def\\>\\|\\<class\\>") (php-mode . "^ *\\(\\(abstract +\\)*\\<class\\>\\|\\<interface\\>\\|\\(\\(public\\|protected\\|private\\|static\\) +\\)*\\<function\\>\\)"))))
  '(helm-buffer-max-length 40)
  '(helm-ff-transformer-show-only-basename t)
  '(helm-for-files-preferred-list (quote (helm-c-source-buffers-list helm-c-source-files-in-current-dir helm-c-source-recentf helm-c-source-bookmarks helm-c-source-file-cache helm-c-source-locate)))
