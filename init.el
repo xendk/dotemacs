@@ -1,4 +1,6 @@
-;; Xens emacs configuration.
+;;; package --- Xens emacs configuration.
+;;; Commentary:
+; Quick debugging:
 ; (toggle-debug-on-error)
 
 ;; Handy trick:
@@ -31,6 +33,7 @@
 
 (server-start)
 (add-hook 'kill-emacs-hook (function (lambda () (server-start 1))))
+;;; Code:
 ; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
 
