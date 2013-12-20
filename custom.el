@@ -100,6 +100,9 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Anonymous Pro"))))
  '(cursor ((t (:background "turquoise"))))
+ '(flycheck-error ((t (:background "Red4" :underline (:color "Red1" :style wave)))))
+ '(flycheck-fringe-warning ((t (:inherit warning))))
+ '(flycheck-warning ((t (:background "DarkOrange4" :underline (:color "DarkOrange" :style wave)))))
  '(flymake-errline ((t (:background "#4b0000"))))
  '(flymake-warnline ((t (:background "#4b1500"))))
  '(hl-line ((t (:background "#222"))))
