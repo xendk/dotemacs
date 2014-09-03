@@ -122,6 +122,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Anonymous Pro"))))
+ '(column-enforce-face ((t (:background "#524500"))))
  '(cursor ((t (:background "turquoise"))))
  '(flycheck-error ((t (:background "Red4" :underline (:color "Red1" :style wave)))))
  '(flycheck-fringe-warning ((t (:inherit warning))))

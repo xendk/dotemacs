@@ -746,6 +746,8 @@ or a marker."
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
   (yas-minor-mode 1)
   (gtags-mode)
+  (column-enforce-mode)
+  (diminish 'column-enforce-mode "")
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
@@ -753,12 +755,24 @@ or a marker."
 (defun xen-js-mode-hook ()
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
+  (column-enforce-mode)
+  (diminish 'column-enforce-mode "")
+  )
+
+(add-hook 'js2-mode-hook 'xen-js2-mode-hook)
+(defun xen-js2-mode-hook ()
+  (xen-coding-common-bindings)
+  (yas-minor-mode 1)
+  (column-enforce-mode)
+  (diminish 'column-enforce-mode "")
   )
 
 (add-hook 'css-mode-hook 'xen-css-mode-hook)
 (defun xen-css-mode-hook ()
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
+  (column-enforce-mode)
+  (diminish 'column-enforce-mode "")
   )
 
 ; To make fill-paragraph work with doxygen comments.
