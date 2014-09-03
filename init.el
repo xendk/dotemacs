@@ -817,6 +817,11 @@ or a marker."
   (flyspell-prog-mode)
 )
 
+;; (define-key global-map (kbd "C-c r") 'vr/replace)
+;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
+;; ;; if you use multiple-cursors, this is for you:
+;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
+
 (add-hook 'emacs-lisp-mode-hook 
 (lambda  ()
   (xen-coding-common-bindings)
