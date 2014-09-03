@@ -510,7 +510,6 @@ or a marker."
 
 ; Hide some minor-modes I don't need to be told is active.
 (diminish 'undo-tree-mode "")
-(diminish 'auto-complete-mode "")
 (diminish 'helm-mode "")
 (diminish 'yas-minor-mode "")
 (diminish 'abbrev-mode "")
