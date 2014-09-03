@@ -207,6 +207,11 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 
+; Let projectile show the magit status buffer when switching to a project.
+(defun xen-projectile-magit ()
+  "Open magit when switching to project."
+  (call-interactively 'magit-status)
+  )
 
 ; I just want the branch to have the same name as origin.
 (defun xen-magit-default-tracking-name

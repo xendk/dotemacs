@@ -61,6 +61,7 @@
  '(org-support-shift-select t)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(projectile-global-mode t)
+ '(projectile-switch-project-action (quote xen-projectile-magit))
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)
  '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
