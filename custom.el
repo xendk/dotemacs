@@ -21,6 +21,7 @@
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode nil)
  '(drupal/emacs-drush-update-tags-after-save t)
+ '(drupal/phpcs-standard "ArneDrupal")
  '(ediff-keep-variants nil)
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-use-last-dir t)
