@@ -232,58 +232,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
   "Use just the branch name for tracking branches."
   branch)
 
-
-; Auto-Complete
-; Setup.
-(require 'auto-complete-config)
-(ac-config-default)
-; Ac and flyspell has issues with eachother.
-(ac-flyspell-workaround)
-
-; Don't complete with return when the menu isn't shown.
-(define-key ac-completing-map [return] nil)
-(setq ac-use-menu-map t)
-(define-key ac-menu-map [return] 'ac-complete)
-
-; Custom source for drupal hooks.
-(ac-define-source drupal-hook
-  '((candidates . ac-drupal-hook-candidate)
-;    (candidate-face . ac-gtags-candidate-face)
-;    (selection-face . ac-gtags-selection-face)
-    (requires . 0)
-    (prefix . ac-drupal-hook-prefix)
-    (symbol . "f")))
-
-(defun ac-drupal-hook-prefix ()
-  "Drupal hook prefix."
-  (if (re-search-backward (concat "function\\s-+" (drupal-module-name) "_\\(\\(?:[_a-zA-Z0-9]*\\)?\\)\\=") nil t)
-(match-beginning 1)))
-
-(defun ac-drupal-hook-candidate ()
-  (let ((module-name (drupal-module-name)))
-    (ignore-errors
-      (split-string
-       (with-temp-buffer
-         (call-process "global" nil t nil "-c" (concat "hook_" ac-prefix))
-         (goto-char (point-min))
-         (while (re-search-forward "^hook_" nil t)
-           (replace-match (concat "")))
-         (buffer-string)
-         )
-       )
-      )
-    )
-  )
-
-; yasnippet gets pissy when ac oversteps the boundaries, so when
-; yasnippet is active, set sources to a restricted list of sources
-; that's carefully constructed to keep inside the boundaries.
-(defadvice ac-start (around xen-test  activate)
-  (if (yas--snippets-at-point)
-      (let ((ac-sources '(ac-source-drupal-hook)))
-        ad-do-it)
-    ad-do-it))
-
 (helm-mode 1)
 ; Bugfix..
 (require 'helm-aliases)
