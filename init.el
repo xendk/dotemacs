@@ -408,6 +408,14 @@ See URL `https://github.com/nzakas/eslint'."
  (insert xen-paste-buffer)
 )
 
+(defun xen-paste-term ()
+ "Paste from outside in term-mode."
+ (interactive)
+ ; x-selection-value returns nil when selection hasn't changed.
+ (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
+ (term-send-raw-string xen-paste-buffer)
+)
+
 ; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
 ; order to limit the amount of different key combinations I should
 ; remember for the same thing.
@@ -773,6 +781,25 @@ or a marker."
   (column-enforce-mode)
   (diminish 'column-enforce-mode "")
   )
+
+
+(autoload 'multi-term-dedicated-exist-p "multi-term")
+(defun multi-term-dedicated-toggle-and-select ()
+  "Toggle dedicated `multi-term' window and select it."
+  (interactive)
+  (if (multi-term-dedicated-exist-p)
+      (multi-term-dedicated-close)
+    (progn (multi-term-dedicated-open) (multi-term-dedicated-select))))
+
+(global-set-key (kbd "C-!") 'multi-term-dedicated-toggle-and-select)
+
+;; Get paste working in (multi-)term-mode.
+(add-hook 'term-mode-hook (lambda ()
+                            (define-key term-raw-map (kbd "C-y") 'term-paste)
+                            (define-key term-raw-map (kbd "C-v") 'xen-paste-term)
+                            (define-key term-raw-map (kbd "S-C-v") 'xen-paste-term)
+                            ))
+
 
 ; To make fill-paragraph work with doxygen comments.
 (defun php-doc-paragraph-boundaries ()
