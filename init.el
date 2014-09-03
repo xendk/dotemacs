@@ -104,6 +104,22 @@
 
 ; Only autopair ' when not directly after a word.
 (eval-after-load "smartparens" '(sp-pair "'" nil :unless '(sp-point-after-word-p)))
+; When pressing return as the first thing after inserting a { or (,
+; add another and indent.
+(eval-after-load "smartparens" '(sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>"))))
+(eval-after-load "smartparens" '(sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>"))))
+
+(eval-after-load "smartparens" '(sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert)))'
+
+(eval-after-load "smartparens" '(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
+
+(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{" nil :actions nil))
+(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert)))
+(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert)))
+(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert)))
+; Hmm, no workie.
+(eval-after-load "twig-mode"      '(require 'smartparens-html))
+(eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
