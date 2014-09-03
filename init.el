@@ -186,6 +186,7 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; For zap-up-to-char and possibly others.
 (require 'misc)
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
+(define-key global-map (kbd "C-S-Z") 'repeat)
 
 (require 'gtags)
 (add-hook 'gtags-mode-hook
