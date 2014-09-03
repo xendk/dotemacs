@@ -181,6 +181,8 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (define-key global-map [M-delete] 'kill-word)
 (global-font-lock-mode t)
 
+(browse-kill-ring-default-keybindings)
+
 ; For zap-up-to-char and possibly others.
 (require 'misc)
 (define-key global-map (kbd "M-Z") 'zap-up-to-char)
