@@ -62,14 +62,18 @@
 (setq bookmark-save-flag 1)
 (setq font-lock-maximum-decoration t)
 
-(define-key global-map (kbd "C-c e")
+(define-prefix-command 'xen-map)
+(global-set-key (kbd "C-c x") 'xen-map)
+
+
+(define-key xen-map (kbd "e")
   #'(lambda()
       "Open ~/.emacs.d/init.el."
       (interactive)
       (find-file "~/.emacs.d/init.el")
       )
   )
-(define-key global-map (kbd "C-c t")
+(define-key xen-map (kbd "t")
   #'(lambda()
       "Open my Emacs TODO."
       (interactive)
