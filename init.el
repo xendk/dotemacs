@@ -315,6 +315,32 @@ arrow and marks next symbol."
 (add-hook 'php-mode-hook 'php-mode-expansions)
 (add-hook 'prog-mode-hook #'eldoc-mode)
 
+(defun xen-mark-lines ()
+  "Mark the current line, or expand the selection to another line."
+  (interactive)
+  (let ((start (point)))
+    (progn
+      (exchange-point-and-mark)
+      (end-of-line)
+      (forward-char)
+      (set-mark (point))
+      (goto-char start)
+      (beginning-of-line)
+      )
+    ))
+
+; Advice er/expand-region to only expand regions when the trigger key is l.
+(defadvice er/expand-region (around expand-lines activate)
+  (let* ((repeat-key (event-basic-type last-input-event))
+         (repeat-key-str (single-key-description repeat-key))) 
+           (let ((er/try-expand-list (if (equal repeat-key-str "l") '(xen-mark-lines) er/try-expand-list)))
+             ad-do-it
+             )))
+
+; Bind er/expand region to our boobytrapped key.
+(global-set-key (kbd "C-S-l") 'er/expand-region)
+(setq er--show-expansion-message nil)
+
 ; Writable grep buffer.
 (add-to-list 'load-path "~/.emacs.d/wgrep/")
 (require 'wgrep)
