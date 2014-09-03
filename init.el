@@ -739,7 +739,6 @@ or a marker."
 
 (defun my-php-mode-hook ()
   (xen-coding-common-bindings)
-  (local-set-key [S-return] 'php-end-new-line)
   ;; Work around bug in Emacs 23.3.1 cc-mode c-fill-paragraph
   ;; http://superuser.com/questions/250442/fixing-c-fill-paragraph-with-comments-in-emacs-23-2-1
   (local-set-key (kbd "M-q") 'fill-paragraph)
