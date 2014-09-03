@@ -551,6 +551,12 @@ or a marker."
 
 ; Todo: http://www.emacswiki.org/cgi-bin/wiki.pl?ColorTheme
 
+; todo: http://stackoverflow.com/questions/892378/how-do-i-fix-the-cursor-to-the-middle-of-the-screen-in-emacs-so-that-the-page-m
+; http://www.emacswiki.org/emacs/centered-cursor-mode.el
+
+; Figure out how to ensure 80 cols with this.
+; (global-linum-mode 1)
+
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
 (global-hl-line-mode 1)
