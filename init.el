@@ -102,6 +102,8 @@
 ; Yeah, global undo tree mode...
 (global-undo-tree-mode)
 
+(google-this-mode)
+
 ; Only autopair ' when not directly after a word.
 (eval-after-load "smartparens" '(sp-pair "'" nil :unless '(sp-point-after-word-p)))
 ; When pressing return as the first thing after inserting a { or (,
