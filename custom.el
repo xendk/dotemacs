@@ -69,6 +69,7 @@
  '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
  '(save-place t nil (saveplace))
  '(scss-compile-at-save nil)
+ '(sentence-end-double-space nil)
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(show-paren-mode t)
  '(smartparens-global-mode t)
