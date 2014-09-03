@@ -60,6 +60,7 @@
  '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
+ '(php-extras-auto-complete-insert-parenthesis nil)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(projectile-global-mode t)
  '(projectile-switch-project-action (quote xen-projectile-magit))
