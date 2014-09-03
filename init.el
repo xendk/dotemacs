@@ -696,7 +696,7 @@ or a marker."
 (message (char-to-string (char-syntax (char-after)))))
 
 (defun xen-tab ()
-  "Indent if on whitespace or do nothing (auto-complete and yasnippet will attach themselves.)."
+  "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
   (interactive "*")
   (if (or (bolp) ; Beginning of line
           (region-active-p) ; We have an active region
