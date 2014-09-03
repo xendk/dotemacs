@@ -401,6 +401,9 @@ See URL `https://github.com/nzakas/eslint'."
     (flymake-log 3 "create-temp-inplace: file=%s temp=%s" file-name temp-name)
     temp-name))
 
+; Trying realgud.
+(add-to-list 'load-path "~/.emacs.d/emacs-dbgr/")
+
 ; http://www.emacswiki.org/emacs/WinnerMode
 (when (fboundp 'winner-mode)
   (winner-mode 1))
@@ -782,6 +785,20 @@ or a marker."
 (defvar xen-prog-text-faces
   '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
   "Faces corresponding to text in programming-mode buffers.")
+
+(add-to-list 'load-path "~/.emacs.d/geben/")
+(autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
+
+;; Geben hackery.
+(defun geben-open ()
+  "Open the current buffer in geben."
+  (interactive)
+  (progn
+    (let ((geben-current-session (car geben-sessions)))
+      (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name)))
+      )
+    )
+  )
 
 (defun xen-coding-common-bindings ()
   (local-set-key (kbd "C-o") 'xen-open)
