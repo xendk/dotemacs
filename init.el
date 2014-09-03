@@ -215,6 +215,23 @@ Heavily based on `message-beginning-of-line' from Gnus."
 
 (global-set-key [f11] 'xen-toggle-fullscreen)
 
+(global-set-key [f12] 'xen-big-fringe-mode)
+
+
+(defvar xen-big-fringe-mode nil)
+(define-minor-mode xen-big-fringe-mode
+  "Minor mode to use big fringe in the current buffer."
+  :init-value nil
+  :global t
+  :variable xen-big-fringe-mode
+  :group 'editing-basics
+  (if (not xen-big-fringe-mode)
+      (fringe-mode nil)
+    (fringe-mode
+     (/ (- (frame-pixel-width)
+           (* 120 (frame-char-width)))
+        2))))
+
 ; Activate flyspell and yas in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
   (yas-minor-mode 1)
