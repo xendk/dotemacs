@@ -364,12 +364,14 @@ See URL `https://github.com/nzakas/eslint'."
 ; http://www.emacswiki.org/emacs/WindMove
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+ ;; Make windmove work in org-mode:
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
 ; http://www.emacswiki.org/emacs/FrameMove
 (require 'framemove)
 (setq framemove-hook-into-windmove t)
-
-; http://www.emacswiki.org/emacs/WholeLineOrRegion
-(require 'whole-line-or-region)
 
 ; http://emacswiki.org/emacs/CopyingWholeLines
 ;; duplicate current line
@@ -507,7 +509,6 @@ or a marker."
         0)
 
 ; Hide some minor-modes I don't need to be told is active.
-(diminish 'whole-line-or-region-mode "")
 (diminish 'undo-tree-mode "")
 (diminish 'auto-complete-mode "")
 (diminish 'helm-mode "")
