@@ -71,6 +71,7 @@
  '(scss-compile-at-save nil)
  '(sentence-end-double-space nil)
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
+ '(set-mark-command-repeat-pop t)
  '(show-paren-mode t)
  '(smartparens-global-mode t)
  '(sp-autodelete-closing-pair nil)
