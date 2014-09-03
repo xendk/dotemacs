@@ -226,24 +226,33 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; Bugfix..
 (require 'helm-aliases)
 (require 'helm-files)
-(define-key global-map (kbd "C-x C-f") 'helm-for-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
-;; Show full paths in helm-projectile. Fix gleaned from
-;; https://github.com/bbatsov/projectile/pull/193/files
-(require 'helm-projectile)
-(defun helm-projectile ()
+(autoload 'projectile-project-p "projectile")
+(defun xen-find-file (&optional prefix)
+  "Find file, in project if Projectile is active or using helm normally"
+  (interactive "P")
+  (if (and (null prefix) (projectile-project-p))
+      (helm-projectile)
+    (helm-for-files))
+  )
+
+(define-key global-map (kbd "C-x C-f") 'xen-find-file)
+
+;; Ressucect helm-browse-code
+(load (locate-user-emacs-file "helm-compat.el"))
+
+;; Prefer to have buffers first.
+(eval-after-load "helm-projectile" '(defun helm-projectile ()
   "Use projectile with Helm instead of ido."
   (interactive)
- (let ((helm-ff-transformer-show-only-basename nil))
-  (helm :sources '(helm-c-source-projectile-files-list
-                   helm-c-source-projectile-buffers-list
-                   helm-c-source-projectile-recentf-list)
-        :buffer "*helm projectile*"
-        :prompt (projectile-prepend-project-name "pattern: "))
-))
-
-
+  (let ((helm-ff-transformer-show-only-basename nil))
+    (helm :sources '(helm-source-projectile-buffers-list
+                     helm-source-projectile-files-list
+                     helm-source-projectile-recentf-list)
+          :buffer "*helm projectile*"
+          :prompt (projectile-prepend-project-name "pattern: "))))
+)
 ;; TODO: https://github.com/rolandwalker/fixmee
 
 ;; TODO: CamelCase <-> snake_case conversion:
