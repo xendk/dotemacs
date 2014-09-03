@@ -31,6 +31,9 @@
 
 ;; Try https://github.com/syohex/emacs-git-gutter for laughs..
 
+;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
+;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
+
 ;;; Code:
 (require 'server)
 (if (not (server-running-p))
