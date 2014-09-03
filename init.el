@@ -203,6 +203,18 @@ Heavily based on `message-beginning-of-line' from Gnus."
               (define-key gtags-mode-map [mouse-3] nil)
               ))
 
+; Toggle fullscreen and full height.
+; todo: work this in: http://bzg.fr/emacs-strip-tease.html
+(defun xen-toggle-fullscreen ()
+  "Toggle full screen on X11"
+  (interactive)
+  (when (eq window-system 'x)
+    (set-frame-parameter
+     nil 'fullscreen
+     (if (equal (frame-parameter nil 'fullscreen) 'fullheight) 'fullboth 'fullheight))))
+
+(global-set-key [f11] 'xen-toggle-fullscreen)
+
 ; Activate flyspell and yas in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
   (yas-minor-mode 1)
