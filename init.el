@@ -296,6 +296,9 @@ Heavily based on `message-beginning-of-line' from Gnus."
           :buffer "*helm projectile*"
           :prompt (projectile-prepend-project-name "pattern: "))))
 )
+
+(eval-after-load "helm-projectile" '(define-key projectile-command-map (kbd "p") 'helm-projectile-switch-project))
+
 ;; TODO: https://github.com/rolandwalker/fixmee
 
 ;; TODO: CamelCase <-> snake_case conversion:
