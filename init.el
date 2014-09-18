@@ -232,6 +232,15 @@ Heavily based on `message-beginning-of-line' from Gnus."
            (* 120 (frame-char-width)))
         2))))
 
+; Add git flow extension.
+(require 'magit-gitflow)
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+
+; Add github pull request extension.
+(require 'magit-gh-pulls.el)
+(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+
+
 ; Activate flyspell and yas in magit commit buffer.
 (defun xen-magit-log-edit-mode-hook ()
   (yas-minor-mode 1)
