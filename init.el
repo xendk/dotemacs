@@ -285,6 +285,8 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ;; Ressucect helm-browse-code
 (load (locate-user-emacs-file "helm-compat.el"))
 
+(require 'helm-projectile)
+
 ;; Prefer to have buffers first.
 (eval-after-load "helm-projectile" '(defun helm-projectile ()
   "Use projectile with Helm instead of ido."
