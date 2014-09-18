@@ -237,7 +237,7 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 
 ; Add github pull request extension.
-(require 'magit-gh-pulls.el)
+(require 'magit-gh-pulls)
 (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 
 
