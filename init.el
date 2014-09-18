@@ -260,6 +260,8 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (require 'helm-files)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
+(define-key global-map [C-S-iso-lefttab] 'helm-swoop)
+
 (autoload 'projectile-project-p "projectile")
 (defun xen-find-file (&optional prefix)
   "Find file, in project if Projectile is active or using helm normally"
@@ -825,7 +827,6 @@ or a marker."
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'helm-browse-code)
-  (local-set-key [C-S-iso-lefttab] 'helm-swoop)
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
