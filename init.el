@@ -602,7 +602,7 @@ or a marker."
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
 (global-hl-line-mode 1)
-
+(global-diff-hl-mode 1)
 (iswitchb-mode)
 
 (set-input-mode (car (current-input-mode))
