@@ -60,6 +60,7 @@
  '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
+ '(origami-parser-alist (quote ((java-mode . origami-c-style-parser) (c-mode . origami-c-style-parser) (php-mode . origami-c-style-parser) (c++-mode . origami-c-style-parser) (cperl-mode . origami-c-style-parser) (emacs-lisp-mode . origami-elisp-parser) (lisp-interaction-mode . origami-elisp-parser) (clojure-mode . origami-clj-parser))))
  '(php-extras-auto-complete-insert-parenthesis nil)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(projectile-global-mode t)
