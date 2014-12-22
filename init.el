@@ -130,6 +130,7 @@
 ; Hmm, no workie.
 (eval-after-load "twig-mode"      '(require 'smartparens-html))
 (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
+(require 'smartparens-html)
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
