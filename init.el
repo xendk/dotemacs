@@ -595,7 +595,7 @@ or a marker."
   )
 
 (defun xen-paired-delete (arg &optional killp)
-  "Test.."
+  "Deletes the matching pair if deleting a pair."
   (interactive "*p\nP")
   (let*
       (
@@ -630,7 +630,7 @@ or a marker."
   )
 
 (defun xen-paired-delete-backward (arg &optional killp)
-  "Test.."
+  "Deletes the matching pair if deleting a pair."
   (interactive "*p\nP")
   (let*
       (
