@@ -190,6 +190,8 @@ Heavily based on `message-beginning-of-line' from Gnus."
 
 (browse-kill-ring-default-keybindings)
 
+; Don't iconify on C-z.
+(global-unset-key (kbd "C-z"))
 
 (require 'gtags)
 (add-hook 'gtags-mode-hook
