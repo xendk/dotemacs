@@ -34,6 +34,7 @@
 ;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
 ;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
+;; really should try out https://github.com/jwiegley/use-package
 ;;; Code:
 (require 'server)
 (if (not (server-running-p))
