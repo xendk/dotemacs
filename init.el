@@ -393,7 +393,6 @@ arrow and marks next symbol."
 (setq er--show-expansion-message nil)
 
 ; Writable grep buffer.
-(add-to-list 'load-path "~/.emacs.d/wgrep/")
 (require 'wgrep)
 
 (require 'yasnippet)
