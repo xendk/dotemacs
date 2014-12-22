@@ -501,32 +501,9 @@ See URL `https://github.com/nzakas/eslint'."
   (x-select-text (buffer-substring-no-properties start end))
 )
 
-; todo: see if http://tuxicity.se/emacs/elisp/2010/03/14/drag-stuff-in-emacs.html is better
-; http://www.emacswiki.org/emacs/MoveRegion
-(defun move-region (start end n)
-  "Move the current region up or down by N lines."
-  (interactive "r\np")
-  (let ((line-text (delete-and-extract-region start end)))
-    (forward-line n)
-    (let ((start (point)))
-      (insert line-text)
-      (setq deactivate-mark nil)
-      (set-mark start))))
-
-(defun move-region-up (start end n)
-  "Move the current line up by N lines."
-  (interactive "r\np")
-  (move-region start end (if (null n) -1 (- n))))
-
-(defun move-region-down (start end n)
-  "Move the current line down by N lines."
-  (interactive "r\np")
-  (move-region start end (if (null n) 1 n)))
-
-;; (global-set-key (kbd "M-<up>") 'move-region-up)
-;; (global-set-key (kbd "M-<down>") 'move-region-down)
-(global-set-key (kbd "S-M-<up>") 'move-region-up)
-(global-set-key (kbd "S-M-<down>") 'move-region-down)
+; drag-stuff mode.
+(setq drag-stuff-modifier '(meta shift))
+(drag-stuff-global-mode t)
 
 ; http://www.emacswiki.org/emacs/SwapRegions
 (defun swap-regions (beg1 end1 beg2 end2)
