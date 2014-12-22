@@ -165,7 +165,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
 (define-key global-map (kbd "C-S-Z") 'repeat)
-(global-font-lock-mode t)
 
 (browse-kill-ring-default-keybindings)
 
