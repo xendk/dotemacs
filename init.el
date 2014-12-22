@@ -616,7 +616,6 @@ or a marker."
 (eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
 (eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
 
-(setq org-log-done 'time)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
