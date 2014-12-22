@@ -137,10 +137,6 @@
 ;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized/")
 ;(require 'color-theme-solarized)
 
-; check out https://github.com/Bruce-Connor/smart-mode-line/
-(add-to-list 'load-path "~/.emacs.d/emacs-powerline/")
-(require 'powerline)
-
 (add-to-list 'load-path "~/.emacs.d/drupal-mode/")
 (require 'drupal-mode)
 
