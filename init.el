@@ -189,9 +189,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 
 (browse-kill-ring-default-keybindings)
 
-; For zap-up-to-char and possibly others.
-(require 'misc)
-(define-key global-map (kbd "M-Z") 'zap-up-to-char)
 (define-key global-map (kbd "C-S-Z") 'repeat)
 
 (require 'gtags)
@@ -399,6 +396,12 @@ arrow and marks next symbol."
 (yas/reload-all) 
 
 ; End EmacsRocks
+
+(eval-after-load 'ace-jump-zap
+  '(progn
+    (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
+    (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
+(require 'ace-jump-zap)
 
 ; Enable flycheck globally.
 (add-hook 'after-init-hook #'global-flycheck-mode)
