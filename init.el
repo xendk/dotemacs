@@ -132,6 +132,15 @@
 (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
 (require 'smartparens-html)
 
+; Navorski
+(require 'navorski)
+(nav/defterminal
+ guard
+ :program-path "/usr/local/bin/guard"
+ :cwd (lambda (path) (locate-dominating-file path "Guardfile"))
+ :interactive t
+ )
+
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
 ; Solarized color scheme.
