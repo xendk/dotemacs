@@ -80,21 +80,12 @@
 ; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Lets get rid of the menu bar.
-(menu-bar-mode -1)
-
-(transient-mark-mode t)
-
 (defadvice show-paren-function (after my-echo-paren-matching-line activate)
   "If a matching paren is off-screen, echo the matching line."
   (when (char-equal (char-syntax (char-before (point))) ?\))
     (let ((matching-text (blink-matching-open)))
       (when matching-text
         (message matching-text)))))
-
-(setq mark-even-if-inactive t)
-(setq bookmark-save-flag 1)
-(setq font-lock-maximum-decoration t)
 
 (define-prefix-command 'xen-map)
 (global-set-key (kbd "C-c x") 'xen-map)
@@ -116,9 +107,6 @@
 )
 
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
-
-;; Getting tired of entering passwords for sudo..
-(setq password-cache-expiry 3600)
 
 ; Yeah, global undo tree mode...
 (global-undo-tree-mode)
@@ -472,8 +460,6 @@ See URL `https://github.com/nzakas/eslint'."
 
 (global-set-key (kbd "C-S-d") 'duplicate-current-line)
 
-(setq x-select-enable-clipboard t) ; Makes yanking interact with the clipboard.
-
 ; As I never use C-v anyway, and its effect when i hit it confuses me,
 ; why not bind it to pasting from outside (like the middle button
 ; does)?
@@ -582,9 +568,6 @@ or a marker."
 (global-set-key "\C-cb" 'org-iswitchb)
 
 ;; *** DRUPAL ***
-
-; Default to using spaces for indentation.
-(setq-default indent-tabs-mode nil)
 
 (defun xen-open ()
   "Open new line, with proper indentation."
@@ -882,9 +865,6 @@ or a marker."
 ;; Properly handle annotations in java-mode.
 (require 'java-mode-indent-annotations)
 (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
-
-(setq next-line-add-newlines nil)
-(setq hs-minor-mode-hook nil)
 
 (provide 'init)
 ;;; init.el ends here
