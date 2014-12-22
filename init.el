@@ -29,8 +29,6 @@
 ;;   (if my-prev-whitespace-mode
 ;;       (prelude-turn-on-whitespace)))
 
-;; Try https://github.com/syohex/emacs-git-gutter for laughs..
-
 ;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
 ;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
@@ -45,14 +43,6 @@
   )
 ; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Beginning of the el4r block:
-;; RCtool generated this block automatically. DO NOT MODIFY this block!
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp")
-;(require 'el4r)
-;(el4r-boot)
-;; End of the el4r block.
-;; User-setting area is below this line.
 
 ;; Lets get rid of the menu bar.
 (menu-bar-mode -1)
@@ -94,11 +84,6 @@
 
 ;; Getting tired of entering passwords for sudo..
 (setq password-cache-expiry 3600)
-
-;; Setup Android SDK.
-;(setq android-mode-sdk-dir "~/lib/android-sdk-linux/")
-;; And load it's .el file.
-;(load (concat android-mode-sdk-dir "tools/lib/android.el"))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -334,8 +319,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (global-set-key (kbd "C-%") 'mc/mark-all-in-region)
 (global-set-key (kbd "C-=") 'mc/mark-all-like-this-dwim)
 
-; todo: there's also http://www.emacswiki.org/emacs/iedit.el
-
 (require 'expand-region)
 (global-set-key (kbd "C-S-SPC") 'er/expand-region)
 
@@ -517,10 +500,6 @@ See URL `https://github.com/nzakas/eslint'."
   (interactive "r")
   (x-select-text (buffer-substring-no-properties start end))
 )
-
-; Don't switch to a frame already containing the selected buffer, but
-; show the same buffer in a new frame.
-(setq ido-default-buffer-method 'selected-window)
 
 ; todo: see if http://tuxicity.se/emacs/elisp/2010/03/14/drag-stuff-in-emacs.html is better
 ; http://www.emacswiki.org/emacs/MoveRegion
