@@ -1,7 +1,5 @@
-;;; package --- Xens emacs configuration.
+;;; init.el --- Xens emacs configuration.
 ;;; Commentary:
-; Quick debugging:
-; (toggle-debug-on-error)
 
 ;; Handy trick:
 ;; (set-face-attribute 'default nil :height 140)
@@ -17,12 +15,61 @@
 ;; really should try out https://github.com/jwiegley/use-package
 ;;; Code:
 
+; Quick debugging:
+; (toggle-debug-on-error)
+
+;;; Configuration.
 ;; Relocate and load customs (so we don't clutter init.el with them).
 ;; Loading them first so colors, faces and menu/toolbar/scrollbar is
 ;; removed early.
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
 
+
+;;; Packages.
+;;;; Initialize package system.
+(require 'package)
+(add-to-list 'package-archives
+    '("marmalade" .
+      "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;;; Use use-package for loading pckages.
+(require 'use-package)
+
+(use-package smartparens-config
+  :diminish smartparens-mode
+  :init (progn
+          (smartparens-global-mode 1)
+          (show-smartparens-global-mode 1))
+  :config (progn
+            (sp-pair "'" nil :unless '(sp-point-after-word-p))
+                                        ; When pressing return as the
+                                        ; first thing after inserting
+                                        ; a { or (, add another and
+                                        ; indent.
+            (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
+            (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>")))
+
+            (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert))'
+
+            (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+
+            (sp-local-pair 'twig-mode "{" nil :actions nil)
+            (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
+            (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
+            (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
+                                        ; Hmm, no workie.
+            ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
+            ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
+            ;; (require 'smartparens-html)
+            )
+  )
+
+
+;;; Old stuff in need of cleaning up.
 (require 'server)
 (if (not (server-running-p))
     (progn
@@ -37,7 +84,6 @@
 (menu-bar-mode -1)
 
 (transient-mark-mode t)
-(show-paren-mode)
 
 (defadvice show-paren-function (after my-echo-paren-matching-line activate)
   "If a matching paren is off-screen, echo the matching line."
@@ -74,38 +120,10 @@
 ;; Getting tired of entering passwords for sudo..
 (setq password-cache-expiry 3600)
 
-(require 'package)
-(add-to-list 'package-archives
-    '("marmalade" .
-      "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
-
 ; Yeah, global undo tree mode...
 (global-undo-tree-mode)
 
 (google-this-mode)
-
-; Only autopair ' when not directly after a word.
-(eval-after-load "smartparens" '(sp-pair "'" nil :unless '(sp-point-after-word-p)))
-; When pressing return as the first thing after inserting a { or (,
-; add another and indent.
-(eval-after-load "smartparens" '(sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>"))))
-(eval-after-load "smartparens" '(sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>"))))
-
-(eval-after-load "smartparens" '(sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert)))'
-
-(eval-after-load "smartparens" '(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
-
-(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{" nil :actions nil))
-(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert)))
-(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert)))
-(eval-after-load "smartparens" '(sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert)))
-; Hmm, no workie.
-(eval-after-load "twig-mode"      '(require 'smartparens-html))
-(eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
-(require 'smartparens-html)
 
 ; Navorski
 (require 'navorski)
@@ -848,11 +866,11 @@ or a marker."
 
 
 ; To make fill-paragraph work with doxygen comments.
-(defun php-doc-paragraph-boundaries ()
-  (setq paragraph-separate "^[ \t]*\\(\\(/[/\\*]+\\)\\|\\(\\*+/\\)\\|\\(\\*?\\)\\|\\(\\*?[ \t]*@[[:alpha:]]+\\([ \t]+.*\\)?\\)\\)[ \t]*$")
-  (setq paragraph-start (symbol-value 'paragraph-separate)))
+;; (defun php-doc-paragraph-boundaries ()
+;;   (setq paragraph-separate "^[ \t]*\\(\\(/[/\\*]+\\)\\|\\(\\*+/\\)\\|\\(\\*?\\)\\|\\(\\*?[ \t]*@[[:alpha:]]+\\([ \t]+.*\\)?\\)\\)[ \t]*$")
+;;   (setq paragraph-start (symbol-value 'paragraph-separate)))
 
-(add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
+;; (add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
 
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
 (defun my-ruby-mode-hook ()
