@@ -17,6 +17,15 @@
 
 ; Quick debugging:
 ; (toggle-debug-on-error)
+
+;; Start server if not already running.
+(require 'server)
+(if (not (server-running-p))
+    (progn
+      (server-start)
+      (add-hook 'kill-emacs-hook (lambda () (server-start 1)))
+      )
+  )
 
 ;;; Configuration.
 ;; Relocate and load customs (so we don't clutter init.el with them).
@@ -24,6 +33,11 @@
 ;; removed early.
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
+
+
+;;; Aliases
+;; I'm grown up, I can manage using y/n for even destructive commands.
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 
 ;;; Packages.
@@ -68,17 +82,11 @@
             )
   )
 
+(use-package xen
+  :load-path "~/.emacs.d/xen/")
+
 
 ;;; Old stuff in need of cleaning up.
-(require 'server)
-(if (not (server-running-p))
-    (progn
-      (server-start)
-      (add-hook 'kill-emacs-hook (lambda () (server-start 1)))
-      )
-  )
-; I'm grown up, I can manage using y/n for even destructive commands.
-(defalias 'yes-or-no-p 'y-or-n-p)
 
 (defadvice show-paren-function (after my-echo-paren-matching-line activate)
   "If a matching paren is off-screen, echo the matching line."
@@ -86,25 +94,6 @@
     (let ((matching-text (blink-matching-open)))
       (when matching-text
         (message matching-text)))))
-
-(define-prefix-command 'xen-map)
-(global-set-key (kbd "C-c x") 'xen-map)
-
-
-(define-key xen-map (kbd "e")
-  #'(lambda()
-      "Open ~/.emacs.d/init.el."
-      (interactive)
-      (find-file "~/.emacs.d/init.el")
-      )
-  )
-(define-key xen-map (kbd "t")
-  #'(lambda()
-      "Open my Emacs TODO."
-      (interactive)
-      (find-file "~/.emacs.d/TODO.org")
-      )
-)
 
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
