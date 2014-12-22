@@ -329,7 +329,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 
 ; todo: there's also http://www.emacswiki.org/emacs/iedit.el
 
-(add-to-list 'load-path "~/.emacs.d/expand-region/")
 (require 'expand-region)
 (global-set-key (kbd "C-S-SPC") 'er/expand-region)
 
