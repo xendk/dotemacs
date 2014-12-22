@@ -554,11 +554,6 @@ or a marker."
 ;; highlighted
 (global-hl-line-mode 1)
 (global-diff-hl-mode 1)
-(iswitchb-mode)
-
-(set-input-mode (car (current-input-mode))
-        (nth 1 (current-input-mode))
-        0)
 
 ; Hide some minor-modes I don't need to be told is active.
 (diminish 'undo-tree-mode "")
@@ -578,10 +573,6 @@ or a marker."
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-
-; Setting 'globally':
-; (setq-default show-trailing-whitespace t)
-
 
 ;; *** DRUPAL ***
 
@@ -664,7 +655,7 @@ or a marker."
       )
     )
   )
-; http://www.emacswiki.org/cgi-bin/wiki/delsel.el
+
 (put 'xen-paired-delete-backward 'delete-selection 'supersede)
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
@@ -807,11 +798,6 @@ or a marker."
   (flyspell-prog-mode)
 )
 
-;; (define-key global-map (kbd "C-c r") 'vr/replace)
-;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
-;; ;; if you use multiple-cursors, this is for you:
-;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-
 (add-hook 'emacs-lisp-mode-hook 
 (lambda  ()
   (xen-coding-common-bindings)
@@ -820,9 +806,6 @@ or a marker."
 
 (defun my-php-mode-hook ()
   (xen-coding-common-bindings)
-  ;; Work around bug in Emacs 23.3.1 cc-mode c-fill-paragraph
-  ;; http://superuser.com/questions/250442/fixing-c-fill-paragraph-with-comments-in-emacs-23-2-1
-  (local-set-key (kbd "M-q") 'fill-paragraph)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
   (yas-minor-mode 1)
   (gtags-mode)
@@ -891,14 +874,6 @@ or a marker."
 ;; Properly handle annotations in java-mode.
 (require 'java-mode-indent-annotations)
 (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
-
-;; *** IDO ***
-
-(setq ido-enable-flex-matching t)
-
-; Check: http://www.xsteve.at/prg/emacs/power-user-tips.html
-; (require 'ffap)
-; (ffap-bindings)
 
 (setq next-line-add-newlines nil)
 (setq hs-minor-mode-hook nil)
