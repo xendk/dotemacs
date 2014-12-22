@@ -34,6 +34,8 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
 
+(setq load-path (cons "~/.emacs.d/lib/" load-path))
+
 
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
@@ -52,6 +54,10 @@
 
 ;;; Use use-package for loading pckages.
 (require 'use-package)
+
+(use-package google-this
+  :diminish google-this-mode
+  :init (google-this-mode))
 
 (use-package smartparens-config
   :diminish smartparens-mode
@@ -82,6 +88,11 @@
             )
   )
 
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :init (progn
+          (global-undo-tree-mode)))
+
 (use-package xen
   :load-path "~/.emacs.d/xen/")
 
@@ -95,12 +106,6 @@
       (when matching-text
         (message matching-text)))))
 
-(setq load-path (cons "~/.emacs.d/lib/" load-path))
-
-; Yeah, global undo tree mode...
-(global-undo-tree-mode)
-
-(google-this-mode)
 
 ; Navorski
 (require 'navorski)
