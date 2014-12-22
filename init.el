@@ -325,7 +325,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
 ; http://emacsrocks.com/
 
-(add-to-list 'load-path "~/.emacs.d/multiple-cursors/")
 (require 'multiple-cursors)
 
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
