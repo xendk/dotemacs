@@ -435,20 +435,6 @@ See URL `https://github.com/nzakas/eslint'."
   :modes (js-mode js2-mode js3-mode))
 )
 
-; Fixes flymake-phpcs, when the file has been accessed through a
-; symlink in its path.
-(defun flymake-create-temp-inplace (file-name prefix)
-  (unless (stringp file-name)
-    (error "Invalid file-name"))
-  (or prefix
-      (setq prefix "flymake"))
-  (let* ((temp-name   (file-truename (concat (file-name-sans-extension file-name)
-			      "_" prefix
-			      (and (file-name-extension file-name)
-				   (concat "." (file-name-extension file-name)))))))
-    (flymake-log 3 "create-temp-inplace: file=%s temp=%s" file-name temp-name)
-    temp-name))
-
 ; Trying realgud.
 (add-to-list 'load-path "~/.emacs.d/emacs-dbgr/")
 
