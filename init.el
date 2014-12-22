@@ -34,6 +34,13 @@
 
 ;; really should try out https://github.com/jwiegley/use-package
 ;;; Code:
+
+;; Relocate and load customs (so we don't clutter init.el with them).
+;; Loading them first so colors, faces and menu/toolbar/scrollbar is
+;; removed early.
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file)
+
 (require 'server)
 (if (not (server-running-p))
     (progn
@@ -878,6 +885,5 @@ or a marker."
 (setq next-line-add-newlines nil)
 (setq hs-minor-mode-hook nil)
 
-;; Relocate and load customs (so we don't clutter init.el with them).
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file)
+(provide 'init)
+;;; init.el ends here
