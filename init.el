@@ -618,6 +618,8 @@ or a marker."
 (eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
 (eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
 (eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
+(eval-after-load "magit" '(diminish 'magit-auto-revert-mode ""))
+(eval-after-load "company" '(diminish 'company-mode ""))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
