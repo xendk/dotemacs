@@ -583,6 +583,7 @@ or a marker."
 
 ;; *** DRUPAL ***
 
+; Default to using spaces for indentation.
 (setq-default indent-tabs-mode nil)
 
 (defun xen-open ()
