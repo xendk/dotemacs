@@ -42,8 +42,6 @@
  '(helm-input-idle-delay 0.1)
  '(highlight-symbol-idle-delay 0.5)
  '(hscroll-margin 15)
- '(ido-everywhere t)
- '(ido-mode (quote both) nil (ido))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
