@@ -37,7 +37,7 @@
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
 ;;; Bindings.
-(require 'bind-key)
+;(require 'bind-key)
 ;; TODO: use bind-key.
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
@@ -46,7 +46,11 @@
 (global-unset-key (kbd "C-z"))
 ;; (when (display-graphic-p)
 ;;   (unbind-key "C-z"))
-
+(global-set-key [f11] 'xen-toggle-fullscreen)
+(global-set-key [f12] 'xen-big-fringe-mode)
+(global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
+; Add shortcut to open magit status buffer.
+(global-set-key (kbd "C-c C-g") 'magit-status)
 
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
@@ -63,11 +67,19 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-;;; Use use-package for loading pckages.
+;;; Use use-package for loading packages.
 (require 'use-package)
 
 (use-package ace-jump-mode
   :bind ("S-SPC" . ace-jump-mode))
+
+(use-package browse-kill-ring
+  :init (browse-kill-ring-default-keybindings))
+
+(use-package drupal-mode
+  :load-path "~/.emacs.d/drupal-mode/"
+  :config (progn
+            (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)))
 
 (use-package google-this
   :diminish google-this-mode
@@ -82,8 +94,36 @@
             (bind-key "M-*" 'helm-gtags-pop-stack gtags-mode-map)
             ;; Unbind some keys.
             (unbind-key "<mouse-2>" gtags-mode-map)
-            (unbind-key "<mouse-3>" gtags-mode-map)
-            ))
+            (unbind-key "<mouse-3>" gtags-mode-map)))
+
+(use-package helm
+  :commands helm-mode
+  :init (helm-mode 1)
+  :bind (("C-x b" . helm-buffers-list)
+         ("<C-S-iso-lefttab>" . helm-swoop)
+         ))
+
+(use-package magit
+  :diminish magit-auto-revert-mode
+  :init (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
+
+)
+
+; Add git flow extension.
+(use-package magit-gitflow
+  :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+
+; Add github pull request extension.
+(use-package magit-gh-pulls
+  :init (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+
+(use-package navorski
+  :init (nav/defterminal
+          guard
+          :program-path "/usr/local/bin/guard"
+          :cwd (lambda (path) (locate-dominating-file path "Guardfile"))
+          :interactive t
+          ))
 
 (use-package smartparens-config
   :diminish smartparens-mode
@@ -92,22 +132,21 @@
           (show-smartparens-global-mode 1))
   :config (progn
             (sp-pair "'" nil :unless '(sp-point-after-word-p))
-                                        ; When pressing return as the
-                                        ; first thing after inserting
-                                        ; a { or (, add another and
-                                        ; indent.
+            ;; When pressing return as the first thing after inserting
+            ;; a { or (, add another and indent.
             (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
             (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>")))
 
             (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert))'
 
+            ;; Don't autopair ' in lisp.
             (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 
             (sp-local-pair 'twig-mode "{" nil :actions nil)
             (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
             (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
             (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
-                                        ; Hmm, no workie.
+            ;; Hmm, no workie.
             ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
             ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
             ;; (require 'smartparens-html)
@@ -132,134 +171,17 @@
       (when matching-text
         (message matching-text)))))
 
-
-; Navorski
-(require 'navorski)
-(nav/defterminal
- guard
- :program-path "/usr/local/bin/guard"
- :cwd (lambda (path) (locate-dominating-file path "Guardfile"))
- :interactive t
- )
-
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
 ; Solarized color scheme.
 ;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized/")
 ;(require 'color-theme-solarized)
 
-(add-to-list 'load-path "~/.emacs.d/drupal-mode/")
-(require 'drupal-mode)
-
-;; Redefine drupal-mode-beginning-of-line to use
-;; back-to-indentation-or-beginning instead of beginning-of-line.
-(defun drupal-mode-beginning-of-line (&optional n)
-  "Move point to beginning of property value or to beginning of line.
-The prefix argument N is passed directly to `beginning-of-line'.
-
-This command is identical to `back-to-indentation-or-beginning' if not in a mode
-derived from `conf-mode'.
-
-If point is on a (non-continued) property line, move point to the
-beginning of the property value or the beginning of line,
-whichever is closer.  If point is already at beginning of line,
-move point to beginning of property value.  Therefore, repeated
-calls will toggle point between beginning of property value and
-beginning of line.
-
-Heavily based on `message-beginning-of-line' from Gnus."
-  (interactive "p")
-  (let ((zrs 'zmacs-region-stays))
-    (when (and (featurep 'xemacs) (interactive-p) (boundp zrs))
-      (set zrs t)))
-  (if (derived-mode-p 'conf-mode)
-      (let* ((here (point))
-             (bol (progn (beginning-of-line n) (point)))
-             (eol (point-at-eol))
-             (eoh (re-search-forward "= *" eol t)))
-        (goto-char
-         (if (and eoh (or (< eoh here) (= bol here)))
-             eoh bol)))
-    (back-to-indentation-or-beginning)))
-
-
-; From http://www.emacswiki.org/emacs/BackToIndentationOrBeginning
-; Go back to indentation or beginning of line.
-(defun back-to-indentation-or-beginning () (interactive)
-  (if (= (point) (progn (back-to-indentation) (point)))
-      (beginning-of-line)))
-(global-set-key (kbd "C-a") 'back-to-indentation-or-beginning)
-
-
-(browse-kill-ring-default-keybindings)
-
-; Toggle fullscreen and full height.
-; todo: work this in: http://bzg.fr/emacs-strip-tease.html
-(defun xen-toggle-fullscreen ()
-  "Toggle full screen on X11"
-  (interactive)
-  (when (eq window-system 'x)
-    (set-frame-parameter
-     nil 'fullscreen
-     (if (equal (frame-parameter nil 'fullscreen) 'fullheight) 'fullboth 'fullheight))))
-
-(global-set-key [f11] 'xen-toggle-fullscreen)
-
-(global-set-key [f12] 'xen-big-fringe-mode)
-
-
-(defvar xen-big-fringe-mode nil)
-(define-minor-mode xen-big-fringe-mode
-  "Minor mode to use big fringe in the current buffer."
-  :init-value nil
-  :global t
-  :variable xen-big-fringe-mode
-  :group 'editing-basics
-  (if (not xen-big-fringe-mode)
-      (fringe-mode nil)
-    (fringe-mode
-     (/ (- (frame-pixel-width)
-           (* 120 (frame-char-width)))
-        2))))
-
-; Add git flow extension.
-(require 'magit-gitflow)
-(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-
-; Add github pull request extension.
-(require 'magit-gh-pulls)
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
-
-
-; Activate flyspell and yas in magit commit buffer.
-(defun xen-magit-log-edit-mode-hook ()
-  (yas-minor-mode 1)
-  (flyspell-mode)
-)
-(add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
-
-; Add shortcut to open magit status buffer.
-(global-set-key (kbd "C-c C-g") 'magit-status)
-
 ; Let projectile show the magit status buffer when switching to a project.
 (defun xen-projectile-magit ()
   "Open magit when switching to project."
   (call-interactively 'magit-status)
   )
-
-; I just want the branch to have the same name as origin.
-(defun xen-magit-default-tracking-name
-  (remote branch)
-  "Use just the branch name for tracking branches."
-  branch)
-
-(helm-mode 1)
-; Bugfix..
-(require 'helm-aliases)
-(require 'helm-files)
-(define-key global-map (kbd "C-x b") 'helm-buffers-list)
-
-(define-key global-map [C-S-iso-lefttab] 'helm-swoop)
 
 (autoload 'projectile-project-p "projectile")
 (defun xen-find-file (&optional prefix)
@@ -557,7 +479,6 @@ or a marker."
 (eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
 (eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
 (eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
-(eval-after-load "magit" '(diminish 'magit-auto-revert-mode ""))
 (eval-after-load "company" '(diminish 'company-mode ""))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
