@@ -36,7 +36,18 @@
 
 (setq load-path (cons "~/.emacs.d/lib/" load-path))
 
-
+;;; Bindings.
+(require 'bind-key)
+;; TODO: use bind-key.
+(define-key global-map [delete] 'delete-char)
+(define-key global-map [M-delete] 'kill-word)
+(define-key global-map (kbd "C-S-Z") 'repeat)
+; Don't iconify on C-z.
+(global-unset-key (kbd "C-z"))
+;; (when (display-graphic-p)
+;;   (unbind-key "C-z"))
+
+
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -58,6 +69,18 @@
 (use-package google-this
   :diminish google-this-mode
   :init (google-this-mode))
+
+(use-package gtags
+  :diminish "G "
+  :config (progn
+            ;; Adjust the keymap.
+            (bind-key "M-," 'helm-gtags-find-rtag gtags-mode-map)
+            (bind-key "M-." 'helm-gtags-find-tag gtags-mode-map)
+            (bind-key "M-*" 'helm-gtags-pop-stack gtags-mode-map)
+            ;; Unbind some keys.
+            (unbind-key "<mouse-2>" gtags-mode-map)
+            (unbind-key "<mouse-3>" gtags-mode-map)
+            ))
 
 (use-package smartparens-config
   :diminish smartparens-mode
@@ -167,26 +190,7 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ;; http://www.emacswiki.org/emacs/AceJump  
 (define-key global-map (kbd "S-SPC") 'ace-jump-mode)
 
-(define-key global-map [delete] 'delete-char)
-(define-key global-map [M-delete] 'kill-word)
-(define-key global-map (kbd "C-S-Z") 'repeat)
-
 (browse-kill-ring-default-keybindings)
-
-; Don't iconify on C-z.
-(global-unset-key (kbd "C-z"))
-
-(require 'gtags)
-(add-hook 'gtags-mode-hook
-          #'(lambda()
-	      (diminish 'gtags-mode "G ")
-              (define-key gtags-mode-map [(meta \,)] 'helm-gtags-find-rtag)
-              (define-key gtags-mode-map [(meta .)] 'helm-gtags-find-tag)
-              (define-key gtags-mode-map [(meta *)] 'helm-gtags-pop-stack)
-              (define-key gtags-mode-map [(control t)] nil)
-              (define-key gtags-mode-map [mouse-2] nil)
-              (define-key gtags-mode-map [mouse-3] nil)
-              ))
 
 ; Toggle fullscreen and full height.
 ; todo: work this in: http://bzg.fr/emacs-strip-tease.html
