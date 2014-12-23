@@ -66,6 +66,9 @@
 ;;; Use use-package for loading pckages.
 (require 'use-package)
 
+(use-package ace-jump-mode
+  :bind ("S-SPC" . ace-jump-mode))
+
 (use-package google-this
   :diminish google-this-mode
   :init (google-this-mode))
@@ -187,8 +190,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
       (beginning-of-line)))
 (global-set-key (kbd "C-a") 'back-to-indentation-or-beginning)
 
-;; http://www.emacswiki.org/emacs/AceJump  
-(define-key global-map (kbd "S-SPC") 'ace-jump-mode)
 
 (browse-kill-ring-default-keybindings)
 
