@@ -430,8 +430,6 @@ or a marker."
 
 
 
-; Hide some minor-modes I don't need to be told is active.
-(diminish 'abbrev-mode "")
 ; These aren't yet loaded.
 (eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
 (eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
