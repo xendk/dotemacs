@@ -34,16 +34,13 @@
   #'(lambda()
       "Open ~/.emacs.d/init.el."
       (interactive)
-      (find-file "~/.emacs.d/init.el")
-      )
-  )
+      (find-file "~/.emacs.d/init.el")))
+
 (define-key xen-map (kbd "t")
   #'(lambda()
       "Open my Emacs TODO."
       (interactive)
-      (find-file "~/.emacs.d/TODO.org")
-      )
-)
+      (find-file "~/.emacs.d/TODO.org")))
 
 ; Toggle fullscreen and full height.
 ; todo: work this in: http://bzg.fr/emacs-strip-tease.html
@@ -114,8 +111,7 @@ Heavily based on `message-beginning-of-line' from Gnus."
 (defun xen-magit-log-edit-mode-hook ()
   "Activate yas and flyspell modes."
   (yas-minor-mode 1)
-  (flyspell-mode)
-)
+  (flyspell-mode))
 
 ; I just want the branch to have the same name as origin.
 (defun xen-magit-default-tracking-name
@@ -126,16 +122,58 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; Let projectile show the magit status buffer when switching to a project.
 (defun xen-projectile-magit ()
   "Open magit when switching to project."
-  (call-interactively 'magit-status)
-  )
+  (call-interactively 'magit-status))
 
 (defun xen-find-file (&optional prefix)
   "Find file, in project if Projectile is active or using helm normally"
   (interactive "P")
   (if (and (null prefix) (projectile-project-p))
       (helm-projectile)
-    (helm-for-files))
-  )
+    (helm-for-files)))
+
+; http://emacswiki.org/emacs/CopyingWholeLines
+;; duplicate current line
+(defun xen-duplicate-current-line (&optional n)
+  "duplicate current line, make more than 1 copy given a numeric argument"
+  (interactive "p")
+  (save-excursion
+    (let ((nb (or n 1))
+    	  (current-line (thing-at-point 'line)))
+      ;; when on last line, insert a newline first
+      (when (or (= 1 (forward-line 1)) (eq (point) (point-max)))
+    	(insert "\n"))
+
+      ;; now insert as many time as requested
+      (while (> n 0)
+    	(insert current-line)
+    	(decf n)))))
+
+;; Copy-paste to/from the outside.
+(defvar xen-paste-buffer "" "Local paste buffer.")
+(defun xen-paste ()
+ "Paste from outside."
+ (interactive)
+ ; x-selection-value returns nil when selection hasn't changed.
+ (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
+ (insert xen-paste-buffer)
+)
+
+(defun xen-paste-term ()
+ "Paste from outside in term-mode."
+ (interactive)
+ ; x-selection-value returns nil when selection hasn't changed.
+ (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
+ (term-send-raw-string xen-paste-buffer)
+)
+
+(defun xen-copy (start end)
+  "Copy to the outside.
+
+Copies the text from START to END."
+  (interactive "r")
+  (x-select-text (buffer-substring-no-properties start end))
+)
+
 
 (provide 'xen)
 ;;; xen.el ends here

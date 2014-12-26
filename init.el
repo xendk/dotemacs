@@ -42,16 +42,40 @@
 (define-key global-map [delete] 'delete-char)
 (define-key global-map [M-delete] 'kill-word)
 (define-key global-map (kbd "C-S-Z") 'repeat)
-; Don't iconify on C-z.
+
+;; Don't iconify on C-z.
 (global-unset-key (kbd "C-z"))
 ;; (when (display-graphic-p)
 ;;   (unbind-key "C-z"))
+
 (global-set-key [f11] 'xen-toggle-fullscreen)
 (global-set-key [f12] 'xen-big-fringe-mode)
 (global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
-; Add shortcut to open magit status buffer.
+
+;; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 (define-key global-map (kbd "C-x C-f") 'xen-find-file)
+
+;; http://www.emacswiki.org/emacs/WindowResize
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+
+(global-set-key (kbd "C-S-d") 'xen-duplicate-current-line)
+
+; As I never use C-v anyway, and its effect when i hit it confuses me,
+; why not bind it to pasting from outside (like the middle button
+; does)?
+(global-set-key (kbd "C-v") 'xen-paste)
+; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
+; above if not specifically bound, but let's make it explicit.
+(global-set-key (kbd "S-C-v") 'xen-paste)
+
+; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
+; order to limit the amount of different key combinations I should
+; remember for the same thing.
+(global-set-key (kbd "S-C-c") 'xen-copy)
 
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
@@ -77,14 +101,26 @@
 (use-package browse-kill-ring
   :init (browse-kill-ring-default-keybindings))
 
+(use-package diff-hl
+  :config (global-diff-hl-mode))
+
+(use-package drag-stuff
+  :config (progn
+            (setq drag-stuff-modifier '(meta shift))
+            (drag-stuff-global-mode)))
+
 (use-package drupal-mode
   :load-path "~/.emacs.d/drupal-mode/"
   :config (progn
             (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)))
 
-
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region))
+
+(use-package flycheck
+  ;; Enable flycheck globally.
+  :config (add-hook 'after-init-hook #'global-flycheck-mode)
+)
 
 (use-package google-this
   :diminish google-this-mode
@@ -115,6 +151,9 @@
   :config (progn
             (eval-after-load "projectile" '(bind-key "p" 'helm-projectile-switch-project projectile-command-map)))
   )
+
+(use-package hl-line
+  :config (global-hl-line-mode))
 
 (use-package magit
   :diminish magit-auto-revert-mode
@@ -299,8 +338,6 @@
     (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
 (require 'ace-jump-zap)
 
-; Enable flycheck globally.
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; Temporarily redefine eslint checker to use source-inplace, until
 ; it's fixed upstream.
@@ -330,11 +367,6 @@ See URL `https://github.com/nzakas/eslint'."
 (global-set-key [(XF86Forward)] 'winner-redo)
 
 
-; http://www.emacswiki.org/emacs/WindowResize
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ; http://www.emacswiki.org/emacs/WindMove
 (when (fboundp 'windmove-default-keybindings)
@@ -347,63 +379,6 @@ See URL `https://github.com/nzakas/eslint'."
 ; http://www.emacswiki.org/emacs/FrameMove
 (require 'framemove)
 (setq framemove-hook-into-windmove t)
-
-; http://emacswiki.org/emacs/CopyingWholeLines
-;; duplicate current line
-(defun duplicate-current-line (&optional n)
-  "duplicate current line, make more than 1 copy given a numeric argument"
-  (interactive "p")
-  (save-excursion
-    (let ((nb (or n 1))
-    	  (current-line (thing-at-point 'line)))
-      ;; when on last line, insert a newline first
-      (when (or (= 1 (forward-line 1)) (eq (point) (point-max)))
-    	(insert "\n"))
-
-      ;; now insert as many time as requested
-      (while (> n 0)
-    	(insert current-line)
-    	(decf n)))))
-
-(global-set-key (kbd "C-S-d") 'duplicate-current-line)
-
-; As I never use C-v anyway, and its effect when i hit it confuses me,
-; why not bind it to pasting from outside (like the middle button
-; does)?
-(global-set-key (kbd "C-v") 'xen-paste)
-; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
-; above if not specifically bound, but let's make it explicit.
-(global-set-key (kbd "S-C-v") 'xen-paste)
-(defvar xen-paste-buffer "" "Local paste buffer.")
-(defun xen-paste ()
- "Paste from outside."
- (interactive)
- ; x-selection-value returns nil when selection hasn't changed.
- (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
- (insert xen-paste-buffer)
-)
-
-(defun xen-paste-term ()
- "Paste from outside in term-mode."
- (interactive)
- ; x-selection-value returns nil when selection hasn't changed.
- (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
- (term-send-raw-string xen-paste-buffer)
-)
-
-; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
-; order to limit the amount of different key combinations I should
-; remember for the same thing.
-(global-set-key (kbd "S-C-c") 'xen-copy)
-(defun xen-copy (start end)
-  "Copy to the outside."
-  (interactive "r")
-  (x-select-text (buffer-substring-no-properties start end))
-)
-
-; drag-stuff mode.
-(setq drag-stuff-modifier '(meta shift))
-(drag-stuff-global-mode t)
 
 ; http://www.emacswiki.org/emacs/SwapRegions
 (defun swap-regions (beg1 end1 beg2 end2)
@@ -452,8 +427,8 @@ or a marker."
 
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
-(global-hl-line-mode 1)
-(global-diff-hl-mode 1)
+
+
 
 ; Hide some minor-modes I don't need to be told is active.
 (diminish 'abbrev-mode "")
