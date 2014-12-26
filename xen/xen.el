@@ -123,5 +123,19 @@ Heavily based on `message-beginning-of-line' from Gnus."
   "Use just the branch name for tracking branches."
   branch)
 
+; Let projectile show the magit status buffer when switching to a project.
+(defun xen-projectile-magit ()
+  "Open magit when switching to project."
+  (call-interactively 'magit-status)
+  )
+
+(defun xen-find-file (&optional prefix)
+  "Find file, in project if Projectile is active or using helm normally"
+  (interactive "P")
+  (if (and (null prefix) (projectile-project-p))
+      (helm-projectile)
+    (helm-for-files))
+  )
+
 (provide 'xen)
 ;;; xen.el ends here

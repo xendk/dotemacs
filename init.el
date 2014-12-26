@@ -51,6 +51,7 @@
 (global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
 ; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
+(define-key global-map (kbd "C-x C-f") 'xen-find-file)
 
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
@@ -81,6 +82,10 @@
   :config (progn
             (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)))
 
+
+(use-package expand-region
+  :bind ("C-S-SPC" . er/expand-region))
+
 (use-package google-this
   :diminish google-this-mode
   :init (google-this-mode))
@@ -97,11 +102,19 @@
             (unbind-key "<mouse-3>" gtags-mode-map)))
 
 (use-package helm
+  :diminish helm-mode
   :commands helm-mode
   :init (helm-mode 1)
   :bind (("C-x b" . helm-buffers-list)
-         ("<C-S-iso-lefttab>" . helm-swoop)
-         ))
+         ("<C-S-iso-lefttab>" . helm-swoop))
+  :config (progn
+            ;; Ressucect helm-browse-code
+            (load (locate-user-emacs-file "helm-compat.el"))))
+
+(use-package helm-projectile
+  :config (progn
+            (eval-after-load "projectile" '(bind-key "p" 'helm-projectile-switch-project projectile-command-map)))
+  )
 
 (use-package magit
   :diminish magit-auto-revert-mode
@@ -117,6 +130,15 @@
 (use-package magit-gh-pulls
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
+(use-package multiple-cursors
+  :bind (
+         ("C-<" . mc/mark-previous-like-this)
+         ("C->" . mc/mark-next-like-this)
+         ("C-M-m" . mc/mark-more-like-this-extended)
+         ("C-*" . mc/mark-all-like-this)
+         ("C-%" . mc/mark-all-in-region)
+         ("C-=" . mc/mark-all-like-this-dwim)))
+
 (use-package navorski
   :init (nav/defterminal
           guard
@@ -124,6 +146,17 @@
           :cwd (lambda (path) (locate-dominating-file path "Guardfile"))
           :interactive t
           ))
+
+
+(use-package projectile
+  :commands projectile-project-p
+  :diminish projectile-mode
+  :init (projectile-global-mode)
+  :config
+  (progn
+    (setq projectile-cache-file "~/.emacs.d/.projectile.cache")
+    (setq projectile-known-projects-file
+          "~/.emacs.d/.projectile-bookmarks.eld")))
 
 (use-package smartparens-config
   :diminish smartparens-mode
@@ -161,6 +194,11 @@
 (use-package xen
   :load-path "~/.emacs.d/xen/")
 
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :idle
+  (yas-reload-all))
+
 
 ;;; Old stuff in need of cleaning up.
 
@@ -177,41 +215,6 @@
 ;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized/")
 ;(require 'color-theme-solarized)
 
-; Let projectile show the magit status buffer when switching to a project.
-(defun xen-projectile-magit ()
-  "Open magit when switching to project."
-  (call-interactively 'magit-status)
-  )
-
-(autoload 'projectile-project-p "projectile")
-(defun xen-find-file (&optional prefix)
-  "Find file, in project if Projectile is active or using helm normally"
-  (interactive "P")
-  (if (and (null prefix) (projectile-project-p))
-      (helm-projectile)
-    (helm-for-files))
-  )
-
-(define-key global-map (kbd "C-x C-f") 'xen-find-file)
-
-;; Ressucect helm-browse-code
-(load (locate-user-emacs-file "helm-compat.el"))
-
-(require 'helm-projectile)
-
-;; Prefer to have buffers first.
-(eval-after-load "helm-projectile" '(defun helm-projectile ()
-  "Use projectile with Helm instead of ido."
-  (interactive)
-  (let ((helm-ff-transformer-show-only-basename nil))
-    (helm :sources '(helm-source-projectile-buffers-list
-                     helm-source-projectile-files-list
-                     helm-source-projectile-recentf-list)
-          :buffer "*helm projectile*"
-          :prompt (projectile-prepend-project-name "pattern: "))))
-)
-
-(eval-after-load "helm-projectile" '(define-key projectile-command-map (kbd "p") 'helm-projectile-switch-project))
 
 ;; TODO: https://github.com/rolandwalker/fixmee
 
@@ -225,21 +228,9 @@
 ; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
 ; http://emacsrocks.com/
 
-(require 'multiple-cursors)
-
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-M-m") 'mc/mark-more-like-this-extended)
-(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-%") 'mc/mark-all-in-region)
-(global-set-key (kbd "C-=") 'mc/mark-all-like-this-dwim)
-
-(require 'expand-region)
-(global-set-key (kbd "C-S-SPC") 'er/expand-region)
 
 (defun xen-php-mark-next-accessor ()
-  "Presumes that current symbol is already marked, skips over one
-arrow and marks next symbol."
+  "Presumes that current symbol is already marked, skips over one arrow and marks next symbol."
   (interactive)
   (when (use-region-p)
     (when (< (point) (mark))
@@ -299,10 +290,6 @@ arrow and marks next symbol."
 
 ; Writable grep buffer.
 (require 'wgrep)
-
-(require 'yasnippet)
-;; Initialize yasnippet. It's enabled per mode.
-(yas/reload-all) 
 
 ; End EmacsRocks
 
@@ -469,13 +456,8 @@ or a marker."
 (global-diff-hl-mode 1)
 
 ; Hide some minor-modes I don't need to be told is active.
-(diminish 'undo-tree-mode "")
-(diminish 'google-this-mode "")
-(diminish 'helm-mode "")
-(diminish 'yas-minor-mode "")
 (diminish 'abbrev-mode "")
 ; These aren't yet loaded.
-(eval-after-load "smartparens" '(diminish 'smartparens-mode ""))
 (eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
 (eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
 (eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
