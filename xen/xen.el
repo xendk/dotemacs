@@ -174,6 +174,205 @@ Copies the text from START to END."
   (x-select-text (buffer-substring-no-properties start end))
 )
 
+;; Pairing.
+(defun xen-open ()
+  "Open new line, with proper indentation."
+  (interactive)
+  (call-interactively 'move-beginning-of-line)
+  (call-interactively 'open-line)
+  (indent-for-tab-command)
+  )
+
+(defun xen-paired-delete (arg &optional killp)
+  "Deletes the matching pair if deleting a pair."
+  (interactive "*p\nP")
+  (let*
+      (
+       (here (point))
+       (newmark (xen-find-matching here))
+       )
+    (if (and newmark (< 0 newmark))
+        (progn
+          (save-excursion
+            (if (< here newmark)
+                (progn
+                  (goto-char newmark)
+                  (delete-backward-char 1)
+                  (goto-char here)
+                  (call-interactively 'delete-char)
+                  (setq newmark (- newmark 2))
+                  )
+              (progn
+                (goto-char newmark)
+                (delete-char 1)
+                (goto-char (- here 1))
+                (call-interactively 'delete-char)
+                )
+              )
+            )
+
+          (push-mark newmark nil t) ; todo: doesn't work? or does it?
+          )
+      (call-interactively 'delete-char (list arg killp))
+      )
+    )
+  )
+
+(defun xen-paired-delete-backward (arg &optional killp)
+  "Deletes the matching pair if deleting a pair."
+  (interactive "*p\nP")
+  (let*
+      (
+       (here (point))
+       (newmark (xen-find-matching (- here 1)))
+       )
+    (if (and newmark (< 0 newmark))
+        (progn
+          (save-excursion
+            (if (< here newmark)
+                (progn
+                  (goto-char newmark)
+                  (delete-backward-char 1)
+                  (goto-char here)
+                  (call-interactively 'delete-backward-char killp)
+                  (setq newmark (- newmark 2))
+                  )
+              (progn
+                (goto-char newmark)
+                (delete-char 1)
+                (goto-char (- here 1))
+                (call-interactively 'delete-backward-char killp)
+                )
+              )
+            )
+
+          (push-mark newmark nil t)
+          )
+      (call-interactively 'backward-delete-char-untabify killp)
+      )
+    )
+  )
+
+(put 'xen-paired-delete-backward 'delete-selection 'supersede)
+(put 'xen-paired-delete 'delete-selection 'supersede)
+
+(defvar xen-delete-char-pairwise-alist '(
+                                         (?" ?" 0)
+                                         (?' ?' 0)
+                                         (?{ ?} 1)
+                                         (?} ?{ -1)
+                                         (?( ?) 1)
+                                         (?) ?( -1)
+                                         (?[ ?] 1)
+                                         (?] ?[ -1)
+))
+
+(defun xen-find-matching (pos)
+  (let
+      (newmark)
+    (progn
+      (save-excursion
+        (progn
+          (goto-char pos)
+          (let*
+              ((char (following-char))
+               (pairing (assq char xen-delete-char-pairwise-alist))
+               (deactivate-mark)
+               )
+            (if pairing
+                (let
+                    ((apair (nth 0 pairing))
+                     (bpair (nth 1 pairing))
+                     (direction (nth 2 pairing)))
+                  (if (= direction 1)
+                      (progn ; forward
+                                        ; TODO scan-lists chokes on mismached..
+                        (setq newmark (scan-lists pos 1 0))
+(message (string newmark))
+                        (if (= (char-before newmark) bpair) () (setq newmark nil))
+                        )
+
+                    (if (= direction -1)
+                        (progn ; backwards
+                          (setq newmark (scan-lists pos -1 1))
+                          (if (= (char-after newmark) bpair) () (setq newmark nil))
+                          )
+                      (progn ; figure it out
+                        (let (
+                              (f (get-text-property (- pos 1) 'face))
+                              (f2 (get-text-property (+ pos 1) 'face))
+                              )
+                          (progn
+                                        ; TODO check the other direction and cop out if it's comment/string too. Think it's done
+                                        ; TODO doesn't deal well with backspace in the middle of ''. Should be fixed by killing forward-char below.
+
+                            (setq direction (if (memq f xen-prog-text-faces)
+                                                 (progn
+                                                   (if (memq f2 xen-prog-text-faces) 0 -1) ; Check the other direction and cop out if it too is a comment
+                                                   )
+                                              1
+                                              )
+                                  )
+                            ;(message (string direction))
+                            )
+                          )
+                        (setq newmark
+                              (if (= direction 1)
+                                  (progn
+                                    ;(forward-char)
+                                    (re-search-forward (concat "[^\\]" (list bpair))))
+                                (if (= direction -1)
+                                    (progn
+                                      (+ (re-search-backward (concat "[^\\]" (list bpair))) 1)
+                                      )
+                                  (progn ; 0 case, cop out
+                                   (setq newmark nil)
+                                   )
+                                  )
+                                )
+                              )
+                        )
+                      )
+                    )
+                  )
+              )
+            )
+          )
+        newmark
+        )
+      )
+    )
+  )
+
+; This face hackery is stolen from flyspell.
+(defvar xen-prog-text-faces
+  '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
+  "Faces corresponding to text in programming-mode buffers.")
+
+
+(defun xen-char-syntax ()
+"Shows the syntax class of the character following point."
+(interactive)
+(message (char-to-string (char-syntax (char-after)))))
+
+(defun xen-tab ()
+  "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
+  (interactive "*")
+  (if (or (bolp) ; Beginning of line
+          (region-active-p) ; We have an active region
+          (eq (char-syntax (char-before)) ?\ ) ; Or whitespace
+          )
+      (indent-for-tab-command)
+    )
+  )
+
+;; Multi-term.
+(defun xen-multi-term-dedicated-toggle-and-select ()
+  "Toggle dedicated `multi-term' window and select it."
+  (interactive)
+  (if (multi-term-dedicated-exist-p)
+      (multi-term-dedicated-close)
+    (progn (multi-term-dedicated-open) (multi-term-dedicated-select))))
 
 (provide 'xen)
 ;;; xen.el ends here

@@ -34,7 +34,8 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
 
-(setq load-path (cons "~/.emacs.d/lib/" load-path))
+;; Add ~/.emacs.d/lib to load-path.
+(add-to-list 'load-path "~/.emacs.d/lib/")
 
 ;;; Bindings.
 ;(require 'bind-key)
@@ -77,6 +78,10 @@
 ; remember for the same thing.
 (global-set-key (kbd "S-C-c") 'xen-copy)
 
+(global-set-key [?\C-x ?\C-b] 'buffer-menu)
+
+(global-set-key (kbd "C-!") 'xen-multi-term-dedicated-toggle-and-select)
+
 ;;; Aliases
 ;; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -101,6 +106,14 @@
 (use-package browse-kill-ring
   :init (browse-kill-ring-default-keybindings))
 
+(use-package column-enforce-mode
+  :commands column-enforce-mode
+  :diminish "")
+
+(use-package company
+  :diminish ""
+  :config (global-company-mode))
+
 (use-package diff-hl
   :config (global-diff-hl-mode))
 
@@ -114,6 +127,10 @@
   :config (progn
             (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)))
 
+(use-package eldoc
+  :commands eldoc-mode
+  :diminish "")
+
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region))
 
@@ -121,6 +138,10 @@
   ;; Enable flycheck globally.
   :config (add-hook 'after-init-hook #'global-flycheck-mode)
 )
+
+(use-package flyspell
+  :commands flyspell-mode
+  :diminish "")
 
 (use-package google-this
   :diminish google-this-mode
@@ -152,8 +173,17 @@
             (eval-after-load "projectile" '(bind-key "p" 'helm-projectile-switch-project projectile-command-map)))
   )
 
+(use-package highlight-symbol
+  :commands highlight-symbol-mode
+  :diminish "")
+
 (use-package hl-line
   :config (global-hl-line-mode))
+
+;; Properly handle annotations in java-mode.
+(use-package java-mode-indent-annotations
+  :commands java-mode-indent-annotations-setup
+  :init (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup))
 
 (use-package magit
   :diminish magit-auto-revert-mode
@@ -168,6 +198,9 @@
 ; Add github pull request extension.
 (use-package magit-gh-pulls
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+
+(use-package multi-term
+  :commands multi-term-dedicated-exist-p)
 
 (use-package multiple-cursors
   :bind (
@@ -186,6 +219,8 @@
           :interactive t
           ))
 
+(use-package org
+  :mode "\\.org\\'")
 
 (use-package projectile
   :commands projectile-project-p
@@ -224,6 +259,15 @@
             ;; (require 'smartparens-html)
             )
   )
+
+(use-package term
+  :defer
+  ;; Get paste working in (multi-)term-mode.
+  :config (add-hook 'term-mode-hook
+                    (lambda ()
+                      (define-key term-raw-map (kbd "C-y") 'term-paste)
+                      (define-key term-raw-map (kbd "C-v") 'xen-paste-term)
+                      (define-key term-raw-map (kbd "S-C-v") 'xen-paste-term))))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -428,210 +472,8 @@ or a marker."
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
 
-
-
-; These aren't yet loaded.
-(eval-after-load "highlight-symbol" '(diminish 'highlight-symbol-mode ""))
-(eval-after-load "eldoc" '(diminish 'eldoc-mode ""))
-(eval-after-load "flyspell" '(diminish 'flyspell-mode ""))
-(eval-after-load "company" '(diminish 'company-mode ""))
-
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
 ;; *** DRUPAL ***
 
-(defun xen-open ()
-  "Open new line, with proper indentation."
-  (interactive)
-  (call-interactively 'move-beginning-of-line)
-  (call-interactively 'open-line)
-  (indent-for-tab-command)
-  )
-
-(defun xen-paired-delete (arg &optional killp)
-  "Deletes the matching pair if deleting a pair."
-  (interactive "*p\nP")
-  (let*
-      (
-       (here (point))
-       (newmark (xen-find-matching here))
-       )
-    (if (and newmark (< 0 newmark))
-        (progn
-          (save-excursion
-            (if (< here newmark)
-                (progn
-                  (goto-char newmark)
-                  (delete-backward-char 1)
-                  (goto-char here)
-                  (call-interactively 'delete-char)
-                  (setq newmark (- newmark 2))
-                  )
-              (progn
-                (goto-char newmark)
-                (delete-char 1)
-                (goto-char (- here 1))
-                (call-interactively 'delete-char)
-                )
-              )
-            )
-
-          (push-mark newmark nil t) ; todo: doesn't work? or does it?
-          )
-      (call-interactively 'delete-char (list arg killp))
-      )
-    )
-  )
-
-(defun xen-paired-delete-backward (arg &optional killp)
-  "Deletes the matching pair if deleting a pair."
-  (interactive "*p\nP")
-  (let*
-      (
-       (here (point))
-       (newmark (xen-find-matching (- here 1)))
-       )
-    (if (and newmark (< 0 newmark))
-        (progn
-          (save-excursion
-            (if (< here newmark)
-                (progn
-                  (goto-char newmark)
-                  (delete-backward-char 1)
-                  (goto-char here)
-                  (call-interactively 'delete-backward-char killp)
-                  (setq newmark (- newmark 2))
-                  )
-              (progn
-                (goto-char newmark)
-                (delete-char 1)
-                (goto-char (- here 1))
-                (call-interactively 'delete-backward-char killp)
-                )
-              )
-            )
-
-          (push-mark newmark nil t)
-          )
-      (call-interactively 'backward-delete-char-untabify killp)
-      )
-    )
-  )
-
-(put 'xen-paired-delete-backward 'delete-selection 'supersede)
-(put 'xen-paired-delete 'delete-selection 'supersede)
-
-(defvar xen-delete-char-pairwise-alist '(
-                                         (?" ?" 0)
-                                         (?' ?' 0)
-                                         (?{ ?} 1)
-                                         (?} ?{ -1)
-                                         (?( ?) 1)
-                                         (?) ?( -1)
-                                         (?[ ?] 1)
-                                         (?] ?[ -1)
-))
-
-(defun xen-find-matching (pos)
-  (let
-      (newmark)
-    (progn
-      (save-excursion
-        (progn
-          (goto-char pos)
-          (let*
-              ((char (following-char))
-               (pairing (assq char xen-delete-char-pairwise-alist))
-               (deactivate-mark)
-               )
-            (if pairing
-                (let
-                    ((apair (nth 0 pairing))
-                     (bpair (nth 1 pairing))
-                     (direction (nth 2 pairing)))
-                  (if (= direction 1)
-                      (progn ; forward
-                                        ; TODO scan-lists chokes on mismached..
-                        (setq newmark (scan-lists pos 1 0))
-(message (string newmark))
-                        (if (= (char-before newmark) bpair) () (setq newmark nil))
-                        )
-
-                    (if (= direction -1)
-                        (progn ; backwards
-                          (setq newmark (scan-lists pos -1 1))
-                          (if (= (char-after newmark) bpair) () (setq newmark nil))
-                          )
-                      (progn ; figure it out
-                        (let (
-                              (f (get-text-property (- pos 1) 'face))
-                              (f2 (get-text-property (+ pos 1) 'face))
-                              )
-                          (progn
-                                        ; TODO check the other direction and cop out if it's comment/string too. Think it's done
-                                        ; TODO doesn't deal well with backspace in the middle of ''. Should be fixed by killing forward-char below.
-
-                            (setq direction (if (memq f xen-prog-text-faces)
-                                                 (progn
-                                                   (if (memq f2 xen-prog-text-faces) 0 -1) ; Check the other direction and cop out if it too is a comment
-                                                   )
-                                              1
-                                              )
-                                  )
-                            ;(message (string direction))
-                            )
-                          )
-                        (setq newmark
-                              (if (= direction 1)
-                                  (progn
-                                    ;(forward-char)
-                                    (re-search-forward (concat "[^\\]" (list bpair))))
-                                (if (= direction -1)
-                                    (progn
-                                      (+ (re-search-backward (concat "[^\\]" (list bpair))) 1)
-                                      )
-                                  (progn ; 0 case, cop out
-                                   (setq newmark nil)
-                                   )
-                                  )
-                                )
-                              )
-                        )
-                      )
-                    )
-                  )
-              )
-            )
-          )
-        newmark
-        )
-      )
-    )
-  )
-
-(defun xen-char-syntax ()
-"Shows the syntax class of the character following point."
-(interactive)
-(message (char-to-string (char-syntax (char-after)))))
-
-(defun xen-tab ()
-  "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
-  (interactive "*")
-  (if (or (bolp) ; Beginning of line
-          (region-active-p) ; We have an active region
-          (eq (char-syntax (char-before)) ?\ ) ; Or whitespace
-          )
-      (indent-for-tab-command)
-    )
-  )
-
-; This face hackery is stolen from flyspell.
-(defvar xen-prog-text-faces
-  '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
-  "Faces corresponding to text in programming-mode buffers.")
 
 (add-to-list 'load-path "~/.emacs.d/geben/")
 (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
@@ -675,7 +517,6 @@ or a marker."
   (yas-minor-mode 1)
   (gtags-mode)
   (column-enforce-mode)
-  (diminish 'column-enforce-mode "")
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
@@ -684,7 +525,6 @@ or a marker."
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
   (column-enforce-mode)
-  (diminish 'column-enforce-mode "")
   )
 
 (add-hook 'js2-mode-hook 'xen-js2-mode-hook)
@@ -692,7 +532,6 @@ or a marker."
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
   (column-enforce-mode)
-  (diminish 'column-enforce-mode "")
   )
 
 (add-hook 'css-mode-hook 'xen-css-mode-hook)
@@ -700,45 +539,14 @@ or a marker."
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
   (column-enforce-mode)
-  (diminish 'column-enforce-mode "")
   )
 
 
-(autoload 'multi-term-dedicated-exist-p "multi-term")
-(defun multi-term-dedicated-toggle-and-select ()
-  "Toggle dedicated `multi-term' window and select it."
-  (interactive)
-  (if (multi-term-dedicated-exist-p)
-      (multi-term-dedicated-close)
-    (progn (multi-term-dedicated-open) (multi-term-dedicated-select))))
-
-(global-set-key (kbd "C-!") 'multi-term-dedicated-toggle-and-select)
-
-;; Get paste working in (multi-)term-mode.
-(add-hook 'term-mode-hook (lambda ()
-                            (define-key term-raw-map (kbd "C-y") 'term-paste)
-                            (define-key term-raw-map (kbd "C-v") 'xen-paste-term)
-                            (define-key term-raw-map (kbd "S-C-v") 'xen-paste-term)
-                            ))
-
-
-; To make fill-paragraph work with doxygen comments.
-;; (defun php-doc-paragraph-boundaries ()
-;;   (setq paragraph-separate "^[ \t]*\\(\\(/[/\\*]+\\)\\|\\(\\*+/\\)\\|\\(\\*?\\)\\|\\(\\*?[ \t]*@[[:alpha:]]+\\([ \t]+.*\\)?\\)\\)[ \t]*$")
-;;   (setq paragraph-start (symbol-value 'paragraph-separate)))
-
-;; (add-hook 'php-mode-user-hook 'php-doc-paragraph-boundaries)
-
-(global-set-key [?\C-x ?\C-b] 'buffer-menu)
 (defun my-ruby-mode-hook ()
   (xen-coding-common-bindings)
   (yas-minor-mode 1)
   )
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
-
-;; Properly handle annotations in java-mode.
-(require 'java-mode-indent-annotations)
-(add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
 
 (provide 'init)
 ;;; init.el ends here
