@@ -103,6 +103,10 @@
 (use-package ace-jump-mode
   :bind ("S-SPC" . ace-jump-mode))
 
+(use-package ace-jump-zap
+  :config (progn (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
+                 (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
+
 (use-package browse-kill-ring
   :init (browse-kill-ring-default-keybindings))
 
@@ -136,13 +140,34 @@
   :bind ("C-S-SPC" . er/expand-region))
 
 (use-package flycheck
-  ;; Enable flycheck globally.
-  :config (add-hook 'after-init-hook #'global-flycheck-mode)
+  ;; Enable flycheck globally, doing it this way delays the setup to
+  ;; after everything is loaded..
+  :config (progn (add-hook 'after-init-hook #'global-flycheck-mode)
+                 ;; Temporarily redefine eslint checker to use
+                 ;; source-inplace, until it's fixed upstream.
+                 (flycheck-define-checker javascript-eslint
+                   "A JavaScript syntax and style checker using eslint.
+
+See URL `https://github.com/nzakas/eslint'."
+                   :command ("eslint" "--format=compact"
+                             (config-file "--config" flycheck-eslintrc)
+                             (option "--rulesdir" flycheck-eslint-rulesdir)
+                             source-inplace)
+                   :error-patterns
+                   ((warning line-start (file-name)
+                             ": line " line ", col " column ", Warning - " (message) line-end)
+                    (error line-start (file-name)
+                           ": line " line ", col " column ", Error - " (message) line-end))
+                   :modes (js-mode js2-mode js3-mode)))
 )
 
 (use-package flyspell
   :commands flyspell-mode
   :diminish "")
+
+;; http://www.emacswiki.org/emacs/FrameMove
+(use-package framemove
+  :config (setq framemove-hook-into-windmove t))
 
 (use-package google-this
   :diminish google-this-mode
@@ -275,6 +300,22 @@
   :init (progn
           (global-undo-tree-mode)))
 
+;; http://www.emacswiki.org/emacs/WindMove
+(use-package windmove
+  :config (progn
+            (windmove-default-keybindings)
+             ;; Make windmove work in org-mode:
+            (add-hook 'org-shiftup-final-hook 'windmove-up)
+            (add-hook 'org-shiftleft-final-hook 'windmove-left)
+            (add-hook 'org-shiftdown-final-hook 'windmove-down)
+            (add-hook 'org-shiftright-final-hook 'windmove-right)))
+
+;; http://www.emacswiki.org/emacs/WinnerMode
+(use-package winner
+  :config (progn (winner-mode)
+                 (global-set-key [(XF86Back)] 'winner-undo)
+                 (global-set-key [(XF86Forward)] 'winner-redo)))
+
 (use-package xen
   :load-path "~/.emacs.d/xen/")
 
@@ -377,53 +418,8 @@
 
 ; End EmacsRocks
 
-(eval-after-load 'ace-jump-zap
-  '(progn
-    (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
-    (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
-(require 'ace-jump-zap)
-
-
-; Temporarily redefine eslint checker to use source-inplace, until
-; it's fixed upstream.
-(eval-after-load "flycheck" '(flycheck-define-checker javascript-eslint
-  "A JavaScript syntax and style checker using eslint.
-
-See URL `https://github.com/nzakas/eslint'."
-  :command ("eslint" "--format=compact"
-            (config-file "--config" flycheck-eslintrc)
-            (option "--rulesdir" flycheck-eslint-rulesdir)
-            source-inplace)
-  :error-patterns
-  ((warning line-start (file-name)
-            ": line " line ", col " column ", Warning - " (message) line-end)
-   (error line-start (file-name)
-          ": line " line ", col " column ", Error - " (message) line-end))
-  :modes (js-mode js2-mode js3-mode))
-)
-
 ; Trying realgud.
 (add-to-list 'load-path "~/.emacs.d/emacs-dbgr/")
-
-; http://www.emacswiki.org/emacs/WinnerMode
-(when (fboundp 'winner-mode)
-  (winner-mode 1))
-(global-set-key [(XF86Back)] 'winner-undo)
-(global-set-key [(XF86Forward)] 'winner-redo)
-
-
-
-; http://www.emacswiki.org/emacs/WindMove
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
- ;; Make windmove work in org-mode:
-(add-hook 'org-shiftup-final-hook 'windmove-up)
-(add-hook 'org-shiftleft-final-hook 'windmove-left)
-(add-hook 'org-shiftdown-final-hook 'windmove-down)
-(add-hook 'org-shiftright-final-hook 'windmove-right)
-; http://www.emacswiki.org/emacs/FrameMove
-(require 'framemove)
-(setq framemove-hook-into-windmove t)
 
 ; http://www.emacswiki.org/emacs/SwapRegions
 (defun swap-regions (beg1 end1 beg2 end2)
