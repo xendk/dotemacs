@@ -374,5 +374,21 @@ Copies the text from START to END."
       (multi-term-dedicated-close)
     (progn (multi-term-dedicated-open) (multi-term-dedicated-select))))
 
+(defun xen-mark-lines ()
+  "Mark the current line, or expand the selection to another line.
+
+Actually shrinks the region if the point is at the start of the region."
+  (interactive)
+  (let ((start (point)))
+    (progn
+      (if (not (region-active-p))
+          (progn
+            (beginning-of-line)
+            (set-mark (point))
+            (goto-char start)
+            ))
+      (end-of-line)
+      (forward-char))))
+
 (provide 'xen)
 ;;; xen.el ends here
