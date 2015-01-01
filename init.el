@@ -82,9 +82,16 @@
 
 (global-set-key (kbd "C-!") 'xen-multi-term-dedicated-toggle-and-select)
 
-;;; Aliases
+;;; Aliases and advices
 ;; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(defadvice show-paren-function (after my-echo-paren-matching-line activate)
+  "If a matching paren is off-screen, echo the matching line."
+  (when (char-equal (char-syntax (char-before (point))) ?\))
+    (let ((matching-text (blink-matching-open)))
+      (when matching-text
+        (message matching-text)))))
 
 
 ;;; Packages.
@@ -327,12 +334,6 @@ See URL `https://github.com/nzakas/eslint'."
 
 ;;; Old stuff in need of cleaning up.
 
-(defadvice show-paren-function (after my-echo-paren-matching-line activate)
-  "If a matching paren is off-screen, echo the matching line."
-  (when (char-equal (char-syntax (char-before (point))) ?\))
-    (let ((matching-text (blink-matching-open)))
-      (when matching-text
-        (message matching-text)))))
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
