@@ -333,5 +333,65 @@ Actually shrinks the region if the point is at the start of the region."
       (end-of-line)
       (forward-char))))
 
+(defun xen-coding-common-bindings ()
+  "Common bindings and minor-modes for coding."
+  (local-set-key (kbd "C-o") 'xen-open)
+  (local-set-key [return] 'newline-and-indent)
+  (local-set-key [backspace] 'xen-paired-delete-backward)
+  (local-set-key [delete] 'xen-paired-delete)
+  (local-set-key [tab] 'xen-tab)
+  (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
+  (local-set-key [C-tab] 'helm-browse-code)
+  (highlight-symbol-mode)
+  (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
+  (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
+  (local-set-key (kbd "M-<up>") 'flycheck-previous-error)
+  (local-set-key (kbd "M-<down>") 'flycheck-next-error)
+  (flyspell-prog-mode)
+)
+
+;; expand-region stuff.
+(defun xen-php-mark-next-accessor ()
+  "Presumes that current symbol is already marked, skips over one arrow and marks next symbol."
+  (interactive)
+  (when (use-region-p)
+    (when (< (point) (mark))
+      (exchange-point-and-mark))
+    (let ((symbol-regexp "\\s_\\|\\sw"))
+      (when (looking-at "->")
+        (forward-char 2)
+        (skip-syntax-forward "_w")
+        (exchange-point-and-mark)))))
+
+(defun xen-php-mark-method-call-or-array ()
+  "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
+  (interactive)
+  (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
+    (when (or (looking-at symbol-regexp)
+              (looking-back symbol-regexp))
+      (skip-syntax-backward "_w.")
+      (set-mark (point))
+      (while (looking-at symbol-regexp)
+        (forward-char))
+      (if (looking-at "(\\|\\[")
+          (forward-list))
+      (exchange-point-and-mark))))
+
+(defun xen-php-mode-expansions ()
+  "My expand-region setup for php-mode,"
+  (make-variable-buffer-local 'er/try-expand-list)
+  (setq er/try-expand-list '(er/mark-word er/mark-symbol er/mark-symbol-with-prefix xen-php-mark-next-accessor xen-php-mark-method-call-or-array er/mark-comment er/mark-comment-block er/mark-inside-quotes er/mark-outside-quotes er/mark-inside-pairs er/mark-outside-pairs)))
+
+;; Geben hackery.
+(defun xen-geben-open ()
+  "Open the current buffer in geben."
+  (interactive)
+  (progn
+    (let ((geben-current-session (car geben-sessions)))
+      (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name)))
+      )
+    )
+  )
+
 (provide 'xen)
 ;;; xen.el ends here

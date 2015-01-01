@@ -119,6 +119,13 @@
 (use-package browse-kill-ring
   :init (browse-kill-ring-default-keybindings))
 
+(use-package css-mode
+  :commands css-mode
+  :config (add-hook
+           'css-mode-hook
+           (lambda () (xen-coding-common-bindings)
+             (yas-minor-mode 1))))
+
 (use-package column-enforce-mode
   :commands column-enforce-mode
   :diminish "")
@@ -146,7 +153,8 @@
   :diminish "")
 
 (use-package expand-region
-  :bind ("C-S-SPC" . er/expand-region))
+  :bind ("C-S-SPC" . er/expand-region)
+  :config (add-hook 'php-mode-hook 'xen-php-mode-expansions))
 
 (use-package flycheck
   ;; Enable flycheck globally, doing it this way delays the setup to
@@ -177,6 +185,10 @@ See URL `https://github.com/nzakas/eslint'."
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
   :config (setq framemove-hook-into-windmove t))
+
+(use-package geben
+  :commands geben
+  :load-path "~/.emacs.d/geben/")
 
 (use-package google-this
   :diminish google-this-mode
@@ -220,6 +232,20 @@ See URL `https://github.com/nzakas/eslint'."
   :commands java-mode-indent-annotations-setup
   :init (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup))
 
+(use-package js
+  :commands js-mode
+  :config (add-hook
+           'js-mode-hook
+           (lambda () (xen-coding-common-bindings)
+             (yas-minor-mode 1))))
+
+(use-package lisp-mode
+  :commands emacs-lisp-mode
+  :config (add-hook
+           'emacs-lisp-mode-hook
+           (lambda () (xen-coding-common-bindings)
+             (yas-minor-mode 1))))
+
 (use-package magit
   :diminish magit-auto-revert-mode
   :init (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
@@ -257,6 +283,15 @@ See URL `https://github.com/nzakas/eslint'."
 (use-package org
   :mode "\\.org\\'")
 
+(use-package php-mode
+  :commands php-mode
+  :config (add-hook
+           'php-mode-hook
+           (lambda () (xen-coding-common-bindings)
+             (modify-syntax-entry ?_ "_" php-mode-syntax-table)
+             (yas-minor-mode 1)
+             (gtags-mode))))
+
 (use-package projectile
   :commands projectile-project-p
   :diminish projectile-mode
@@ -267,13 +302,24 @@ See URL `https://github.com/nzakas/eslint'."
     (setq projectile-known-projects-file
           "~/.emacs.d/.projectile-bookmarks.eld")))
 
+(use-package ruby-mode
+  :commands ruby-mode
+  :config (add-hook
+           'ruby-mode-hook
+           (lambda () (xen-coding-common-bindings)
+             (yas-minor-mode 1))))
+
+;; prog-mode is defined in simple.el.
+(use-package simple
+  :init (add-hook 'prog-mode-hook #'eldoc-mode))
+
 (use-package smartparens-config
   :diminish smartparens-mode
   :init (progn
           (smartparens-global-mode 1)
           (show-smartparens-global-mode 1))
   :config (progn
-            (sp-pair "'" nil :unless '(sp-point-after-word-p))
+            (sp-pair "" nil :unless '(sp-point-after-word-p))
             ;; When pressing return as the first thing after inserting
             ;; a { or (, add another and indent.
             (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
@@ -309,6 +355,9 @@ See URL `https://github.com/nzakas/eslint'."
   :init (progn
           (global-undo-tree-mode)))
 
+; Writable grep buffer.
+(use-package wgrep)
+
 ;; http://www.emacswiki.org/emacs/WindMove
 (use-package windmove
   :config (progn
@@ -334,8 +383,7 @@ See URL `https://github.com/nzakas/eslint'."
   (yas-reload-all))
 
 
-;;; Old stuff in need of cleaning up.
-
+;;; Old comments left around...
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
 
@@ -350,89 +398,10 @@ See URL `https://github.com/nzakas/eslint'."
 ;; https://gist.github.com/846766
 ;; https://github.com/emacsmirror/s
 
-; Start EmacsRocks
 ; Really cool stuff: https://github.com/magnars
 ; From these:
 ; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
 ; http://emacsrocks.com/
-
-
-(defun xen-php-mark-next-accessor ()
-  "Presumes that current symbol is already marked, skips over one arrow and marks next symbol."
-  (interactive)
-  (when (use-region-p)
-    (when (< (point) (mark))
-      (exchange-point-and-mark))
-    (let ((symbol-regexp "\\s_\\|\\sw"))
-      (when (looking-at "->")
-        (forward-char 2)
-        (skip-syntax-forward "_w")
-        (exchange-point-and-mark)))))
-
-(defun xen-php-mark-method-call-or-array ()
-  "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
-  (interactive)
-  (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
-    (when (or (looking-at symbol-regexp)
-              (looking-back symbol-regexp))
-      (skip-syntax-backward "_w.")
-      (set-mark (point))
-      (while (looking-at symbol-regexp)
-        (forward-char))
-      (if (looking-at "(\\|\\[")
-          (forward-list))
-      (exchange-point-and-mark))))
-
-(defun php-mode-expansions ()
-      (make-variable-buffer-local 'er/try-expand-list)
-      (setq er/try-expand-list '(er/mark-word er/mark-symbol er/mark-symbol-with-prefix xen-php-mark-next-accessor xen-php-mark-method-call-or-array er/mark-comment er/mark-comment-block er/mark-inside-quotes er/mark-outside-quotes er/mark-inside-pairs er/mark-outside-pairs)))
-
-(add-hook 'php-mode-hook 'php-mode-expansions)
-(add-hook 'prog-mode-hook #'eldoc-mode)
-
-; Writable grep buffer.
-(require 'wgrep)
-
-; End EmacsRocks
-
-; Trying realgud.
-(add-to-list 'load-path "~/.emacs.d/emacs-dbgr/")
-
-; http://www.emacswiki.org/emacs/SwapRegions
-(defun swap-regions (beg1 end1 beg2 end2)
-  "Swap region between BEG1 and END1 with region BEG2 and END2.
-
-For the first region, mark the first region and set mark at
-point.  The second region only needs to be marked normally.
-Again, set the mark at the beginning and end of the first region,
-then mark the second region with mark and point.
-
-The order of the two regions in the buffer doesn't matter.
-Either one can precede the other.  However, the regions can not
-be swapped if they overlap.
-
-All arguments can either be a number for a position in the buffer
-or a marker."
-  (interactive
-   (if (< (length mark-ring) 2)
-       (error "Not enough in mark-ring to swap a region")
-     (let ((region (list (region-beginning) (region-end)))
-	   (marks (sort (list (marker-position (car mark-ring))
-			      (marker-position (cadr mark-ring)))
-			'<)))
-       (if (< (car region) (car marks))
-	   (append region marks)
-	 (append marks region)))))
-  (if (or (and (< beg2 beg1) (< beg1 end2))
-	  (and (< beg1 beg2) (< beg2 end1)))
-      (error "Unable to swap overlapping regions")
-      (save-excursion
-	(insert
-	 (prog1 (delete-and-extract-region beg2 end2)
-	   (goto-char beg2)
-	   (insert
-	    (delete-and-extract-region beg1 end1))
-	   (goto-char beg1))))))
 
 
 ; Todo: http://www.emacswiki.org/cgi-bin/wiki.pl?ColorTheme
@@ -445,78 +414,6 @@ or a marker."
 
 ;; In every buffer, the line which contains the cursor will be fully
 ;; highlighted
-
-;; *** DRUPAL ***
-
-
-(add-to-list 'load-path "~/.emacs.d/geben/")
-(autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
-
-;; Geben hackery.
-(defun geben-open ()
-  "Open the current buffer in geben."
-  (interactive)
-  (progn
-    (let ((geben-current-session (car geben-sessions)))
-      (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name)))
-      )
-    )
-  )
-
-(defun xen-coding-common-bindings ()
-  (local-set-key (kbd "C-o") 'xen-open)
-  (local-set-key [return] 'newline-and-indent)
-  (local-set-key [backspace] 'xen-paired-delete-backward)
-  (local-set-key [delete] 'xen-paired-delete)
-  (local-set-key [tab] 'xen-tab)
-  (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
-  (local-set-key [C-tab] 'helm-browse-code)
-  (highlight-symbol-mode)
-  (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
-  (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
-  (local-set-key (kbd "M-<up>") 'flycheck-previous-error)
-  (local-set-key (kbd "M-<down>") 'flycheck-next-error)
-  (flyspell-prog-mode)
-)
-
-(add-hook 'emacs-lisp-mode-hook 
-(lambda  ()
-  (xen-coding-common-bindings)
-  (yas-minor-mode 1)
-  ))
-
-(defun my-php-mode-hook ()
-  (xen-coding-common-bindings)
-  (modify-syntax-entry ?_ "_" php-mode-syntax-table)
-  (yas-minor-mode 1)
-  (gtags-mode)
-  )
-(add-hook 'php-mode-hook 'my-php-mode-hook)
-
-(add-hook 'js-mode-hook 'xen-js-mode-hook)
-(defun xen-js-mode-hook ()
-  (xen-coding-common-bindings)
-  (yas-minor-mode 1)
-  )
-
-(add-hook 'js2-mode-hook 'xen-js2-mode-hook)
-(defun xen-js2-mode-hook ()
-  (xen-coding-common-bindings)
-  (yas-minor-mode 1)
-  )
-
-(add-hook 'css-mode-hook 'xen-css-mode-hook)
-(defun xen-css-mode-hook ()
-  (xen-coding-common-bindings)
-  (yas-minor-mode 1)
-  )
-
-
-(defun my-ruby-mode-hook ()
-  (xen-coding-common-bindings)
-  (yas-minor-mode 1)
-  )
-(add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
 
 (provide 'init)
 ;;; init.el ends here
