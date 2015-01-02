@@ -319,7 +319,7 @@ See URL `https://github.com/nzakas/eslint'."
           (smartparens-global-mode 1)
           (show-smartparens-global-mode 1))
   :config (progn
-            (sp-pair "" nil :unless '(sp-point-after-word-p))
+            (sp-pair "'" nil :unless '(sp-point-after-word-p))
             ;; When pressing return as the first thing after inserting
             ;; a { or (, add another and indent.
             (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
