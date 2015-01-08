@@ -227,6 +227,9 @@ See URL `https://github.com/nzakas/eslint'."
 (use-package hl-line
   :config (global-hl-line-mode))
 
+;; Standard Emacs package. Dead keays work when this is loaded.
+(use-package iso-transl)
+
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
   :commands java-mode-indent-annotations-setup
