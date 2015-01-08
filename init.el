@@ -355,6 +355,9 @@ See URL `https://github.com/nzakas/eslint'."
   :init (progn
           (global-undo-tree-mode)))
 
+(use-package vcl-mode
+  :commands vcl-mode)
+
 ; Writable grep buffer.
 (use-package wgrep)
 

@@ -96,6 +96,7 @@
  '(url-honor-refresh-requests (quote t))
  '(url-privacy-level (quote (email)))
  '(use-package-verbose t)
+ '(vcl-indent-level 2)
  '(w3-default-homepage (quote "http://hades/~beast"))
  '(w3-default-stylesheet (quote nil))
  '(w3-delay-image-loads (quote t))
