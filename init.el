@@ -40,7 +40,7 @@
 ;;; Bindings.
 ;(require 'bind-key)
 ;; TODO: use bind-key.
-(define-key global-map [delete] 'delete-char)
+(define-key global-map [delete] 'delete-forward-char)
 (define-key global-map [M-delete] 'kill-word)
 (define-key global-map (kbd "C-S-Z") 'repeat)
 
