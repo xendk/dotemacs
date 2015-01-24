@@ -84,6 +84,8 @@
 
 (global-set-key (kbd "C-S-l") 'xen-mark-lines)
 
+(global-set-key (kbd "C-c b") 'browse-url-at-point)
+
 ;;; Aliases and advices
 ;; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
