@@ -180,9 +180,10 @@ Copies the text from START to END."
   (indent-for-tab-command))
 
 (defun xen-paired-delete (backwards-p &optional arg)
-  "Deletes the matching pair if deleting a pair."
+  "Deletes the matching pair if deleting a pair.  BACKWARDS-P indicates whether we're deleting forwards or backwards and we'll only work when ARG is 1 or the region is active.."
     (when (and (= arg 1)
-             smartparens-mode)
+             smartparens-mode
+             (not (use-region-p)))
         (-if-let (ok (sp-get-thing backwards-p))
             (sp-get ok (progn
                          ;; If either open or close is empty, bomb
