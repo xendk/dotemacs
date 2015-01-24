@@ -389,6 +389,12 @@ See URL `https://github.com/nzakas/eslint'."
   (yas-reload-all))
 
 
+
+;;; Some places for inspiration
+;; https://github.com/geerds/emacs.d/blob/master/init.el
+;; https://github.com/tomjakubowski/.emacs.d/blob/master/init.el
+;; http://www.aaronbedra.com/emacs.d/
+
 ;;; Old comments left around...
 
 ; Try out http://www.emacswiki.org/emacs/MiniMap ?
