@@ -64,6 +64,8 @@
  '(password-cache-expiry 3600)
  '(php-extras-auto-complete-insert-parenthesis nil)
  '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
+ '(projectile-cache-file "~/.emacs.d/.projectile.cache")
+ '(projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
  '(projectile-switch-project-action (quote xen-projectile-magit))
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)

@@ -300,12 +300,9 @@ See URL `https://github.com/nzakas/eslint'."
 (use-package projectile
   :commands projectile-project-p
   :diminish projectile-mode
-  :init (projectile-global-mode)
-  :config
+  :init
   (progn
-    (setq projectile-cache-file "~/.emacs.d/.projectile.cache")
-    (setq projectile-known-projects-file
-          "~/.emacs.d/.projectile-bookmarks.eld")))
+    (projectile-global-mode)))
 
 (use-package ruby-mode
   :commands ruby-mode
