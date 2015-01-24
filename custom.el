@@ -80,6 +80,7 @@
  '(sp-autodelete-opening-pair nil)
  '(sp-autodelete-pair nil)
  '(sp-autoskip-closing-pair (quote always))
+ '(sp-show-pair-from-inside t)
  '(speedbar-fetch-etags-command "etags")
  '(speedbar-hide-button-brackets-flag nil)
  '(speedbar-ignored-modes nil)
