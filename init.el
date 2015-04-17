@@ -12,7 +12,6 @@
 ;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
 ;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
-;; really should try out https://github.com/jwiegley/use-package
 ;;; Code:
 
 ; Quick debugging:
@@ -55,27 +54,27 @@
 
 ;; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
-(define-key global-map (kbd "C-x C-f") 'xen-find-file)
+(define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
 
 ;; http://www.emacswiki.org/emacs/WindowResize
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+;; (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+;; (global-set-key (kbd "S-C-<down>") 'shrink-window)
+;; (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 (global-set-key (kbd "C-S-d") 'xen-duplicate-current-line)
 
-; As I never use C-v anyway, and its effect when i hit it confuses me,
-; why not bind it to pasting from outside (like the middle button
-; does)?
+;; As I never use C-v anyway, and its effect when i hit it confuses
+;; me, why not bind it to pasting from outside (like the middle button
+;; does)?
 (global-set-key (kbd "C-v") 'xen-paste)
-; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
-; above if not specifically bound, but let's make it explicit.
+;; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
+;; above if not specifically bound, but let's make it explicit.
 (global-set-key (kbd "S-C-v") 'xen-paste)
 
-; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
-; order to limit the amount of different key combinations I should
-; remember for the same thing.
+;; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
+;; order to limit the amount of different key combinations I should
+;; remember for the same thing.
 (global-set-key (kbd "S-C-c") 'xen-copy)
 
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
@@ -102,8 +101,8 @@
 ;;;; Initialize package system.
 (require 'package)
 (add-to-list 'package-archives
-    '("marmalade" .
-      "http://marmalade-repo.org/packages/"))
+             '("marmalade" .
+               "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
@@ -114,12 +113,17 @@
 (use-package ace-jump-mode
   :bind ("S-SPC" . ace-jump-mode))
 
-(use-package ace-jump-zap
-  :config (progn (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
-                 (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
+;; (use-package ace-jump-zap
+;;   :config (progn (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
+;;                  (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
+
+(use-package auto-indent-mode
+  :commands auto-indent-mode auto-indent-global-mode
+  :diminish auto-indent-mode
+  :init (auto-indent-global-mode))
 
 (use-package browse-kill-ring
-  :init (browse-kill-ring-default-keybindings))
+  :config (browse-kill-ring-default-keybindings))
 
 (use-package css-mode
   :commands css-mode
@@ -178,7 +182,7 @@ See URL `https://github.com/nzakas/eslint'."
                     (error line-start (file-name)
                            ": line " line ", col " column ", Error - " (message) line-end))
                    :modes (js-mode js2-mode js3-mode)))
-)
+  )
 
 (use-package flyspell
   :commands flyspell-mode
@@ -194,32 +198,38 @@ See URL `https://github.com/nzakas/eslint'."
 
 (use-package google-this
   :diminish google-this-mode
-  :init (google-this-mode))
-
-(use-package gtags
-  :diminish "G "
-  :config (progn
-            ;; Adjust the keymap.
-            (bind-key "M-," 'helm-gtags-find-rtag gtags-mode-map)
-            (bind-key "M-." 'helm-gtags-find-tag gtags-mode-map)
-            (bind-key "M-*" 'helm-gtags-pop-stack gtags-mode-map)
-            ;; Unbind some keys.
-            (unbind-key "<mouse-2>" gtags-mode-map)
-            (unbind-key "<mouse-3>" gtags-mode-map)))
+  :config (google-this-mode))
 
 (use-package helm
   :diminish helm-mode
   :commands helm-mode
   :init (helm-mode 1)
   :bind (("C-x b" . helm-buffers-list)
-         ("<C-S-iso-lefttab>" . helm-swoop))
+         ("<C-S-iso-lefttab>" . helm-swoop)
+         ("M-x" . helm-M-x))
   :config (progn
-            ;; Ressucect helm-browse-code
+            ;; Use tab for selecting and ctrl-z for showing actions.
+            ;; Makes more sense.
+            (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+            (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+            (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+            ;; Resurrect helm-browse-code
             (load (locate-user-emacs-file "helm-compat.el"))))
+
+(use-package helm-gtags
+  :config (progn
+            (bind-key "M-," 'helm-gtags-find-rtag helm-gtags-mode-map)
+            (bind-key "M-." 'helm-gtags-find-tag helm-gtags-mode-map)
+            (bind-key "M-*" 'helm-gtags-pop-stack helm-gtags-mode-map)
+           )
+)
 
 (use-package helm-projectile
   :config (progn
-            (eval-after-load "projectile" '(bind-key "p" 'helm-projectile-switch-project projectile-command-map)))
+            ;; Compatibility until helm-projectile is updated.
+            (defalias 'helm-buffers-list--match-fn 'helm-buffers-match-function)
+            (eval-after-load "projectile" '(helm-projectile-on)))
   )
 
 (use-package highlight-symbol
@@ -228,6 +238,42 @@ See URL `https://github.com/nzakas/eslint'."
 
 (use-package hl-line
   :config (global-hl-line-mode))
+
+;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
+(use-package hydra
+  :init (progn
+          (defhydra hydra-window (global-map "C-c w")
+            "window"
+            ;; Dvorak.
+            ("c" enlarge-window "enlarge")
+            ("h" shrink-window-horizontally "shrink horiz")
+            ("n" enlarge-window-horizontally "enlarge horiz")
+            ("t" shrink-window "shrink")
+            ;; Qwerty.
+            ("i" enlarge-window "enlarge")
+            ("j" shrink-window-horizontally "shrink horiz")
+            ("l" enlarge-window-horizontally "enlarge horiz")
+            ("k" shrink-window "shrink"))))
+
+;; Make this work.
+;; https://github.com/abo-abo/hydra/commit/c049a33c2c3b7ed949880943175d7e23d278bead
+;; (defhydra hydra-window (global-map "C-c w")
+;;   "_c/i_ %`enlarge-window
+;; _h/j_ %`shrink-window-horizontally
+;; _n/k_ %`enlarge-window-horizontally
+;; _t/l_ %`shrink-window"
+;;   ;; Dvorak.
+;;   ("c" enlarge-window nil)
+;;   ("h" shrink-window-horizontally nil)
+;;   ("n" enlarge-window-horizontally nil)
+;;   ("t" shrink-window nil)
+;;   ;; Qwerty.
+;;   ("i" enlarge-window nil)
+;;   ("j" shrink-window-horizontally nil)
+;;   ("l" enlarge-window-horizontally nil)
+;;   ("k" shrink-window nil)
+;;   ("q" nil "cancel"))
+
 
 ;; Standard Emacs package. Dead keays work when this is loaded.
 (use-package iso-transl)
@@ -253,16 +299,19 @@ See URL `https://github.com/nzakas/eslint'."
 
 (use-package magit
   :diminish magit-auto-revert-mode
-  :init (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
+  :init (setq magit-last-seen-setup-instructions "1.4.0")
+  :config (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
 
-)
+  )
 
-; Add git flow extension.
+;; Add git flow extension.
 (use-package magit-gitflow
+  :commands turn-on-magit-gitflow
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
-; Add github pull request extension.
+;; Add github pull request extension.
 (use-package magit-gh-pulls
+  :commands turn-on-magit-gh-pulls
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
 (use-package multi-term
@@ -278,15 +327,20 @@ See URL `https://github.com/nzakas/eslint'."
          ("C-=" . mc/mark-all-like-this-dwim)))
 
 (use-package navorski
+  :commands nav/defterminal
   :init (nav/defterminal
           guard
           :program-path "/usr/local/bin/guard"
-          :cwd (lambda (path) (locate-dominating-file path "Guardfile"))
+          :cwd '(lambda (path) (locate-dominating-file path "Guardfile"))
           :interactive t
           ))
 
-(use-package org
+(use-package org-mode
+  :commands org-mode
   :mode "\\.org\\'")
+
+(use-package php-boris
+  :commands php-boris)
 
 (use-package php-mode
   :commands php-mode
@@ -295,13 +349,12 @@ See URL `https://github.com/nzakas/eslint'."
            (lambda () (xen-coding-common-bindings)
              (modify-syntax-entry ?_ "_" php-mode-syntax-table)
              (yas-minor-mode 1)
-             (gtags-mode))))
+             (helm-gtags-mode))))
 
 (use-package projectile
   :commands projectile-project-p
   :diminish projectile-mode
-  :init
-  (progn
+  :init (progn
     (projectile-global-mode)))
 
 (use-package ruby-mode
@@ -313,7 +366,7 @@ See URL `https://github.com/nzakas/eslint'."
 
 ;; prog-mode is defined in simple.el.
 (use-package simple
-  :init (add-hook 'prog-mode-hook #'eldoc-mode))
+  :config (add-hook 'prog-mode-hook #'eldoc-mode))
 
 (use-package smartparens-config
   :diminish smartparens-mode
@@ -342,6 +395,8 @@ See URL `https://github.com/nzakas/eslint'."
             ;; (require 'smartparens-html)
             )
   )
+
+(use-package string-inflection)
 
 (use-package term
   :defer
@@ -380,13 +435,16 @@ See URL `https://github.com/nzakas/eslint'."
                  (global-set-key [(XF86Back)] 'winner-undo)
                  (global-set-key [(XF86Forward)] 'winner-redo)))
 
+(use-package ws-butler
+  :commands ws-butler-mode
+  :init (add-hook 'php-mode-hook 'ws-butler-mode))
+
 (use-package xen
   :load-path "~/.emacs.d/xen/")
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :idle
-  (yas-reload-all))
+  :config (yas-reload-all))
 
 
 
@@ -394,6 +452,13 @@ See URL `https://github.com/nzakas/eslint'."
 ;; https://github.com/geerds/emacs.d/blob/master/init.el
 ;; https://github.com/tomjakubowski/.emacs.d/blob/master/init.el
 ;; http://www.aaronbedra.com/emacs.d/
+
+;; http://batsov.com/articles/2011/11/30/the-ultimate-collection-of-emacs-resources/
+
+;; To be checked:
+;; https://github.com/tam17aki/ace-isearch/
+;; https://github.com/zk-phi/phi-search
+;; https://github.com/expez/company-quickhelp/
 
 ;;; Old comments left around...
 

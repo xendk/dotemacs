@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -116,7 +116,9 @@ Heavily based on `message-beginning-of-line' from Gnus."
 ; I just want the branch to have the same name as origin.
 (defun xen-magit-default-tracking-name
   (remote branch)
-  "Use just the branch name for tracking branches."
+  "Use just the branch name for tracking branches.
+
+Ignores REMOTE and just returns BRANCH."
   branch)
 
 ; Let projectile show the magit status buffer when switching to a project.
@@ -124,17 +126,80 @@ Heavily based on `message-beginning-of-line' from Gnus."
   "Open magit when switching to project."
   (call-interactively 'magit-status))
 
-(defun xen-find-file (&optional prefix)
-  "Find file, in project if Projectile is active or using helm normally"
+(defun xen-find-file-dwim (&optional prefix)
+  "Find file, in project if Projectile is active or using helm normally.
+
+Adds file at point, if found.
+
+Use PREFIX to disable Projectile."
   (interactive "P")
   (if (and (null prefix) (projectile-project-p))
-      (helm-projectile)
+      (let* (
+             ;; Show full paths.
+             (helm-ff-transformer-show-only-basename nil)
+             ;; All files in project.
+             (project-files (projectile-current-project-files))
+             ;; Files matching thing at point.
+             (files (xen-projectile-select-files project-files))
+             ;; Helm sources we'll use.
+             (src ()))
+         (progn
+           (if (= (length files) 1)
+               ;; Only one hit, open it.
+               (find-file (expand-file-name (car files) (projectile-project-root)))
+             (progn
+               (if (> (length files) 1)
+                   ;; Add file candidates at point.
+                   (setq src (cons (xen-helm-projectile-build-dwim-source files) src)))
+               ;; Add in regular helm-projectile sources.
+               (setq src (append src helm-projectile-sources-list))
+               (helm :sources src
+                     :buffer "*helm projectile*"
+                     :prompt (projectile-prepend-project-name "pattern: "))))))
     (helm-for-files)))
+
+(defun xen-projectile-select-files (project-files &optional arg)
+  "Select a list of files based on filename at point.
+
+The difference from `projectile-select-files' is that this doesn't return all
+files when no file was found at point.
+
+PROJECT-FILES is all files of project.
+
+With a prefix ARG invalidates the cache first."
+  (projectile-maybe-invalidate-cache arg)
+  (let* ((file (if (region-active-p)
+                   (buffer-substring (region-beginning) (region-end))
+                 (or (thing-at-point 'filename) nil)))
+         (file (if (and file (string-match "\\.?\\./" file))
+                   (file-relative-name (file-truename file) (projectile-project-root))
+                 file))
+         (files (if file
+                    (-filter (lambda (project-file)
+                               (string-match file project-file))
+                             project-files)
+                  ())))
+    files))
+
+(defun xen-helm-projectile-build-dwim-source (candidates)
+  "Dynamically build a Helm source definition for Projectile files based on context with CANDIDATES from file at point."
+  ""
+  (helm-build-in-buffer-source "Projectile files at point"
+    :data candidates
+    :fuzzy-match helm-projectile-fuzzy-match
+    :coerce 'helm-projectile-coerce-file
+    :action-transformer 'helm-find-files-action-transformer
+    :keymap helm-projectile-find-file-map
+    :help-message helm-ff-help-message
+    :mode-line helm-ff-mode-line-string
+    :action helm-projectile-file-actions))
 
 ; http://emacswiki.org/emacs/CopyingWholeLines
 ;; duplicate current line
 (defun xen-duplicate-current-line (&optional n)
-  "duplicate current line, make more than 1 copy given a numeric argument"
+  "Duplicate current line, make more than 1 copy given a numeric argument.
+
+Use prefix argument N for more copies."
   (interactive "p")
   (save-excursion
     (let ((nb (or n 1))
@@ -219,7 +284,7 @@ Copies the text from START to END."
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
 (defun xen-char-syntax ()
-"Shows the syntax class of the character following point."
+"Show the syntax class of the character following point."
 (interactive)
 (message (char-to-string (char-syntax (char-after)))))
 
@@ -259,7 +324,7 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-coding-common-bindings ()
   "Common bindings and minor-modes for coding."
   (local-set-key (kbd "C-o") 'xen-open)
-  (local-set-key [return] 'newline-and-indent)
+  ;; (local-set-key [return] 'newline-and-indent)
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (local-set-key [C-tab] 'helm-browse-code)
@@ -313,6 +378,24 @@ Actually shrinks the region if the point is at the start of the region."
       )
     )
   )
+
+;; Gotten from http://endlessparentheses.com/easily-create-github-prs-from-magit.html
+(defun xen/visit-pull-request-url ()
+  "Visit the current branch's PR on Github."
+  (interactive)
+  (browse-url
+   (format "https://github.com/%s/compare/%s"
+     (replace-regexp-in-string
+      "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+      (magit-get "remote"
+                 (magit-get-current-remote)
+                 "url"))
+     (magit-get-current-branch))))
+
+(eval-after-load 'magit
+  '(define-key magit-mode-map "V"
+     #'xen/visit-pull-request-url))
+
 
 (provide 'xen)
 ;;; xen.el ends here
