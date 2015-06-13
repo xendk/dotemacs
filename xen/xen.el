@@ -234,8 +234,11 @@ Copies the text from START to END."
   (indent-for-tab-command))
 
 (defun xen-paired-delete (backwards-p &optional arg)
-  "Deletes the matching pair if deleting a pair.  BACKWARDS-P indicates whether we're deleting forwards or backwards and we'll only work when ARG is 1 or the region is active.."
-    (when (and (= arg 1)
+  "Deletes the matching pair if deleting a pair.
+
+BACKWARDS-P indicates whether we're deleting forwards or backwards and we'll
+only work when ARG is 1 or the region is not active."
+  (when (and (= arg 1)
              smartparens-mode
              (not (use-region-p)))
         (-if-let (ok (sp-get-thing backwards-p))
@@ -259,8 +262,19 @@ Copies the text from START to END."
                                    (progn (goto-char :beg)
                                           (delete-char 1))))))))))
 
+;; This doesn't work for some reason.
+;; (defadvice delete-char (before xen-delete-backwards-advice activate)
+;;   (if (not (boundp 'nested))
+;;       (let ((nested t))
+;;   (save-match-data
+;;     (xen-paired-delete (> 0 (ad-get-arg 0)) (abs (ad-get-arg 0)))))
+;;     )   )
 
-
+;; This fails in js-mode and deletes two matching chars. The problem
+;; is that delete-backward-char gets called twice, once through
+;; backward-delete-char-untabify. Need to look into that, but don't
+;; want to mess too much with advice until I get Emacs 24.4 and the
+;; new advice system.
 (defadvice delete-backward-char (before xen-delete-backwards-advice activate)
   (save-match-data
     (xen-paired-delete t (ad-get-arg 0))))
