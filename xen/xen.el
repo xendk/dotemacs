@@ -115,11 +115,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 Ignores REMOTE and just returns BRANCH."
   branch)
 
-; Let projectile show the magit status buffer when switching to a project.
-(defun xen-projectile-magit ()
-  "Open magit when switching to project."
-  (call-interactively 'magit-status))
-
 (defun xen-find-file-dwim (&optional prefix)
   "Find file, in project if Projectile is active or using helm normally.
 
