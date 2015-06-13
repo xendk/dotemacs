@@ -111,7 +111,8 @@
 (require 'use-package)
 
 (use-package ace-jump-mode
-  :bind ("S-SPC" . ace-jump-mode))
+  :bind ("S-SPC" . ace-jump-mode)
+  :config (setq ace-jump-mode-scope 'frame))
 
 ;; (use-package ace-jump-zap
 ;;   :config (progn (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
