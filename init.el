@@ -14,8 +14,8 @@
 
 ;;; Code:
 
-; Quick debugging:
-; (toggle-debug-on-error)
+;; Quick debugging:
+;; (toggle-debug-on-error)
 
 ;; Start server if not already running.
 (require 'server)
