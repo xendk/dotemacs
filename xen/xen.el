@@ -398,6 +398,12 @@ Actually shrinks the region if the point is at the start of the region."
   '(define-key magit-mode-map "V"
      #'xen/visit-pull-request-url))
 
+(defun xen-xml-pretty ()
+  "Run xmllint -pretty - on the region."
+  (interactive)
+  (if (region-active-p) (shell-command-on-region
+                         (region-beginning) (region-end)
+                         "xmllint -format -" ? nil t)))
 
 (provide 'xen)
 ;;; xen.el ends here
