@@ -107,12 +107,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
   (if (= (point) (progn (back-to-indentation) (point)))
       (beginning-of-line)))
 
-; Activate flyspell and yas in magit commit buffer.
-(defun xen-magit-log-edit-mode-hook ()
-  "Activate yas and flyspell modes."
-  (yas-minor-mode 1)
-  (flyspell-mode))
-
 ; I just want the branch to have the same name as origin.
 (defun xen-magit-default-tracking-name
   (remote branch)
