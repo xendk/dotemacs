@@ -135,7 +135,7 @@
 
 (use-package column-enforce-mode
   :commands column-enforce-mode
-  :diminish "")
+  :diminish column-enforce-mode)
 
 (use-package company
   :diminish ""
