@@ -206,7 +206,7 @@ See URL `https://github.com/nzakas/eslint'."
   :commands helm-mode
   :init (helm-mode 1)
   :bind (("C-x b" . helm-buffers-list)
-         ("<C-S-iso-lefttab>" . helm-swoop)
+         ("C-<tab>" . helm-swoop)
          ("M-x" . helm-M-x))
   :config (progn
             ;; Use tab for selecting and ctrl-z for showing actions.
@@ -215,8 +215,6 @@ See URL `https://github.com/nzakas/eslint'."
             (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
             (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
-            ;; Resurrect helm-browse-code
-            (load (locate-user-emacs-file "helm-compat.el"))))
 
 (use-package helm-gtags
   :config (progn

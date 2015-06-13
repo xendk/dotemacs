@@ -327,7 +327,6 @@ Actually shrinks the region if the point is at the start of the region."
   ;; (local-set-key [return] 'newline-and-indent)
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
-  (local-set-key [C-tab] 'helm-browse-code)
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
