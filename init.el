@@ -228,7 +228,14 @@ See URL `https://github.com/nzakas/eslint'."
   :config (progn
             ;; Compatibility until helm-projectile is updated.
             (defalias 'helm-buffers-list--match-fn 'helm-buffers-match-function)
-            (eval-after-load "projectile" '(helm-projectile-on)))
+            (eval-after-load "projectile"
+              '(progn
+                 ;; Rebind projectile commands to use helm.
+                 (helm-projectile-on)
+                 ;; Reset switch project-action that the above messed
+                 ;; with to do projectile-vc which calls magit-status.
+                 (setq projectile-switch-project-action 'projectile-vc)
+)))
   )
 
 (use-package highlight-symbol
