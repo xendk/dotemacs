@@ -465,6 +465,9 @@ See URL `https://github.com/nzakas/eslint'."
 (use-package xen
   :load-path "~/.emacs.d/xen/")
 
+(use-package yaml-mode
+  :config (flyspell-mode))
+
 (use-package yasnippet
   :diminish yas-minor-mode
   :config (yas-reload-all))
