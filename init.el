@@ -54,7 +54,7 @@
 
 ;; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
-(define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
+;; (define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
 
 ;; http://www.emacswiki.org/emacs/WindowResize
 ;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -205,7 +205,8 @@ See URL `https://github.com/nzakas/eslint'."
   :diminish helm-mode
   :commands helm-mode
   :init (helm-mode 1)
-  :bind (("C-x b" . helm-buffers-list)
+  :bind (("C-x C-f" . helm-for-files)
+         ("C-x b" . helm-buffers-list)
          ("C-<tab>" . helm-swoop)
          ("M-x" . helm-M-x))
   :config (progn
