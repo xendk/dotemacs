@@ -113,6 +113,9 @@
 
 (use-package ace-jump-mode
   :bind ("S-SPC" . ace-jump-mode)
+  ;; Custom-mode binds S-SPC, override it.
+  :init (eval-after-load 'cus-edit
+          '(bind-key "S-SPC" 'ace-jump-mode  custom-mode-map))
   :config (setq ace-jump-mode-scope 'frame))
 
 ;; (use-package ace-jump-zap
