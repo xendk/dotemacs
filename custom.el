@@ -40,7 +40,7 @@
  '(flymake-cursor-number-of-errors-to-display 1)
  '(flyspell-default-dictionary nil)
  '(git-commit-mode-hook (quote (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)))
- '(helm-browse-code-regexp-alist (quote ((lisp-interaction-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (emacs-lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (lisp-mode . "^ *(def\\(un\\|subst\\|macro\\|face\\|alias\\|advice\\|struct\\|type\\|theme\\|var\\|group\\|custom\\|const\\|method\\|class\\)") (python-mode . "\\<def\\>\\|\\<class\\>") (php-mode . "^ *\\(\\(abstract +\\)*\\<class\\>\\|\\<interface\\>\\|\\(\\(public\\|protected\\|private\\|static\\) +\\)*\\<function\\>\\)"))))
+ '(helm-autoresize-mode t)
  '(helm-buffer-max-length 40)
  '(helm-ff-transformer-show-only-basename t)
  '(helm-idle-delay 0.1)
