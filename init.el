@@ -48,6 +48,7 @@
 ;; (when (display-graphic-p)
 ;;   (unbind-key "C-z"))
 
+;; todo: move xen-bindings to use-package...
 (global-set-key [f11] 'xen-toggle-fullscreen)
 (global-set-key [f12] 'xen-big-fringe-mode)
 (global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
