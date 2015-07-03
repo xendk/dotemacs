@@ -24,6 +24,7 @@
  '(desktop-restore-eager 3)
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode nil)
+ '(drupal-ignore-paths-regexp "\\(vendor\\|node_modules\\|tests/behat\\|tests/codecept\\)")
  '(drupal/emacs-drush-update-tags-after-save t)
  '(drupal/phpcs-standard "Drupal,DrupalPractice")
  '(ediff-keep-variants nil)
