@@ -312,7 +312,6 @@ See URL `https://github.com/nzakas/eslint'."
              (yas-minor-mode 1))))
 
 (use-package magit
-  :diminish magit-auto-revert-mode
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
 
