@@ -99,6 +99,7 @@
      (emacs-lisp-mode . origami-elisp-parser)
      (lisp-interaction-mode . origami-elisp-parser)
      (clojure-mode . origami-clj-parser))))
+ '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(password-cache-expiry 3600)
  '(php-extras-auto-complete-insert-parenthesis nil)
