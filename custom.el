@@ -5,26 +5,41 @@
  ;; If there is more than one, they won't work right.
  '(ag-highlight-search t)
  '(ange-ftp-try-passive-mode t)
- '(ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#1d1f21"))
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#1d1f21"))
+ '(auto-indent-blank-lines-on-move nil)
  '(auto-indent-next-pair nil)
  '(auto-insert-mode t nil (autoinsert))
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "sensible-browser")
  '(c-basic-offset (quote set-from-style))
- '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "psr2"))))
+ '(c-default-style
+   (quote
+    ((java-mode . "java")
+     (awk-mode . "awk")
+     (other . "psr2"))))
  '(comint-input-autoexpand t)
- '(company-backends (quote ((php-extras-company company-dabbrev-code company-gtags company-keywords) company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf (company-dabbrev-code company-gtags company-etags company-keywords) company-oddmuse company-files company-dabbrev)))
+ '(company-backends
+   (quote
+    ((php-extras-company company-dabbrev-code company-gtags company-keywords)
+     company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
+     (company-dabbrev-code company-gtags company-etags company-keywords)
+     company-oddmuse company-files company-dabbrev)))
  '(company-require-match nil)
  '(company-transformers (quote (company-sort-by-occurrence)))
  '(css-indent-offset 2)
- '(custom-safe-themes (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(custom-safe-themes
+   (quote
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(delete-selection-mode t nil (delsel))
  '(desktop-files-not-to-save "^/none[^/:]*:")
  '(desktop-restore-eager 3)
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode nil)
- '(drupal-ignore-paths-regexp "\\(vendor\\|node_modules\\|tests/behat\\|tests/codecept\\)")
+ '(drupal-ignore-paths-regexp
+   "\\(vendor\\|node_modules\\|tests/behat\\|tests/codecept\\)")
  '(drupal/emacs-drush-update-tags-after-save t)
  '(drupal/phpcs-standard "Drupal,DrupalPractice")
  '(ediff-keep-variants nil)
@@ -39,13 +54,17 @@
  '(flymake-cursor-error-display-delay 0.3)
  '(flymake-cursor-number-of-errors-to-display 1)
  '(flyspell-default-dictionary nil)
- '(git-commit-mode-hook (quote (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)))
+ '(git-commit-mode-hook
+   (quote
+    (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)) t)
  '(helm-autoresize-mode t)
  '(helm-buffer-max-length 40)
  '(helm-ff-transformer-show-only-basename t)
  '(helm-idle-delay 0.1)
  '(helm-input-idle-delay 0.1)
- '(helm-projectile-sources-list (quote (helm-source-projectile-buffers-list helm-source-projectile-files-list helm-source-projectile-recentf-list helm-source-projectile-projects)))
+ '(helm-projectile-sources-list
+   (quote
+    (helm-source-projectile-buffers-list helm-source-projectile-files-list helm-source-projectile-recentf-list helm-source-projectile-projects)))
  '(helm-split-window-in-side-p t)
  '(highlight-symbol-idle-delay 0.5)
  '(hscroll-margin 15)
@@ -69,17 +88,30 @@
  '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
- '(origami-parser-alist (quote ((java-mode . origami-c-style-parser) (c-mode . origami-c-style-parser) (php-mode . origami-c-style-parser) (c++-mode . origami-c-style-parser) (cperl-mode . origami-c-style-parser) (emacs-lisp-mode . origami-elisp-parser) (lisp-interaction-mode . origami-elisp-parser) (clojure-mode . origami-clj-parser))))
+ '(origami-parser-alist
+   (quote
+    ((java-mode . origami-c-style-parser)
+     (c-mode . origami-c-style-parser)
+     (php-mode . origami-c-style-parser)
+     (c++-mode . origami-c-style-parser)
+     (cperl-mode . origami-c-style-parser)
+     (emacs-lisp-mode . origami-elisp-parser)
+     (lisp-interaction-mode . origami-elisp-parser)
+     (clojure-mode . origami-clj-parser))))
  '(password-cache-expiry 3600)
  '(php-extras-auto-complete-insert-parenthesis nil)
- '(php-file-patterns (quote ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
+ '(php-file-patterns
+   (quote
+    ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(php-mode-coding-style (quote psr2))
  '(projectile-cache-file "~/.emacs.d/.projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
  '(projectile-switch-project-action (quote xen-projectile-magit))
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)
- '(safe-local-variable-values (quote ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
+ '(safe-local-variable-values
+   (quote
+    ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
  '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
  '(scss-compile-at-save nil)
@@ -95,7 +127,9 @@
  '(speedbar-hide-button-brackets-flag nil)
  '(speedbar-ignored-modes nil)
  '(speedbar-show-unknown-files t)
- '(speedbar-supported-extension-expressions (quote ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
+ '(speedbar-supported-extension-expressions
+   (quote
+    ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
  '(speedbar-track-mouse-flag t)
  '(speedbar-update-flag (quote x))
  '(tex-command nil t)
@@ -114,7 +148,28 @@
  '(w3-default-stylesheet (quote nil))
  '(w3-delay-image-loads (quote t))
  '(w3-honor-stylesheets (quote t))
- '(w3-image-mappings (quote (("image/x-xbitmap" . xbm) ("image/xbitmap" . xbm) ("image/xbm" . xbm) ("image/jpeg" . jpeg) ("image/gif" . gif) ("image/png" . png) ("image/x-fax" . g3fax) ("image/x-raster" . rast) ("image/windowdump" . xwd) ("image/x-icon" . icon) ("image/portable-graymap" . pgm) ("image/portable-pixmap" . ppm) ("image/x-pixmap" . xpm) ("image/x-xpixmap" . xpm) ("image/pict" . pict) ("image/x-rgb" . sgi) ("image/x-sgi" . sgi) ("image/x-macpaint" . macpt) ("image/x-targa" . tga) ("image/tiff" . tiff))))
+ '(w3-image-mappings
+   (quote
+    (("image/x-xbitmap" . xbm)
+     ("image/xbitmap" . xbm)
+     ("image/xbm" . xbm)
+     ("image/jpeg" . jpeg)
+     ("image/gif" . gif)
+     ("image/png" . png)
+     ("image/x-fax" . g3fax)
+     ("image/x-raster" . rast)
+     ("image/windowdump" . xwd)
+     ("image/x-icon" . icon)
+     ("image/portable-graymap" . pgm)
+     ("image/portable-pixmap" . ppm)
+     ("image/x-pixmap" . xpm)
+     ("image/x-xpixmap" . xpm)
+     ("image/pict" . pict)
+     ("image/x-rgb" . sgi)
+     ("image/x-sgi" . sgi)
+     ("image/x-macpaint" . macpt)
+     ("image/x-targa" . tga)
+     ("image/tiff" . tiff))))
  '(w3-load-hook (quote nil))
  '(w3-mode-hook (quote nil))
  '(w3-netscape-compatible-comments (quote t))
@@ -125,7 +180,9 @@
  '(w3-source-file-hook (quote nil))
  '(w3-toolbar-orientation (quote default) t)
  '(w3-toolbar-type (quote both) t)
- '(w3-use-menus (quote (file edit view go bookmark options buffers style emacs nil help)))
+ '(w3-use-menus
+   (quote
+    (file edit view go bookmark options buffers style emacs nil help)))
  '(w3-user-colors-take-precedence (quote nil))
  '(whole-line-or-region-mode t)
  '(yas-fallback-behavior (quote call-other-command))
