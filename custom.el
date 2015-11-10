@@ -27,6 +27,7 @@
      company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
      (company-dabbrev-code company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
+ '(company-dabbrev-code-everywhere t)
  '(company-require-match nil)
  '(company-transformers (quote (company-sort-by-occurrence)))
  '(css-indent-offset 2)
