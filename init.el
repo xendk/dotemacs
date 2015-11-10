@@ -294,7 +294,7 @@ See URL `https://github.com/nzakas/eslint'."
 ;;   ("q" nil "cancel"))
 
 
-;; Standard Emacs package. Dead keays work when this is loaded.
+;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
 
 ;; Properly handle annotations in java-mode.
