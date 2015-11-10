@@ -4,3 +4,5 @@ auto-save-list
 .org-id-locations
 elpa
 .mc-lists.el
+; Our token shouldn't be committed.
+paradox-token.el
