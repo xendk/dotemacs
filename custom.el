@@ -23,7 +23,7 @@
  '(comint-input-autoexpand t)
  '(company-backends
    (quote
-    ((php-extras-company company-dabbrev-code company-gtags company-keywords)
+    ((php-extras-company company-dabbrev-code company-gtags company-keywords :with company-yasnippet)
      company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
      (company-dabbrev-code company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
@@ -187,7 +187,12 @@
     (file edit view go bookmark options buffers style emacs nil help)))
  '(w3-user-colors-take-precedence (quote nil))
  '(whole-line-or-region-mode t)
+ '(yas-choose-keys-first nil)
+ '(yas-choose-tables-first t)
  '(yas-fallback-behavior (quote call-other-command))
+ '(yas-prompt-functions
+   (quote
+    (yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)))
  '(yas-triggers-in-field t)
  '(yas-wrap-around-region nil))
 (custom-set-faces

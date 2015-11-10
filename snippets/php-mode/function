@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: public function
-# key: f
+# name: PHP function
+# key: function
 # --
 function ${1:name}($2) {
        $0

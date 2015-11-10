@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Drupal function
-# key: df
+# key: function
 # --
 /**
  * $3
