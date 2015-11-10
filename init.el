@@ -261,38 +261,21 @@ See URL `https://github.com/nzakas/eslint'."
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
 (use-package hydra
   :init (progn
-          (defhydra hydra-window (global-map "C-c w")
+          (defhydra hydra-window (global-map "C-c w" :color pink)
             "window"
             ;; Dvorak.
             ("c" enlarge-window "enlarge")
-            ("h" shrink-window-horizontally "shrink horiz")
-            ("n" enlarge-window-horizontally "enlarge horiz")
+            ("h" shrink-window-horizontally "widen")
+            ("n" enlarge-window-horizontally "slim")
             ("t" shrink-window "shrink")
             ;; Qwerty.
             ("i" enlarge-window "enlarge")
-            ("j" shrink-window-horizontally "shrink horiz")
-            ("l" enlarge-window-horizontally "enlarge horiz")
-            ("k" shrink-window "shrink"))))
-
-;; Make this work.
-;; https://github.com/abo-abo/hydra/commit/c049a33c2c3b7ed949880943175d7e23d278bead
-;; (defhydra hydra-window (global-map "C-c w")
-;;   "_c/i_ %`enlarge-window
-;; _h/j_ %`shrink-window-horizontally
-;; _n/k_ %`enlarge-window-horizontally
-;; _t/l_ %`shrink-window"
-;;   ;; Dvorak.
-;;   ("c" enlarge-window nil)
-;;   ("h" shrink-window-horizontally nil)
-;;   ("n" enlarge-window-horizontally nil)
-;;   ("t" shrink-window nil)
-;;   ;; Qwerty.
-;;   ("i" enlarge-window nil)
-;;   ("j" shrink-window-horizontally nil)
-;;   ("l" enlarge-window-horizontally nil)
-;;   ("k" shrink-window nil)
-;;   ("q" nil "cancel"))
-
+            ("j" shrink-window-horizontally "widen")
+            ("l" enlarge-window-horizontally "slim")
+            ("k" shrink-window "shrink")
+            ("q" nil "cancel"))
+          ;; Bind to prefix key, so the hint is shown immediately.
+          (bind-key "C-c w" 'hydra-window/body)))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
