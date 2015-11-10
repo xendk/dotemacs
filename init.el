@@ -323,7 +323,11 @@ See URL `https://github.com/nzakas/eslint'."
 
 ;; Add git flow extension.
 (use-package magit-gitflow
-  :commands turn-on-magit-gitflow)
+  :ensure t
+  :commands turn-on-magit-gitflow
+  :diminish magit-gitflow-mode
+  :init
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
 ;; Add github pull request extension.
 ;; (use-package magit-gh-pulls
