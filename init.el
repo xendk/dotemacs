@@ -371,6 +371,18 @@ See URL `https://github.com/nzakas/eslint'."
   :commands org-mode
   :mode "\\.org\\'")
 
+(use-package paradox
+  :commands (package-list-packages
+             paradox-list-packages
+             hydra-launch/paradox-list-packages-and-exit)
+  :config
+  (progn
+    ;; The "paradox-token.el" file is supposed to contain this line:
+    ;;     (setq paradox-github-token "<YOUR_TOKEN>")
+    (load (locate-user-emacs-file "paradox-token.el") :noerror :nomessage)
+
+    (paradox-enable)))
+
 (use-package php-boris
   :commands php-boris)
 
