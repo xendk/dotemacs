@@ -212,7 +212,7 @@ See URL `https://github.com/nzakas/eslint'."
   :init (helm-mode 1)
   :bind (("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
-         ("C-<tab>" . helm-swoop)
+         ("C-<tab>" . swiper-helm)
          ("M-x" . helm-M-x))
   :config (progn
             ;; Use tab for selecting and ctrl-z for showing actions.
