@@ -57,6 +57,8 @@
  '(keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
  '(keyfreq-mode t)
  '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
+ '(magit-push-always-verify nil)
+ '(magit-revert-buffers t)
  '(magit-status-buffer-switch-function (quote switch-to-buffer))
  '(menu-bar-mode nil)
  '(mouse-avoidance-mode (quote animate) nil (avoid))
