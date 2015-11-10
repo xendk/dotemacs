@@ -42,6 +42,13 @@
       (interactive)
       (find-file "~/.emacs.d/TODO.org")))
 
+(defun xen-toggle-font-size ()
+  "Toggle font size between my usual two."
+  (interactive)
+  (if (= (face-attribute 'default :height) 113)
+      (set-face-attribute 'default nil :height 140)
+    (set-face-attribute 'default nil :height 113)))
+
 ; Toggle fullscreen and full height.
 ; todo: work this in: http://bzg.fr/emacs-strip-tease.html
 (defun xen-toggle-fullscreen ()

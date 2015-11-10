@@ -50,6 +50,7 @@
 
 ;; todo: move xen-bindings to use-package...
 (global-set-key [f11] 'xen-toggle-fullscreen)
+(global-set-key [S-f11] 'xen-toggle-font-size)
 (global-set-key [f12] 'xen-big-fringe-mode)
 (global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
 
