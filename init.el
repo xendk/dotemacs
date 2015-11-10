@@ -209,7 +209,7 @@ See URL `https://github.com/nzakas/eslint'."
   :diminish helm-mode
   :commands helm-mode
   :init (helm-mode 1)
-  :bind (("C-x C-f" . helm-for-files)
+  :bind (("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
          ("C-<tab>" . helm-swoop)
          ("M-x" . helm-M-x))
