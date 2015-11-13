@@ -46,6 +46,7 @@
    "\\(vendor\\|node_modules\\|tests/behat\\|tests/codecept\\)")
  '(drupal/emacs-drush-update-tags-after-save t)
  '(drupal/phpcs-standard "Drupal,DrupalPractice")
+ '(echo-keystrokes 0.1)
  '(ediff-keep-variants nil)
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-use-last-dir t)
