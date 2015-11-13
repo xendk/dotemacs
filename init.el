@@ -112,16 +112,9 @@
 ;;; Use use-package for loading packages.
 (require 'use-package)
 
-(use-package ace-jump-mode
-  :bind ("S-SPC" . ace-jump-mode)
-  ;; Custom-mode binds S-SPC, override it.
-  :init (eval-after-load 'cus-edit
-          '(bind-key "S-SPC" 'ace-jump-mode  custom-mode-map))
-  :config (setq ace-jump-mode-scope 'frame))
-
-;; (use-package ace-jump-zap
-;;   :config (progn (define-key global-map (kbd "M-z") 'ace-jump-zap-to-char)
-;;                  (define-key global-map (kbd "M-Z") 'ace-jump-zap-up-to-char)))
+(use-package avy-zap
+  :bind (("M-z" . avy-zap-to-char-dwim)
+         ("M-Z" . avy-zap-up-to-char-dwim)))
 
 (use-package auto-indent-mode
   :commands auto-indent-mode auto-indent-global-mode
@@ -275,7 +268,20 @@ See URL `https://github.com/nzakas/eslint'."
             ("k" shrink-window "shrink")
             ("q" nil "cancel"))
           ;; Bind to prefix key, so the hint is shown immediately.
-          (bind-key "C-c w" 'hydra-window/body)))
+          (bind-key "C-c w" 'hydra-window/body)
+
+          (defhydra hydra-avy (global-map "S-SPC" :color blue)
+            "avy"
+            ("w" avy-goto-word-1 "word")
+            ("c" avy-goto-char "char")
+            ("l" avy-goto-line "line")
+            ("i" avy-goto-char-in-line "in line")
+            )
+          ;; Bind to prefix key, so the hint is shown immediately.
+          (bind-key "S-SPC" 'hydra-avy/body)
+          ;; Custom-mode binds S-SPC, override it.
+          (eval-after-load 'cus-edit
+            '(bind-key "S-SPC" 'hydra-avy/body custom-mode-map))))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
