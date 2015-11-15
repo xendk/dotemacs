@@ -112,6 +112,15 @@
 ;;; Use use-package for loading packages.
 (require 'use-package)
 
+(use-package avy
+  :commands avy-goto-word-1
+  :bind (("S-SPC" . avy-goto-word-1)
+         ("M-u" . avy-goto-char-in-line)
+         ("M-U" . avy-goto-char)
+         ("M-l" . avy-goto-line))
+  :init (eval-after-load 'cus-edit
+          '(bind-key "S-SPC" 'avy-goto-word-1 custom-mode-map)))
+
 (use-package avy-zap
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim)))
@@ -270,18 +279,18 @@ See URL `https://github.com/nzakas/eslint'."
           ;; Bind to prefix key, so the hint is shown immediately.
           (bind-key "C-c w" 'hydra-window/body)
 
-          (defhydra hydra-avy (global-map "S-SPC" :color blue)
-            "avy"
-            ("w" avy-goto-word-1 "word")
-            ("c" avy-goto-char "char")
-            ("l" avy-goto-line "line")
-            ("i" avy-goto-char-in-line "in line")
+          (defhydra hydra-case (global-map "M-c")
+            "case"
+            ("c" capitalize-word "Capitalize")
+            ("u" upcase-word "UPPER")
+            ("l" downcase-word "lower")
+            ("s" string-inflection-underscore "lower_snake")
+            ("n" string-inflection-upcase "UPPER_SNAKE")
+            ("a" string-inflection-lower-camelcase "lowerCamel")
+            ("m" string-inflection-camelcase "UpperCamel")
+            ("d" string-inflection-lisp "dash-case")
             )
-          ;; Bind to prefix key, so the hint is shown immediately.
-          (bind-key "S-SPC" 'hydra-avy/body)
-          ;; Custom-mode binds S-SPC, override it.
-          (eval-after-load 'cus-edit
-            '(bind-key "S-SPC" 'hydra-avy/body custom-mode-map))))
+          (bind-key "M-c" 'hydra-case/body)))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
