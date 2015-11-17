@@ -165,6 +165,11 @@
             (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)
             (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))))
 
+(use-package ede-php-autoload-mode
+  :commands ede-php-autoload-mode
+  :load-path "~/.emacs.d/ede-php-autoload/"
+  :init (add-hook 'php-mode-hook 'ede-php-autoload-mode))
+
 (use-package eldoc
   :commands eldoc-mode
   :diminish "")
@@ -408,6 +413,13 @@ See URL `https://github.com/nzakas/eslint'."
            'ruby-mode-hook
            (lambda () (xen-coding-common-bindings)
              (yas-minor-mode 1))))
+
+(use-package semantic-php
+  :load-path "~/.emacs.d/semantic-php/"
+  :init (progn (load "~/.emacs.d/semantic-php/loaddefs.el")
+               (add-hook 'php-mode-hook #'semantic-mode))
+  :config (add-to-list 'company-semantic-modes 'php-mode)
+  )
 
 ;; prog-mode is defined in simple.el.
 (use-package simple
