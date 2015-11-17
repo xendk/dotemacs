@@ -454,5 +454,13 @@ Actually shrinks the region if the point is at the start of the region."
                          (region-beginning) (region-end)
                          "xmllint -format -" ? nil t)))
 
+(defun xen-avy-goto-line (&optional arg)
+  "A variant on avy-goto-line that remembers column position.  ARG is passed along."
+  (interactive "p")
+  (let ((col-pos (current-column)))
+    (progn
+      (call-interactively 'avy-goto-line arg)
+      (move-to-column col-pos))))
+
 (provide 'xen)
 ;;; xen.el ends here

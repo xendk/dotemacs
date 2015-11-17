@@ -117,9 +117,12 @@
   :bind (("S-SPC" . avy-goto-word-1)
          ("M-u" . avy-goto-char-in-line)
          ("M-U" . avy-goto-char)
-         ("M-l" . avy-goto-line))
-  :init (eval-after-load 'cus-edit
-          '(bind-key "S-SPC" 'avy-goto-word-1 custom-mode-map)))
+         ;; Binding xen-avy-goto-line on use-package xen.
+         )
+  :init (progn
+          (bind-key "S-SPC" 'avy-isearch isearch-mode-map)
+          (eval-after-load 'cus-edit
+          '(bind-key "S-SPC" 'avy-goto-word-1 custom-mode-map))))
 
 (use-package avy-zap
   :bind (("M-z" . avy-zap-to-char-dwim)
@@ -482,7 +485,9 @@ See URL `https://github.com/nzakas/eslint'."
   :init (add-hook 'php-mode-hook 'ws-butler-mode))
 
 (use-package xen
-  :load-path "~/.emacs.d/xen/")
+  :load-path "~/.emacs.d/xen/"
+  :demand
+  :bind ("M-l" . xen-avy-goto-line))
 
 (use-package yaml-mode
   :config (flyspell-mode))
@@ -499,11 +504,6 @@ See URL `https://github.com/nzakas/eslint'."
 ;; http://www.aaronbedra.com/emacs.d/
 
 ;; http://batsov.com/articles/2011/11/30/the-ultimate-collection-of-emacs-resources/
-
-;; To be checked:
-;; https://github.com/tam17aki/ace-isearch/
-;; https://github.com/zk-phi/phi-search
-;; https://github.com/expez/company-quickhelp/
 
 ;;; Old comments left around...
 
