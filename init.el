@@ -215,6 +215,7 @@
 
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
 (use-package hydra
+  ;; TODO: use :config and :bind.
   :init (progn
           (defhydra hydra-window (global-map "C-c w" :color pink)
             "window"
