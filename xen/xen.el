@@ -452,7 +452,7 @@ Actually shrinks the region if the point is at the start of the region."
   (interactive)
   (if (region-active-p) (shell-command-on-region
                          (region-beginning) (region-end)
-                         "xmllint -format -" ? nil t)))
+                         "xmllint -format -" nil t)))
 
 (defun xen-avy-goto-line (&optional arg)
   "A variant on avy-goto-line that remembers column position.  ARG is passed along."
