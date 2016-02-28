@@ -298,6 +298,11 @@
            (lambda () (xen-coding-common-bindings)
              (yas-minor-mode 1))))
 
+(use-package keyfreq
+  :init (progn
+          (keyfreq-mode 1)
+          (keyfreq-autosave-mode 1)))
+
 (use-package lisp-mode
   :commands emacs-lisp-mode
   :config (add-hook
