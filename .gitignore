@@ -6,3 +6,12 @@ elpa
 .mc-lists.el
 ; Our token shouldn't be committed.
 paradox-token.el
+**/.yas-compiled-snippets.el
+semanticdb
+url
+var
+keyfreq*
+ede-projects.el
+.edbi-ds-history
+.cask
+.projectile-bookmarks.eld
