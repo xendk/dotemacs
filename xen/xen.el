@@ -474,5 +474,13 @@ Actually shrinks the region if the point is at the start of the region."
                       (region-beginning)
                       (region-end))))))
 
+(defun xen-psr ()
+  "Switch to PSR mode."
+  (interactive)
+  (setq flycheck-phpcs-standard "PSR2")
+  (c-set-style "psr2")
+  (setq c-basic-offset 4)
+  (kill-local-variable 'flycheck-disabled-checkers))
+
 (provide 'xen)
 ;;; xen.el ends here
