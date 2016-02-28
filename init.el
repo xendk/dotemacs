@@ -181,24 +181,7 @@
 (use-package flycheck
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded..
-  :config (progn (add-hook 'after-init-hook #'global-flycheck-mode)
-                 ;; Temporarily redefine eslint checker to use
-                 ;; source-inplace, until it's fixed upstream.
-                 (flycheck-define-checker javascript-eslint
-                   "A JavaScript syntax and style checker using eslint.
-
-See URL `https://github.com/nzakas/eslint'."
-                   :command ("eslint" "--format=compact"
-                             (config-file "--config" flycheck-eslintrc)
-                             (option "--rulesdir" flycheck-eslint-rulesdir)
-                             source-inplace)
-                   :error-patterns
-                   ((warning line-start (file-name)
-                             ": line " line ", col " column ", Warning - " (message) line-end)
-                    (error line-start (file-name)
-                           ": line " line ", col " column ", Error - " (message) line-end))
-                   :modes (js-mode js2-mode js3-mode)))
-  )
+  :config (progn (add-hook 'after-init-hook #'global-flycheck-mode)))
 
 (use-package flyspell
   :commands flyspell-mode
