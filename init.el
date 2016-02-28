@@ -251,6 +251,7 @@
 
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
+  :diminish ""
   :config (ivy-mode 1)
   :bind (("C-s" . swiper)
          ("M-x" . counsel-M-x)
