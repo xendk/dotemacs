@@ -81,6 +81,7 @@
  '(keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
  '(keyfreq-mode t)
  '(line-move-visual nil)
+ '(load-prefer-newer t)
  '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
  '(magit-display-buffer-function (quote xen-magit-display-buffer-traditional))
  '(magit-push-always-verify nil)
