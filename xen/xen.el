@@ -258,6 +258,7 @@ Use prefix argument N for more copies."
  (interactive)
  ; x-selection-value returns nil when selection hasn't changed.
  (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
+ ;; todo: delete region if active.
  (insert xen-paste-buffer))
 
 (defun xen-paste-term ()
