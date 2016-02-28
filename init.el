@@ -508,6 +508,9 @@ See URL `https://github.com/nzakas/eslint'."
   :diminish yas-minor-mode
   :config (yas-reload-all))
 
+(use-package zeal-at-point
+  :bind (("C-c d" . zeal-at-point)))
+
 
 
 ;;; Some places for inspiration
