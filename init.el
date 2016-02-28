@@ -385,6 +385,7 @@
   :config (add-hook
            'php-mode-hook
            (lambda () (xen-coding-common-bindings)
+             ;; Is this needed anymore?
              (modify-syntax-entry ?_ "_" php-mode-syntax-table)
              (yas-minor-mode 1)
              (helm-gtags-mode))))
