@@ -199,50 +199,12 @@
   :diminish google-this-mode
   :config (google-this-mode))
 
-(use-package helm
-  :diminish helm-mode
-  :commands helm-mode
-  :init (helm-mode 1)
-  :bind (("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-buffers-list)
-         ("C-<tab>" . swiper-helm)
-         ("M-x" . helm-M-x))
-  :config (progn
-            ;; Use tab for selecting and ctrl-z for showing actions.
-            ;; Makes more sense.
-            (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-            (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-            (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-))
-
-(use-package helm-company
-  :config (eval-after-load 'company
-            '(progn
-               (define-key company-mode-map (kbd "C-:") 'helm-company)
-               (define-key company-active-map (kbd "C-:") 'helm-company)))
-  )
-
-(use-package helm-gtags
-  :config (progn
-            (bind-key "M-," 'helm-gtags-find-rtag helm-gtags-mode-map)
-            (bind-key "M-." 'helm-gtags-find-tag helm-gtags-mode-map)
-            (bind-key "M-*" 'helm-gtags-pop-stack helm-gtags-mode-map)
-           )
-)
-
-(use-package helm-projectile
-  :config (progn
-            ;; Compatibility until helm-projectile is updated.
-            (defalias 'helm-buffers-list--match-fn 'helm-buffers-match-function)
-            (eval-after-load "projectile"
-              '(progn
-                 ;; Rebind projectile commands to use helm.
-                 (helm-projectile-on)
-                 ;; Reset switch project-action that the above messed
-                 ;; with to do projectile-vc which calls magit-status.
-                 (setq projectile-switch-project-action 'projectile-vc)
-)))
-  )
+(use-package gtags
+     :diminish "G "
+     :config (progn
+               ;; Unbind some keys.
+               (unbind-key "<mouse-2>" gtags-mode-map)
+               (unbind-key "<mouse-3>" gtags-mode-map)))
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
@@ -285,6 +247,20 @@
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
+
+;; Technically part of swiper, but we'll configure it here.
+(use-package ivy
+  :config (ivy-mode 1)
+  :bind (("C-s" . swiper)
+         ("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("<f1> f" . counsel-describe-function)
+         ("<f1> v" . counsel-describe-variable)
+         ("<f1> l" . counsel-load-library)
+         ("<f2> i" . counsel-info-lookup-symbol)
+         ("<f2> u" . counsel-unicode-char)
+         ("C-c g" . counsel-git)
+         ("C-c a" . counsel-ag)))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
@@ -388,7 +364,8 @@
              ;; Is this needed anymore?
              (modify-syntax-entry ?_ "_" php-mode-syntax-table)
              (yas-minor-mode 1)
-             (helm-gtags-mode))))
+             (gtags-mode)
+             )))
 
 (use-package projectile
   :commands projectile-project-p
