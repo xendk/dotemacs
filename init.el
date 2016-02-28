@@ -487,7 +487,10 @@
 (use-package xen
   :load-path "~/.emacs.d/xen/"
   :demand
-  :bind ("M-l" . xen-avy-goto-line))
+  :bind (("M-l" . xen-avy-goto-line)
+         ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
+         ;; part of words in php-mode, that's the issue.
+         ("C-<tab>" . xen-swiper)))
 
 (use-package yaml-mode
   :config (flyspell-mode))
