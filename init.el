@@ -206,6 +206,9 @@
                (unbind-key "<mouse-2>" gtags-mode-map)
                (unbind-key "<mouse-3>" gtags-mode-map)))
 
+(use-package harvest
+  :bind ("C-c h" . harvest))
+
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :diminish "")
