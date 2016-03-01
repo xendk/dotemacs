@@ -168,6 +168,8 @@
                      (propertize (concat " " [#xF1A9])
                                  'face '(:family "FontAwesome")))))
 
+(use-package drush-make-mode)
+
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload/"
