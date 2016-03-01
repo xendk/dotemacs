@@ -202,14 +202,36 @@
   :config (google-this-mode))
 
 (use-package gtags
-     :diminish "G "
-     :config (progn
-               ;; Unbind some keys.
-               (unbind-key "<mouse-2>" gtags-mode-map)
-               (unbind-key "<mouse-3>" gtags-mode-map)))
+  :commands gtags-mode
+  :delight gtags-mode
+  :config (progn
+            ;; Unbind some keys.
+            (unbind-key "<mouse-2>" gtags-mode-map)
+            (unbind-key "<mouse-3>" gtags-mode-map)))
 
 (use-package harvest
-  :bind ("C-c h" . harvest))
+  :bind ("C-c h" . harvest)
+  ;; Override function to truncate project and client, so the comment
+  ;; is visible.
+  :config (defun harvest-format-entry (entry)
+            "Format an ENTRY as a string.
+Format is PROJECT (CLIENT) \n TASK - NOTES"
+            (let ((formatted-string (concat
+                                     (s-truncate 10 (harvest-alist-get '(project) entry))
+                                     " ("
+                                     (s-truncate 10 (harvest-alist-get '(client) entry))
+                                     ")"
+                                     ": "
+                                     (harvest-alist-get '(task) entry)
+                                     " - "
+                                     (harvest-alist-get '(notes) entry)
+                                     "\t["
+                                     (number-to-string (harvest-alist-get '(hours) entry))
+                                     "]"
+                                     )))
+              (if (harvest-alist-get '(timer_started_at) entry)
+                  (propertize formatted-string 'face '(:background "green" :foreground "white"))
+                (propertize formatted-string 'face 'nil)))))
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
