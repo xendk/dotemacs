@@ -201,13 +201,11 @@
   :diminish google-this-mode
   :config (google-this-mode))
 
-(use-package gtags
-  :commands gtags-mode
-  :delight gtags-mode
-  :config (progn
-            ;; Unbind some keys.
-            (unbind-key "<mouse-2>" gtags-mode-map)
-            (unbind-key "<mouse-3>" gtags-mode-map)))
+(use-package ggtags
+  ;; @todo icon lighter
+  :diminish ggtags-mode
+  :commands ggtags-mode
+  )
 
 (use-package harvest
   :bind ("C-c h" . harvest)
@@ -395,7 +393,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              ;; Is this needed anymore?
              (modify-syntax-entry ?_ "_" php-mode-syntax-table)
              (yas-minor-mode 1)
-             (gtags-mode)
+             (ggtags-mode)
              )))
 
 (use-package projectile
