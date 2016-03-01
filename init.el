@@ -154,6 +154,7 @@
   :config (global-diff-hl-mode))
 
 (use-package drag-stuff
+  :diminish drag-stuff-mode
   :config (progn
             (setq drag-stuff-modifier '(meta shift))
             (drag-stuff-global-mode)))
