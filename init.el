@@ -254,7 +254,9 @@
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
   :diminish ""
-  :config (ivy-mode 1)
+  :config (progn
+            (ivy-mode 1)
+            (bind-key "C-S-s" 'ivy-yank-word ivy-mode-map))
   :bind (("C-s" . swiper)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
