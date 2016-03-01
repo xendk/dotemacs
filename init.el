@@ -466,6 +466,7 @@
 
 (use-package ws-butler
   :commands ws-butler-mode
+  :delight ws-butler-mode
   :init (add-hook 'php-mode-hook 'ws-butler-mode))
 
 (use-package xen
