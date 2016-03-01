@@ -162,7 +162,10 @@
   :load-path "~/.emacs.d/drupal-mode/"
   :config (progn
             (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)
-            (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))))
+            (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
+            (delight 'drupal-mode
+                     (propertize (concat " " [#xF1A9])
+                                 'face '(:family "FontAwesome")))))
 
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
