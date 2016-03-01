@@ -120,7 +120,6 @@
          ;; Binding xen-avy-goto-line on use-package xen.
          )
   :init (progn
-          (bind-key "S-SPC" 'avy-isearch isearch-mode-map)
           (eval-after-load 'cus-edit
           '(bind-key "S-SPC" 'avy-goto-word-1 custom-mode-map))))
 
