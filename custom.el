@@ -43,7 +43,7 @@
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode nil)
  '(drupal-ignore-paths-regexp
-   "\\(vendor\\|node_modules\\|tests/behat\\|tests/codecept\\)")
+   "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
  '(drupal/emacs-drush-update-tags-after-save t)
  '(drupal/phpcs-standard "Drupal,DrupalPractice")
  '(echo-keystrokes 0.1)
