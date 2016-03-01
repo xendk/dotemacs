@@ -53,6 +53,7 @@
  '(fci-rule-color "#282a2e")
  '(flycheck-disabled-checkers (quote (javascript-jshint)))
  '(flycheck-eslintrc nil)
+ '(flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
  '(flycheck-phpcs-standard "PSR2")
  '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming")))
  '(flycheck-scss-compass t)
