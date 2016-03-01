@@ -318,8 +318,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package magit
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
-
-  )
+  (delight 'magit-status-mode (propertize (concat " " [#xF1D3])
+                                  'face '(:family "FontAwesome")) :major))
 
 ;; Add git flow extension.
 (use-package magit-gitflow
