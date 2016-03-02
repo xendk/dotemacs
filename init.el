@@ -282,7 +282,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :diminish ""
   :config (progn
             (ivy-mode 1)
-            (bind-key "C-S-s" 'ivy-yank-word ivy-mode-map))
+            (bind-key "C-S-s" 'ivy-yank-word ivy-minibuffer-map))
   :bind (("C-s" . swiper)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
