@@ -243,11 +243,6 @@ only work when ARG is 1 or the region is not active."
                                    (progn (goto-char :beg)
                                           (delete-char 1))))))))))
 
-;; This fails in js-mode and deletes two matching chars. The problem
-;; is that delete-backward-char gets called twice, once through
-;; backward-delete-char-untabify. Need to look into that, but don't
-;; want to mess too much with advice until I get Emacs 24.4 and the
-;; new advice system.
 (defun xen-delete-char-advice (n &optional kill-flag)
   "Advice for delete char.  Use N and ignore KILL-FLAG."
   (if (not (boundp 'xen-delete-char-disabled))
