@@ -256,13 +256,16 @@ only work when ARG is 1 or the region is not active."
 ;; backward-delete-char-untabify. Need to look into that, but don't
 ;; want to mess too much with advice until I get Emacs 24.4 and the
 ;; new advice system.
-(defadvice delete-backward-char (before xen-delete-backwards-advice activate)
-  (save-match-data
-    (xen-paired-delete t (ad-get-arg 0))))
 
-(defadvice delete-forward-char (before xen-delete-forward-advice activate)
-  (save-match-data
-    (xen-paired-delete nil (ad-get-arg 0))))
+(defun xen-delete-backwards-advice-forward (n &optional kill-flag)
+  "Delete matching pair."
+  (save-match-data (xen-paired-delete t n)))
+(advice-add 'delete-forward-char :before #'xen-delete-backwards-advice-backward)
+
+(defun xen-delete-backwards-advice-backward (n &optional kill-flag)
+  "Delete matching pair."
+  (save-match-data (xen-paired-delete nil n)))
+(advice-add 'delete-backward-char :before #'xen-delete-backwards-advice-forward)
 
 
 (put 'xen-paired-delete 'delete-selection 'supersede)
@@ -394,7 +397,7 @@ Actually shrinks the region if the point is at the start of the region."
       (call-interactively 'avy-goto-line arg)
       (move-to-column col-pos))))
 
-(require 'swiper)
+;(require 'swiper)
 (defun xen-swiper ()
   "Call swiper with region (from BEG to END) as initial-input."
   (interactive)
