@@ -232,7 +232,6 @@ only work when ARG is 1 or the region is not active."
                              (save-excursion
                                (if (= (- (point) (if backwards-p 1 0)) :beg)
                                    (progn (goto-char :end)
-                                          (message (number-to-string :end))
                                           (delete-char -1)
                                           ;; This is odd, but without
                                           ;; this, it would chomp 2
