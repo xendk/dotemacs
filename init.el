@@ -153,11 +153,6 @@
 (use-package diff-hl
   :config (global-diff-hl-mode))
 
-(use-package drag-stuff
-  :diminish drag-stuff-mode
-  :config (progn
-            (setq drag-stuff-modifier '(meta shift))
-            (drag-stuff-global-mode)))
 
 (use-package drupal-mode
   :load-path "~/.emacs.d/drupal-mode/"
@@ -347,7 +342,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                  (auto-fill-mode)
                  (flyspell-mode)))))
 
-
 (use-package multi-term
   :commands multi-term-dedicated-exist-p)
 
@@ -382,7 +376,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ;; The "paradox-token.el" file is supposed to contain this line:
     ;;     (setq paradox-github-token "<YOUR_TOKEN>")
     (load (locate-user-emacs-file "paradox-token.el") :noerror :nomessage)
-
     (paradox-enable)))
 
 (use-package php-boris
