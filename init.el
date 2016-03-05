@@ -153,7 +153,6 @@
 (use-package diff-hl
   :config (global-diff-hl-mode))
 
-
 (use-package drupal-mode
   :load-path "~/.emacs.d/drupal-mode/"
   :config (progn
