@@ -15,3 +15,5 @@ ede-projects.el
 .edbi-ds-history
 .cask
 .projectile-bookmarks.eld
+eshell
+.harvest
