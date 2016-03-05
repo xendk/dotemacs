@@ -497,6 +497,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-<tab>" . xen-swiper)))
 
 (use-package yaml-mode
+  :mode "\\.e?ya?ml$"
   :config (flyspell-mode))
 
 (use-package yasnippet
