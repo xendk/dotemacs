@@ -14,6 +14,7 @@
 (require 'xen)
 (require 'espuds)
 (require 'ert)
+(require 'shut-up)
 
 (Setup
  ;; Before anything has run

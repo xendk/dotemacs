@@ -12,4 +12,4 @@
  (depends-on "el-mock")
  (depends-on "php-mode")
  (depends-on "smartparens")
- )
+ (depends-on "shut-up"))

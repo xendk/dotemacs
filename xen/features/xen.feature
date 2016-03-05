@@ -21,7 +21,7 @@ Feature: Mached pairs deletion
     (require 'smartparens)
     """
     And I turn on php-mode    
-    And I turn on smartparens-mode    
+    And I quietly turn on smartparens-mode    
 
   Scenario: Forward deleting start of pair.
     When I place the cursor after "1"
