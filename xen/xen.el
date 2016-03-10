@@ -252,10 +252,11 @@ only work when ARG is 1 or the region is not active."
 (advice-add 'delete-char :before #'xen-delete-char-advice)
 
 (defun xen-sp-insert-pair-advice (orig-fun &rest args)
-  "Advice to disable paired delete in sp-insert-pair.  Call ORIG-FUN with ARGS."
+  "Advice to disable paired delete in sp-insert-pair/sp-skip-closing-pair.  Call ORIG-FUN with ARGS."
   (let ((xen-delete-char-disabled t))
     (apply orig-fun args)))
 (advice-add 'sp-insert-pair :around #'xen-sp-insert-pair-advice)
+(advice-add 'sp-skip-closing-pair :around #'xen-sp-insert-pair-advice)
 
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
