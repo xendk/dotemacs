@@ -23,7 +23,30 @@ Feature: js-mode mached pairs deletion
     And I turn on js-mode
   And I quietly turn on smartparens-mode
 
-Scenario: Forward deleting start of pair.
+  Scenario: JS Forward deleting start of pair.
+    When I place the cursor after "1("
+    And I press "<backspace>"
+    Then the buffer should contain:
+    """
+    12
+    3(4
+    5)6
+    78
+    """
+
+  Scenario: JS Forward deleting end of pair.
+    When I place the cursor after "7)"
+    And I press "<backspace>"
+    Then the buffer should contain:
+    """
+    12
+    3(4
+    5)6
+    78
+    """
+
+
+  Scenario: JS Backwards deleting start of pair.
     When I place the cursor after "1"
     And I press "<deletechar>"
     Then the buffer should contain:
@@ -34,32 +57,9 @@ Scenario: Forward deleting start of pair.
     78
     """
 
-Scenario: Forward deleting end of pair.
+  Scenario: JS Backwards deleting end of pair.
     When I place the cursor after "7"
     And I press "<deletechar>"
-    Then the buffer should contain:
-    """
-    12
-    3(4
-    5)6
-    78
-    """
-
-
-Scenario: Backwards deleting start of pair.
-    When I place the cursor before "2"
-    And I press "<delete>"
-    Then the buffer should contain:
-    """
-    12
-    3(4
-    5)6
-    78
-    """
-
-Scenario: Backwards deleting end of pair.
-    When I place the cursor before "8"
-    And I press "<delete>"
     Then the buffer should contain:
     """
     12

@@ -24,8 +24,8 @@ Feature: Mached pairs deletion
     And I quietly turn on smartparens-mode    
 
   Scenario: Forward deleting start of pair.
-    When I place the cursor after "1"
-    And I press "<deletechar>"
+    When I place the cursor after "1("
+    And I press "<backspace>"
     Then the buffer should contain:
     """
     <?php
@@ -37,8 +37,8 @@ Feature: Mached pairs deletion
     """
     
   Scenario: Forward deleting end of pair.
-    When I place the cursor after "7"
-    And I press "<deletechar>"
+    When I place the cursor after "7)"
+    And I press "<backspace>"
     Then the buffer should contain:
     """
     <?php
@@ -51,8 +51,8 @@ Feature: Mached pairs deletion
 
 
   Scenario: Backwards deleting start of pair.
-    When I place the cursor before "2"
-    And I press "<delete>"
+    When I place the cursor after "1"
+    And I press "<deletechar>"
     Then the buffer should contain:
     """
     <?php
@@ -64,8 +64,8 @@ Feature: Mached pairs deletion
     """
     
   Scenario: Backwards deleting end of pair.
-    When I place the cursor before "8"
-    And I press "<delete>"
+    When I place the cursor after "7"
+    And I press "<deletechar>"
     Then the buffer should contain:
     """
     <?php
