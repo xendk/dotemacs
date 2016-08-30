@@ -24,6 +24,7 @@
      (awk-mode . "awk")
      (other . "psr2"))))
  '(comint-input-autoexpand t)
+ '(company-auto-complete (quote xen-company-visible-and-explicit-action-p))
  '(company-backends
    (quote
     ((php-extras-company company-dabbrev-code company-gtags company-keywords :with company-yasnippet)
@@ -31,7 +32,16 @@
      (company-dabbrev-code company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
  '(company-dabbrev-code-everywhere t)
+ '(company-frontends
+   (quote
+    (company-pseudo-tooltip-unless-just-one-frontend-with-delay company-echo-metadata-frontend company-preview-frontend)))
+ '(company-idle-delay 0)
  '(company-require-match nil)
+ '(company-show-numbers nil)
+ '(company-tooltip-flip-when-above nil)
+ '(company-tooltip-idle-delay 0)
+ '(company-tooltip-limit 30)
+ '(company-tooltip-minimum 20)
  '(company-transformers (quote (company-sort-by-occurrence)))
  '(css-indent-offset 2)
  '(custom-safe-themes
@@ -91,6 +101,7 @@
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
  '(magit-display-buffer-function (quote xen-magit-display-buffer-traditional))
+ '(magit-fetch-arguments (quote ("--prune")))
  '(magit-push-always-verify nil)
  '(magit-revert-buffers t t)
  '(magit-status-buffer-switch-function (quote switch-to-buffer))
@@ -255,6 +266,11 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Anonymous Pro"))))
  '(column-enforce-face ((t (:background "#524500"))))
+ '(company-scrollbar-bg ((t (:background "#191919"))))
+ '(company-scrollbar-fg ((t (:background "#0c0c0c"))))
+ '(company-tooltip ((t (:inherit default :background "gray14"))))
+ '(company-tooltip-common ((t (:inherit font-lock-constant-face))))
+ '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(cursor ((t (:background "turquoise"))))
  '(flycheck-error ((t (:background "Red4" :underline (:color "Red1" :style wave)))))
  '(flycheck-fringe-warning ((t (:inherit warning))))

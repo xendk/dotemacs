@@ -435,5 +435,10 @@ This is my own version using FontAwesome icons."
                                          'face '(:family "FontAwesome"))))))
     (concat " " text)))
 
+(defun xen-company-visible-and-explicit-action-p ()
+  "Whether company is visible, and user input has taken place."
+  (and (company-tooltip-visible-p)
+       (company-explicit-action-p)))
+
 (provide 'xen)
 ;;; xen.el ends here

@@ -148,7 +148,19 @@
 
 (use-package company
   :diminish ""
-  :config (global-company-mode))
+  :config (progn
+            (global-company-mode)
+            ;; Make tab complete either common prefix, or select if
+            ;; only one option.
+            (define-key company-active-map [tab]
+              'company-complete)
+            (define-key company-active-map (kbd "TAB")
+              'company-complete)
+            ;; Remove enter key-binding, it messes with normal typing.
+            (define-key company-active-map (kbd "RET") nil)
+            (define-key company-active-map (kbd "<return>") nil)
+            ;; Some inspiration from: https://github.com/company-mode/company-mode/issues/526#issuecomment-227038605
+            ))
 
 (use-package diff-hl
   :config (global-diff-hl-mode))
