@@ -406,6 +406,11 @@ Actually shrinks the region if the point is at the start of the region."
   (setq c-basic-offset 4)
   (kill-local-variable 'flycheck-disabled-checkers))
 
+;; Define a FontAwesome face.
+(make-face 'xen-font-awesome-face)
+(set-face-attribute 'xen-font-awesome-face nil
+                    :family "FontAwesome")
+
 (defun xen-flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
 
@@ -416,24 +421,25 @@ This is my own version using FontAwesome icons."
   (let ((text (pcase (or status flycheck-last-status-change)
                 (`not-checked "")
                 (`no-checker (propertize (concat [#xF141])
-                                         'face '(:family "FontAwesome")))
+                                         'face 'xen-font-awesome-face))
                 (`running (propertize (concat [#xF110])
-                                      'face '(:family "FontAwesome")))
+                                      'face 'xen-font-awesome-face))
                 (`errored (propertize (concat [#xF12A])
-                                      'face '(:family "FontAwesome")))
+                                      'face 'xen-font-awesome-face))
                 (`finished
                  (let-alist (flycheck-count-errors flycheck-current-errors)
                    (if (or .error .warning)
-                     (concat (propertize (concat [#xF00D])
-                                         'face '(:family "FontAwesome"))
-                             (format "%s/%s" (or .error 0) (or .warning 0)))
+                       (list (propertize (concat [#xF00D])
+                                           'face 'xen-font-awesome-face)
+                                (format "%s/%s" (or .error 0) (or .warning 0))
+                               )
                      (propertize (concat [#xF00C])
-                                 'face '(:family "FontAwesome")))))
+                                 'face 'xen-font-awesome-face))))
                 (`interrupted (propertize (concat [#xF127])
-                                          'face '(:family "FontAwesome")))
+                                          'face 'xen-font-awesome-face))
                 (`suspicious (propertize (concat [#xF128])
-                                         'face '(:family "FontAwesome"))))))
-    (concat " " text)))
+                                         'face 'xen-font-awesome-face)))))
+    (list " " text)))
 
 (defun xen-company-visible-and-explicit-action-p ()
   "Whether company is visible, and user input has taken place."
