@@ -296,5 +296,6 @@
  '(term-color-magenta ((t (:background "#ad7fa8" :foreground "#ad7fa8"))))
  '(term-color-red ((t (:background "#ef2929" :foreground "#ef2929"))))
  '(term-color-white ((t (:background "#eeeeec" :foreground "#eeeeec"))))
- '(term-color-yellow ((t (:background "#fce94f" :foreground "#fce94f")))))
+ '(term-color-yellow ((t (:background "#fce94f" :foreground "#fce94f"))))
+ '(vertical-border ((t (:foreground "gray30")) (((type tty)) (:inherit mode-line-inactive)))))
 (put 'narrow-to-region 'disabled nil)
