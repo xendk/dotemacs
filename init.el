@@ -152,14 +152,33 @@
             (global-company-mode)
             ;; Make tab complete either common prefix, or select if
             ;; only one option.
-            (define-key company-active-map [tab]
-              'company-complete)
-            (define-key company-active-map (kbd "TAB")
-              'company-complete)
+            ;; (define-key company-active-map [tab]
+            ;;   'company-complete)
+            ;; (define-key company-active-map (kbd "TAB")
+            ;;   'company-complete)
+            ;; Some inspiration from: https://github.com/company-mode/company-mode/issues/526#issuecomment-227038605
+            ;; (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+            ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+            ;; Let's emulate the fish shell.
+            ;; This is the default for tab.
+            ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
+            ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common)
+            (define-key company-active-map (kbd "<right>") 'company-complete-selection)
+            (define-key company-active-map (kbd "<M-right>") 'company-complete-common)
+            (define-key company-active-map (kbd "C-f") 'company-complete-selection)
+            (define-key company-active-map (kbd "M-f") 'company-complete-common)
             ;; Remove enter key-binding, it messes with normal typing.
             (define-key company-active-map (kbd "RET") nil)
             (define-key company-active-map (kbd "<return>") nil)
-            ;; Some inspiration from: https://github.com/company-mode/company-mode/issues/526#issuecomment-227038605
+            ;; Define a local map that's only active when selection
+            ;; has changed, and bind return to the action we unbound
+            ;; it from in the normal keymap. This means we can use
+            ;; return to select the chosen item, but it wont mess with
+            ;; normal typing.
+            (defvar xen-company-explicit-map (make-sparse-keymap))
+            (define-key xen-company-explicit-map [return] 'company-complete-selection)
+            (define-key xen-company-explicit-map (kbd "RET") 'company-complete-selection)
+            (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed xen-company-explicit-map))
             ))
 
 (use-package diff-hl

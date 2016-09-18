@@ -24,7 +24,7 @@
      (awk-mode . "awk")
      (other . "psr2"))))
  '(comint-input-autoexpand t)
- '(company-auto-complete (quote xen-company-visible-and-explicit-action-p))
+ '(company-auto-complete nil)
  '(company-backends
    (quote
     ((php-extras-company company-dabbrev-code company-gtags company-keywords :with company-yasnippet)
