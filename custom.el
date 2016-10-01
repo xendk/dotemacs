@@ -91,7 +91,6 @@
  '(ivy-extra-directories nil)
  '(ivy-mode t)
  '(jit-lock-stealth-time 10)
- '(js-indent-level 2)
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/keyfreq")
  '(keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
