@@ -284,6 +284,7 @@
  '(magit-diff-del ((t (:foreground "tomato"))))
  '(magit-item-highlight ((t (:background "#111"))))
  '(mode-line ((t (:background "OliveDrab3" :foreground "black"))))
+ '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :weight light))))
  '(powerline-active1 ((t (:inherit mode-line :background "grey22" :foreground "white" :box nil))))
  '(powerline-active2 ((t (:inherit mode-line :background "grey40" :foreground "white" :box nil))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "grey11" :box nil))))
