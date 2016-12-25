@@ -33,9 +33,6 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
 
-;; Add ~/.emacs.d/lib to load-path.
-(add-to-list 'load-path "~/.emacs.d/lib/")
-
 ;;; Bindings.
 ;(require 'bind-key)
 ;; TODO: use bind-key.
@@ -295,6 +292,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
+  :load-path "~/.emacs.d/lib/"
   :commands java-mode-indent-annotations-setup
   :init (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup))
 
