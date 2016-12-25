@@ -259,6 +259,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :config (global-hl-line-mode))
 
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
+;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
+;; rotate package
 (use-package hydra
   ;; TODO: use :config and :bind.
   :init (progn
