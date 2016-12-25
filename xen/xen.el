@@ -287,7 +287,6 @@ Actually shrinks the region if the point is at the start of the region."
       (call-interactively 'avy-goto-line arg)
       (move-to-column col-pos))))
 
-;(require 'swiper)
 (defun xen-swiper ()
   "Call swiper with region (from BEG to END) as initial-input."
   (interactive)
