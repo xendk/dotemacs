@@ -33,29 +33,6 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file)
 
-;;; Bindings.
-;(require 'bind-key)
-;; TODO: use bind-key.
-(define-key global-map [M-delete] 'kill-word)
-(define-key global-map (kbd "C-S-Z") 'repeat)
-
-;; Don't iconify on C-z.
-(global-unset-key (kbd "C-z"))
-;; (when (display-graphic-p)
-;;   (unbind-key "C-z"))
-
-;; (define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
-
-;; http://www.emacswiki.org/emacs/WindowResize
-;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-;; (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-;; (global-set-key (kbd "S-C-<down>") 'shrink-window)
-;; (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-
-(global-set-key [?\C-x ?\C-b] 'buffer-menu)
-
-(global-set-key (kbd "C-c b") 'browse-url-at-point)
-
 ;;; Aliases and advices
 ;; I'm grown up, I can manage using y/n for even destructive commands.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -68,7 +45,7 @@
         (message matching-text)))))
 
 
-;;; Packages.
+
 ;; Initialize package system.
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -79,11 +56,29 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-;;; Use use-package for loading packages.
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+;;; Bindings.
+;; Used to M-DEL deleting a word.
+(bind-key "M-<delete>" 'kill-word)
+
+;; Don't iconify on C-z.
+(unbind-key "C-z")
+
+;; Maybe reintroduce these now that I'm using the same keys in Terminator?
+;; http://www.emacswiki.org/emacs/WindowResize
+;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+;; (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+;; (global-set-key (kbd "S-C-<down>") 'shrink-window)
+;; (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+
+;; Quickly open URLs.
+(bind-key "C-c b" 'browse-url-at-point)
+
+;;; Packages.
 
 (use-package avy
   :commands avy-goto-word-1
