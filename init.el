@@ -362,15 +362,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-%" . mc/mark-all-in-region)
          ("C-=" . mc/mark-all-like-this-dwim)))
 
-(use-package navorski
-  :commands nav/defterminal
-  :init (nav/defterminal
-          guard
-          :program-path "/usr/local/bin/guard"
-          :cwd '(lambda (path) (locate-dominating-file path "Guardfile"))
-          :interactive t
-          ))
-
 (use-package org-mode
   :commands org-mode
   :mode "\\.org\\'")
