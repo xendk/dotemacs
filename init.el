@@ -188,6 +188,9 @@
   :load-path "~/.emacs.d/ede-php-autoload/"
   :init (add-hook 'php-mode-hook 'ede-php-autoload-mode))
 
+(use-package ecukes
+  :commands ecukes)
+
 (use-package eldoc
   :commands eldoc-mode
   :diminish "")
