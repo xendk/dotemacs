@@ -47,12 +47,6 @@
 ;; (when (display-graphic-p)
 ;;   (unbind-key "C-z"))
 
-;; todo: move xen-bindings to use-package...
-(global-set-key [f11] 'xen-toggle-fullscreen)
-(global-set-key [S-f11] 'xen-toggle-font-size)
-(global-set-key [f12] 'xen-big-fringe-mode)
-(global-set-key (kbd "C-a") 'xen-back-to-indentation-or-beginning)
-
 ;; Add shortcut to open magit status buffer.
 (global-set-key (kbd "C-c C-g") 'magit-status)
 ;; (define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
@@ -63,26 +57,7 @@
 ;; (global-set-key (kbd "S-C-<down>") 'shrink-window)
 ;; (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-(global-set-key (kbd "C-S-d") 'xen-duplicate-current-line)
-
-;; As I never use C-v anyway, and its effect when i hit it confuses
-;; me, why not bind it to pasting from outside (like the middle button
-;; does)?
-(global-set-key (kbd "C-v") 'xen-paste)
-;; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
-;; above if not specifically bound, but let's make it explicit.
-(global-set-key (kbd "S-C-v") 'xen-paste)
-
-;; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
-;; order to limit the amount of different key combinations I should
-;; remember for the same thing.
-(global-set-key (kbd "S-C-c") 'xen-copy)
-
 (global-set-key [?\C-x ?\C-b] 'buffer-menu)
-
-(global-set-key (kbd "C-!") 'xen-multi-term-dedicated-toggle-and-select)
-
-(global-set-key (kbd "C-S-l") 'xen-mark-lines)
 
 (global-set-key (kbd "C-c b") 'browse-url-at-point)
 
@@ -527,7 +502,25 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :bind (("M-l" . xen-avy-goto-line)
          ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
          ;; part of words in php-mode, that's the issue.
-         ("C-<tab>" . xen-swiper)))
+         ("C-<tab>" . xen-swiper)
+         ("<f11>" . xen-toggle-fullscreen)
+         ("S-<f11>" . xen-toggle-font-size)
+         ("<f12>" . xen-big-fringe-mode)
+         ("C-a" . xen-back-to-indentation-or-beginning)
+         ("C-S-d" . xen-duplicate-current-line)
+         ;; As I never use C-v anyway, and its effect when i hit it confuses
+         ;; me, why not bind it to pasting from outside (like the middle button
+         ;; does)?
+         ("C-v" . xen-paste)
+         ;; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
+         ;; above if not specifically bound, but let's make it explicit.
+         ("S-C-v" . xen-paste)
+         ;; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
+         ;; order to limit the amount of different key combinations I should
+         ;; remember for the same thing.
+         ("S-C-c" . xen-copy)
+         ("C-!" . xen-multi-term-dedicated-toggle-and-select)
+         ("C-S-l" . xen-mark-lines)))
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"
