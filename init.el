@@ -116,26 +116,31 @@
 
 (use-package company
   :diminish ""
+  ;; Global mode, can't really be deferred.
+  :demand
+  :bind (:map company-active-map
+              ;; company-complete-common is annying as it only completes
+              ;; the common part, company-complete-selection always
+              ;; selects the first option and company-complete requires
+              ;; double tabs all the times.
+              ;; This completes the common part or selects the first (or selected) option.
+              ("TAB" . xen-company-complete-common-or-selection)
+              ("<tab>" . xen-company-complete-common-or-selection)
+              )
   :config (progn
             (global-company-mode)
-            ;; company-complete-common is annying as it only completes
-            ;; the common part, company-complete-selection always
-            ;; selects the first option and company-complete requires
-            ;; double tabs all the times.
-            ;; This completes the common part or selects the first (or selected) option.
-            (define-key company-active-map (kbd "<tab>") 'xen-company-complete-common-or-selection)
             ;; Remove enter key-binding, it messes with normal typing.
-            (define-key company-active-map (kbd "RET") nil)
-            (define-key company-active-map (kbd "<return>") nil)
+            (unbind-key "RET" company-active-map)
+            (unbind-key "<return>" company-active-map)
             ;; Define a local map that's only active when selection
             ;; has changed, and bind return to the action we unbound
             ;; it from in the normal keymap. This means we can use
             ;; return to select the chosen item, but it wont mess with
             ;; normal typing.
             (defvar xen-company-explicit-map (make-sparse-keymap))
-            (define-key xen-company-explicit-map [return] 'company-complete-selection)
-            (define-key xen-company-explicit-map (kbd "RET") 'company-complete-selection)
-            (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed xen-company-explicit-map))
+            (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
+            (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
+                                                     xen-company-explicit-map))
             ))
 
 (use-package diff-hl
@@ -179,7 +184,8 @@
   :diminish "")
 
 (use-package flyspell-correct-ivy
-  :config (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-previous-word-generic))
+  :bind (:map flyspell-mode-map
+              ("C-;" . flyspell-correct-previous-word-generic)))
 
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
@@ -450,12 +456,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package term
   :defer
-  ;; Get paste working in (multi-)term-mode.
-  :config (add-hook 'term-mode-hook
-                    (lambda ()
-                      (define-key term-raw-map (kbd "C-y") 'term-paste)
-                      (define-key term-raw-map (kbd "C-v") 'xen-paste-term)
-                      (define-key term-raw-map (kbd "S-C-v") 'xen-paste-term))))
+  :bind (:map term-raw-map
+              ;; Get paste working in (multi-)term-mode.  
+              ("C-y" . term-paste)
+              ("C-v" . xen-paste-term)
+              ("S-C-v" . xen-paste-term)))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -481,9 +486,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
 (use-package winner
-  :config (progn (winner-mode)
-                 (global-set-key [(XF86Back)] 'winner-undo)
-                 (global-set-key [(XF86Forward)] 'winner-redo)))
+  :config (progn (winner-mode)))
 
 (use-package ws-butler
   :commands ws-butler-mode
