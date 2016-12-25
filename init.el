@@ -150,7 +150,11 @@
 (use-package drupal-mode
   :load-path "~/.emacs.d/drupal-mode/"
   :config (progn
-            (bind-key "C-a" 'xen-drupal-mode-beginning-of-line drupal-mode-map)
+            ;; drupal-mode-beginning-of-line doesn't play ball with
+            ;; auto-indent-mode, and the only thing it adds is the 'go
+            ;; to the start of value' thing for conf-mode. As Drupal 8
+            ;; uses YAML, we'll live without.
+            (unbind-key "C-a" drupal-mode-map)
             (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
             (delight 'drupal-mode
                      (propertize (concat " " [#xF1A9])
@@ -497,7 +501,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("<f11>" . xen-toggle-fullscreen)
          ("S-<f11>" . xen-toggle-font-size)
          ("<f12>" . xen-big-fringe-mode)
-         ("C-a" . xen-back-to-indentation-or-beginning)
          ("C-S-d" . xen-duplicate-current-line)
          ("C-!" . xen-multi-term-dedicated-toggle-and-select)
          ("C-S-l" . xen-mark-lines)))
