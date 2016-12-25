@@ -324,9 +324,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-c C-g" . magit-status))
   :config (progn
              (use-package magithub)
-             (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook))
-  (delight 'magit-status-mode (propertize (concat " " [#xF1D3])
-                                  'face '(:family "FontAwesome")) :major))
+             (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
+             (delight 'magit-status-mode (propertize (concat " " [#xF1D3])
+                                          'face '(:family "FontAwesome")) :major)))
 
 ;; Add git flow extension.
 (use-package magit-gitflow
