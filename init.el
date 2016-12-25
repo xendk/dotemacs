@@ -431,7 +431,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands projectile-project-p
   :diminish projectile-mode
   :init (progn
-    (projectile-global-mode)))
+    (projectile-mode)))
 
 (use-package ruby-mode
   :commands ruby-mode
