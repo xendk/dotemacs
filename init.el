@@ -47,8 +47,6 @@
 ;; (when (display-graphic-p)
 ;;   (unbind-key "C-z"))
 
-;; Add shortcut to open magit status buffer.
-(global-set-key (kbd "C-c C-g") 'magit-status)
 ;; (define-key global-map (kbd "C-x C-f") 'xen-find-file-dwim)
 
 ;; http://www.emacswiki.org/emacs/WindowResize
@@ -321,6 +319,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package magit
   :init (setq magit-last-seen-setup-instructions "1.4.0")
+  :bind (;; Add shortcut to open magit status buffer.
+         ("C-c C-g" . magit-status))
   :config (progn
              (use-package magithub)
              (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook))
