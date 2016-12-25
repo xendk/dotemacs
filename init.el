@@ -318,6 +318,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              (yas-minor-mode 1))))
 
 (use-package magit
+  :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c C-g" . magit-status))
