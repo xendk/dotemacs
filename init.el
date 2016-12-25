@@ -118,6 +118,7 @@
   :diminish ""
   ;; Global mode, can't really be deferred.
   :demand
+  :defines company-semantic-modes
   :bind (:map company-active-map
               ;; company-complete-common is annying as it only completes
               ;; the common part, company-complete-selection always
@@ -448,7 +449,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package term
   :defer
   :bind (:map term-raw-map
-              ;; Get paste working in (multi-)term-mode.  
+              ;; Get paste working in (multi-)term-mode.
               ("C-y" . term-paste)
               ("C-v" . xen-paste-term)
               ("S-C-v" . xen-paste-term)))
@@ -487,6 +488,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package xen
   :load-path "~/.emacs.d/xen/"
   :demand
+  :functions xen-coding-common-bindings
   :bind (("M-l" . xen-avy-goto-line)
          ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
          ;; part of words in php-mode, that's the issue.
