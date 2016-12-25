@@ -167,7 +167,7 @@ Use prefix argument N for more copies."
     	(insert current-line)
     	(decf n)))))
 
-;; Pairing.
+;; TODO: auto-indent-mode messes with this.
 (defun xen-open ()
   "Open new line, with proper indentation."
   (interactive)
@@ -175,6 +175,7 @@ Use prefix argument N for more copies."
   (call-interactively 'open-line)
   (indent-for-tab-command))
 
+;; Pairing.
 (defun xen-paired-delete (backwards-p &optional arg)
   "Deletes the matching pair if deleting a pair.
 
