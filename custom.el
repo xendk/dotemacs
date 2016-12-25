@@ -265,6 +265,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width semi-condensed :foundry "FBI " :family "Input"))))
+ '(avy-lead-face ((t (:background "dark red" :foreground "white"))))
  '(column-enforce-face ((t (:background "#524500"))))
  '(company-scrollbar-bg ((t (:background "#191919"))))
  '(company-scrollbar-fg ((t (:background "#0c0c0c"))))
