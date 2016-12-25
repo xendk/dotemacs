@@ -99,8 +99,9 @@
 
 
 ;;; Packages.
-;;;; Initialize package system.
+;; Initialize package system.
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
              '("marmalade" .
                "http://marmalade-repo.org/packages/"))
@@ -109,7 +110,10 @@
 (package-initialize)
 
 ;;; Use use-package for loading packages.
-(require 'use-package)
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (use-package avy
   :commands avy-goto-word-1
