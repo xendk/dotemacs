@@ -430,6 +430,14 @@ This is my own version using FontAwesome icons."
   (interactive)
   (insert (format-time-string "%Y-%m-%d %H:%M:%S")))
 
+(defun xen-company-complete-common-or-selection ()
+  "Insert the common part of all candidates, or select the current one."
+  (interactive)
+  (when (company-manual-begin)
+    (let ((tick (buffer-chars-modified-tick)))
+      (call-interactively 'company-complete-common)
+      (when (eq tick (buffer-chars-modified-tick))
+        (company-complete-selection)))))
 
 (provide 'xen)
 ;;; xen.el ends here

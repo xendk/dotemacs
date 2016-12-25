@@ -149,23 +149,12 @@
   :diminish ""
   :config (progn
             (global-company-mode)
-            ;; Make tab complete either common prefix, or select if
-            ;; only one option.
-            ;; (define-key company-active-map [tab]
-            ;;   'company-complete)
-            ;; (define-key company-active-map (kbd "TAB")
-            ;;   'company-complete)
-            ;; Some inspiration from: https://github.com/company-mode/company-mode/issues/526#issuecomment-227038605
-            ;; (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-            ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-            ;; Let's emulate the fish shell.
-            ;; This is the default for tab.
-            ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
-            ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common)
-            (define-key company-active-map (kbd "<right>") 'company-complete-selection)
-            (define-key company-active-map (kbd "<M-right>") 'company-complete-common)
-            (define-key company-active-map (kbd "C-f") 'company-complete-selection)
-            (define-key company-active-map (kbd "M-f") 'company-complete-common)
+            ;; company-complete-common is annying as it only completes
+            ;; the common part, company-complete-selection always
+            ;; selects the first option and company-complete requires
+            ;; double tabs all the times.
+            ;; This completes the common part or selects the first (or selected) option.
+            (define-key company-active-map (kbd "<tab>") 'xen-company-complete-common-or-selection)
             ;; Remove enter key-binding, it messes with normal typing.
             (define-key company-active-map (kbd "RET") nil)
             (define-key company-active-map (kbd "<return>") nil)
