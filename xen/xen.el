@@ -291,8 +291,6 @@ Actually shrinks the region if the point is at the start of the region."
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
-  (local-set-key (kbd "M-<up>") 'flycheck-previous-error)
-  (local-set-key (kbd "M-<down>") 'flycheck-next-error)
   (flyspell-prog-mode)
 )
 

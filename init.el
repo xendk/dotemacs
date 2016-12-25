@@ -175,10 +175,13 @@
   :config (add-hook 'php-mode-hook 'xen-php-mode-expansions))
 
 (use-package flycheck
+  :bind (:map flycheck-mode-map
+              ("M-<up>" . flycheck-previous-error)
+              ("M-<down>" . flycheck-next-error))
   ;; Enable flycheck globally, doing it this way delays the setup to
-  ;; after everything is loaded..
-  :config (progn (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
-                 (add-hook 'after-init-hook #'global-flycheck-mode)))
+  ;; after everything is loaded.
+  :init (add-hook 'after-init-hook #'global-flycheck-mode)
+  :config (progn (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
 (use-package flyspell
   :commands flyspell-mode
