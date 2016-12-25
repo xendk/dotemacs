@@ -425,5 +425,11 @@ This is my own version using FontAwesome icons."
                                          'face 'xen-font-awesome-face)))))
     (list " " text)))
 
+(defun xen-changelog-timestamp ()
+  "Return a time string for ~/ChangeLog."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S")))
+
+
 (provide 'xen)
 ;;; xen.el ends here

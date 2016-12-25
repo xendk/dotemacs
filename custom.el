@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(add-log-time-format (quote xen-changelog-timestamp))
  '(ag-highlight-search t)
  '(ange-ftp-try-passive-mode t)
  '(ansi-color-faces-vector
