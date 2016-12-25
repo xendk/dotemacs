@@ -210,19 +210,23 @@
 (use-package flycheck
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded..
-  :config (progn (add-hook 'after-init-hook #'global-flycheck-mode)))
+  :config (progn (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+                 (add-hook 'after-init-hook #'global-flycheck-mode)))
 
 (use-package flyspell
   :commands flyspell-mode
   :diminish "")
 
+(use-package flyspell-correct-ivy
+  :config (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-previous-word-generic))
+
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
   :config (setq framemove-hook-into-windmove t))
 
-(use-package geben
-  :commands geben
-  :load-path "~/.emacs.d/geben/")
+;; (use-package geben
+;;   :commands geben
+;;   :load-path "~/.emacs.d/geben/")
 
 (use-package google-this
   :diminish google-this-mode
