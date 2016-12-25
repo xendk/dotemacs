@@ -264,7 +264,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Anonymous Pro"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width semi-condensed :foundry "FBI " :family "Input"))))
  '(column-enforce-face ((t (:background "#524500"))))
  '(company-scrollbar-bg ((t (:background "#191919"))))
  '(company-scrollbar-fg ((t (:background "#0c0c0c"))))
