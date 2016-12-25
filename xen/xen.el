@@ -167,30 +167,6 @@ Use prefix argument N for more copies."
     	(insert current-line)
     	(decf n)))))
 
-;; Copy-paste to/from the outside.
-(defvar xen-paste-buffer "" "Local paste buffer.")
-(defun xen-paste ()
- "Paste from outside."
- (interactive)
- ; x-selection-value returns nil when selection hasn't changed.
- (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
- ;; todo: delete region if active.
- (insert xen-paste-buffer))
-
-(defun xen-paste-term ()
- "Paste from outside in term-mode."
- (interactive)
- ; x-selection-value returns nil when selection hasn't changed.
- (setq xen-paste-buffer (or (x-selection-value) xen-paste-buffer))
- (term-send-raw-string xen-paste-buffer))
-
-(defun xen-copy (start end)
-  "Copy to the outside.
-
-Copies the text from START to END."
-  (interactive "r")
-  (x-select-text (buffer-substring-no-properties start end)))
-
 ;; Pairing.
 (defun xen-open ()
   "Open new line, with proper indentation."

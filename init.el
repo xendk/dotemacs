@@ -453,9 +453,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defer
   :bind (:map term-raw-map
               ;; Get paste working in (multi-)term-mode.
-              ("C-y" . term-paste)
-              ("C-v" . xen-paste-term)
-              ("S-C-v" . xen-paste-term)))
+              ("C-y" . term-paste)))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -501,17 +499,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("<f12>" . xen-big-fringe-mode)
          ("C-a" . xen-back-to-indentation-or-beginning)
          ("C-S-d" . xen-duplicate-current-line)
-         ;; As I never use C-v anyway, and its effect when i hit it confuses
-         ;; me, why not bind it to pasting from outside (like the middle button
-         ;; does)?
-         ("C-v" . xen-paste)
-         ;; Also CTRL Shift v (to mirror xen-copy), which is implicit in the
-         ;; above if not specifically bound, but let's make it explicit.
-         ("S-C-v" . xen-paste)
-         ;; CRTL C is taken, so use CTRL Shift c like Gnome Terminal does, in
-         ;; order to limit the amount of different key combinations I should
-         ;; remember for the same thing.
-         ("S-C-c" . xen-copy)
          ("C-!" . xen-multi-term-dedicated-toggle-and-select)
          ("C-S-l" . xen-mark-lines)))
 
