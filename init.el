@@ -545,6 +545,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 
 ;;; Some places for inspiration
+
+;; Mode line setup: http://www.lunaryorn.com/2014/07/26/make-your-emacs-mode-line-more-useful.html
+
 ;; https://github.com/geerds/emacs.d/blob/master/init.el
 ;; https://github.com/tomjakubowski/.emacs.d/blob/master/init.el
 ;; http://www.aaronbedra.com/emacs.d/
