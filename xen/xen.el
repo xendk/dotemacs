@@ -148,22 +148,6 @@ Heavily based on `message-beginning-of-line' from Gnus."
 Ignores REMOTE and just returns BRANCH."
   branch)
 
-;; Force Magit to go full screen.
-(defun xen-magit-display-buffer-traditional (buffer)
-  "Display Magit BUFFER full screen."
-  (if magit-display-buffer-noselect
-      ;; the code that called `magit-display-buffer-function'
-      ;; expects the original window to stay alive, we can't go
-      ;; fullscreen
-      (magit-display-buffer-traditional buffer)
-    (delete-other-windows)
-    ;; make sure the window isn't dedicated, otherwise
-    ;; `set-window-buffer' throws an error
-    (set-window-dedicated-p nil nil)
-    (set-window-buffer nil buffer)
-    ;; return buffer's window
-    (get-buffer-window buffer)))
-
 ; http://emacswiki.org/emacs/CopyingWholeLines
 ;; duplicate current line
 (defun xen-duplicate-current-line (&optional n)
