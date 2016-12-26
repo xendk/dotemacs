@@ -205,6 +205,7 @@
 
 (use-package google-this
   :diminish google-this-mode
+  :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode))
 
 (use-package ggtags
