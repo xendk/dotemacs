@@ -104,7 +104,7 @@ Use prefix argument N for more copies."
 (defun xen-open ()
   "Open new line, with proper indentation."
   (interactive)
-  (call-interactively 'move-beginning-of-line)
+  (beginning-of-line)
   (call-interactively 'open-line)
   (indent-for-tab-command))
 
