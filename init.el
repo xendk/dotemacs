@@ -332,18 +332,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-c C-g" . magit-status))
   :config (progn
              (use-package magithub)
-             (add-hook 'magit-log-edit-mode-hook 'xen-magit-log-edit-mode-hook)
-             (delight 'magit-status-mode (propertize (concat " " [#xF1D3])
-                                          'face '(:family "FontAwesome")) :major)))
-
-;; Add git flow extension.
-(use-package magit-gitflow
-  :ensure t
-  :commands turn-on-magit-gitflow
-  :diminish magit-gitflow-mode
-  :init
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
-
+             ;; Add git flow extension.
+             (use-package magit-gitflow
+               :diminish magit-gitflow-mode
+               :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+             (delight 'magit-status-mode
+                      (propertize (concat " " [#xF1D3])
+                                  'face '(:family "FontAwesome")) :major)))
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
