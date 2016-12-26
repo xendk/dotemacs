@@ -476,7 +476,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             )
   )
 
-(use-package string-inflection)
+(use-package string-inflection
+  ;; autoload when needed.
+  :defer)
 
 (use-package term
   :defer
