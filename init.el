@@ -158,9 +158,8 @@
             (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
             (delight 'drupal-mode
                      (propertize (concat " " [#xF1A9])
-                                 'face '(:family "FontAwesome")))))
-
-(use-package drush-make-mode)
+                                 'face '(:family "FontAwesome")))
+            (use-package drush-make-mode)))
 
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
