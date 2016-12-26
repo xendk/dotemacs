@@ -199,10 +199,6 @@
 (use-package framemove
   :config (setq framemove-hook-into-windmove t))
 
-;; (use-package geben
-;;   :commands geben
-;;   :load-path "~/.emacs.d/geben/")
-
 (use-package google-this
   :diminish google-this-mode
   :bind-keymap ("C-c /" . google-this-mode-submap)
