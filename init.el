@@ -285,10 +285,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
   :diminish ""
-  :config (progn
-            (ivy-mode 1)
-            (bind-key "C-S-s" 'ivy-yank-word ivy-minibuffer-map))
-  :bind (("C-s" . swiper)
+  :init (ivy-mode 1)
+  :bind (:map ivy-mode-map
+         ("C-s" . swiper)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("<f1> f" . counsel-describe-function)
@@ -297,7 +296,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("<f2> i" . counsel-info-lookup-symbol)
          ("<f2> u" . counsel-unicode-char)
          ("C-c g" . counsel-git)
-         ("C-c a" . counsel-ag)))
+         ("C-c a" . counsel-ag)
+         :map ivy-minibuffer-map
+         ("C-S-s" . ivy-yank-word)))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
