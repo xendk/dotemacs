@@ -344,10 +344,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
-;; Add github pull request extension.
-(use-package magit-gh-pulls
-  :commands turn-on-magit-gh-pulls
-  :init (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
