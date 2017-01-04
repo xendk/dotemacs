@@ -103,6 +103,10 @@
   :diminish auto-indent-mode
   :init (auto-indent-global-mode))
 
+(use-package autorevert
+  :commands auto-revert-mode
+  :diminish auto-revert-mode)
+
 (use-package browse-kill-ring
   :config (browse-kill-ring-default-keybindings))
 
