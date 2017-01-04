@@ -82,7 +82,10 @@
 
 (use-package avy
   :commands avy-goto-word-1
-  :bind (("S-SPC" . avy-goto-word-1)
+  :bind (
+         ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
+         ;; part of words in php-mode, that's the issue.
+         ("S-SPC" . avy-goto-word-1)
          ("M-u" . avy-goto-char-in-line)
          ("M-U" . avy-goto-char)
          ;; Binding xen-avy-goto-line on use-package xen.
@@ -509,8 +512,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :demand
   :functions xen-coding-common-bindings
   :bind (("M-l" . xen-avy-goto-line)
-         ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
-         ;; part of words in php-mode, that's the issue.
          ("C-<tab>" . xen-swiper)
          ("<f11>" . xen-toggle-fullscreen)
          ("S-<f11>" . xen-toggle-font-size)
