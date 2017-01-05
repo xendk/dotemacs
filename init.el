@@ -291,7 +291,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :diminish ""
   :init (ivy-mode 1)
   :bind (:map ivy-mode-map
-         ("C-s" . swiper)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("<f1> f" . counsel-describe-function)
