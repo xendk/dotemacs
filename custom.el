@@ -126,6 +126,9 @@
      (emacs-lisp-mode . origami-elisp-parser)
      (lisp-interaction-mode . origami-elisp-parser)
      (clojure-mode . origami-clj-parser))))
+ '(package-selected-packages
+   (quote
+    (zeal-at-point yasnippet yaml-mode ws-butler wgrep-ag vcl-mode use-package undo-tree typit twig-mode try string-inflection smartparens scss-mode rainbow-mode rainbow-delimiters projectile prodigy powerline polymode php-extras php-boris paradox origami multiple-cursors multi-term multi-line mo-git-blame mmm-mode markdown-mode magithub magit-gitflow magit-filenotify loc-changes load-relative list-processes+ keyfreq js2-mode hl-line+ highlight-symbol harvest google-this go-mode git-link gh-md gh ggtags geben fringe-helper framemove flyspell-correct-ivy flycheck-color-mode-line fish-mode feature-mode expand-region ecukes dockerfile-mode docker diff-hl delight counsel company-restclient column-enforce-mode col-highlight coffee-mode browse-kill-ring avy-zap auto-indent-mode anzu ag ace-window ace-jump-zap)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(password-cache-expiry 3600)
