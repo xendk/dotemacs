@@ -5,7 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(add-log-time-format (quote xen-changelog-timestamp))
  '(ag-highlight-search t)
- '(ange-ftp-try-passive-mode t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
@@ -76,15 +75,6 @@
  '(git-commit-mode-hook
    (quote
     (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)) t)
- '(helm-autoresize-mode t)
- '(helm-buffer-max-length 40)
- '(helm-ff-transformer-show-only-basename t)
- '(helm-idle-delay 0.1)
- '(helm-input-idle-delay 0.1)
- '(helm-projectile-sources-list
-   (quote
-    (helm-source-projectile-buffers-list helm-source-projectile-files-list helm-source-projectile-recentf-list helm-source-projectile-projects)))
- '(helm-split-window-in-side-p t)
  '(highlight-symbol-idle-delay 0.5)
  '(hscroll-margin 15)
  '(indent-tabs-mode nil)
@@ -113,7 +103,6 @@
  '(mouse-sel-mode t)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(mouse-yank-at-point t)
- '(mutt-file-pattern "mutt-[a-z]+-[0-9]+-[0-9]+-[0-9]+")
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
  '(origami-parser-alist
@@ -143,9 +132,6 @@
  '(projectile-switch-project-action (quote projectile-vc))
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)
- '(safe-local-variable-values
-   (quote
-    ((drupal-search-url . "http://test.api-dr-dk.drupal7.dev.peytz.dk/api/search/%v/%s"))))
  '(save-place t nil (saveplace))
  '(save-place-file "/home/xen/.emacs.d/saveplaces")
  '(scroll-bar-mode nil)
@@ -167,8 +153,6 @@
     ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
  '(speedbar-track-mouse-flag t)
  '(speedbar-update-flag (quote x))
- '(tex-command nil t)
- '(tex-dvi-view-command "dvilx")
  '(tool-bar-mode nil nil (tool-bar))
  '(undo-tree-visualizer-diff nil)
  '(undo-tree-visualizer-relative-timestamps t)
@@ -182,47 +166,6 @@
  '(url-privacy-level (quote (email)))
  '(use-package-verbose t)
  '(vcl-indent-level 2)
- '(w3-default-homepage (quote "http://hades/~beast"))
- '(w3-default-stylesheet (quote nil))
- '(w3-delay-image-loads (quote t))
- '(w3-honor-stylesheets (quote t))
- '(w3-image-mappings
-   (quote
-    (("image/x-xbitmap" . xbm)
-     ("image/xbitmap" . xbm)
-     ("image/xbm" . xbm)
-     ("image/jpeg" . jpeg)
-     ("image/gif" . gif)
-     ("image/png" . png)
-     ("image/x-fax" . g3fax)
-     ("image/x-raster" . rast)
-     ("image/windowdump" . xwd)
-     ("image/x-icon" . icon)
-     ("image/portable-graymap" . pgm)
-     ("image/portable-pixmap" . ppm)
-     ("image/x-pixmap" . xpm)
-     ("image/x-xpixmap" . xpm)
-     ("image/pict" . pict)
-     ("image/x-rgb" . sgi)
-     ("image/x-sgi" . sgi)
-     ("image/x-macpaint" . macpt)
-     ("image/x-targa" . tga)
-     ("image/tiff" . tiff))))
- '(w3-load-hook (quote nil))
- '(w3-mode-hook (quote nil))
- '(w3-netscape-compatible-comments (quote t))
- '(w3-preferences-cancel-hook (quote nil) t)
- '(w3-preferences-default-hook (quote nil) t)
- '(w3-preferences-ok-hook (quote nil) t)
- '(w3-preferences-setup-hook (quote nil) t)
- '(w3-source-file-hook (quote nil))
- '(w3-toolbar-orientation (quote default) t)
- '(w3-toolbar-type (quote both) t)
- '(w3-use-menus
-   (quote
-    (file edit view go bookmark options buffers style emacs nil help)))
- '(w3-user-colors-take-precedence (quote nil))
- '(whole-line-or-region-mode t)
  '(yas-choose-keys-first nil)
  '(yas-choose-tables-first t)
  '(yas-fallback-behavior (quote call-other-command))
@@ -290,8 +233,6 @@
  '(flycheck-warning ((t (:background "DarkOrange4" :underline (:color "DarkOrange" :style wave)))))
  '(flymake-errline ((t (:background "#4b0000"))))
  '(flymake-warnline ((t (:background "#4b1500"))))
- '(helm-prefarg ((t (:background "Yellow" :foreground "black"))))
- '(helm-source-header ((t (:background "#22083397778B" :foreground "white" :weight bold))))
  '(hl-line ((t (:background "#222"))))
  '(magit-diff-add ((t (:foreground "light green"))))
  '(magit-diff-del ((t (:foreground "tomato"))))
