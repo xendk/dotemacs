@@ -291,17 +291,17 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :diminish ""
   :init (ivy-mode 1)
   :bind (:map ivy-mode-map
-         ("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("<f1> f" . counsel-describe-function)
-         ("<f1> v" . counsel-describe-variable)
-         ("<f1> l" . counsel-load-library)
-         ("<f2> i" . counsel-info-lookup-symbol)
-         ("<f2> u" . counsel-unicode-char)
-         ("C-c g" . counsel-git)
-         ("C-c a" . counsel-ag)
-         :map ivy-minibuffer-map
-         ("C-S-s" . ivy-yank-word)))
+              ("M-x" . counsel-M-x)
+              ("C-x C-f" . counsel-find-file)
+              ("<f1> f" . counsel-describe-function)
+              ("<f1> v" . counsel-describe-variable)
+              ("<f1> l" . counsel-load-library)
+              ("<f2> i" . counsel-info-lookup-symbol)
+              ("<f2> u" . counsel-unicode-char)
+              ("C-c g" . counsel-git)
+              ("C-c a" . counsel-ag)
+              :map ivy-minibuffer-map
+              ("C-S-s" . ivy-yank-word)))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
