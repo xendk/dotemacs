@@ -48,7 +48,6 @@
 
 ;; Initialize package system.
 (require 'package)
-(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
              '("marmalade" .
                "http://marmalade-repo.org/packages/"))
