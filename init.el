@@ -67,6 +67,11 @@
 ;; Don't iconify on C-z.
 (unbind-key "C-z")
 
+;; Scrolling on C-v confuses me when my muscle memory tries to use it as paste.
+(unbind-key "C-v")
+;; Take out it's mate for consistency.
+(unbind-key "M-v")
+
 ;; Maybe reintroduce these now that I'm using the same keys in Terminator?
 ;; http://www.emacswiki.org/emacs/WindowResize
 ;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
