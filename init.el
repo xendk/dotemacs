@@ -405,6 +405,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
            (lambda () (xen-coding-common-bindings)
              (yas-minor-mode 1))))
 
+;; Built in, but we need to activate it.
+(use-package saveplace
+  :init (save-place-mode))
+
 (use-package semantic-php
   :load-path "~/.emacs.d/semantic-php/"
   :init (progn (load "~/.emacs.d/semantic-php/loaddefs.el")

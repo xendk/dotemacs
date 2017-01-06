@@ -132,7 +132,6 @@
  '(projectile-switch-project-action (quote projectile-vc))
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)
- '(save-place t nil (saveplace))
  '(save-place-file "/home/xen/.emacs.d/saveplaces")
  '(scroll-bar-mode nil)
  '(scss-compile-at-save nil)
