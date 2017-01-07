@@ -329,5 +329,17 @@ This is my own version using FontAwesome icons."
       (when (eq tick (buffer-chars-modified-tick))
         (company-complete-selection)))))
 
+;; Gotten from:
+;; http://stackoverflow.com/questions/24725778/how-to-rebuild-elpa-packages-after-upgrade-of-emacs
+;; Seems to thing everything fails though.
+(defun xen-package-reinstall-activated ()
+  "Reinstall all activated packages."
+  (interactive)
+  (dolist (package-name package-activated-list)
+    (when (package-installed-p package-name)
+      (unless (ignore-errors                   ;some packages may fail to install
+                (package-reinstall package-name)
+                (warn "Package %s failed to reinstall" package-name))))))
+
 (provide 'xen)
 ;;; xen.el ends here
