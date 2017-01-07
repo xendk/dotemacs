@@ -293,6 +293,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             )
           (bind-key "M-c" 'hydra-case/body)))
 
+;; Build in, but add some bindings.
+(use-package isearch
+  :bind (:map isearch-mode-map
+              ("C-<tab>" . xen-swiper-from-isearch)))
+
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
 

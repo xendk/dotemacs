@@ -341,5 +341,15 @@ This is my own version using FontAwesome icons."
                 (package-reinstall package-name)
                 (warn "Package %s failed to reinstall" package-name))))))
 
+(defun xen-swiper-from-isearch ()
+  "Invoke `swiper' from isearch."
+  (interactive)
+  (let ((query (if isearch-regexp
+                    isearch-string
+                  (regexp-quote isearch-string))))
+    (isearch-exit)
+    (message query)
+    (swiper query)))
+
 (provide 'xen)
 ;;; xen.el ends here
