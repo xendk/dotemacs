@@ -84,6 +84,10 @@
 
 ;;; Packages.
 
+;; Built in, specify it to diminish it.
+(use-package abbrev
+  :diminish "")
+
 (use-package avy
   :commands avy-goto-word-1
   :bind (
@@ -107,9 +111,10 @@
   :diminish auto-indent-mode
   :init (auto-indent-global-mode))
 
+;; Used by magit, we'll diminish it.
 (use-package autorevert
   :commands auto-revert-mode
-  :diminish auto-revert-mode)
+  :diminish "")
 
 (use-package browse-kill-ring
   :config (browse-kill-ring-default-keybindings))
@@ -167,7 +172,8 @@
             ;; uses YAML, we'll live without.
             (unbind-key "C-a" drupal-mode-map)
             (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
-            (delight 'drupal-mode
+            ;; :diminish doesn't work with propertized strings, for some reason.
+            (diminish 'drupal-mode
                      (propertize (concat " " [#xF1A9])
                                  'face '(:family "FontAwesome")))
             (use-package drush-make-mode)))
@@ -211,13 +217,13 @@
   :config (setq framemove-hook-into-windmove t))
 
 (use-package google-this
-  :diminish google-this-mode
+  :diminish ""
   :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode))
 
 (use-package ggtags
   ;; @todo icon lighter
-  :diminish ggtags-mode
+  :diminish ""
   :commands ggtags-mode
   )
 
@@ -343,6 +349,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              (use-package magit-gitflow
                :diminish magit-gitflow-mode
                :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+             ;; Delight has better handling for major-modes.
              (delight 'magit-status-mode
                       (propertize (concat " " [#xF1D3])
                                   'face '(:family "FontAwesome")) :major)))
@@ -398,7 +405,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package projectile
   :commands projectile-project-p
-  :diminish projectile-mode
+  :diminish ""
   :init (progn
     (projectile-mode)))
 
@@ -420,8 +427,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :config (add-to-list 'company-semantic-modes 'php-mode)
   )
 
-;; prog-mode is defined in simple.el.
+;; prog-mode and auto-fill-mode is defined in simple.el.
 (use-package simple
+  :diminish auto-fill-function
   :config (progn
             (add-hook 'prog-mode-hook #'eldoc-mode)
             ;; Emacs 24 changed the region highlight from a hackery
@@ -488,7 +496,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-y" . term-paste)))
 
 (use-package undo-tree
-  :diminish undo-tree-mode
+  :diminish ""
   :init (progn
           (global-undo-tree-mode)))
 
@@ -515,7 +523,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package ws-butler
   :commands ws-butler-mode
-  :delight ws-butler-mode
+  :diminish ""
   :init (add-hook 'php-mode-hook 'ws-butler-mode))
 
 (use-package xen
