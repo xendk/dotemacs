@@ -338,10 +338,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package lisp-mode
   :commands emacs-lisp-mode
-  :config (add-hook
-           'emacs-lisp-mode-hook
-           (lambda () (xen-coding-common-bindings)
-             (yas-minor-mode 1))))
+  :config (progn
+            (add-hook
+             'emacs-lisp-mode-hook
+             (lambda () (xen-coding-common-bindings)
+               (yas-minor-mode 1)))
+            (add-hook 'emacs-lisp-mode-hook 'page-break-lines-mode)))
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
@@ -491,6 +493,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   )
 
 (use-package string-inflection
+  ;; autoload when needed.
+  :defer)
+
+(use-package smex
   ;; autoload when needed.
   :defer)
 
