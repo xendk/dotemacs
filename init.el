@@ -521,6 +521,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands vcl-mode
   :mode "\\.vcl\\'")
 
+(use-package watch-buffer
+  :commands watch-buffer)
+
 ; Writable grep buffer.
 (use-package wgrep)
 
