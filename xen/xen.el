@@ -45,9 +45,9 @@
 (defun xen-toggle-font-size ()
   "Toggle font size between my usual two."
   (interactive)
-  (if (= (face-attribute 'default :height) 109)
+  (if (= (face-attribute 'default :height) 110)
       (set-face-attribute 'default nil :height 140)
-    (set-face-attribute 'default nil :height 109)))
+    (set-face-attribute 'default nil :height 110)))
 
 ; Toggle fullscreen and full height.
 ; todo: work this in: http://bzg.fr/emacs-strip-tease.html
