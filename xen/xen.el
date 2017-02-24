@@ -315,10 +315,10 @@ This is my own version using FontAwesome icons."
                                          'face 'xen-font-awesome-face)))))
     (list " " text)))
 
-(defun xen-changelog-timestamp ()
+(defun xen-changelog-timestamp (&optional time zone)
   "Return a time string for ~/ChangeLog."
   (interactive)
-  (insert (format-time-string "%Y-%m-%d %H:%M:%S")))
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S" time zone)))
 
 (defun xen-company-complete-common-or-selection ()
   "Insert the common part of all candidates, or select the current one."
