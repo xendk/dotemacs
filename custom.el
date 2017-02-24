@@ -138,6 +138,7 @@
  '(sentence-end-double-space nil)
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(set-mark-command-repeat-pop t)
+ '(shift-select-mode nil)
  '(sp-autodelete-closing-pair nil)
  '(sp-autodelete-opening-pair nil)
  '(sp-autodelete-pair nil)
