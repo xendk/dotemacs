@@ -357,15 +357,15 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c C-g" . magit-status))
   :config (progn
-             (use-package magithub)
-             ;; Add git flow extension.
-             (use-package magit-gitflow
-               :diminish magit-gitflow-mode
-               :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
-             ;; Delight has better handling for major-modes.
-             (delight 'magit-status-mode
-                      (propertize (concat " " [#xF1D3])
-                                  'face '(:family "FontAwesome")) :major)))
+            (use-package magithub)
+            ;; Add git flow extension.
+            (use-package magit-gitflow
+              :diminish magit-gitflow-mode
+              :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+            ;; Delight has better handling for major-modes.
+            (delight 'magit-status-mode
+                     (propertize (concat " " [#xF1D3])
+                                 'face '(:family "FontAwesome")) :major)))
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
