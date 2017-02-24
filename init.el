@@ -185,6 +185,12 @@
   :init (add-hook 'php-mode-hook 'global-ede-mode)
   )
 
+(use-package ede-php-autoload-composer-installers
+  :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
+
+(use-package ede-php-autoload-drupal
+  :load-path "~/.emacs.d/ede-php-autoload-drupal/")
+
 (use-package ecukes
   :commands ecukes)
 
