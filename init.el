@@ -319,7 +319,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-c g" . counsel-git)
               ("C-c a" . counsel-ag)
               :map ivy-minibuffer-map
-              ("C-S-s" . ivy-yank-word)))
+              ;; Like isearch.
+              ("C-w" . ivy-yank-word)
+              ;; Like isearch, repeating the key uses the last item from the history.
+              ("C-<tab>" . ivy-previous-history-element)))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
