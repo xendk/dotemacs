@@ -211,7 +211,9 @@
 
 (use-package flyspell-correct-ivy
   :bind (:map flyspell-mode-map
-              ("C-;" . flyspell-correct-previous-word-generic)))
+              ("C-;" . flyspell-correct-previous-word-generic))
+  ;; Load when flyspell-correct is loaded.
+  :init (eval-after-load 'flyspell '(require 'flyspell-correct-ivy)))
 
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
