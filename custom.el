@@ -165,6 +165,7 @@
  '(url-honor-refresh-requests (quote t))
  '(url-privacy-level (quote (email)))
  '(use-package-verbose t)
+ '(user-mail-address "xen@xen.dk")
  '(vcl-indent-level 2)
  '(yas-choose-keys-first nil)
  '(yas-choose-tables-first t)
