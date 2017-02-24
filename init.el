@@ -172,7 +172,6 @@
             ;; auto-indent-mode, and the only thing it adds is the 'go
             ;; to the start of value' thing for conf-mode. As Drupal 8
             ;; uses YAML, we'll live without.
-            (unbind-key "C-a" drupal-mode-map)
             (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
             ;; :diminish doesn't work with propertized strings, for some reason.
             (diminish 'drupal-mode
