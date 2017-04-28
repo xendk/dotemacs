@@ -22,9 +22,10 @@
 (if (not (server-running-p))
     (progn
       (server-start)
-      (add-hook 'kill-emacs-hook (lambda () (server-start 1)))
-      )
-  )
+      (add-hook 'kill-emacs-hook (lambda () (server-start 1))))
+  ;; If it's running, this is the second instance of Emacs, which is
+  ;; most likely used for testing something, so debug on error.
+  (toggle-debug-on-error))
 
 ;;; Configuration.
 ;; Relocate and load customs (so we don't clutter init.el with them).
