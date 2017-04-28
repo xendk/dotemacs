@@ -216,7 +216,9 @@
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
   :init (add-hook 'after-init-hook #'global-flycheck-mode)
-  :config (progn (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode)
+            (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)))
 
 (use-package flyspell
   :commands flyspell-mode
