@@ -9,6 +9,9 @@
 ;; word-wrap
 ;; Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
 
+;; Power replacement:
+;; (map-query-replace-regexp)
+
 ;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
 ;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
@@ -16,6 +19,8 @@
 
 ;; Quick debugging:
 ;; (toggle-debug-on-error)
+
+;; Function debugging (trace-function)
 
 ;; Start server if not already running.
 (require 'server)
