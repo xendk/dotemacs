@@ -169,6 +169,17 @@
                                                      xen-company-explicit-map))
             ))
 
+(use-package dashboard
+  :config
+  (progn
+    (setq dashboard-startup-banner 'logo)
+    (setq dashboard-items '(;(recents  . 10)
+                            ;(bookmarks . 5)
+                            (projects . 20)
+                            ;(agenda . 5)
+                            ))
+    (dashboard-setup-startup-hook)))
+
 (use-package diff-hl
   :config (global-diff-hl-mode))
 
