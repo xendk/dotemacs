@@ -75,6 +75,12 @@
 ;; Take out it's mate for consistency.
 (unbind-key "M-v")
 
+;; Horizontal scrolling on trackpad produces these, which makes Emacs
+;; print warnings about undefined keys. I don't want to do anything on
+;; horizontal scroll.
+(global-set-key (kbd "<mouse-6>") 'ignore)
+(global-set-key (kbd "<mouse-7>") 'ignore)
+
 ;; Maybe reintroduce these now that I'm using the same keys in Terminator?
 ;; http://www.emacswiki.org/emacs/WindowResize
 ;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
