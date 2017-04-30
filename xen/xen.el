@@ -331,7 +331,7 @@ This is my own version using FontAwesome icons."
 
 ;; Gotten from:
 ;; http://stackoverflow.com/questions/24725778/how-to-rebuild-elpa-packages-after-upgrade-of-emacs
-;; Seems to thing everything fails though.
+;; Seems to think everything fails though.
 (defun xen-package-reinstall-activated ()
   "Reinstall all activated packages."
   (interactive)
