@@ -427,6 +427,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands org-mode
   :mode "\\.org\\'")
 
+(use-package page-break-lines
+  :diminish "")
+
 (use-package paradox
   :commands (package-list-packages
              paradox-list-packages
