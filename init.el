@@ -1,8 +1,6 @@
 ;;; init.el --- Xens emacs configuration.
 ;;; Commentary:
 
-;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
-;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
 ;;; Code:
 
@@ -489,6 +487,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ;; redisplay-highlight-region-function to give the overlay
             ;; a higher priority.
             ;;
+            ;; TODO: Check if this is still needed in 25.
+            ;;
             ;; Further inspiration:
             ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
             (setq redisplay-highlight-region-function
@@ -611,40 +611,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;;; Some places for inspiration
 
-;; Mode line setup: http://www.lunaryorn.com/2014/07/26/make-your-emacs-mode-line-more-useful.html
-
-;; https://github.com/geerds/emacs.d/blob/master/init.el
 ;; https://github.com/tomjakubowski/.emacs.d/blob/master/init.el
 ;; http://www.aaronbedra.com/emacs.d/
-
 ;; http://batsov.com/articles/2011/11/30/the-ultimate-collection-of-emacs-resources/
-
-;;; Old comments left around...
-
-; Try out http://www.emacswiki.org/emacs/MiniMap ?
-
-;; TODO: https://github.com/rolandwalker/fixmee
-
-;; TODO: CamelCase <-> snake_case conversion:
-;; https://gist.github.com/846766
-;; https://github.com/emacsmirror/s
-
-; Really cool stuff: https://github.com/magnars
-; From these:
-; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
-; http://emacsrocks.com/
-
-
-; Todo: http://www.emacswiki.org/cgi-bin/wiki.pl?ColorTheme
-
-; todo: http://stackoverflow.com/questions/892378/how-do-i-fix-the-cursor-to-the-middle-of-the-screen-in-emacs-so-that-the-page-m
-; http://www.emacswiki.org/emacs/centered-cursor-mode.el
-
-; Figure out how to ensure 80 cols with this.
-; (global-linum-mode 1)
-
-;; In every buffer, the line which contains the cursor will be fully
-;; highlighted
+;; https://www.youtube.com/watch?v=p3Te_a-AGqM&feature=player_embedded#!
+;; http://emacsrocks.com/
 
 (provide 'init)
 ;;; init.el ends here
