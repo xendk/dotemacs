@@ -38,9 +38,9 @@
 
 (define-key xen-map (kbd "t")
   #'(lambda()
-      "Open my Emacs TODO."
+      "Open tips file."
       (interactive)
-      (find-file "~/.emacs.d/TODO.org")))
+      (find-file "~/.emacs.d/tips")))
 
 (defun xen-toggle-font-size ()
   "Toggle font size between my usual two."
@@ -350,6 +350,15 @@ This is my own version using FontAwesome icons."
     (isearch-exit)
     (message query)
     (swiper query)))
+
+(defun xen-dashboard-tip (list-size)
+  "Insert a tip into the dashboard.
+
+LIST-SIZE is ignored."
+  (let((tips (with-temp-buffer
+              (insert-file-contents "~/.emacs.d/tips")
+              (split-string (buffer-string) "\f" t))))
+    (insert (elt tips (random (length tips))))))
 
 (provide 'xen)
 ;;; xen.el ends here

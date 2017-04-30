@@ -1,26 +1,10 @@
 ;;; init.el --- Xens emacs configuration.
 ;;; Commentary:
 
-;; Handy trick:
-;; (set-face-attribute 'default nil :height 140)
-
-;; Handy variables for line (non-)wrapping:
-;; trucante-lines
-;; word-wrap
-;; Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
-
-;; Power replacement:
-;; (map-query-replace-regexp)
-
 ;; Take a look at http://www.emacswiki.org/emacs/MarkCommands
 ;; Maybe ressurrect https://github.com/xendk/dotemacs/commit/4d718daf386ae329e9d65ec90780f0fdc55f138e
 
 ;;; Code:
-
-;; Quick debugging:
-;; (toggle-debug-on-error)
-
-;; Function debugging (trace-function)
 
 ;; Start server if not already running.
 (require 'server)
@@ -178,10 +162,12 @@
   :config
   (progn
     (setq dashboard-startup-banner 'logo)
+    (add-to-list 'dashboard-item-generators  '(xen-tip . xen-dashboard-tip))
     (setq dashboard-items '(;(recents  . 10)
                             ;(bookmarks . 5)
                             (projects . 20)
-                            ;(agenda . 5)
+                                        ;(agenda . 5)
+                            (xen-tip)
                             ))
     (dashboard-setup-startup-hook)))
 

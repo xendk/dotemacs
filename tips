@@ -1,0 +1,14 @@
+Handy trick:
+(set-face-attribute 'default nil :height 140)
+
+Handy variables for line (non-)wrapping:
+trucante-lines
+word-wrap
+Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
+
+Power replacement:        
+(map-query-replace-regexp)
+
+Quick debugging: (toggle-debug-on-error)
+
+Function debugging: (trace-function)
