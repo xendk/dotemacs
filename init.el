@@ -389,7 +389,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c C-g" . magit-status))
   :config (progn
-            (use-package magithub)
+            (use-package magithub
+              :config (magithub-feature-autoinject t))
             ;; Add git flow extension.
             (use-package magit-gitflow
               :diminish magit-gitflow-mode
