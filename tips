@@ -12,3 +12,20 @@ Power replacement:
 Quick debugging: (toggle-debug-on-error)
 
 Function debugging: (trace-function)
+
+Use re-builder for interactive regexp building.
+
+isearch:
+ M-r    isearch-toggle-regexp
+ M-e    isearch-edit-string
+ C-M-%  isearch-query-replace-regexp
+ M-%    isearch-query-replace
+
+visual-regexp:
+ C-c r  vr/replace
+ C-c q  vr/query-replace
+ C-c m  vr/mc-mark
+ 
+ multiple-cursors:
+ C-' mc-hide-unmatched-lines-mode
+     mc/edit-lines
