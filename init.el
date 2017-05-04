@@ -561,6 +561,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package watch-buffer
   :commands watch-buffer)
 
+(use-package visual-regexp
+  :bind (("C-c r" . vr/replace)
+         ("C-c q" . vr/query-replace)
+         ("C-c m" . vr/mc-mark)))
+
 ; Writable grep buffer.
 (use-package wgrep)
 
