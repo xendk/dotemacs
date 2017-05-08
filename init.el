@@ -85,7 +85,6 @@
   :diminish "")
 
 (use-package avy
-  :commands avy-goto-word-1
   :bind (
          ("S-SPC" . avy-goto-word-1)
          ("M-u" . avy-goto-char-in-line)
@@ -188,13 +187,11 @@
   :commands ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload/"
   :init (add-hook 'php-mode-hook 'global-ede-mode)
-  )
-
-(use-package ede-php-autoload-composer-installers
-  :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
-
-(use-package ede-php-autoload-drupal
-  :load-path "~/.emacs.d/ede-php-autoload-drupal/")
+  :config (progn
+            (use-package ede-php-autoload-composer-installers
+              :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
+            (use-package ede-php-autoload-drupal
+              :load-path "~/.emacs.d/ede-php-autoload-drupal/")))
 
 (use-package ecukes
   :commands ecukes)
@@ -240,8 +237,7 @@
 (use-package ggtags
   ;; @todo icon lighter
   :diminish ""
-  :commands ggtags-mode
-  )
+  :commands ggtags-mode)
 
 (use-package harvest
   :bind ("C-c h" . harvest)
@@ -488,8 +484,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ;; pretty much everything else. So we redefine the
             ;; redisplay-highlight-region-function to give the overlay
             ;; a higher priority.
-            ;;
-            ;; TODO: Check if this is still needed in 25.
             ;;
             ;; Further inspiration:
             ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
