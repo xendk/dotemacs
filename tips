@@ -29,3 +29,6 @@ visual-regexp:
  multiple-cursors:
  C-' mc-hide-unmatched-lines-mode
      mc/edit-lines
+
+ M-l xen-avy-goto-line
+ Also takes a line number like goto-line.
