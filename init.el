@@ -87,8 +87,6 @@
 (use-package avy
   :commands avy-goto-word-1
   :bind (
-         ;; Can we get 'n' to jump to $nid in php-mode? $ counts as
-         ;; part of words in php-mode, that's the issue.
          ("S-SPC" . avy-goto-word-1)
          ("M-u" . avy-goto-char-in-line)
          ("M-U" . avy-goto-char)
