@@ -351,8 +351,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               :map ivy-minibuffer-map
               ;; Like isearch.
               ("C-w" . ivy-yank-word)
-              ;; Like isearch, repeating the key uses the last item from the history.
-              ("C-<tab>" . ivy-previous-history-element)))
+              ;; Like isearch, repeating the key uses the last item
+              ;; from the history and goes on from there.
+              ("C-<tab>" . ivy-next-line-or-history)
+              ;; For symmetry.
+              ("C-<iso-lefttab>" . ivy-previous-line-or-history)))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
