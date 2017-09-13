@@ -32,3 +32,10 @@ visual-regexp:
 
  M-l xen-avy-goto-line
  Also takes a line number like goto-line.
+
+ Remove empty lines in region:
+ M-x flush-lines RET ^\s-*$ RET
+
+ C-x r m  Set bookmark
+ C-x r l  List bookmarks
+ 
