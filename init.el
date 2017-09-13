@@ -386,6 +386,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c C-g" . magit-status))
   :config (progn
+            ;; Add --follow-tags options to the push popup.
+            (magit-define-popup-switch 'magit-push-popup
+              ?t "Follow tags" "--follow-tags")
             (use-package magithub
               :config (magithub-feature-autoinject t))
             ;; Add git flow extension.
