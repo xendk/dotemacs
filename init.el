@@ -301,7 +301,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ("n" string-inflection-upcase "UPPER_SNAKE")
             ("a" string-inflection-lower-camelcase "lowerCamel")
             ("m" string-inflection-camelcase "UpperCamel")
-            ("d" string-inflection-lisp "dash-case")
+            ("k" string-inflection-kebab-case "kebab-case")
             )
           (bind-key "M-c" 'hydra-case/body)))
 
