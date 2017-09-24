@@ -173,18 +173,23 @@
             ;; :diminish doesn't work with propertized strings, for some reason.
             (diminish 'drupal-mode
                      (propertize (concat " " [#xF1A9])
-                                 'face '(:family "FontAwesome")))
-            (use-package drush-make-mode)))
+                                 'face '(:family "FontAwesome")))))
+
+(use-package drush-make-mode
+  :after drupal-mode)
 
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload/"
-  :init (add-hook 'php-mode-hook 'global-ede-mode)
-  :config (progn
-            (use-package ede-php-autoload-composer-installers
-              :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
-            (use-package ede-php-autoload-drupal
-              :load-path "~/.emacs.d/ede-php-autoload-drupal/")))
+  :init (add-hook 'php-mode-hook 'global-ede-mode))
+
+(use-package ede-php-autoload-composer-installers
+  :after ede-php-autoload-mode
+  :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
+
+(use-package ede-php-autoload-drupal
+  :after ede-php-autoload-mode
+  :load-path "~/.emacs.d/ede-php-autoload-drupal/")
 
 (use-package ecukes
   :commands ecukes)
@@ -382,16 +387,23 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ;; Add --follow-tags options to the push popup.
             (magit-define-popup-switch 'magit-push-popup
               ?t "Follow tags" "--follow-tags")
-            (use-package magithub
-              :config (magithub-feature-autoinject t))
-            ;; Add git flow extension.
-            (use-package magit-gitflow
-              :diminish magit-gitflow-mode
-              :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
             ;; Delight has better handling for major-modes.
             (delight 'magit-status-mode
                      (propertize (concat " " [#xF1D3])
                                  'face '(:family "FontAwesome")) :major)))
+
+;; Add git flow extension.
+(use-package magit-gitflow
+  :after magit
+  :diminish magit-gitflow-mode
+  :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+
+(use-package magithub
+  :after magit
+  :config (progn
+            (magithub-feature-autoinject t)
+            (setq ghub-username "xendk")
+            (setq ghub-token "765f792175184f6fabb23cead2c71391137e2629")))
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
