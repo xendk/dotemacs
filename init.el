@@ -34,6 +34,18 @@
 
 
 
+;; Initialize straight package system.
+(let ((bootstrap-file (concat user-emacs-directory "straight/bootstrap.el"))
+      (bootstrap-version 2))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 ;; Initialize package system.
 (require 'package)
 (add-to-list 'package-archives
@@ -604,6 +616,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-S-l" . xen-mark-lines)))
 
 (use-package yaml-mode
+  :ensure t
   :mode "\\.e?ya?ml$"
   :config (flyspell-mode))
 
