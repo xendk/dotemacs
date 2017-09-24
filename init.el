@@ -85,15 +85,12 @@
   :diminish "")
 
 (use-package avy
-  :bind (
-         ("S-SPC" . avy-goto-word-1)
-         ("M-u" . avy-goto-char-in-line)
-         ("M-U" . avy-goto-char)
-         ;; Binding xen-avy-goto-line on use-package xen.
-         )
-  :init (progn
-          (eval-after-load 'cus-edit
-          '(bind-key "S-SPC" 'avy-goto-word-1 custom-mode-map))))
+  ;; Override minor mode binding for these.
+  :bind* (
+          ;; Binding xen-avy-goto-line on use-package xen.
+          ("S-SPC" . avy-goto-word-1)
+          ("M-u" . avy-goto-char-in-line)
+          ("M-U" . avy-goto-char)))
 
 (use-package avy-zap
   :bind (("M-z" . avy-zap-to-char-dwim)
