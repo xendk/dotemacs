@@ -26,3 +26,5 @@ straight/repos
 straight/build
 straight/bootstrap.el
 straight/build-cache.el
+; Magithubs cache.
+magithub
