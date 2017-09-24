@@ -80,10 +80,6 @@
 
 ;;; Packages.
 
-;; Built in, specify it to diminish it.
-(use-package abbrev
-  :diminish "")
-
 (use-package avy
   ;; Override minor mode binding for these.
   :bind* (
