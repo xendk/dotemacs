@@ -98,16 +98,19 @@
           ;; Binding xen-avy-goto-line on use-package xen.
           ("S-SPC" . avy-goto-word-1)
           ("M-u" . avy-goto-char-in-line)
-          ("M-U" . avy-goto-char)))
+          ("M-U" . avy-goto-char))
+  :ensure t)
 
 (use-package avy-zap
   :bind (("M-z" . avy-zap-to-char-dwim)
-         ("M-Z" . avy-zap-up-to-char-dwim)))
+         ("M-Z" . avy-zap-up-to-char-dwim))
+  :ensure t)
 
 (use-package auto-indent-mode
   :commands auto-indent-mode auto-indent-global-mode
   :diminish auto-indent-mode
-  :init (auto-indent-global-mode))
+  :init (auto-indent-global-mode)
+  :ensure t)
 
 ;; Used by magit, we'll diminish it.
 (use-package autorevert
@@ -115,7 +118,8 @@
   :diminish "")
 
 (use-package browse-kill-ring
-  :config (browse-kill-ring-default-keybindings))
+  :config (browse-kill-ring-default-keybindings)
+  :ensure t)
 
 (use-package css-mode
   :commands css-mode
@@ -126,7 +130,8 @@
 
 (use-package column-enforce-mode
   :commands column-enforce-mode
-  :diminish column-enforce-mode)
+  :diminish column-enforce-mode
+  :ensure t)
 
 (use-package company
   :diminish ""
@@ -156,7 +161,12 @@
             (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
             (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
                                                      xen-company-explicit-map))
-            ))
+            )
+  :ensure t)
+
+(use-package company-restclient
+  :after (company restclient)
+  :ensure t)
 
 (use-package dashboard
   :config
