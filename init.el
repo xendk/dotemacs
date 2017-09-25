@@ -175,7 +175,6 @@
   :config (global-diff-hl-mode))
 
 (use-package drupal-mode
-  :load-path "~/.emacs.d/drupal-mode/"
   :config (progn
             ;; drupal-mode-beginning-of-line doesn't play ball with
             ;; auto-indent-mode, and the only thing it adds is the 'go
@@ -185,8 +184,10 @@
             ;; :diminish doesn't work with propertized strings, for some reason.
             (diminish 'drupal-mode
                      (propertize (concat " " [#xF1A9])
-                                 'face '(:family "FontAwesome")))))
+                                 'face '(:family "FontAwesome"))))
+  :ensure t)
 
+;; Part of drupal-mode.
 (use-package drush-make-mode
   :after drupal-mode)
 
@@ -465,7 +466,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
            (lambda () (xen-coding-common-bindings)
              (yas-minor-mode 1)
              (ggtags-mode)
-             )))
+             ))
+  :ensure t)
+
+(use-package php-extras
+  :defer t
+  :ensure t
+  :recipe (:host github :repo "arnested/php-extras"))
 
 (use-package projectile
   :commands projectile-project-p
@@ -616,9 +623,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-S-l" . xen-mark-lines)))
 
 (use-package yaml-mode
-  :ensure t
   :mode "\\.e?ya?ml$"
-  :config (flyspell-mode))
+  :config (flyspell-mode)
+  :ensure t)
 
 (use-package yasnippet
   :diminish yas-minor-mode
