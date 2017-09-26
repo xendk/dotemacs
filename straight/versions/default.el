@@ -5,7 +5,7 @@
  ("column-enforce-mode" . "379366fe0a5bcb333db2d55cddcf18d6e76ab3fc")
  ("company-mode" . "a5284332a93ff1b7b1087fd26d157db3e24dfbe1")
  ("company-restclient" . "7b41cd58ffdf965480f1cf52d58d718009ba6fe7")
- ("drupal-mode" . "9d5808972f344a09dcf665d5113ae81e39ac1051")
+ ("drupal-mode" . "49ce63c659aa0af7a2daf0c9e74e58fbce6deb71")
  ("epkgs" . "f82921d215ae303fba935c565e4f7c1e34e8b0e4")
  ("know-your-http-well" . "3cc5ab6d2764ab7aacb1b6e026abaccbeb6c37f2")
  ("melpa" . "207f8ec84572176749d328cb2bbc4e87c36f202c")
