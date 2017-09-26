@@ -169,6 +169,7 @@
   :ensure t)
 
 (use-package dashboard
+  :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
   (progn
     (setq dashboard-startup-banner 'logo)
