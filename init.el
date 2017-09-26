@@ -179,10 +179,12 @@
                                         ;(agenda . 5)
                             (xen-tip)
                             ))
-    (dashboard-setup-startup-hook)))
+    (dashboard-setup-startup-hook))
+  :ensure t)
 
 (use-package diff-hl
-  :config (global-diff-hl-mode))
+  :config (global-diff-hl-mode)
+  :ensure t)
 
 (use-package drupal-mode
   :config (progn
@@ -211,7 +213,8 @@
   :load-path "~/.emacs.d/ede-php-autoload-drupal/")
 
 (use-package ecukes
-  :commands ecukes)
+  :commands ecukes
+  :ensure t)
 
 (use-package eldoc
   :commands eldoc-mode
@@ -219,7 +222,8 @@
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
-  :config (add-hook 'php-mode-hook 'xen-php-mode-expansions))
+  :config (add-hook 'php-mode-hook 'xen-php-mode-expansions)
+  :ensure t)
 
 (use-package flycheck
   :bind (:map flycheck-mode-map
@@ -230,7 +234,17 @@
   :init (add-hook 'after-init-hook #'global-flycheck-mode)
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode)
-            (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)))
+            (add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
+  :ensure t)
+
+(use-package flycheck-cask
+  :ensure t)
+
+(use-package flycheck-color-mode-line
+  :ensure t)
+
+(use-package flycheck-package
+  :ensure t)
 
 (use-package flyspell
   :commands flyspell-mode
@@ -476,7 +490,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :ensure t)
 
 (use-package php-extras
-  :defer t
   :ensure t
   :recipe (:host github :repo "arnested/php-extras"))
 
