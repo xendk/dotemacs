@@ -507,7 +507,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     (paradox-enable)))
 
 (use-package php-boris
-  :commands php-boris)
+  :commands php-boris
+  :ensure t)
 
 (use-package php-mode
   :commands php-mode
@@ -527,7 +528,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands projectile-project-p
   :diminish ""
   :init (progn
-    (projectile-mode)))
+          (projectile-mode))
+  :ensure t)
+
 
 (use-package ruby-mode
   :commands ruby-mode
@@ -577,12 +580,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                         (move-overlay rol start end (current-buffer)))
                       rol)))))
 
-(use-package smartparens-config
+(use-package smartparens
   :diminish smartparens-mode
-  :init (progn
-          (smartparens-global-mode 1)
-          (show-smartparens-global-mode 1))
   :config (progn
+            (require 'smartparens-config)
+            (smartparens-global-mode 1)
+            (show-smartparens-global-mode 1)
             (sp-pair "'" nil :unless '(sp-point-after-word-p))
             ;; When pressing return as the first thing after inserting
             ;; a { or (, add another and indent.
@@ -603,16 +606,19 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
             ;; (require 'smartparens-html)
             )
-  )
+  :ensure t)
 
 (use-package string-inflection
   ;; autoload when needed.
-  :defer)
+  :defer
+  :ensure t)
 
 (use-package smex
   ;; autoload when needed.
-  :defer)
+  :defer
+  :ensure t)
 
+;; Built in.
 (use-package term
   :defer
   :bind (:map term-raw-map
@@ -622,24 +628,30 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package undo-tree
   :diminish ""
   :init (progn
-          (global-undo-tree-mode)))
+          (global-undo-tree-mode))
+  :ensure t)
 
 (use-package vcl-mode
   :commands vcl-mode
-  :mode "\\.vcl\\'")
+  :mode "\\.vcl\\'"
+  :ensure t)
 
 (use-package watch-buffer
-  :commands watch-buffer)
+  :commands watch-buffer
+  :ensure t)
 
 (use-package visual-regexp
   :bind (("C-c r" . vr/replace)
          ("C-c q" . vr/query-replace)
-         ("C-c m" . vr/mc-mark)))
+         ("C-c m" . vr/mc-mark))
+  :ensure t)
 
 ; Writable grep buffer.
-(use-package wgrep)
+;; (use-package wgrep
+;;   :ensure t)
 
 ;; http://www.emacswiki.org/emacs/WindMove
+;; Built in.
 (use-package windmove
   :config (progn
             (windmove-default-keybindings)
@@ -650,13 +662,15 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             (add-hook 'org-shiftright-final-hook 'windmove-right)))
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
+;; Built in.
 (use-package winner
   :config (progn (winner-mode)))
 
 (use-package ws-butler
   :commands ws-butler-mode
   :diminish ""
-  :init (add-hook 'php-mode-hook 'ws-butler-mode))
+  :init (add-hook 'php-mode-hook 'ws-butler-mode)
+  :ensure t)
 
 (use-package xen
   :load-path "~/.emacs.d/xen/"
@@ -678,10 +692,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :config (yas-reload-all))
+  :config (yas-reload-all)
+  :ensure t)
 
-(use-package zeal-at-point
-  :bind (("C-c d" . zeal-at-point)))
+;; (use-package zeal-at-point
+;;   :bind (("C-c d" . zeal-at-point)))
 
 
 
