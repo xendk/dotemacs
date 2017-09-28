@@ -642,12 +642,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             )
   :ensure t)
 
-(use-package string-inflection
+(use-package smex
   ;; autoload when needed.
   :defer
   :ensure t)
 
-(use-package smex
+(use-package string-inflection
   ;; autoload when needed.
   :defer
   :ensure t)
