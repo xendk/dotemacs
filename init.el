@@ -140,8 +140,9 @@
 
 (use-package company
   :diminish ""
-  ;; Global mode, can't really be deferred.
-  :demand
+  ;; Global mode, can't really be deferred, but delay it until
+  ;; php-extras has had a chance to define it's completer.
+  :after php-extras
   :defines company-semantic-modes
   :bind (:map company-active-map
               ;; company-complete-common is annying as it only completes
