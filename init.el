@@ -297,7 +297,7 @@
   :ensure t)
 
 (use-package ggtags
-  ;; @todo icon lighter
+  ;; TODO: icon lighter
   :diminish ""
   :commands ggtags-mode
   :ensure t)
