@@ -256,21 +256,25 @@
 
 (use-package flyspell-correct-ivy
   :bind (:map flyspell-mode-map
-              ("C-;" . flyspell-correct-previous-word-generic)))
+              ("C-;" . flyspell-correct-previous-word-generic))
+  :ensure t)
 
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
-  :config (setq framemove-hook-into-windmove t))
+  :config (setq framemove-hook-into-windmove t)
+  :ensure t)
 
 (use-package google-this
   :diminish ""
   :bind-keymap ("C-c /" . google-this-mode-submap)
-  :config (google-this-mode))
+  :config (google-this-mode)
+  :ensure t)
 
 (use-package ggtags
   ;; @todo icon lighter
   :diminish ""
-  :commands ggtags-mode)
+  :commands ggtags-mode
+  :ensure t)
 
 (use-package harvest
   :bind ("C-c h" . harvest)
@@ -294,14 +298,20 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                                      )))
               (if (harvest-alist-get '(timer_started_at) entry)
                   (propertize formatted-string 'face '(:background "green" :foreground "white"))
-                (propertize formatted-string 'face 'nil)))))
+                (propertize formatted-string 'face 'nil))))
+  :ensure t)
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
-  :diminish "")
+  :diminish ""
+  :ensure t)
 
 (use-package hl-line
   :config (global-hl-line-mode))
+
+;; is this used?
+;; (use-package hl-line+
+;;   :ensure t)
 
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
 ;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
@@ -336,7 +346,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ("m" string-inflection-camelcase "UpperCamel")
             ("k" string-inflection-kebab-case "kebab-case")
             )
-          (bind-key "M-c" 'hydra-case/body)))
+          (bind-key "M-c" 'hydra-case/body))
+  :ensure t)
 
 ;; Build in, but add some bindings.
 (use-package isearch
@@ -386,12 +397,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ;; For symmetry.
               ("C-<iso-lefttab>" . ivy-previous-line-or-history)))
 
+(use-package ivy-hydra
+  :ensure t)
+
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
   :load-path "~/.emacs.d/lib/"
   :commands java-mode-indent-annotations-setup
   :init (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup))
 
+;; Built in.
 (use-package js
   :commands js-mode
   :config (add-hook
@@ -402,7 +417,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package keyfreq
   :init (progn
           (keyfreq-mode 1)
-          (keyfreq-autosave-mode 1)))
+          (keyfreq-autosave-mode 1))
+  :ensure t)
 
 (use-package lisp-mode
   :commands emacs-lisp-mode
@@ -425,20 +441,23 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             ;; Delight has better handling for major-modes.
             (delight 'magit-status-mode
                      (propertize (concat " " [#xF1D3])
-                                 'face '(:family "FontAwesome")) :major)))
+                                 'face '(:family "FontAwesome")) :major))
+  :ensure t)
 
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
   :diminish magit-gitflow-mode
-  :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+  :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  :ensure t)
 
 (use-package magithub
   :after magit
   :config (progn
             (magithub-feature-autoinject t)
             (setq ghub-username "xendk")
-            (setq ghub-token "765f792175184f6fabb23cead2c71391137e2629")))
+            (setq ghub-token "765f792175184f6fabb23cead2c71391137e2629"))
+  :ensure t)
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
@@ -448,10 +467,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     (add-hook 'gfm-mode-hook
               '(lambda ()
                  (auto-fill-mode)
-                 (flyspell-mode)))))
+                 (flyspell-mode))))
+  :ensure t)
 
 (use-package multi-term
-  :commands multi-term-dedicated-exist-p)
+  :commands multi-term-dedicated-exist-p
+  :ensure t)
 
 (use-package multiple-cursors
   :bind (
@@ -460,14 +481,19 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-M-m" . mc/mark-more-like-this-extended)
          ("C-*" . mc/mark-all-like-this)
          ("C-%" . mc/mark-all-in-region)
-         ("C-=" . mc/mark-all-like-this-dwim)))
+         ("C-=" . mc/mark-all-like-this-dwim))
+  :ensure t)
 
+;; We're using the built in version of org. Upgrading it requires some hackery:
+;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
+;; And as we're quite content with it, we're sticking with the built in version.
 (use-package org-mode
   :commands org-mode
   :mode "\\.org\\'")
 
 (use-package page-break-lines
-  :diminish "")
+  :diminish ""
+  :ensure t)
 
 (use-package paradox
   :commands (package-list-packages

@@ -118,7 +118,7 @@
      (clojure-mode . origami-clj-parser))))
  '(package-selected-packages
    (quote
-    (command-log-mode page-break-lines visual-regexp systemd ivy-hydra buttercup cask-mode magithub watch-buffer atomic-chrome c-c-combo smex zeal-at-point yasnippet ws-butler wgrep-ag vcl-mode use-package undo-tree typit twig-mode try string-inflection smartparens scss-mode rainbow-mode rainbow-delimiters projectile prodigy powerline polymode php-boris paradox origami multiple-cursors multi-term multi-line mo-git-blame mmm-mode markdown-mode magit-gitflow magit-filenotify loc-changes load-relative list-processes+ keyfreq js2-mode hl-line+ highlight-symbol harvest google-this go-mode git-link gh-md gh ggtags geben fringe-helper framemove flyspell-correct-ivy fish-mode feature-mode dockerfile-mode docker delight counsel col-highlight coffee-mode anzu ag)))
+    (command-log-mode visual-regexp systemd buttercup cask-mode watch-buffer atomic-chrome c-c-combo smex zeal-at-point yasnippet ws-butler wgrep-ag vcl-mode use-package undo-tree typit twig-mode try string-inflection smartparens scss-mode rainbow-mode rainbow-delimiters projectile prodigy powerline polymode php-boris paradox origami multi-line mo-git-blame mmm-mode magit-filenotify loc-changes load-relative list-processes+ js2-mode hl-line+ go-mode git-link gh-md gh geben fringe-helper fish-mode feature-mode dockerfile-mode docker delight counsel col-highlight coffee-mode anzu ag)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(password-cache-expiry 3600)
