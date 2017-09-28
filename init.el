@@ -257,23 +257,26 @@
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
   :init (add-hook 'after-init-hook #'global-flycheck-mode)
-  :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode)
-            (add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
   :ensure t)
 
-;; Needs a (eval-after-load 'flycheck
-;;'(add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
 (use-package flycheck-cask
+  :commands flycheck-cask-setup
+  :init
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
   :ensure t)
 
-;; Adds itself in autoload, defer should be safe.
 (use-package flycheck-color-mode-line
+  :commands flycheck-color-mode-line-mode
+  :init
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode))
   :ensure t)
 
-;; Needs a (eval-after-load 'flycheck
-;; '(flycheck-package-setup))
 (use-package flycheck-package
+  :commands flycheck-package-setup
+  :init
+  (eval-after-load 'flycheck '(flycheck-package-setup))
   :ensure t)
 
 (use-package flyspell
