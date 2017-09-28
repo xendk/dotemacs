@@ -90,6 +90,14 @@
 
 ;;; Packages.
 
+(use-package ag
+  :defer t
+  :ensure t)
+
+(use-package atomic-chrome
+  :defer t
+  :ensure t)
+
 (use-package avy
   ;; Override minor mode binding for these.
   :bind* (
@@ -164,6 +172,10 @@
   :after (company restclient)
   :ensure t)
 
+(use-package counsel
+  :defer t
+  :ensure t)
+
 (use-package dashboard
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
@@ -179,8 +191,16 @@
     (dashboard-setup-startup-hook))
   :ensure t)
 
+(use-package delight
+  :defer t
+  :ensure t)
+
 (use-package diff-hl
   :config (global-diff-hl-mode)
+  :ensure t)
+
+(use-package dockerfile-mode
+  :defer t
   :ensure t)
 
 (use-package drupal-mode
@@ -220,6 +240,14 @@
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :config (add-hook 'php-mode-hook 'xen-php-mode-expansions)
+  :ensure t)
+
+(use-package feature-mode
+  :defer t
+  :ensure t)
+
+(use-package fish-mode
+  :defer t
   :ensure t)
 
 (use-package flycheck
@@ -449,6 +477,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
   :ensure t)
 
+(use-package magit-filenotify
+  :defer t
+  :ensure t)
+
 (use-package magithub
   :after magit
   :config (progn
@@ -541,6 +573,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package saveplace
   :init (save-place-mode))
 
+(use-package scss-mode
+  :defer t
+  :ensure t)
+
 (use-package semantic-php
   :load-path "~/.emacs.d/semantic-php/"
   :init (progn (load "~/.emacs.d/semantic-php/loaddefs.el")
@@ -616,12 +652,20 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defer
   :ensure t)
 
+(use-package systemd
+  :defer t
+  :ensure t)
+
 ;; Built in.
 (use-package term
   :defer
   :bind (:map term-raw-map
               ;; Get paste working in (multi-)term-mode.
               ("C-y" . term-paste)))
+
+(use-package twig-mode
+  :defer t
+  :ensure t)
 
 (use-package undo-tree
   :diminish ""
