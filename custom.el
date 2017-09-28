@@ -118,7 +118,7 @@
      (clojure-mode . origami-clj-parser))))
  '(package-selected-packages
    (quote
-    (command-log-mode buttercup cask-mode c-c-combo zeal-at-point wgrep-ag typit try rainbow-mode rainbow-delimiters prodigy powerline polymode paradox origami multi-line mo-git-blame mmm-mode loc-changes load-relative list-processes+ js2-mode hl-line+ go-mode git-link gh-md gh geben fringe-helper docker col-highlight coffee-mode anzu)))
+    (buttercup cask-mode c-c-combo rainbow-mode paradox multi-line list-processes+ go-mode git-link geben)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(password-cache-expiry 3600)

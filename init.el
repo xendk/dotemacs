@@ -335,10 +335,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package hl-line
   :config (global-hl-line-mode))
 
-;; is this used?
-;; (use-package hl-line+
-;;   :ensure t)
-
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
 ;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
 ;; rotate package
@@ -736,9 +732,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :diminish yas-minor-mode
   :config (yas-reload-all)
   :ensure t)
-
-;; (use-package zeal-at-point
-;;   :bind (("C-c d" . zeal-at-point)))
 
 
 
