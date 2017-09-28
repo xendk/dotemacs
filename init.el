@@ -46,17 +46,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Initialize package system.
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" .
-               "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-(package-initialize)
-
 ;; Bootstrap `use-package'
 (straight-use-package 'use-package)
 
@@ -530,17 +519,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package page-break-lines
   :diminish ""
   :ensure t)
-
-(use-package paradox
-  :commands (package-list-packages
-             paradox-list-packages
-             hydra-launch/paradox-list-packages-and-exit)
-  :config
-  (progn
-    ;; The "paradox-token.el" file is supposed to contain this line:
-    ;;     (setq paradox-github-token "<YOUR_TOKEN>")
-    (load (locate-user-emacs-file "paradox-token.el") :noerror :nomessage)
-    (paradox-enable)))
 
 (use-package php-boris
   :commands php-boris
