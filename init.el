@@ -145,8 +145,7 @@
               ;; double tabs all the times.
               ;; This completes the common part or selects the first (or selected) option.
               ("TAB" . xen-company-complete-common-or-selection)
-              ("<tab>" . xen-company-complete-common-or-selection)
-              )
+              ("<tab>" . xen-company-complete-common-or-selection))
   :config (progn
             (global-company-mode)
             ;; Remove enter key-binding, it messes with normal typing.
@@ -160,8 +159,7 @@
             (defvar xen-company-explicit-map (make-sparse-keymap))
             (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
             (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
-                                                     xen-company-explicit-map))
-            )
+                                                     xen-company-explicit-map)))
   :ensure t)
 
 (use-package company-restclient
