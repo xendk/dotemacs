@@ -90,6 +90,16 @@
 
 ;;; Packages.
 
+;; Reinstall these when the need arise:
+;; buttercup
+;; cask-mode
+;; git-link
+;; geben
+;; go-mode
+;; list-processes+
+;; multi-line
+;; rainbow-mode
+
 (use-package ag
   :defer t
   :ensure t)

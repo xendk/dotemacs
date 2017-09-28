@@ -116,9 +116,7 @@
      (emacs-lisp-mode . origami-elisp-parser)
      (lisp-interaction-mode . origami-elisp-parser)
      (clojure-mode . origami-clj-parser))))
- '(package-selected-packages
-   (quote
-    (buttercup cask-mode c-c-combo rainbow-mode paradox multi-line list-processes+ go-mode git-link geben)))
+ '(package-selected-packages (quote (c-c-combo paradox)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(password-cache-expiry 3600)
