@@ -565,12 +565,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defer t
   :ensure t)
 
-(use-package semantic-php
-  :load-path "~/.emacs.d/semantic-php/"
-  :init (progn (load "~/.emacs.d/semantic-php/loaddefs.el")
-               (add-hook 'php-mode-hook #'semantic-mode))
-  :config (add-to-list 'company-semantic-modes 'php-mode)
-  )
+;; Figure this one out.
+;; (use-package semantic-php
+;;   :commands semantic-mode
+;;   :load-path "~/.emacs.d/semantic-php/"
+;;   :init
+;;   (add-hook 'php-mode-hook #'semantic-mode)
+;;   :config
+;;   (load "~/.emacs.d/semantic-php/loaddefs.el")
+;;   (add-to-list 'company-semantic-modes 'php-mode)
+;;   )
 
 ;; prog-mode and auto-fill-mode is defined in simple.el.
 (use-package simple
