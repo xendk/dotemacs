@@ -236,12 +236,17 @@
             (add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
   :ensure t)
 
+;; Needs a (eval-after-load 'flycheck
+;;'(add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
 (use-package flycheck-cask
   :ensure t)
 
+;; Adds itself in autoload, defer should be safe.
 (use-package flycheck-color-mode-line
   :ensure t)
 
+;; Needs a (eval-after-load 'flycheck
+;; '(flycheck-package-setup))
 (use-package flycheck-package
   :ensure t)
 
