@@ -58,9 +58,7 @@
 (package-initialize)
 
 ;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(straight-use-package 'use-package)
 
 ;;; Bindings.
 ;; Used to M-DEL deleting a word.
