@@ -483,9 +483,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package magithub
   :after magit
   :config (progn
-            (magithub-feature-autoinject t)
-            (setq ghub-username "xendk")
-            (setq ghub-token "765f792175184f6fabb23cead2c71391137e2629"))
+            (magithub-feature-autoinject t))
   :ensure t)
 
 (use-package markdown-mode
