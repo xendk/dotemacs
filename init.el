@@ -559,10 +559,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package saveplace
   :init (save-place-mode))
 
-(use-package scss-mode
-  :defer t
-  :ensure t)
-
 ;; Figure this one out.
 ;; (use-package semantic-php
 ;;   :commands semantic-mode

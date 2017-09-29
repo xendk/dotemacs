@@ -59,7 +59,6 @@
  ("projectile" . "e4bbeef993a1642c6ef197e0f76f11faced5f133")
  ("restclient.el" . "ef6d756e2013843f7afcbea42b69ad54aa5de518")
  ("s.el" . "12f116d58ac03706496bd682c6449b452681874e")
- ("scss-mode" . "b010d134f499c4b4ad33fe8a669a81e9a531b0b2")
  ("seq" . "b4d667e408a02a70dcf8e785aa499086e8aa4be7")
  ("smartparens" . "474706874e3b7c23188633add0e17b6488dae410")
  ("smex" . "55aaebe3d793c2c990b39a302eb26c184281c42c")
