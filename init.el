@@ -697,7 +697,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package ws-butler
   :commands ws-butler-mode
   :diminish ""
-  :init (add-hook 'php-mode-hook 'ws-butler-mode)
+  :init
+  (add-hook 'php-mode-hook 'ws-butler-mode)
+  (add-hook 'ruby-mode-hook 'ws-butler-mode)
+  (add-hook 'js-mode-hook 'ws-butler-mode)
+  (add-hook 'feature-mode-hook 'ws-butler-mode)
   :ensure t)
 
 (use-package xen
