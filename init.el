@@ -125,7 +125,7 @@
 ;; Used by magit, we'll diminish it.
 (use-package autorevert
   :commands auto-revert-mode
-  :diminish "")
+  :diminish auto-revert-mode)
 
 (use-package browse-kill-ring
   :config (browse-kill-ring-default-keybindings)
