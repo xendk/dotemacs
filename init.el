@@ -502,6 +502,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                  (flyspell-mode))))
   :ensure t)
 
+;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
+(use-package multi-mode
+  :load-path "~/.emacs.d/lib/"
+  :commands multi-mode)
+;; Example:
+;; (multi-mode 1
+;;             'html-mode
+;;             '("<?php" php-mode)
+;;             '("?>" html-mode))
+
 (use-package multi-term
   :commands multi-term-dedicated-exist-p
   :ensure t)
