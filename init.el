@@ -609,16 +609,22 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (require 'smartparens-config)
   (smartparens-global-mode 1)
   (show-smartparens-global-mode 1)
+  ;; Don't autopair ' when after a word (makes the first word of this
+  ;; sentence difficult to type).
   (sp-pair "'" nil :unless '(sp-point-after-word-p))
   ;; When pressing return as the first thing after inserting
   ;; a { or (, add another and indent.
-  (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
-  (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>")))
+  (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
 
-  (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert))'
+  (sp-local-pair 'php-mode "/*" "*/" :actions '(wrap insert)
+                 :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
 
-  ;; Don't autopair ' in lisp.
-  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  (sp-local-pair 'js-mode "/*" "*/" :actions '(wrap insert)
+                 :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
+
+  (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert)
+                 :post-handlers '(("* ||\n[i]" "RET")))
 
   (sp-local-pair 'twig-mode "{" nil :actions nil)
   (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
