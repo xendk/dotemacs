@@ -1,12 +1,12 @@
 ;;; init.el --- Xens emacs configuration.
 ;;; Commentary:
 
-
 ;;; Code:
 
 ;; Start server if not already running.
 (require 'server)
-(if (not (server-running-p))
+(defvar xen-primary (not (server-running-p)) "Whether this Emacs is \"Primary\".")
+(if xen-primary
     (progn
       (server-start)
       (add-hook 'kill-emacs-hook (lambda () (server-start 1))))
@@ -437,6 +437,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              (yas-minor-mode 1))))
 
 (use-package keyfreq
+  :if xen-primary
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
