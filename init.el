@@ -157,20 +157,19 @@
               ;; This completes the common part or selects the first (or selected) option.
               ("TAB" . xen-company-complete-common-or-selection)
               ("<tab>" . xen-company-complete-common-or-selection))
-  :config (progn
-            (global-company-mode)
-            ;; Remove enter key-binding, it messes with normal typing.
-            (unbind-key "RET" company-active-map)
-            (unbind-key "<return>" company-active-map)
-            ;; Define a local map that's only active when selection
-            ;; has changed, and bind return to the action we unbound
-            ;; it from in the normal keymap. This means we can use
-            ;; return to select the chosen item, but it wont mess with
-            ;; normal typing.
-            (defvar xen-company-explicit-map (make-sparse-keymap))
-            (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
-            (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
-                                                     xen-company-explicit-map)))
+  :config
+  (global-company-mode)
+  ;; Remove enter key-binding, it messes with normal typing.
+  (unbind-key "RET" company-active-map)
+  (unbind-key "<return>" company-active-map)
+  ;; Define a local map that's only active when selection has changed,
+  ;; and bind return to the action we unbound it from in the normal
+  ;; keymap. This means we can use return to select the chosen item,
+  ;; but it wont mess with normal typing.
+  (defvar xen-company-explicit-map (make-sparse-keymap))
+  (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
+  (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
+                                           xen-company-explicit-map))
   :ensure t)
 
 (use-package company-restclient
@@ -184,16 +183,10 @@
 (use-package dashboard
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
-  (progn
-    (setq dashboard-startup-banner 'logo)
-    (add-to-list 'dashboard-item-generators  '(xen-tip . xen-dashboard-tip))
-    (setq dashboard-items '(;(recents  . 10)
-                            ;(bookmarks . 5)
-                            (projects . 20)
-                                        ;(agenda . 5)
-                            (xen-tip)
-                            ))
-    (dashboard-setup-startup-hook))
+  (setq dashboard-startup-banner 'logo)
+  (add-to-list 'dashboard-item-generators  '(xen-tip . xen-dashboard-tip))
+  (setq dashboard-items '((projects . 20) (xen-tip)))
+  (dashboard-setup-startup-hook)
   :ensure t)
 
 (use-package delight
@@ -209,12 +202,12 @@
   :ensure t)
 
 (use-package drupal-mode
-  :config (progn
-            (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
-            ;; :diminish doesn't work with propertized strings, for some reason.
-            (diminish 'drupal-mode
-                     (propertize (concat " " [#xF1A9])
-                                 'face '(:family "FontAwesome"))))
+  :config
+  (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
+  ;; :diminish doesn't work with propertized strings, for some reason.
+  (diminish 'drupal-mode
+            (propertize (concat " " [#xF1A9])
+                        'face '(:family "FontAwesome")))
   :ensure t)
 
 ;; Part of drupal-mode.
@@ -348,35 +341,35 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; rotate package
 (use-package hydra
   ;; TODO: use :config and :bind.
-  :init (progn
-          (defhydra hydra-window (global-map "C-c w" :color pink)
-            "window"
-            ;; Dvorak.
-            ("c" enlarge-window "enlarge")
-            ("h" shrink-window-horizontally "widen")
-            ("n" enlarge-window-horizontally "slim")
-            ("t" shrink-window "shrink")
-            ;; Qwerty.
-            ("i" enlarge-window "enlarge")
-            ("j" shrink-window-horizontally "widen")
-            ("l" enlarge-window-horizontally "slim")
-            ("k" shrink-window "shrink")
-            ("q" nil "cancel"))
-          ;; Bind to prefix key, so the hint is shown immediately.
-          (bind-key "C-c w" 'hydra-window/body)
+  :init
+  (defhydra hydra-window (global-map "C-c w" :color pink)
+    "window"
+    ;; Dvorak.
+    ("c" enlarge-window "enlarge")
+    ("h" shrink-window-horizontally "widen")
+    ("n" enlarge-window-horizontally "slim")
+    ("t" shrink-window "shrink")
+    ;; Qwerty.
+    ("i" enlarge-window "enlarge")
+    ("j" shrink-window-horizontally "widen")
+    ("l" enlarge-window-horizontally "slim")
+    ("k" shrink-window "shrink")
+    ("q" nil "cancel"))
+  ;; Bind to prefix key, so the hint is shown immediately.
+  (bind-key "C-c w" 'hydra-window/body)
 
-          (defhydra hydra-case (global-map "M-c")
-            "case"
-            ("c" capitalize-word "Capitalize")
-            ("u" upcase-word "UPPER")
-            ("l" downcase-word "lower")
-            ("s" string-inflection-underscore "lower_snake")
-            ("n" string-inflection-upcase "UPPER_SNAKE")
-            ("a" string-inflection-lower-camelcase "lowerCamel")
-            ("m" string-inflection-camelcase "UpperCamel")
-            ("k" string-inflection-kebab-case "kebab-case")
-            )
-          (bind-key "M-c" 'hydra-case/body))
+  (defhydra hydra-case (global-map "M-c")
+    "case"
+    ("c" capitalize-word "Capitalize")
+    ("u" upcase-word "UPPER")
+    ("l" downcase-word "lower")
+    ("s" string-inflection-underscore "lower_snake")
+    ("n" string-inflection-upcase "UPPER_SNAKE")
+    ("a" string-inflection-lower-camelcase "lowerCamel")
+    ("m" string-inflection-camelcase "UpperCamel")
+    ("k" string-inflection-kebab-case "kebab-case")
+    )
+  (bind-key "M-c" 'hydra-case/body)
   :ensure t)
 
 ;; Build in, but add some bindings.
@@ -390,23 +383,22 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
   :diminish ""
-  :init (progn
-          (ivy-mode 1)
-          ;; Buffer switching with preview.
-          (defun xen-switch-buffer ()
-            "Switch to another buffer."
-            (interactive)
-            (let ((this-command 'ivy-switch-buffer))
-              (ivy-read "Switch to buffer: " 'internal-complete-buffer
-                        :matcher #'ivy--switch-buffer-matcher
-                        :preselect (buffer-name (other-buffer (current-buffer)))
-                        :action #'ivy--switch-buffer-action
-                        :keymap ivy-switch-buffer-map
-                        :caller 'ivy-switch-buffer
-                        ;; Using an lambda rather than raw ivy-call,
-                        ;; in order to only call it on existing
-                        ;; buffers.
-                        :update-fn (lambda () (if (get-buffer (ivy-state-current ivy-last)) (ivy-call)))))))
+  :init
+  (ivy-mode 1)
+  ;; Buffer switching with preview.
+  (defun xen-switch-buffer ()
+    "Switch to another buffer."
+    (interactive)
+    (let ((this-command 'ivy-switch-buffer))
+      (ivy-read "Switch to buffer: " 'internal-complete-buffer
+                :matcher #'ivy--switch-buffer-matcher
+                :preselect (buffer-name (other-buffer (current-buffer)))
+                :action #'ivy--switch-buffer-action
+                :keymap ivy-switch-buffer-map
+                :caller 'ivy-switch-buffer
+                ;; Using an lambda rather than raw ivy-call, in order
+                ;; to only call it on existing buffers.
+                :update-fn (lambda () (if (get-buffer (ivy-state-current ivy-last)) (ivy-call))))))
   :bind (:map ivy-mode-map
               ("M-x" . counsel-M-x)
               ("C-x C-f" . counsel-find-file)
@@ -445,33 +437,33 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              (yas-minor-mode 1))))
 
 (use-package keyfreq
-  :init (progn
-          (keyfreq-mode 1)
-          (keyfreq-autosave-mode 1))
+  :init
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
   :ensure t)
 
 (use-package lisp-mode
   :commands emacs-lisp-mode
-  :config (progn
-            (add-hook
-             'emacs-lisp-mode-hook
-             (lambda () (xen-coding-common-bindings)
-               (yas-minor-mode 1)))
-            (add-hook 'emacs-lisp-mode-hook 'page-break-lines-mode)))
+  :config
+  (add-hook
+   'emacs-lisp-mode-hook
+   (lambda () (xen-coding-common-bindings)
+     (yas-minor-mode 1)))
+  (add-hook 'emacs-lisp-mode-hook 'page-break-lines-mode))
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c C-g" . magit-status))
-  :config (progn
-            ;; Add --follow-tags options to the push popup.
-            (magit-define-popup-switch 'magit-push-popup
-              ?t "Follow tags" "--follow-tags")
-            ;; Delight has better handling for major-modes.
-            (delight 'magit-status-mode
-                     (propertize (concat " " [#xF1D3])
-                                 'face '(:family "FontAwesome")) :major))
+  :config
+  ;; Add --follow-tags options to the push popup.
+  (magit-define-popup-switch 'magit-push-popup
+    ?t "Follow tags" "--follow-tags")
+  ;; Delight has better handling for major-modes.
+  (delight 'magit-status-mode
+           (propertize (concat " " [#xF1D3])
+                       'face '(:family "FontAwesome")) :major)
   :ensure t)
 
 ;; Add git flow extension.
@@ -487,19 +479,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package magithub
   :after magit
-  :config (progn
-            (magithub-feature-autoinject t))
+  :config (magithub-feature-autoinject t)
   :ensure t)
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
          ("\\.md$" . gfm-mode))
-  :config
-  (progn
-    (add-hook 'gfm-mode-hook
-              '(lambda ()
-                 (auto-fill-mode)
-                 (flyspell-mode))))
+  :config (add-hook 'gfm-mode-hook
+                    '(lambda ()
+                       (auto-fill-mode)
+                       (flyspell-mode)))
   :ensure t)
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
@@ -558,8 +547,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package projectile
   :commands projectile-project-p
   :diminish ""
-  :init (progn
-          (projectile-mode))
+  :init (projectile-mode)
   :ensure t)
 
 
@@ -588,59 +576,57 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; prog-mode and auto-fill-mode is defined in simple.el.
 (use-package simple
   :diminish auto-fill-function
-  :config (progn
-            (add-hook 'prog-mode-hook #'eldoc-mode)
-            ;; Emacs 24 changed the region highlight from a hackery
-            ;; face thingy to a proper overlay. Which is fine apart
-            ;; from giving it a nil priority which puts it below
-            ;; pretty much everything else. So we redefine the
-            ;; redisplay-highlight-region-function to give the overlay
-            ;; a higher priority.
-            ;;
-            ;; Further inspiration:
-            ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
-            (setq redisplay-highlight-region-function
-                  (lambda (start end window rol)
-                    (if (not (overlayp rol))
-                        (let ((nrol (make-overlay start end)))
-                          (funcall redisplay-unhighlight-region-function rol)
-                          (overlay-put nrol 'window window)
-                          (overlay-put nrol 'face 'region)
-                          ;; Flycheck uses priorities of 100-ish, so we go higher than that.
-                          (overlay-put nrol 'priority '(200 . 100))
-                          nrol)
-                      (unless (and (eq (overlay-buffer rol) (current-buffer))
-                                   (eq (overlay-start rol) start)
-                                   (eq (overlay-end rol) end))
-                        (move-overlay rol start end (current-buffer)))
-                      rol)))))
+  :config
+  (add-hook 'prog-mode-hook #'eldoc-mode)
+  ;; Emacs 24 changed the region highlight from a hackery face thingy
+  ;; to a proper overlay. Which is fine apart from giving it a nil
+  ;; priority which puts it below pretty much everything else. So we
+  ;; redefine the redisplay-highlight-region-function to give the
+  ;; overlay a higher priority.
+  ;;
+  ;; Further inspiration:
+  ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
+  (setq redisplay-highlight-region-function
+        (lambda (start end window rol)
+          (if (not (overlayp rol))
+              (let ((nrol (make-overlay start end)))
+                (funcall redisplay-unhighlight-region-function rol)
+                (overlay-put nrol 'window window)
+                (overlay-put nrol 'face 'region)
+                ;; Flycheck uses priorities of 100-ish, so we go higher than that.
+                (overlay-put nrol 'priority '(200 . 100))
+                nrol)
+            (unless (and (eq (overlay-buffer rol) (current-buffer))
+                         (eq (overlay-start rol) start)
+                         (eq (overlay-end rol) end))
+              (move-overlay rol start end (current-buffer)))
+            rol))))
 
 (use-package smartparens
   :diminish smartparens-mode
-  :config (progn
-            (require 'smartparens-config)
-            (smartparens-global-mode 1)
-            (show-smartparens-global-mode 1)
-            (sp-pair "'" nil :unless '(sp-point-after-word-p))
-            ;; When pressing return as the first thing after inserting
-            ;; a { or (, add another and indent.
-            (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
-            (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>")))
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode 1)
+  (show-smartparens-global-mode 1)
+  (sp-pair "'" nil :unless '(sp-point-after-word-p))
+  ;; When pressing return as the first thing after inserting
+  ;; a { or (, add another and indent.
+  (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "<return>")))
+  (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "<return>")))
 
-            (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert))'
+  (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert))'
 
-            ;; Don't autopair ' in lisp.
-            (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  ;; Don't autopair ' in lisp.
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 
-            (sp-local-pair 'twig-mode "{" nil :actions nil)
-            (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
-            (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
-            (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
-            ;; Hmm, no workie.
-            ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
-            ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
-            ;; (require 'smartparens-html)
-            )
+  (sp-local-pair 'twig-mode "{" nil :actions nil)
+  (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
+  (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
+  (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
+  ;; Hmm, no workie.
+  ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
+  ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
+  ;; (require 'smartparens-html)            
   :ensure t)
 
 (use-package smex
@@ -670,8 +656,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package undo-tree
   :diminish ""
-  :init (progn
-          (global-undo-tree-mode))
+  :init (global-undo-tree-mode)
   :ensure t)
 
 (use-package vcl-mode
@@ -696,18 +681,18 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (use-package windmove
-  :config (progn
-            (windmove-default-keybindings)
-             ;; Make windmove work in org-mode:
-            (add-hook 'org-shiftup-final-hook 'windmove-up)
-            (add-hook 'org-shiftleft-final-hook 'windmove-left)
-            (add-hook 'org-shiftdown-final-hook 'windmove-down)
-            (add-hook 'org-shiftright-final-hook 'windmove-right)))
+  :config
+  (windmove-default-keybindings)
+  ;; Make windmove work in org-mode:
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right))
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
 ;; Built in.
 (use-package winner
-  :config (progn (winner-mode)))
+  :config (winner-mode))
 
 (use-package ws-butler
   :commands ws-butler-mode
