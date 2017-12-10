@@ -626,7 +626,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;; Hmm, no workie.
   ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
   ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
-  ;; (require 'smartparens-html)            
+  ;; (require 'smartparens-html)
   :ensure t)
 
 (use-package smex
