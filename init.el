@@ -497,13 +497,24 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :load-path "~/.emacs.d/lib/"
   :commands multi-mode)
 ;; Example:
-;; (multi-mode 1
-;;             'html-mode
-;;             '("<?php" php-mode)
-;;             '("?>" html-mode))
+;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
 
 (use-package multi-term
   :commands multi-term-dedicated-exist-p
+  :bind (:map term-mode-map
+              ("RET" . term-char-mode))
+  :config
+  (defun term-send-alt-up    () (interactive) (term-send-raw-string "\e[1;3A"))
+  (defun term-send-alt-down  () (interactive) (term-send-raw-string "\e[1;3B"))
+  (defun term-send-alt-right () (interactive) (term-send-raw-string "\e[1;3C"))
+  (defun term-send-alt-left  () (interactive) (term-send-raw-string "\e[1;3D"))
+  (defun term-send-ctrl-right () (interactive) (term-send-raw-string "\e[1;5C"))
+  (defun term-send-ctrl-left  () (interactive) (term-send-raw-string "\e[1;5D"))
+  (defun term-send-alt-backspace  () (interactive) (term-send-raw-string "\e\C-?"))
+  (defun term-swiper  () (interactive) (term-line-mode) (swiper))
+  (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
+  (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (avy-goto-word-1))
+  (defun term-xen-avy-goto-line  () (interactive) (term-line-mode) (xen-avy-goto-line))
   :ensure t)
 
 (use-package multiple-cursors
