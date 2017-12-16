@@ -149,6 +149,7 @@
     ("\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".f\\(90\\|77\\|or\\)?" ".ada" ".pl" ".tcl" ".m" ".scm" ".pm" ".py" ".s?html" "Makefile\\(\\.in\\)?" ".p\\(hp\\(3\\|4\\)\\|html\\|hp\\)" ".module" ".install")))
  '(speedbar-track-mouse-flag t)
  '(speedbar-update-flag (quote x))
+ '(straight-check-for-modifications (quote live))
  '(switch-to-buffer-in-dedicated-window (quote prompt))
  '(term-bind-key-alist
    (quote

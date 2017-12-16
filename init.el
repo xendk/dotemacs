@@ -96,11 +96,11 @@
 
 (use-package ag
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package atomic-chrome
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package avy
   ;; Override minor mode binding for these.
@@ -109,18 +109,18 @@
           ("S-SPC" . avy-goto-word-1)
           ("M-u" . avy-goto-char-in-line)
           ("M-U" . avy-goto-char))
-  :ensure t)
+  :straight t)
 
 (use-package avy-zap
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim))
-  :ensure t)
+  :straight t)
 
 (use-package auto-indent-mode
   :commands auto-indent-mode auto-indent-global-mode
   :diminish auto-indent-mode
   :init (auto-indent-global-mode)
-  :ensure t)
+  :straight t)
 
 ;; Used by magit, we'll diminish it.
 (use-package autorevert
@@ -129,7 +129,7 @@
 
 (use-package browse-kill-ring
   :config (browse-kill-ring-default-keybindings)
-  :ensure t)
+  :straight t)
 
 (use-package css-mode
   :commands css-mode
@@ -141,7 +141,7 @@
 (use-package column-enforce-mode
   :commands column-enforce-mode
   :diminish column-enforce-mode
-  :ensure t)
+  :straight t)
 
 (use-package company
   :diminish ""
@@ -170,15 +170,15 @@
   (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
   (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
                                            xen-company-explicit-map))
-  :ensure t)
+  :straight t)
 
 (use-package company-restclient
   :after (company restclient)
-  :ensure t)
+  :straight t)
 
 (use-package counsel
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package dashboard
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
@@ -187,19 +187,19 @@
   (add-to-list 'dashboard-item-generators  '(xen-tip . xen-dashboard-tip))
   (setq dashboard-items '((projects . 20) (xen-tip)))
   (dashboard-setup-startup-hook)
-  :ensure t)
+  :straight t)
 
 (use-package delight
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package diff-hl
   :config (global-diff-hl-mode)
-  :ensure t)
+  :straight t)
 
 (use-package dockerfile-mode
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package drupal-mode
   :config
@@ -208,7 +208,7 @@
   (diminish 'drupal-mode
             (propertize (concat " " [#xF1A9])
                         'face '(:family "FontAwesome")))
-  :ensure t)
+  :straight t)
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
@@ -229,7 +229,7 @@
 
 (use-package ecukes
   :commands ecukes
-  :ensure t)
+  :straight t)
 
 (use-package eldoc
   :commands eldoc-mode
@@ -238,15 +238,15 @@
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :config (add-hook 'php-mode-hook 'xen-php-mode-expansions)
-  :ensure t)
+  :straight t)
 
 (use-package feature-mode
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package fish-mode
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package flycheck
   :bind (:map flycheck-mode-map
@@ -255,27 +255,27 @@
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
   :init (add-hook 'after-init-hook #'global-flycheck-mode)
-  :ensure t)
+  :straight t)
 
 (use-package flycheck-cask
   :commands flycheck-cask-setup
   :init
   (eval-after-load 'flycheck
     '(add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
-  :ensure t)
+  :straight t)
 
 (use-package flycheck-color-mode-line
   :commands flycheck-color-mode-line-mode
   :init
   (eval-after-load 'flycheck
     '(add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode))
-  :ensure t)
+  :straight t)
 
 (use-package flycheck-package
   :commands flycheck-package-setup
   :init
   (eval-after-load 'flycheck '(flycheck-package-setup))
-  :ensure t)
+  :straight t)
 
 (use-package flyspell
   :commands flyspell-mode
@@ -284,24 +284,24 @@
 (use-package flyspell-correct-ivy
   :bind (:map flyspell-mode-map
               ("C-;" . flyspell-correct-previous-word-generic))
-  :ensure t)
+  :straight t)
 
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
   :config (setq framemove-hook-into-windmove t)
-  :ensure t)
+  :straight t)
 
 (use-package google-this
   :diminish ""
   :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode)
-  :ensure t)
+  :straight t)
 
 (use-package ggtags
   ;; TODO: icon lighter
   :diminish ""
   :commands ggtags-mode
-  :ensure t)
+  :straight t)
 
 (use-package harvest
   :bind ("C-c h" . harvest)
@@ -326,12 +326,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               (if (harvest-alist-get '(timer_started_at) entry)
                   (propertize formatted-string 'face '(:background "green" :foreground "white"))
                 (propertize formatted-string 'face 'nil))))
-  :ensure t)
+  :straight t)
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :diminish ""
-  :ensure t)
+  :straight t)
 
 (use-package hl-line
   :config (global-hl-line-mode))
@@ -370,7 +370,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("k" string-inflection-kebab-case "kebab-case")
     )
   (bind-key "M-c" 'hydra-case/body)
-  :ensure t)
+  :straight t)
 
 ;; Build in, but add some bindings.
 (use-package isearch
@@ -382,7 +382,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
-  :diminish ""
+  :delight
   :init
   (ivy-mode 1)
   ;; Buffer switching with preview.
@@ -420,7 +420,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-<iso-lefttab>" . ivy-previous-line-or-history)))
 
 (use-package ivy-hydra
-  :ensure t)
+  :straight t)
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
@@ -441,7 +441,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
-  :ensure t)
+  :straight t)
 
 (use-package lisp-mode
   :commands emacs-lisp-mode
@@ -465,23 +465,23 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
                        'face '(:family "FontAwesome")) :major)
-  :ensure t)
+  :straight t)
 
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
   :diminish magit-gitflow-mode
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-  :ensure t)
+  :straight t)
 
 (use-package magit-filenotify
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package magithub
   :after magit
   :config (magithub-feature-autoinject t)
-  :ensure t)
+  :straight t)
 
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
@@ -490,7 +490,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                     '(lambda ()
                        (auto-fill-mode)
                        (flyspell-mode)))
-  :ensure t)
+  :straight t)
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
 (use-package multi-mode
@@ -515,7 +515,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
   (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (avy-goto-word-1))
   (defun term-xen-avy-goto-line  () (interactive) (term-line-mode) (xen-avy-goto-line))
-  :ensure t)
+  :straight t)
 
 (use-package multiple-cursors
   :bind (
@@ -525,7 +525,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-*" . mc/mark-all-like-this)
          ("C-%" . mc/mark-all-in-region)
          ("C-=" . mc/mark-all-like-this-dwim))
-  :ensure t)
+  :straight t)
 
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
@@ -536,11 +536,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package page-break-lines
   :diminish ""
-  :ensure t)
+  :straight t)
 
 (use-package php-boris
   :commands php-boris
-  :ensure t)
+  :straight t)
 
 (use-package php-mode
   :commands php-mode
@@ -550,17 +550,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              (yas-minor-mode 1)
              (ggtags-mode)
              ))
-  :ensure t)
+  :straight t)
 
 (use-package php-extras
-  :ensure t
-  :recipe (:host github :repo "arnested/php-extras"))
+  :straight (:host github :repo "arnested/php-extras"))
 
 (use-package projectile
   :commands projectile-project-p
   :diminish ""
   :init (projectile-mode)
-  :ensure t)
+  :straight t)
 
 
 (use-package ruby-mode
@@ -645,21 +644,21 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
   ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
   ;; (require 'smartparens-html)
-  :ensure t)
+  :straight t)
 
 (use-package smex
   ;; autoload when needed.
   :defer
-  :ensure t)
+  :straight t)
 
 (use-package string-inflection
   ;; autoload when needed.
   :defer
-  :ensure t)
+  :straight t)
 
 (use-package systemd
   :defer t
-  :ensure t)
+  :straight t)
 
 ;; Built in.
 (use-package term
@@ -670,31 +669,31 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package twig-mode
   :defer t
-  :ensure t)
+  :straight t)
 
 (use-package undo-tree
   :diminish ""
   :init (global-undo-tree-mode)
-  :ensure t)
+  :straight t)
 
 (use-package vcl-mode
   :commands vcl-mode
   :mode "\\.vcl\\'"
-  :ensure t)
+  :straight t)
 
 (use-package watch-buffer
   :commands watch-buffer
-  :ensure t)
+  :straight t)
 
 (use-package visual-regexp
   :bind (("C-c r" . vr/replace)
          ("C-c q" . vr/query-replace)
          ("C-c m" . vr/mc-mark))
-  :ensure t)
+  :straight t)
 
 ; Writable grep buffer.
 ;; (use-package wgrep
-;;   :ensure t)
+;;   :straight t)
 
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
@@ -720,7 +719,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (add-hook 'ruby-mode-hook 'ws-butler-mode)
   (add-hook 'js-mode-hook 'ws-butler-mode)
   (add-hook 'feature-mode-hook 'ws-butler-mode)
-  :ensure t)
+  :straight t)
 
 (use-package xen
   :load-path "~/.emacs.d/xen/"
@@ -738,12 +737,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"
   :config (flyspell-mode)
-  :ensure t)
+  :straight t)
 
 (use-package yasnippet
   :diminish yas-minor-mode
   :config (yas-reload-all)
-  :ensure t)
+  :straight t)
 
 
 
