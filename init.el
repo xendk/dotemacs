@@ -216,7 +216,8 @@
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload/"
-  :init (add-hook 'php-mode-hook 'global-ede-mode))
+  :hook (php-mode . global-ede-mode)
+  )
 
 (use-package ede-php-autoload-composer-installers
   :after ede-php-autoload-mode
@@ -267,7 +268,7 @@
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
-  :config (add-hook 'php-mode-hook 'xen-php-mode-expansions)
+  :hook (php-mode . xen-php-mode-expansions)
   :straight t)
 
 (use-package feature-mode
@@ -284,27 +285,22 @@
               ("M-<down>" . flycheck-next-error))
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
-  :init (add-hook 'after-init-hook #'global-flycheck-mode)
+  :hook (after-init . global-flycheck-mode)
   :straight t)
 
 (use-package flycheck-cask
   :commands flycheck-cask-setup
-  :init
-  (eval-after-load 'flycheck
-    '(add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
+  :hook (flycheck-mode . flycheck-cask-setup)
   :straight t)
 
 (use-package flycheck-color-mode-line
   :commands flycheck-color-mode-line-mode
-  :init
-  (eval-after-load 'flycheck
-    '(add-hook 'flycheck-mode-hook #'flycheck-color-mode-line-mode))
+  :hook (flycheck-mode . flycheck-color-mode-line-mode)
   :straight t)
 
 (use-package flycheck-package
   :commands flycheck-package-setup
-  :init
-  (eval-after-load 'flycheck '(flycheck-package-setup))
+  :hook (flycheck-mode . flycheck-package-setup)
   :straight t)
 
 (use-package flyspell
@@ -456,15 +452,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package java-mode-indent-annotations
   :load-path "~/.emacs.d/lib/"
   :commands java-mode-indent-annotations-setup
-  :init (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup))
+  :hook (java-mode . java-mode-indent-annotations-setup))
 
 ;; Built in.
 (use-package js
   :commands js-mode
-  :config (add-hook
-           'js-mode-hook
-           (lambda () (xen-coding-common-bindings)
-             (yas-minor-mode 1))))
+  :hook ((js-mode . xen-coding-common-bindings)
+         (js-mode . yas-minor-mode)))
 
 (use-package keyfreq
   :if xen-primary
@@ -475,12 +469,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package lisp-mode
   :commands emacs-lisp-mode
-  :config
-  (add-hook
-   'emacs-lisp-mode-hook
-   (lambda () (xen-coding-common-bindings)
-     (yas-minor-mode 1)))
-  (add-hook 'emacs-lisp-mode-hook 'page-break-lines-mode))
+  :hook ((emacs-lisp-mode . xen-coding-common-bindings)
+         (emacs-lisp-mode . yas-minor-mode)
+         (emacs-lisp-mode . page-break-lines-mode)))
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
@@ -500,8 +491,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
-  :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
   :delight
+  :hook (magit-mode . turn-on-magit-gitflow)
   :straight t)
 
 (use-package magit-filenotify
@@ -516,10 +507,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
          ("\\.md$" . gfm-mode))
-  :config (add-hook 'gfm-mode-hook
-                    '(lambda ()
-                       (auto-fill-mode)
-                       (flyspell-mode)))
+  :hook ((gfm-mode . auto-fill-mode)
+         (gfm-mode . flyspell-mode))
   :straight t)
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
@@ -574,12 +563,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package php-mode
   :commands php-mode
-  :config (add-hook
-           'php-mode-hook
-           (lambda () (xen-coding-common-bindings)
-             (yas-minor-mode 1)
-             (ggtags-mode)
-             ))
+  :hook ((php-mode . xen-coding-common-bindings)
+         (php-mode . yas-minor-mode)
+         (php-mode . ggtags-mode))
   :straight t)
 
 (use-package php-extras
@@ -594,10 +580,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package ruby-mode
   :commands ruby-mode
-  :config (add-hook
-           'ruby-mode-hook
-           (lambda () (xen-coding-common-bindings)
-             (yas-minor-mode 1))))
+  :hook ((ruby-mode . xen-coding-common-bindings)
+         (ruby-mode . yas-minor-mode)))
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
@@ -699,13 +683,15 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (use-package windmove
-  :config
-  (windmove-default-keybindings)
+  :bind* (("<S-up>" . windmove-up)
+          ("<S-down>" . windmove-down)
+          ("<S-left>" . windmove-left)
+          ("<S-right>" . windmove-right))
   ;; Make windmove work in org-mode:
-  (add-hook 'org-shiftup-final-hook 'windmove-up)
-  (add-hook 'org-shiftleft-final-hook 'windmove-left)
-  (add-hook 'org-shiftdown-final-hook 'windmove-down)
-  (add-hook 'org-shiftright-final-hook 'windmove-right))
+  :hook ((org-shiftup-final  . windmove-up)
+         (org-shiftleft-final  . windmove-left)
+         (org-shiftdown-final  . windmove-down)
+         (org-shiftright-final  . windmove-right)))
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
 ;; Built in.
@@ -714,12 +700,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package ws-butler
   :commands ws-butler-mode
-  :init
-  (add-hook 'php-mode-hook 'ws-butler-mode)
-  (add-hook 'ruby-mode-hook 'ws-butler-mode)
-  (add-hook 'js-mode-hook 'ws-butler-mode)
-  (add-hook 'feature-mode-hook 'ws-butler-mode)
   :delight
+  :hook ((php-mode . ws-butler-mode)
+         (ruby-mode . ws-butler-mode)
+         (js-mode . ws-butler-mode)
+         (feature-mode . ws-butler-mode))
   :straight t)
 
 (use-package xen
