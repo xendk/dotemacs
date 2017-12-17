@@ -117,23 +117,22 @@ only work when ARG is 1 or the region is not active."
   (when (and (= arg 1)
              smartparens-mode
              (not (use-region-p)))
-        (-if-let (ok (sp-get-thing backwards-p))
-            (progn
-              (sp-get ok (progn
-                           ;; If either open or close is empty, bomb
-                           ;; out. This is the case for symbols, and
-                           ;; anyway it doesn't make sense. Look into
-                           ;; sp-navigate-consider-symbols for
-                           ;; sp-get-thing, or sp-get-sexp.
-                           (if (not (or (equal :op "") (equal :cl "")))
-                               (save-excursion
-                                 (if backwards-p
-                                     (if (or (= (point) :beg-in) (= (point) :end))
-                                         (sp-backward-unwrap-sexp))
-                                   (if (or (= (point) :beg) (= (point) :end-in))
-                                       (sp-unwrap-sexp)))
-                                 ok)
-                             nil)))))))
+    (-if-let (ok (sp-get-thing backwards-p))
+        (sp-get ok (progn
+                     ;; If either open or close is empty, bomb
+                     ;; out. This is the case for symbols, and
+                     ;; anyway it doesn't make sense. Look into
+                     ;; sp-navigate-consider-symbols for
+                     ;; sp-get-thing.
+                     (if (not (or (equal :op "") (equal :cl "")))
+                         (save-excursion
+                           (if backwards-p
+                               (if (or (= (point) :beg-in) (= (point) :end))
+                                   (sp-backward-unwrap-sexp))
+                             (if (or (= (point) :beg) (= (point) :end-in))
+                                 (sp-unwrap-sexp)))
+                           ok)
+                       nil))))))
 
 (defun xen-delete-char-advice (orig-fun n &optional kill-flag)
   "Advice for delete char.  ORIG-FUN is the overriden function. Use N and ignore KILL-FLAG."
