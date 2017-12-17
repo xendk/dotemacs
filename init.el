@@ -94,6 +94,11 @@
 ;; multi-line
 ;; rainbow-mode
 
+;; Make sure that delight is available as soon as any package triggers it.
+(use-package delight
+  :defer t
+  :straight t)
+
 (use-package ag
   :defer t
   :straight t)
@@ -118,14 +123,14 @@
 
 (use-package auto-indent-mode
   :commands auto-indent-mode auto-indent-global-mode
-  :diminish auto-indent-mode
+  :delight auto-indent-mode
   :init (auto-indent-global-mode)
   :straight t)
 
-;; Used by magit, we'll diminish it.
+;; Used by magit, we'll delight it.
 (use-package autorevert
   :commands auto-revert-mode
-  :diminish auto-revert-mode)
+  :delight auto-revert-mode)
 
 (use-package browse-kill-ring
   :config (browse-kill-ring-default-keybindings)
@@ -140,11 +145,11 @@
 
 (use-package column-enforce-mode
   :commands column-enforce-mode
-  :diminish column-enforce-mode
+  :delight
   :straight t)
 
 (use-package company
-  :diminish ""
+  :delight
   ;; Global mode, can't really be deferred, but delay it until
   ;; php-extras has had a chance to define it's completer.
   :after php-extras
@@ -189,10 +194,6 @@
   (dashboard-setup-startup-hook)
   :straight t)
 
-(use-package delight
-  :defer t
-  :straight t)
-
 (use-package diff-hl
   :config (global-diff-hl-mode)
   :straight t)
@@ -204,10 +205,8 @@
 (use-package drupal-mode
   :config
   (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
-  ;; :diminish doesn't work with propertized strings, for some reason.
-  (diminish 'drupal-mode
-            (propertize (concat " " [#xF1A9])
-                        'face '(:family "FontAwesome")))
+  :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
+                                    'face '(:family "FontAwesome"))))
   :straight t)
 
 ;; Part of drupal-mode.
@@ -233,7 +232,7 @@
 
 (use-package eldoc
   :commands eldoc-mode
-  :diminish "")
+  :delight)
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
@@ -279,7 +278,7 @@
 
 (use-package flyspell
   :commands flyspell-mode
-  :diminish "")
+  :delight)
 
 (use-package flyspell-correct-ivy
   :bind (:map flyspell-mode-map
@@ -292,14 +291,14 @@
   :straight t)
 
 (use-package google-this
-  :diminish ""
+  :delight
   :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode)
   :straight t)
 
 (use-package ggtags
   ;; TODO: icon lighter
-  :diminish ""
+  :delight
   :commands ggtags-mode
   :straight t)
 
@@ -330,7 +329,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
-  :diminish ""
+  :delight
   :straight t)
 
 (use-package hl-line
@@ -470,8 +469,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
-  :diminish magit-gitflow-mode
   :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  :delight
   :straight t)
 
 (use-package magit-filenotify
@@ -535,7 +534,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :mode "\\.org\\'")
 
 (use-package page-break-lines
-  :diminish ""
+  :delight
   :straight t)
 
 (use-package php-boris
@@ -557,7 +556,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package projectile
   :commands projectile-project-p
-  :diminish ""
+  :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :init (projectile-mode)
   :straight t)
 
@@ -614,7 +613,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
             rol))))
 
 (use-package smartparens
-  :diminish smartparens-mode
+  :delight
   :config
   (require 'smartparens-config)
   (smartparens-global-mode 1)
@@ -672,7 +671,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package undo-tree
-  :diminish ""
+  :delight
   :init (global-undo-tree-mode)
   :straight t)
 
@@ -713,12 +712,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package ws-butler
   :commands ws-butler-mode
-  :diminish ""
   :init
   (add-hook 'php-mode-hook 'ws-butler-mode)
   (add-hook 'ruby-mode-hook 'ws-butler-mode)
   (add-hook 'js-mode-hook 'ws-butler-mode)
   (add-hook 'feature-mode-hook 'ws-butler-mode)
+  :delight
   :straight t)
 
 (use-package xen
@@ -740,7 +739,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package yasnippet
-  :diminish yas-minor-mode
+  :delight yas-minor-mode
   :config (yas-reload-all)
   :straight t)
 
