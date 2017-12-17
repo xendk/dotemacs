@@ -7,72 +7,56 @@ Feature: Mached pairs deletion
     Given I am in buffer "test"
     And the buffer is empty
     And I insert:
-    """
-    <?php
+      """
+      <?php
 
-    1(2
-    3(4
-    5)6
-    7)8
-    """
+      if (empty($var));
+      """
     And I load the following:
-    """
-    (require 'php-mode)
-    (require 'smartparens)
-    """
-    And I turn on php-mode    
-    And I quietly turn on smartparens-mode    
+      """
+      (require 'php-mode)
+      (require 'smartparens)
+      """
+    And I turn on php-mode
+    And I quietly turn on smartparens-mode
 
   Scenario: Forward deleting start of pair.
-    When I place the cursor after "1("
+    When I place the cursor after "if ("
     And I press "<backspace>"
     Then the buffer should contain:
-    """
-    <?php
+      """
+      <?php
 
-    12
-    3(4
-    5)6
-    78
-    """
-    
+      if empty($var);
+      """
+
   Scenario: Forward deleting end of pair.
-    When I place the cursor after "7)"
+    When I place the cursor after "var))"
     And I press "<backspace>"
     Then the buffer should contain:
-    """
-    <?php
+      """
+      <?php
 
-    12
-    3(4
-    5)6
-    78
-    """
+      if empty($var);
+      """
 
 
   Scenario: Backwards deleting start of pair.
-    When I place the cursor after "1"
+    When I place the cursor after "if "
     And I press "<deletechar>"
     Then the buffer should contain:
-    """
-    <?php
+      """
+      <?php
 
-    12
-    3(4
-    5)6
-    78
-    """
-    
+      if empty($var);
+      """
+
   Scenario: Backwards deleting end of pair.
-    When I place the cursor after "7"
+    When I place the cursor after "var)"
     And I press "<deletechar>"
     Then the buffer should contain:
-    """
-    <?php
+      """
+      <?php
 
-    12
-    3(4
-    5)6
-    78
-    """
-    
+      if empty($var);
+      """
