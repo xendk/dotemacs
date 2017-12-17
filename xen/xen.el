@@ -122,14 +122,15 @@ only work when ARG is 1 or the region is not active."
               (sp-get ok (progn
                            ;; If either open or close is empty, bomb
                            ;; out. This is the case for symbols, and
-                           ;; anyway it doesn't make sense.
+                           ;; anyway it doesn't make sense. Look into
+                           ;; sp-navigate-consider-symbols for
+                           ;; sp-get-thing, or sp-get-sexp.
                            (if (not (or (equal :op "") (equal :cl "")))
                                (save-excursion
-                                 (if (= (- (point) (if backwards-p 1 0)) :beg)
-                                     (if backwards-p (sp-backward-unwrap-sexp)
-                                       (sp-unwrap-sexp)))
-                                 (if (= (+ (point) (if backwards-p 0 1)) :end)
-                                     (if backwards-p (sp-backward-unwrap-sexp)
+                                 (if backwards-p
+                                     (if (or (= (point) :beg-in) (= (point) :end))
+                                         (sp-backward-unwrap-sexp))
+                                   (if (or (= (point) :beg) (= (point) :end-in))
                                        (sp-unwrap-sexp)))
                                  ok)
                              nil)))))))
