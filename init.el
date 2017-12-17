@@ -234,6 +234,37 @@
   :commands eldoc-mode
   :delight)
 
+;; Core emacs stuff.
+(use-package emacs
+  :delight
+  (auto-fill-function)
+  (abbrev-mode)
+  :hook (prog-mode . eldoc-mode)
+  :config
+  ;; Emacs 24 changed the region highlight from a hackery face thingy
+  ;; to a proper overlay. Which is fine apart from giving it a nil
+  ;; priority which puts it below pretty much everything else. So we
+  ;; redefine the redisplay-highlight-region-function to give the
+  ;; overlay a higher priority.
+  ;;
+  ;; Further inspiration:
+  ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
+  (setq redisplay-highlight-region-function
+        (lambda (start end window rol)
+          (if (not (overlayp rol))
+              (let ((nrol (make-overlay start end)))
+                (funcall redisplay-unhighlight-region-function rol)
+                (overlay-put nrol 'window window)
+                (overlay-put nrol 'face 'region)
+                ;; Flycheck uses priorities of 100-ish, so we go higher than that.
+                (overlay-put nrol 'priority '(200 . 100))
+                nrol)
+            (unless (and (eq (overlay-buffer rol) (current-buffer))
+                         (eq (overlay-start rol) start)
+                         (eq (overlay-end rol) end))
+              (move-overlay rol start end (current-buffer)))
+            rol))))
+
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :config (add-hook 'php-mode-hook 'xen-php-mode-expansions)
@@ -582,35 +613,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;;   (load "~/.emacs.d/semantic-php/loaddefs.el")
 ;;   (add-to-list 'company-semantic-modes 'php-mode)
 ;;   )
-
-;; prog-mode and auto-fill-mode is defined in simple.el.
-(use-package simple
-  :diminish auto-fill-function
-  :config
-  (add-hook 'prog-mode-hook #'eldoc-mode)
-  ;; Emacs 24 changed the region highlight from a hackery face thingy
-  ;; to a proper overlay. Which is fine apart from giving it a nil
-  ;; priority which puts it below pretty much everything else. So we
-  ;; redefine the redisplay-highlight-region-function to give the
-  ;; overlay a higher priority.
-  ;;
-  ;; Further inspiration:
-  ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
-  (setq redisplay-highlight-region-function
-        (lambda (start end window rol)
-          (if (not (overlayp rol))
-              (let ((nrol (make-overlay start end)))
-                (funcall redisplay-unhighlight-region-function rol)
-                (overlay-put nrol 'window window)
-                (overlay-put nrol 'face 'region)
-                ;; Flycheck uses priorities of 100-ish, so we go higher than that.
-                (overlay-put nrol 'priority '(200 . 100))
-                nrol)
-            (unless (and (eq (overlay-buffer rol) (current-buffer))
-                         (eq (overlay-start rol) start)
-                         (eq (overlay-end rol) end))
-              (move-overlay rol start end (current-buffer)))
-            rol))))
 
 (use-package smartparens
   :delight
