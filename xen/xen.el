@@ -140,8 +140,8 @@ only work when ARG is 1 or the region is not active."
       (let ((xen-delete-char-disabled t))
         (save-match-data (progn
                            (if (not (xen-paired-delete (> 0 n) (abs n)))
-                               (apply orig-fun n kill-flag)))))
-    (apply orig-fun n kill-flag)))
+                               (funcall orig-fun n kill-flag)))))
+    (funcall orig-fun n kill-flag)))
 (advice-add 'delete-char :around #'xen-delete-char-advice)
 
 (defun xen-sp-insert-pair-advice (orig-fun &rest args)
