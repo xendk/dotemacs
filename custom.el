@@ -158,7 +158,7 @@
      ("C-p" . previous-line)
      ("C-n" . next-line)
      ("C-s" . isearch-forward)
-     ("C-r" . term-isearch-backward)
+     ("C-r" . term-send-reverse-search-history)
      ("C-m" . term-send-return)
      ("C-y" . term-paste)
      ("M-f" . term-send-forward-word)
