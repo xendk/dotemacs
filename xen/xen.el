@@ -128,7 +128,7 @@ only work when ARG is 1 or the region is not active."
                        (cond
                         ((and backwards-p (or (= (point) :beg-in) (= (point) :end)))
                          (sp-backward-unwrap-sexp))
-                        ((or (= (point) :beg) (= (point) :end-in))
+                        ((and (not backwards-p) (or (= (point) :beg) (= (point) :end-in)))
                          (sp-unwrap-sexp))
                         (t nil))))))))
 
