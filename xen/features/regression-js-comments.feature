@@ -1,9 +1,5 @@
 Feature JS comments deletion regression test
-  Inserting closing parentesis deletes another opening.
-
-  type "hide()" after "$(this)." and "each(" shouldn't loose it's parethesis.
-  (it's the ")" that triggers it, sp has allready inserted one, so it deletes
-  one)
+  Pair finding code was too eager.
 
   @regression
   Scenario: Deleting comments.
