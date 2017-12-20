@@ -155,7 +155,7 @@
               ;; This completes the common part or selects the first (or selected) option.
               ("TAB" . xen-company-complete-common-or-selection)
               ("<tab>" . xen-company-complete-common-or-selection))
-  :config
+  :init
   (global-company-mode)
   ;; Remove enter key-binding, it messes with normal typing.
   (unbind-key "RET" company-active-map)
