@@ -471,6 +471,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-c g" . counsel-git)
               ("C-c a" . counsel-ag)
               :map ivy-minibuffer-map
+              ("S-<return>" . ivy-immediate-done)
               ;; Like isearch.
               ("C-w" . ivy-yank-word)
               ;; Like isearch, repeating the key uses the last item
