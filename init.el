@@ -140,6 +140,7 @@
 (use-package column-enforce-mode
   :commands column-enforce-mode
   :delight
+  :hook drupal-mode
   :straight t)
 
 (use-package company
@@ -197,8 +198,8 @@
   :straight t)
 
 (use-package drupal-mode
+  :defer t
   :config
-  (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight t)
