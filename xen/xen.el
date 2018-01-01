@@ -48,23 +48,6 @@
       (interactive)
       (find-file "~/.emacs.d/todo")))
 
-(defun xen-toggle-font-size ()
-  "Toggle font size between my usual two."
-  (interactive)
-  (if (= (face-attribute 'default :height) 110)
-      (set-face-attribute 'default nil :height 140)
-    (set-face-attribute 'default nil :height 110)))
-
-; Toggle fullscreen and full height.
-; todo: work this in: http://bzg.fr/emacs-strip-tease.html
-(defun xen-toggle-fullscreen ()
-  "Toggle full screen on X11."
-  (interactive)
-  (when (eq window-system 'x)
-    (set-frame-parameter
-     nil 'fullscreen
-     (if (equal (frame-parameter nil 'fullscreen) 'fullheight) 'fullboth 'fullheight))))
-
 (defvar xen-big-fringe-mode nil)
 (define-minor-mode xen-big-fringe-mode
   "Minor mode to use big fringe in the current buffer."

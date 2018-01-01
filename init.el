@@ -769,8 +769,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :functions xen-coding-common-bindings
   :bind (("M-l" . xen-avy-goto-line)
          ("C-<tab>" . xen-swiper)
-         ("<f11>" . xen-toggle-fullscreen)
-         ("S-<f11>" . xen-toggle-font-size)
          ("<f12>" . xen-big-fringe-mode)
          ("C-S-d" . xen-duplicate-current-line)
          ("C-!" . xen-multi-term-dedicated-toggle-and-select)
