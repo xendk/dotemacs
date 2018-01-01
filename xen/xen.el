@@ -352,10 +352,16 @@ This is my own version using FontAwesome icons."
   "Insert a tip into the dashboard.
 
 LIST-SIZE is ignored."
-  (let((tips (with-temp-buffer
-              (insert-file-contents "~/.emacs.d/tips")
-              (split-string (buffer-string) "\f" t))))
+  (let ((tips (with-temp-buffer
+                (insert-file-contents "~/.emacs.d/tips")
+                (split-string (buffer-string) "\f" t))))
     (insert (elt tips (random (length tips))))))
+
+(defun xen-dashboard-todo (list-size)
+  "Insert todo in the dashboard.
+
+LIST-SIZE is ignored."
+  (insert-file-contents "~/.emacs.d/todo"))
 
 (provide 'xen)
 ;;; xen.el ends here

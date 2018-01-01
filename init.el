@@ -201,8 +201,9 @@
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
   (setq dashboard-startup-banner 'logo)
-  (add-to-list 'dashboard-item-generators  '(xen-tip . xen-dashboard-tip))
-  (setq dashboard-items '((projects . 20) (xen-tip)))
+  (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
+  (add-to-list 'dashboard-item-generators '(xen-todo . xen-dashboard-todo))
+  (setq dashboard-items '((projects . 20) (xen-tip) (xen-todo)))
   (dashboard-setup-startup-hook)
   :straight t)
 
