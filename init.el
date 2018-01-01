@@ -200,7 +200,7 @@
   :config
   (add-hook 'drupal-mode-hook (lambda () (column-enforce-mode)))
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
-                                    'face '(:family "FontAwesome"))))
+                                                     'face '(:family "FontAwesome"))))
   :straight t)
 
 ;; Part of drupal-mode.
@@ -480,7 +480,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :config
   ;; Add --follow-tags options to the push popup.
   (magit-define-popup-switch 'magit-push-popup
-    ?t "Follow tags" "--follow-tags")
+                             ?t "Follow tags" "--follow-tags")
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
@@ -675,7 +675,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-c m" . vr/mc-mark))
   :straight t)
 
-; Writable grep buffer.
+;; Writable grep buffer.
 ;; (use-package wgrep
 ;;   :straight t)
 
