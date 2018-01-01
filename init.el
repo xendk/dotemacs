@@ -706,8 +706,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package undo-tree
   :commands global-undo-tree-mode
+  :demand
   :delight
   :init (global-undo-tree-mode)
+  :bind (:map undo-tree-visualizer-mode-map
+              ;; Make return accept currently selected revision and q
+              ;; abort. The defaults are weird.
+              ("<return>" . undo-tree-visualizer-quit)
+              ("q" . undo-tree-visualizer-abort))
   :straight t)
 
 (use-package vcl-mode

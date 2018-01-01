@@ -17,7 +17,6 @@
 - cask does not like being run from multi-term.
 - get paired delete into smartparens.
 - sending C-y to shell in term-mode? Want to still be able to yank from Emacs.
-- rebind RET to same action as q in undo-tree buffer.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 
 would like something like this, but global-hl-line-mode, is, well, global.
