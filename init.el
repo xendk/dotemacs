@@ -1,5 +1,7 @@
-;;; init.el --- Xens emacs configuration.
+;;; init.el --- Xens emacs configuration.  -*- flycheck-emacs-lisp-load-path: inherit; -*-
 ;;; Commentary:
+
+;; My Emacs init.el.
 
 ;;; Code:
 
@@ -39,6 +41,10 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; Ensure that flycheck can see that straight will be available for
+;; the straight-register-package.
+(eval-and-compile
+  (require 'straight))
 ;; Work around seq package disappearing from EmacsMirror. See
 ;; https://github.com/raxod502/straight.el/issues/170
 (straight-register-package
@@ -46,6 +52,11 @@
 
 ;; Bootstrap `use-package'
 (straight-use-package 'use-package)
+;; When flycheck checks this file it needs use-package (and straight
+;; above) loaded to understand the use-package forms. Also the reason
+;; for the flycheck-emacs-lisp-load-path on the first line of the
+;; file.
+(eval-and-compile (require 'use-package))
 
 ;;; Bindings.
 ;; Used to M-DEL deleting a word.
@@ -89,7 +100,7 @@
 
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
-  :defer t
+  :commands delight
   :straight t)
 
 (use-package ag
@@ -102,6 +113,9 @@
 
 (use-package avy
   ;; Override minor mode binding for these.
+  ;;:bind
+  ;; Binding it with minor mode override is too much hassle.
+  ;;("S-SPC" . avy-goto-word-1)
   :bind* (
           ;; Binding xen-avy-goto-line on use-package xen.
           ("S-SPC" . avy-goto-word-1)
@@ -127,6 +141,7 @@
   :delight auto-revert-mode)
 
 (use-package browse-kill-ring
+  :commands browse-kill-ring-default-keybindings
   :config (browse-kill-ring-default-keybindings)
   :straight t)
 
@@ -144,6 +159,7 @@
   :straight t)
 
 (use-package company
+  :commands global-company-mode
   :delight
   ;; Global mode, can't really be deferred, but delay it until
   ;; php-extras has had a chance to define it's completer.
@@ -181,6 +197,7 @@
   :straight t)
 
 (use-package dashboard
+  :commands dashboard-setup-startup-hook
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
   (setq dashboard-startup-banner 'logo)
@@ -190,6 +207,7 @@
   :straight t)
 
 (use-package diff-hl
+  :commands global-diff-hl-mode
   :config (global-diff-hl-mode)
   :straight t)
 
@@ -313,7 +331,9 @@
   :straight t)
 
 (use-package google-this
+  :commands google-this-mode
   :delight
+  ;; Why does this use use-package-autoload-keymap?
   :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode)
   :straight t)
@@ -325,6 +345,7 @@
   :straight t)
 
 (use-package harvest
+  :commands harvest-alist-get
   :bind ("C-c h" . harvest)
   ;; Override function to truncate project and client, so the comment
   ;; is visible.
@@ -361,8 +382,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
 ;; rotate package
 (use-package hydra
+  ;; defhydra expands to code using these.
+  :commands (hydra-default-pre
+             hydra-keyboard-quit
+             hydra--call-interactively-remap-maybe
+             hydra-show-hint
+             hydra-set-transient-map)
   ;; TODO: use :config and :bind.
-  :init
+  :bind (("C-c w" . hydra-window/body)
+         ("M-c" . hydra-case/body))
+  :config
   (defhydra hydra-window (global-map "C-c w" :color pink)
     "window"
     ;; Dvorak.
@@ -377,7 +406,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("k" shrink-window "shrink")
     ("q" nil "cancel"))
   ;; Bind to prefix key, so the hint is shown immediately.
-  (bind-key "C-c w" 'hydra-window/body)
 
   (defhydra hydra-case (global-map "M-c")
     "case"
@@ -390,7 +418,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("m" string-inflection-camelcase "UpperCamel")
     ("k" string-inflection-kebab-case "kebab-case")
     )
-  (bind-key "M-c" 'hydra-case/body)
   :straight t)
 
 (use-package indentinator
@@ -399,6 +426,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Build in, but add some bindings.
 (use-package isearch
+  :commands isearch-backward
   :bind (:map isearch-mode-map
               ("C-<tab>" . xen-swiper-from-isearch)))
 
@@ -408,6 +436,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Technically part of swiper, but we'll configure it here.
 (use-package ivy
   :delight
+  :commands (ivy-mode
+             ivy-read
+             ivy--switch-buffer-matcher
+             ivy--switch-buffer-action
+             ivy-call
+             swiper)
   :init
   (ivy-mode 1)
   ;; Buffer switching with preview.
@@ -461,6 +495,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package keyfreq
   :if xen-primary
+  :commands (keyfreq-mode keyfreq-autosave-mode)
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
@@ -473,6 +508,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          (emacs-lisp-mode . page-break-lines-mode)))
 
 (use-package magit
+  :commands magit-define-popup-switch
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
@@ -499,6 +535,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package magithub
+  :commands magithub-feature-autoinject
   :after magit
   :config (magithub-feature-autoinject t)
   :straight t)
@@ -518,7 +555,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
 
 (use-package multi-term
-  :commands multi-term-dedicated-exist-p
+  :commands (multi-term-dedicated-exist-p term-send-raw-string term-line-mode)
   :bind (:map term-mode-map
               ("RET" . term-char-mode))
   :config
@@ -571,7 +608,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight (:host github :repo "arnested/php-extras"))
 
 (use-package projectile
-  :commands projectile-project-p
+  :commands (projectile-mode projectile-project-p)
   :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :init (projectile-mode)
   :straight t)
@@ -581,6 +618,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands ruby-mode
   :hook ((ruby-mode . xen-coding-common-bindings)
          (ruby-mode . yas-minor-mode)))
+
+(use-package s
+  :commands s-truncate
+  :straight t)
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
@@ -598,6 +639,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;;   )
 
 (use-package smartparens
+  :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair)
+  :demand
   :delight
   :config
   (require 'smartparens-config)
@@ -637,7 +680,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package string-inflection
   ;; autoload when needed.
-  :defer
+  :commands (string-inflection-underscore
+             string-inflection-upcase
+             string-inflection-lower-camelcase
+             string-inflection-camelcase
+             string-inflection-kebab-case)
   :straight t)
 
 (use-package systemd
@@ -656,6 +703,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package undo-tree
+  :commands global-undo-tree-mode
   :delight
   :init (global-undo-tree-mode)
   :straight t)
@@ -725,6 +773,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package yasnippet
+  :commands yas-reload-all
   :delight yas-minor-mode
   :config (yas-reload-all)
   :straight t)
