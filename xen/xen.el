@@ -81,7 +81,6 @@ Use prefix argument N for more copies."
     	(insert current-line)
     	(decf n)))))
 
-;; TODO: auto-indent-mode messes with this.
 (defun xen-open ()
   "Open new line, with proper indentation."
   (interactive)
@@ -173,14 +172,12 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-coding-common-bindings ()
   "Common bindings and minor-modes for coding."
   (local-set-key (kbd "C-o") 'xen-open)
-  ;; (local-set-key [return] 'newline-and-indent)
   (local-set-key [tab] 'xen-tab)
   (local-set-key [S-iso-lefttab] 'indent-for-tab-command)
   (highlight-symbol-mode)
   (local-set-key (kbd "M-<left>") 'highlight-symbol-prev)
   (local-set-key (kbd "M-<right>") 'highlight-symbol-next)
-  (flyspell-prog-mode)
-)
+  (flyspell-prog-mode))
 
 ;; expand-region stuff.
 (defun xen-php-mark-next-accessor ()
@@ -286,7 +283,9 @@ This is my own version using FontAwesome icons."
     (list " " text)))
 
 (defun xen-changelog-timestamp (&optional time zone)
-  "Return a time string for ~/ChangeLog."
+  "Return a time string for ~/ChangeLog.
+
+Passes TIME and ZONE to `format-time-string.'"
   (interactive)
   (insert (format-time-string "%Y-%m-%d %H:%M:%S" time zone)))
 
@@ -298,18 +297,6 @@ This is my own version using FontAwesome icons."
       (call-interactively 'company-complete-common)
       (when (eq tick (buffer-chars-modified-tick))
         (company-complete-selection)))))
-
-;; Gotten from:
-;; http://stackoverflow.com/questions/24725778/how-to-rebuild-elpa-packages-after-upgrade-of-emacs
-;; Seems to think everything fails though.
-(defun xen-package-reinstall-activated ()
-  "Reinstall all activated packages."
-  (interactive)
-  (dolist (package-name package-activated-list)
-    (when (package-installed-p package-name)
-      (unless (ignore-errors                   ;some packages may fail to install
-                (package-reinstall package-name)
-                (warn "Package %s failed to reinstall" package-name))))))
 
 (defun xen-swiper-from-isearch ()
   "Invoke `swiper' from isearch."
