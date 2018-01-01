@@ -712,8 +712,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :init (global-undo-tree-mode)
   :bind (:map undo-tree-visualizer-mode-map
               ;; Make return accept currently selected revision and q
-              ;; abort. The defaults are weird.
+              ;; (and C-g) abort. The defaults are weird.
               ("<return>" . undo-tree-visualizer-quit)
+              ("C-g" . undo-tree-visualizer-abort)
               ("q" . undo-tree-visualizer-abort))
   :straight t)
 
