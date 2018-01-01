@@ -92,7 +92,6 @@
  '(line-move-visual nil)
  '(load-prefer-newer t)
  '(magit-completing-read-function (quote ivy-completing-read))
- '(magit-default-tracking-name-function (quote xen-magit-default-tracking-name))
  '(magit-display-buffer-function (quote magit-display-buffer-same-window-except-diff-v1))
  '(magit-fetch-arguments (quote ("--prune")))
  '(magit-push-always-verify nil)

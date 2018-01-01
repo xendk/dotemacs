@@ -62,15 +62,7 @@
            (* 120 (frame-char-width)))
         2))))
 
-; I just want the branch to have the same name as origin.
-(defun xen-magit-default-tracking-name
-  (remote branch)
-  "Use just the branch name for tracking branches.
-
-Ignores REMOTE and just returns BRANCH."
-  branch)
-
-; http://emacswiki.org/emacs/CopyingWholeLines
+;; http://emacswiki.org/emacs/CopyingWholeLines
 ;; duplicate current line
 (defun xen-duplicate-current-line (&optional n)
   "Duplicate current line, make more than 1 copy given a numeric argument.
