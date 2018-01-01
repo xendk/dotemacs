@@ -3,7 +3,7 @@
 ;; loaded automatically by Ecukes.
 
 (Then "^the buffer should contain:$"
-  "Asserts that the current matches some text."
+  "Asserts that the current buffer matches some text."
   (lambda (expected)
     (let ((actual (buffer-string))
           (message "Expected '%s' to be equal to '%s', but was not."))
