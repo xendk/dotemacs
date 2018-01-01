@@ -757,10 +757,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package ws-butler
   :commands ws-butler-mode
   :delight
-  :hook ((php-mode . ws-butler-mode)
-         (ruby-mode . ws-butler-mode)
-         (js-mode . ws-butler-mode)
-         (feature-mode . ws-butler-mode))
+  :hook ((emacs-lisp-mode php-mode ruby-mode js-mode feature-mode) . ws-butler-mode)
   :straight t)
 
 (use-package xen
