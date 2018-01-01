@@ -114,10 +114,11 @@
          ("M-Z" . avy-zap-up-to-char-dwim))
   :straight t)
 
+;; Keep auto-indent-mode as backup to indentinator.
 (use-package auto-indent-mode
   :commands auto-indent-mode auto-indent-global-mode
   :delight auto-indent-mode
-  :init (auto-indent-global-mode)
+  ;; :init (auto-indent-global-mode)
   :straight t)
 
 ;; Used by magit, we'll delight it.
@@ -390,6 +391,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     )
   (bind-key "M-c" 'hydra-case/body)
   :straight t)
+
+(use-package indentinator
+  :commands (indentinator-mode indentinator-toggle-debug)
+  :load-path "~/.emacs.d/indentinator/"
+  :hook ((lisp-mode php-mode js-mode css-mode ruby-mode) . indentinator-mode))
 
 ;; Build in, but add some bindings.
 (use-package isearch
