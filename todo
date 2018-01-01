@@ -12,6 +12,7 @@
 - avy overrides S-SPC in ivy, which is unhandy and useless.
   and term-mode
 - move projectile project indicator next to file (look at what ggtags does).
+- remove projectile indicator when not in project.
 - move drupal-mode to beginning of minor-modes:
   https://emacs.stackexchange.com/questions/13447/how-to-set-a-rule-for-the-order-of-minor-mode-map-alist/13450
 - cask does not like being run from multi-term.

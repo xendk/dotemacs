@@ -42,6 +42,12 @@
       (interactive)
       (find-file "~/.emacs.d/tips")))
 
+(define-key xen-map (kbd "o")
+  #'(lambda()
+      "Open todo file."
+      (interactive)
+      (find-file "~/.emacs.d/todo")))
+
 (defun xen-toggle-font-size ()
   "Toggle font size between my usual two."
   (interactive)
