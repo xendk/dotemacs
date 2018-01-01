@@ -198,6 +198,7 @@
 
 (use-package dashboard
   :commands dashboard-setup-startup-hook
+  :demand
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :config
   (setq dashboard-startup-banner 'logo)
