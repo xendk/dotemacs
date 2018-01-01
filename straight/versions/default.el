@@ -40,6 +40,7 @@
  ("harvest.el" . "7acbc0564b250521b67131ee2a0a92720239454f")
  ("highlight-symbol.el" . "7a789c779648c55b16e43278e51be5898c121b3a")
  ("hydra" . "e228432bb64385f67f20aa525bce56ae4e8419eb")
+ ("indentinator" . "43d3693770d1ec120c6e17ec0ee3258e4d5e2546")
  ("keyfreq" . "9c665c8c219d18866403897936427bb408e3d6b9")
  ("know-your-http-well" . "3cc5ab6d2764ab7aacb1b6e026abaccbeb6c37f2")
  ("magit" . "c7f6bfe7ef2ef70ad87beb39bd60531292eb425c")

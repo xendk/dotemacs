@@ -394,9 +394,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package indentinator
-  :commands (indentinator-mode indentinator-toggle-debug)
-  :load-path "~/.emacs.d/indentinator/"
-  :hook ((lisp-mode php-mode js-mode css-mode ruby-mode) . indentinator-mode))
+  :hook ((emacs-lisp-mode php-mode js-mode css-mode ruby-mode) . indentinator-mode)
+  :straight (:host github :repo "xendk/indentinator"))
 
 ;; Build in, but add some bindings.
 (use-package isearch
