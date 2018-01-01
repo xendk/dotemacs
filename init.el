@@ -380,6 +380,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package hl-line
   :config (global-hl-line-mode))
 
+(use-package hungry-delete
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . hungry-delete-mode)
+  :straight t)
+
 ;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
 ;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
 ;; rotate package
