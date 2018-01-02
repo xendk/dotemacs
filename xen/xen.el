@@ -127,17 +127,16 @@ only work when ARG is 1 or the region is not active."
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
 (defun xen-char-syntax ()
-"Show the syntax class of the character following point."
-(interactive)
-(message (char-to-string (char-syntax (char-after)))))
+  "Show the syntax class of the character following point."
+  (interactive)
+  (message (char-to-string (char-syntax (char-after)))))
 
 (defun xen-tab ()
   "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
   (interactive "*")
   (if (or (bolp) ; Beginning of line
           (region-active-p) ; We have an active region
-          (eq (char-syntax (char-before)) ?\ ) ; Or whitespace
-          )
+          (eq (char-syntax (char-before)) ?\ )) ; Or whitespace
       (indent-for-tab-command)))
 
 ;; Multi-term.
@@ -159,8 +158,7 @@ Actually shrinks the region if the point is at the start of the region."
           (progn
             (beginning-of-line)
             (set-mark (point))
-            (goto-char start)
-            ))
+            (goto-char start)))
       (end-of-line)
       (forward-char))))
 
@@ -212,10 +210,7 @@ Actually shrinks the region if the point is at the start of the region."
   (interactive)
   (progn
     (let ((geben-current-session (car geben-sessions)))
-      (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name)))
-      )
-    )
-  )
+      (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name))))))
 
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
