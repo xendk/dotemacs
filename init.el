@@ -113,12 +113,9 @@
 
 (use-package avy
   ;; Override minor mode binding for these.
-  ;;:bind
-  ;; Binding it with minor mode override is too much hassle.
-  ;;("S-SPC" . avy-goto-word-1)
   :bind* (
-          ;; Binding xen-avy-goto-line on use-package xen.
-          ("S-SPC" . avy-goto-word-1)
+          ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
+          ;; use-package xen.
           ("M-u" . avy-goto-char-in-line)
           ("M-U" . avy-goto-char))
   :straight t)
@@ -575,7 +572,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (defun term-send-alt-backspace  () (interactive) (term-send-raw-string "\e\C-?"))
   (defun term-swiper  () (interactive) (term-line-mode) (swiper))
   (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
-  (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (avy-goto-word-1))
+  (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (call-interactively 'avy-goto-word-1))
   (defun term-xen-avy-goto-line  () (interactive) (term-line-mode) (xen-avy-goto-line))
   :straight t)
 
@@ -769,6 +766,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :load-path "~/.emacs.d/xen/"
   :demand
   :functions xen-coding-common-bindings
+  :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("M-l" . xen-avy-goto-line)
          ("C-<tab>" . xen-swiper)
          ("<f12>" . xen-big-fringe-mode)

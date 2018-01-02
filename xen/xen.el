@@ -237,6 +237,17 @@ Actually shrinks the region if the point is at the start of the region."
       (call-interactively 'avy-goto-line arg)
       (move-to-column col-pos))))
 
+(defun xen-avy-goto-word-1 ()
+  "When in minibuffer or term-mode disable `emulation-mode-map-alists'.
+
+Ese just call `avy-goto-word-1'"
+  (interactive)
+  (if (or (window-minibuffer-p)
+          (eq major-mode 'term-mode))
+      (let ((emulation-mode-map-alists nil))
+        (call-interactively (key-binding (kbd "S-<SPC>") t)))
+    (call-interactively 'avy-goto-word-1)))
+
 (defun xen-swiper ()
   "Call swiper with region (from BEG to END) as initial-input."
   (interactive)
