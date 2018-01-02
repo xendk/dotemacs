@@ -240,7 +240,7 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-avy-goto-word-1 ()
   "When in minibuffer or term-mode disable `emulation-mode-map-alists'.
 
-Ese just call `avy-goto-word-1'"
+Else just call `avy-goto-word-1'"
   (interactive)
   (if (or (window-minibuffer-p)
           (eq major-mode 'term-mode))
