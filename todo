@@ -18,6 +18,8 @@
 - sending C-y to shell in term-mode? Want to still be able to yank from Emacs.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 - try out undo-tree-auto-save-history (make it save under .emacs.d).
+- https://github.com/Kungsgeten/selected.el or
+  https://github.com/fgallina/region-bindings-mode perhaps?
 
 would like something like this, but global-hl-line-mode, is, well, global.
 (defun my-term-switch-line-char ()
