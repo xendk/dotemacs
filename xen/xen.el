@@ -94,7 +94,7 @@ Use prefix argument N for more copies."
 BACKWARDS-P indicates whether we're deleting forwards or backwards and we'll
 only work when ARG is 1 or the region is not active."
   (when (and (= arg 1)
-             smartparens-mode
+             (bound-and-true-p smartparens-mode)
              (not (use-region-p)))
     (-if-let (ok (sp-get-thing backwards-p))
         (sp-get ok (progn
