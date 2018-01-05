@@ -103,6 +103,7 @@
  '(mouse-sel-mode t)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(mouse-yank-at-point t)
+ '(multi-term-switch-after-close nil)
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
  '(origami-parser-alist
