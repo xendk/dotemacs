@@ -21,7 +21,6 @@
 - https://github.com/Kungsgeten/selected.el or
   https://github.com/fgallina/region-bindings-mode perhaps?
 - history for xen-switch-buffer. Also move it to xen.el.
-- C-a to beginning of indent in most modes (emacs-lisp for one), just like drupal-mode.
 
 would like something like this, but global-hl-line-mode, is, well, global.
 (defun my-term-switch-line-char ()

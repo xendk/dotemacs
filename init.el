@@ -560,6 +560,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          (gfm-mode . flyspell-mode))
   :straight t)
 
+(use-package mwim
+  :bind (("C-a" . mwim-beginning)
+         ("C-e" . mwim-end))
+  :straight t)
+
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
 (use-package multi-mode
   :load-path "~/.emacs.d/lib/"
