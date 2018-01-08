@@ -139,6 +139,10 @@
 
 (use-package browse-kill-ring
   :commands browse-kill-ring-default-keybindings
+  ;; browse-kill-ring-default-keybindings doesn't really set up a
+  ;; keybinding, but advices yank-pop, so we can't use :bind to
+  ;; lazy-load it.
+  :demand t
   :config (browse-kill-ring-default-keybindings)
   :straight t)
 
