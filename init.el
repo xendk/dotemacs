@@ -247,6 +247,11 @@
   :commands ecukes
   :straight t)
 
+;; For editing code blocks in Markdown mode.
+(use-package edit-indirect
+  :after markdown-mode
+  :straight t)
+
 (use-package eldoc
   :commands eldoc-mode
   :delight)
