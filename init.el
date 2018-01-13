@@ -76,12 +76,11 @@
 (global-set-key (kbd "<mouse-6>") 'ignore)
 (global-set-key (kbd "<mouse-7>") 'ignore)
 
-;; Maybe reintroduce these now that I'm using the same keys in Terminator?
-;; http://www.emacswiki.org/emacs/WindowResize
-;; (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-;; (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-;; (global-set-key (kbd "S-C-<down>") 'shrink-window)
-;; (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+;; Window resizing.
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ;; Quickly open URLs.
 (bind-key "C-c b" 'browse-url-at-point)
