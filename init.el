@@ -386,6 +386,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :config (global-hl-line-mode))
 
 (use-package hungry-delete
+  :delight
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . hungry-delete-mode)
   :straight t)
 
