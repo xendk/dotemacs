@@ -588,6 +588,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
   (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (call-interactively 'avy-goto-word-1))
   (defun term-xen-avy-goto-line  () (interactive) (term-line-mode) (xen-avy-goto-line))
+  (defun fish ()
+    "Open a fish shell buffer."
+    (interactive)
+    (let ((multi-term-program "fish")
+          (multi-term-buffer-name "fish "))
+      (multi-term)))
   :straight t)
 
 (use-package multiple-cursors
