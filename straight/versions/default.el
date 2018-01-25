@@ -54,6 +54,7 @@
  ("melpa" . "57ede036207f6eef8e3cf7e700426061466e5c50")
  ("multi-term" . "f954e4e18b0a035151d34852387e724d87a3316f")
  ("multiple-cursors.el" . "10752700084595bb24712c27ba70a2326302e45b")
+ ("mwim.el" . "a27879c4d0ef1d3f8494efa18490dd17d707375b")
  ("package-lint" . "9abfb14d9ad903ef73895a27b9964b5e6023d752")
  ("page-break-lines" . "fd3b7e38ad8747cd009ead7ef1bb150849ccc693")
  ("php-boris" . "f2faebf610c917f7091f7ec0cd97645629c4f819")
