@@ -17,6 +17,7 @@
  ("dockerfile-mode" . "cd102cffa11a0557b1c04651e8cbd53fe01fbb92")
  ("drupal-mode" . "49ce63c659aa0af7a2daf0c9e74e58fbce6deb71")
  ("ecukes" . "3a77ba9f1064c2bca47b401974c009e65727c46e")
+ ("edit-indirect" . "032ac0ec690d4999d564fd882588c7a197efe8dd")
  ("elpa" . "a3c472662f3d7ecd9c6477ca59192f1fc9c7349f")
  ("emacs-async" . "424ecd8a28cd59fe7d2de3cb4b37a4224e34c123")
  ("emacs-dashboard" . "8594c4f55448148b720eda5b72d51667fb7a8a39")
