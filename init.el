@@ -573,7 +573,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
 
 (use-package multi-term
-  :commands (multi-term-dedicated-exist-p term-send-raw-string term-line-mode)
+  :commands (multi-term-dedicated-exist-p term-send-raw-string term-line-mode fish)
   :bind (:map term-mode-map
               ("RET" . term-char-mode))
   :config
