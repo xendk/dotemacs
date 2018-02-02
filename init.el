@@ -261,6 +261,7 @@
   (auto-fill-function)
   (abbrev-mode)
   :hook (prog-mode . eldoc-mode)
+  :bind ("M-SPC" . xen-cycle-spacing)
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
@@ -284,7 +285,16 @@
                          (eq (overlay-start rol) start)
                          (eq (overlay-end rol) end))
               (move-overlay rol start end (current-buffer)))
-            rol))))
+            rol)))
+  (defun xen-cycle-spacing (&optional n)
+    "Delete all spaces and tabs around point, leaving one space (or N spaces).
+If N is negative, delete newlines as well, leaving -N spaces.
+
+Subsequent calls will delete all spaces, or revert to the original spacing.
+
+See also `cycle-spacing'."
+    (interactive "*p")
+    (cycle-spacing n nil 'fast)))
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
