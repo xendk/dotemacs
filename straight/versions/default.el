@@ -2,7 +2,6 @@
  ("ansi.el" . "12b4c5d91b3da1902838f421e5af6d40e2cd57dd")
  ("apiwrap.el" . "5363671b6a8fe8ecd4674497664974e089b2b035")
  ("atomic-chrome" . "7dd8a45ebccb9b5bbbfd2e822bd914b38dad6008")
- ("auto-indent-mode.el" . "7e939f3a7b092c6c32c97d63fd88aef6cc355cdb")
  ("avy" . "869261ae812723c0c6549202734a4135c3474ec1")
  ("avy-zap" . "6081738668ab726099ce1c711c580d9745dfaede")
  ("browse-kill-ring" . "b746d01c888262e81d76f8949869cf9e02759b6a")
