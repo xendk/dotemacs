@@ -232,14 +232,16 @@ Actually shrinks the region if the point is at the start of the region."
       (move-to-column col-pos))))
 
 (defun xen-avy-goto-word-1 ()
-  "When in minibuffer or term-mode disable `emulation-mode-map-alists'.
+  "When in minibuffer or term-char-mode disable `emulation-mode-map-alists'.
 
 Else just call `avy-goto-word-1'"
   (interactive)
   (if (or (window-minibuffer-p)
-          (eq major-mode 'term-mode))
-      (let ((emulation-mode-map-alists nil))
-        (call-interactively (key-binding (kbd "S-<SPC>") t)))
+          (and (eq major-mode 'term-mode) (term-in-char-mode)))
+      (let ((emulation-mode-map-alists nil)
+            (binding (key-binding (kbd "S-<SPC>") t)))
+        (when binding
+          (call-interactively binding)))
     (call-interactively 'avy-goto-word-1)))
 
 (defun xen-swiper ()
