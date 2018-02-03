@@ -5,9 +5,6 @@
 - subsequent lines in /** commments aren't auto-indent'ed in JS files. Why?
 - wrap related stuff in xen.el in eval-after-load.
 - create autoloads for xen.el, maybe split stuff up into multiple files.
-- look into title escape codes to make Emacs aware of the shells current
-  directory of term buffers. term.el.gz and
-  https://jackkamm.github.io/blog/directory-tracking-in-emacs-termkinal-emulators/
 - move projectile project indicator next to file (look at what ggtags does).
 - remove projectile indicator when not in project.
 - move drupal-mode to beginning of minor-modes:
