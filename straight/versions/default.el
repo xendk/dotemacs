@@ -79,5 +79,5 @@
  ("with-editor" . "f73303481f79a34a237195c9b5a9fe3d56622865")
  ("ws-butler" . "80dabd5d158929e8433e46207bb521282b21e4f3")
  ("yaml-mode" . "28c34033194130d452d5c958b5241c88d42ca02b")
- ("yasnippet" . "4ab9cb5bac683112852f58b26557a7dc283b717b"))
+ ("yasnippet" . "7c9edb5b343ae4fb9bf1b72e994874632c2b258a"))
 :jupiter

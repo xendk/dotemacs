@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: elseif statement
+# key: ei
+# --
+elseif ($1) {
+$0
+}
