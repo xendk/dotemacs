@@ -21,6 +21,7 @@
  ("emacs-async" . "424ecd8a28cd59fe7d2de3cb4b37a4224e34c123")
  ("emacs-dashboard" . "8594c4f55448148b720eda5b72d51667fb7a8a39")
  ("emacs-fish" . "888d037008272f6001207a2990e51ba87fe187e6")
+ ("emacs-git-attr" . "dfd883ed89f6d5c67defd98b3923c46acc9c594e")
  ("emacs-google-this" . "8a2e3ca5da6a8c89bfe99a21486c6c7db125dc84")
  ("emacs-websocket" . "7d2adf218743c52578c8e8fd5584a5e54732e256")
  ("epkgs" . "90b0e3b07824412c2b7031b918c47c0ffb341355")

@@ -340,6 +340,9 @@ See also `cycle-spacing'."
   :config (setq framemove-hook-into-windmove t)
   :straight t)
 
+(use-package git-attr
+  :straight (:host github :repo "arnested/emacs-git-attr"))
+
 (use-package google-this
   :commands google-this-mode
   :delight
