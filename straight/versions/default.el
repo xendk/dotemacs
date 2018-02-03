@@ -42,7 +42,7 @@
  ("highlight-symbol.el" . "7a789c779648c55b16e43278e51be5898c121b3a")
  ("hungry-delete" . "0434458d3f6b2b585f332271feaa054bf4ec96d7")
  ("hydra" . "e228432bb64385f67f20aa525bce56ae4e8419eb")
- ("indentinator" . "43d3693770d1ec120c6e17ec0ee3258e4d5e2546")
+ ("indentinator" . "add777982acb827e554df170c43bbcc88e19230b")
  ("keyfreq" . "9c665c8c219d18866403897936427bb408e3d6b9")
  ("know-your-http-well" . "3cc5ab6d2764ab7aacb1b6e026abaccbeb6c37f2")
  ("magit" . "c7f6bfe7ef2ef70ad87beb39bd60531292eb425c")
