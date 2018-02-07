@@ -590,6 +590,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (defun term-send-ctrl-right () (interactive) (term-send-raw-string "\e[1;5C"))
   (defun term-send-ctrl-left  () (interactive) (term-send-raw-string "\e[1;5D"))
   (defun term-send-alt-backspace  () (interactive) (term-send-raw-string "\e\C-?"))
+  (defun term-send-yank  () (interactive) (term-send-raw-string "\C-y"))
   (defun term-swiper  () (interactive) (term-line-mode) (swiper))
   (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
   (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (call-interactively 'avy-goto-word-1))

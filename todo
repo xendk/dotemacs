@@ -10,7 +10,6 @@
 - move drupal-mode to beginning of minor-modes:
   https://emacs.stackexchange.com/questions/13447/how-to-set-a-rule-for-the-order-of-minor-mode-map-alist/13450
 - get paired delete into smartparens.
-- sending C-y to shell in term-mode? Want to still be able to yank from Emacs.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 - try out undo-tree-auto-save-history (make it save under .emacs.d).
 - https://github.com/Kungsgeten/selected.el or
