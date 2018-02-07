@@ -344,5 +344,21 @@ LIST-SIZE is ignored."
 LIST-SIZE is ignored."
   (insert-file-contents "~/.emacs.d/todo"))
 
+(defvar xen-term-mode-position nil
+  "Saved position of term-char-mode.")
+(make-variable-buffer-local 'xen-term-mode-position)
+
+(defun xen-term-line-mode-advice ()
+  "Save current point."
+  (setq xen-term-mode-position (point)))
+(advice-add 'term-line-mode :before #'xen-term-line-mode-advice)
+
+(defun xen-term-char-mode-advice ()
+  "Restore saved point (if set)."
+  (when xen-term-mode-position
+    (goto-char xen-term-mode-position)))
+(advice-add 'term-char-mode :before #'xen-term-char-mode-advice)
+
+
 (provide 'xen)
 ;;; xen.el ends here
