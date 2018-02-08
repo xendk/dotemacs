@@ -345,6 +345,8 @@ LIST-SIZE is ignored."
 LIST-SIZE is ignored."
   (insert-file-contents "~/.emacs.d/todo"))
 
+;; term-mode
+
 (defvar xen-term-mode-position nil
   "Saved position of term-char-mode.")
 (make-variable-buffer-local 'xen-term-mode-position)
