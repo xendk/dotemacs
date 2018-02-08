@@ -467,7 +467,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     "Switch to another buffer."
     (interactive)
     (let ((this-command 'ivy-switch-buffer))
-      (ivy-read "Switch to buffer: " 'internal-complete-buffer
+      (ivy-read "Switch to buffer: "
+                (lambda (string predicate code)
+                  (delete (buffer-name (current-buffer))
+                          (internal-complete-buffer string predicate code)))
                 :matcher #'ivy--switch-buffer-matcher
                 :preselect (buffer-name (other-buffer (current-buffer)))
                 :action #'ivy--switch-buffer-action
@@ -475,7 +478,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                 :caller 'ivy-switch-buffer
                 ;; Using an lambda rather than raw ivy-call, in order
                 ;; to only call it on existing buffers.
-                :update-fn (lambda () (if (get-buffer (ivy-state-current ivy-last)) (ivy-call))))))
+                :update-fn (lambda ()
+                             (if (get-buffer (ivy-state-current ivy-last))
+                                 (ivy-call))))))
   :bind (:map ivy-mode-map
               ("M-x" . counsel-M-x)
               ("C-x C-f" . counsel-find-file)
