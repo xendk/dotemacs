@@ -25,6 +25,17 @@
 
 ;;; Code:
 
+(require 'face-remap)
+
+(defgroup xen nil
+  "Personal configuration"
+  :group 'emacs)
+
+(defface xen-term-line-mode-face
+  '((t :inherit region))
+  "Face remapping for the modeline in term-line-mode."
+  :group 'xen)
+
 
 ;; My own prefix command.
 (defvar xen-map)
@@ -347,19 +358,26 @@ LIST-SIZE is ignored."
 
 ;; term-mode
 
-(defvar xen-term-mode-position nil
+(defvar-local xen-term-mode-position nil
   "Saved position of term-char-mode.")
-(make-variable-buffer-local 'xen-term-mode-position)
+
+(defvar-local xen-term-mode-line-cookie nil
+  "Cookie for the remapped modeline face.
+
+Used to restore the original mode line face.")
 
 (defun xen-term-line-mode-advice ()
-  "Save current point."
-  (setq xen-term-mode-position (point)))
+  "Save current point. And set mode-line color."
+  (setq xen-term-mode-position (point))
+  (setq xen-term-mode-line-cookie (face-remap-add-relative 'mode-line 'xen-term-line-mode-face)))
 (advice-add 'term-line-mode :before #'xen-term-line-mode-advice)
 
 (defun xen-term-char-mode-advice ()
-  "Restore saved point (if set)."
+  "Restore saved point (if set). And reset mode-line color."
   (when xen-term-mode-position
-    (goto-char xen-term-mode-position)))
+    (goto-char xen-term-mode-position))
+  (face-remap-remove-relative xen-term-mode-line-cookie)
+  (setq xen-term-mode-line-cookie nil))
 (advice-add 'term-char-mode :before #'xen-term-char-mode-advice)
 
 ;; projectile

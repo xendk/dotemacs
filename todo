@@ -17,7 +17,6 @@
 - history for xen-switch-buffer. Also move it to xen.el.
 - no syntax check in js/json buffers? because I haven't installed node.js.
 - paired delete for multichar pairs?
-- change mode-line color or something, when terminal is in line mode
 - paste current region when exiting term-line-mode?
 - multi-mode and indentinator (can we make indentinator stop when the mode changes?)
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
