@@ -804,7 +804,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("<f12>" . xen-big-fringe-mode)
          ("C-S-d" . xen-duplicate-current-line)
          ("C-!" . xen-multi-term-dedicated-toggle-and-select)
-         ("C-S-l" . xen-mark-lines)))
+         ("C-S-l" . xen-mark-lines)
+         :map projectile-command-map
+         ("s" . xen-projectile-switch-to-shell)))
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"

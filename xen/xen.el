@@ -4,6 +4,7 @@
 
 ;; Author: Thomas Fini Hansen <xen@claymore>
 ;; Keywords: local
+;; Package-Requires: ((emacs "25") (seq))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -359,6 +360,27 @@ LIST-SIZE is ignored."
     (goto-char xen-term-mode-position)))
 (advice-add 'term-char-mode :before #'xen-term-char-mode-advice)
 
+;; projectile
+
+(defun xen-projectile-switch-to-shell ()
+  "Switch to shell buffer in project. Use ivy if multiple buffers."
+  (interactive)
+  (if (projectile-project-p)
+      (let ((buffers (seq-filter
+                      (lambda (buffer) (eq 'term-mode
+                                           (buffer-local-value 'major-mode buffer)))
+                      (projectile-project-buffers))))
+
+        (cond
+         ((not buffers) (call-interactively 'fish))
+         ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
+         (t (ivy-read "Shell buffer: "
+                      (mapcar #'buffer-name buffers)
+                      :matcher #'ivy--switch-buffer-matcher
+                      :action #'ivy--switch-buffer-action
+                      :keymap ivy-switch-buffer-map
+                      :caller 'ivy-switch-buffer))))
+    (message "No project.")))
 
 (provide 'xen)
 ;;; xen.el ends here
