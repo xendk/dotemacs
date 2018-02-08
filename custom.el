@@ -80,6 +80,7 @@
  '(highlight-symbol-idle-delay 0.5)
  '(hscroll-margin 15)
  '(indent-tabs-mode nil)
+ '(indentinator-idle-time 0.005)
  '(inhibit-startup-screen t)
  '(ivy-count-format "(%d/%d) ")
  '(ivy-display-style (quote fancy))
