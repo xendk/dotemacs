@@ -224,8 +224,7 @@
 (use-package ede-php-autoload-mode
   :commands ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload/"
-  :hook (php-mode . global-ede-mode)
-  )
+  :hook (php-mode . global-ede-mode))
 
 (use-package ede-php-autoload-composer-installers
   :after ede-php-autoload-mode
@@ -328,6 +327,8 @@ See also `cycle-spacing'."
 
 (use-package flyspell
   :commands flyspell-mode
+  :hook (((gfm-mode yaml-mode) . flyspell-mode)
+         ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode))
   :delight)
 
 (use-package flyspell-correct-ivy
@@ -386,6 +387,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :delight
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . highlight-symbol-mode)
+  :bind (("M-<left>" . highlight-symbol-prev)
+         ("M-<right>" . highlight-symbol-next))
   :straight t)
 
 (use-package hl-line
@@ -567,8 +571,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package markdown-mode
   :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
          ("\\.md$" . gfm-mode))
-  :hook ((gfm-mode . auto-fill-mode)
-         (gfm-mode . flyspell-mode))
+  :hook ((gfm-mode . auto-fill-mode))
   :straight t)
 
 (use-package mwim
@@ -820,7 +823,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"
-  :config (flyspell-mode)
   :straight t)
 
 (use-package yasnippet
