@@ -3,8 +3,6 @@
   /home/xen/sites/ereolen/sites/all/modules/reol_frontend/reol_frontend.module line 324, on "material".
 - how to disable drupal-mode in css-mode if the file is really scss?
 - subsequent lines in /** commments aren't auto-indent'ed in JS files. Why?
-- wrap related stuff in xen.el in eval-after-load.
-- create autoloads for xen.el, maybe split stuff up into multiple files.
 - get paired delete into smartparens.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 - try out undo-tree-auto-save-history (make it save under .emacs.d).
@@ -15,6 +13,10 @@
 - paired delete for multichar pairs?
 - paste current region when exiting term-line-mode?
 - multi-mode and indentinator (can we make indentinator stop when the mode changes?)
+- company and indentinator
+  these might help:
+  https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
+  https://github.com/alpaker/Fill-Column-Indicator/issues/54
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
 
 would like something like this, but global-hl-line-mode, is, well, global.
