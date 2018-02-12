@@ -4,7 +4,9 @@
 
 ;; Author: Thomas Fini Hansen <xen@claymore>
 ;; Keywords: local
-;; Package-Requires: ((emacs "25") (seq))
+;; Package-Requires: ((emacs "25"))
+;; Package-Version: 0
+;; Url: https://github.com/xendk/dotemacs
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,7 +23,8 @@
 
 ;;; Commentary:
 
-;;
+;; This is bits and pieces of configuration and handy functions for my
+;; setup. Moved here to unclutter init.el.
 
 ;;; Code:
 
@@ -37,34 +40,35 @@
   :group 'xen)
 
 
-;; My own prefix command.
+;; My own prefix command. Bound in init.el.
 (defvar xen-map)
 (define-prefix-command 'xen-map)
-(global-set-key (kbd "C-c x") 'xen-map)
 
 (define-key xen-map (kbd "e")
   #'(lambda()
-      "Open ~/.emacs.d/init.el."
+      "Open init.el."
       (interactive)
-      (find-file "~/.emacs.d/init.el")))
+      (find-file (locate-user-emacs-file "init.el"))))
 
 (define-key xen-map (kbd "t")
   #'(lambda()
       "Open tips file."
       (interactive)
-      (find-file "~/.emacs.d/tips")))
+      (find-file (locate-user-emacs-file "tips"))))
 
 (define-key xen-map (kbd "o")
   #'(lambda()
       "Open todo file."
       (interactive)
-      (find-file "~/.emacs.d/todo")))
+      (find-file (locate-user-emacs-file "todo"))))
 
 (defvar xen-big-fringe-mode nil)
 (define-minor-mode xen-big-fringe-mode
   "Minor mode to use big fringe in the current buffer."
   :init-value nil
   :global t
+  ;; emacs-lisp-package require this, but I don't think it'll work.
+  :require 'xen
   :variable xen-big-fringe-mode
   :group 'editing-basics
   (if (not xen-big-fringe-mode)

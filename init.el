@@ -814,6 +814,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-S-d" . xen-duplicate-current-line)
          ("C-!" . xen-multi-term-dedicated-toggle-and-select)
          ("C-S-l" . xen-mark-lines)
+         ("C-c x" . xen-map)
          :map projectile-command-map
          ("s" . xen-projectile-switch-to-shell)))
 
