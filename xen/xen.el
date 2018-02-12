@@ -126,7 +126,8 @@ only work when ARG is 1 or the region is not active."
   (when (and (= arg 1)
              (bound-and-true-p smartparens-mode)
              (not (use-region-p)))
-    (-if-let (ok (sp-get-thing backwards-p))
+    (let ((ok (sp-get-thing backwards-p)))
+      (when ok
         (sp-get ok (progn
                      ;; If either open or close is empty, bomb
                      ;; out. This is the case for symbols, and
@@ -139,7 +140,7 @@ only work when ARG is 1 or the region is not active."
                          (sp-backward-unwrap-sexp))
                         ((and (not backwards-p) (or (= (point) :beg) (= (point) :end-in)))
                          (sp-unwrap-sexp))
-                        (t nil))))))))
+                        (t nil)))))))))
 
 (defun xen-delete-char-advice (orig-fun n &optional kill-flag)
   "Advice for delete char.  ORIG-FUN is the overriden function. Use N and ignore KILL-FLAG."
