@@ -402,5 +402,17 @@ Used to restore the original mode line face.")
                       :caller 'ivy-switch-buffer))))
     (message "No project.")))
 
+;; misc minor modes
+
+(defun xen-fix-minor-mode-order (file)
+  "For `after-load-functions'. Prioritizes some minor-modes.
+FILE is ignored."
+  (when (assq 'drupal-mode minor-mode-map-alist)
+    (when (not (eq (car (car minor-mode-map-alist)) 'drupal-mode))
+      (let ((mode (assq 'drupal-mode minor-mode-map-alist)))
+        (assq-delete-all 'drupal-mode minor-mode-map-alist)
+        (add-to-list 'minor-mode-map-alist mode)))))
+(add-hook 'after-load-functions 'xen-fix-minor-mode-order)
+
 (provide 'xen)
 ;;; xen.el ends here

@@ -7,8 +7,6 @@
 - create autoloads for xen.el, maybe split stuff up into multiple files.
 - move projectile project indicator next to file (look at what ggtags does).
 - remove projectile indicator when not in project.
-- move drupal-mode to beginning of minor-modes:
-  https://emacs.stackexchange.com/questions/13447/how-to-set-a-rule-for-the-order-of-minor-mode-map-alist/13450
 - get paired delete into smartparens.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 - try out undo-tree-auto-save-history (make it save under .emacs.d).
