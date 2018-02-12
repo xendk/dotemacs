@@ -26,6 +26,9 @@
 
 (require 'swiper)
 
+(defvar xen-switch-buffer-history nil
+  "History for `xen-switch-buffer'.")
+
 (defun xen-swiper ()
   "Call swiper with region (from BEG to END) as initial-input."
   (interactive)
@@ -46,5 +49,24 @@
     (message query)
     (swiper query)))
 
+(defun xen-switch-buffer ()
+  "Switch to another buffer."
+  (interactive)
+  (let ((this-command 'ivy-switch-buffer))
+    (ivy-read "Switch to buffer: "
+              (lambda (string predicate code)
+                (delete (buffer-name (current-buffer))
+                        (internal-complete-buffer string predicate code)))
+              :matcher #'ivy--switch-buffer-matcher
+              :preselect (buffer-name (other-buffer (current-buffer)))
+              :action #'ivy--switch-buffer-action
+              :history xen-switch-buffer-history
+              :keymap ivy-switch-buffer-map
+              :caller 'ivy-switch-buffer
+              ;; Using an lambda rather than raw ivy-call, in order
+              ;; to only call it on existing buffers.
+              :update-fn (lambda ()
+                           (if (get-buffer (ivy-state-current ivy-last))
+                               (ivy-call))))))
 (provide 'xen-swiper)
 ;;; xen-swiper.el ends here

@@ -8,7 +8,6 @@
 - try out undo-tree-auto-save-history (make it save under .emacs.d).
 - https://github.com/Kungsgeten/selected.el or
   https://github.com/fgallina/region-bindings-mode perhaps?
-- history for xen-switch-buffer. Also move it to xen.el.
 - no syntax check in js/json buffers? because I haven't installed node.js.
 - paired delete for multichar pairs?
 - paste current region when exiting term-line-mode?

@@ -457,28 +457,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :init
   (ivy-mode 1)
   ;; Buffer switching with preview.
-  (defun xen-switch-buffer ()
-    "Switch to another buffer."
-    (interactive)
-    (let ((this-command 'ivy-switch-buffer))
-      (ivy-read "Switch to buffer: "
-                (lambda (string predicate code)
-                  (delete (buffer-name (current-buffer))
-                          (internal-complete-buffer string predicate code)))
-                :matcher #'ivy--switch-buffer-matcher
-                :preselect (buffer-name (other-buffer (current-buffer)))
-                :action #'ivy--switch-buffer-action
-                :keymap ivy-switch-buffer-map
-                :caller 'ivy-switch-buffer
-                ;; Using an lambda rather than raw ivy-call, in order
-                ;; to only call it on existing buffers.
-                :update-fn (lambda ()
-                             (if (get-buffer (ivy-state-current ivy-last))
-                                 (ivy-call))))))
   :bind (:map ivy-mode-map
               ("M-x" . counsel-M-x)
               ("C-x C-f" . counsel-find-file)
-              ("C-x b" . xen-switch-buffer)
               ("<f1> f" . counsel-describe-function)
               ("<f1> v" . counsel-describe-variable)
               ("<f1> l" . counsel-load-library)
@@ -828,7 +809,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :after (ivy)
   :bind (("C-<tab>" . xen-swiper)
          :map isearch-mode-map
-         ("C-<tab>" . xen-swiper-from-isearch)))
+         ("C-<tab>" . xen-swiper-from-isearch)
+         :map ivy-mode-map
+         ("C-x b" . xen-switch-buffer)))
 
 (use-package xen-term-mode
   :load-path "~/.emacs.d/xen/"
