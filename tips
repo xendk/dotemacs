@@ -38,4 +38,6 @@ visual-regexp:
 
  C-x r m  Set bookmark
  C-x r l  List bookmarks
- 
+
+Reread the Emacs Lisp Coding Conventions once in a while
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Coding-Conventions.html
