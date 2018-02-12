@@ -158,16 +158,9 @@
   ;; php-extras has had a chance to define it's completer.
   :after php-extras
   :defines company-semantic-modes
-  :bind (:map company-active-map
-              ;; company-complete-common is annying as it only completes
-              ;; the common part, company-complete-selection always
-              ;; selects the first option and company-complete requires
-              ;; double tabs all the times.
-              ;; This completes the common part or selects the first (or selected) option.
-              ("TAB" . xen-company-complete-common-or-selection)
-              ("<tab>" . xen-company-complete-common-or-selection))
   :init
   (global-company-mode)
+  ;; TODO: move this to xen-company.
   ;; Remove enter key-binding, it messes with normal typing.
   (unbind-key "RET" company-active-map)
   (unbind-key "<return>" company-active-map)
@@ -448,9 +441,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Build in, but add some bindings.
 (use-package isearch
-  :commands isearch-backward
-  :bind (:map isearch-mode-map
-              ("C-<tab>" . xen-swiper-from-isearch)))
+  :commands isearch-backward)
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
@@ -812,14 +803,47 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :functions xen-coding-common-bindings
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("M-l" . xen-avy-goto-line)
-         ("C-<tab>" . xen-swiper)
          ("<f12>" . xen-big-fringe-mode)
          ("C-S-d" . xen-duplicate-current-line)
-         ("C-!" . xen-multi-term-dedicated-toggle-and-select)
+         ;; ("C-!" . xen-multi-term-dedicated-toggle-and-select)
          ("C-S-l" . xen-mark-lines)
-         ("C-c x" . xen-map)
-         :map projectile-command-map
-         ("s" . xen-projectile-switch-to-shell)))
+         ("C-c x" . xen-map)))
+
+(use-package xen-company
+  :load-path "~/.emacs.d/xen/"
+  :bind (:map company-active-map
+              ;; company-complete-common is annying as it only completes
+              ;; the common part, company-complete-selection always
+              ;; selects the first option and company-complete requires
+              ;; double tabs all the times.
+              ;; This completes the common part or selects the first (or selected) option.
+              ("TAB" . xen-company-complete-common-or-selection)
+              ("<tab>" . xen-company-complete-common-or-selection)))
+
+(use-package xen-flycheck
+  :load-path "~/.emacs.d/xen/"
+  :functions xen-flycheck-mode-line-status-text)
+
+(use-package xen-projectile
+  :load-path "~/.emacs.d/xen/"
+  :after (projectile ivy)
+  :bind (:map projectile-command-map
+              ("s" . xen-projectile-switch-to-shell)))
+
+(use-package xen-smartparens
+  :load-path "~/.emacs.d/xen/"
+  :after (smartparens))
+
+(use-package xen-swiper
+  :load-path "~/.emacs.d/xen/"
+  :after (ivy)
+  :bind (("C-<tab>" . xen-swiper)
+         :map isearch-mode-map
+         ("C-<tab>" . xen-swiper-from-isearch)))
+
+(use-package xen-term-mode
+  :load-path "~/.emacs.d/xen/"
+  :after (multi-term))
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"
