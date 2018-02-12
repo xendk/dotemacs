@@ -85,6 +85,8 @@
 ;; Quickly open URLs.
 (bind-key "C-c b" 'browse-url-at-point)
 
+
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -96,6 +98,7 @@
 ;; list-processes+
 ;; multi-line
 ;; rainbow-mode
+
 
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
@@ -139,11 +142,7 @@
   :straight t)
 
 (use-package css-mode
-  :commands css-mode
-  :config (add-hook
-           'css-mode-hook
-           (lambda () (xen-coding-common-bindings)
-             (yas-minor-mode 1))))
+  :commands css-mode)
 
 (use-package column-enforce-mode
   :commands column-enforce-mode
@@ -436,7 +435,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package indentinator
-  :hook ((emacs-lisp-mode php-mode js-mode css-mode ruby-mode) . indentinator-mode)
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . indentinator-mode)
   :straight (:host github :repo "xendk/indentinator"))
 
 ;; Build in, but add some bindings.
@@ -508,9 +507,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Built in.
 (use-package js
-  :commands js-mode
-  :hook ((js-mode . xen-coding-common-bindings)
-         (js-mode . yas-minor-mode)))
+  :commands js-mode)
 
 (use-package keyfreq
   :if xen-primary
@@ -519,12 +516,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
   :straight t)
-
-(use-package lisp-mode
-  :commands emacs-lisp-mode
-  :hook ((emacs-lisp-mode . xen-coding-common-bindings)
-         (emacs-lisp-mode . yas-minor-mode)
-         (emacs-lisp-mode . page-break-lines-mode)))
 
 (use-package magit
   :commands magit-define-popup-switch
@@ -621,6 +612,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package page-break-lines
   :delight
+  :hook (emacs-lisp-mode . page-break-lines-mode)
   :straight t)
 
 (use-package php-boris
@@ -629,9 +621,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package php-mode
   :commands php-mode
-  :hook ((php-mode . xen-coding-common-bindings)
-         (php-mode . yas-minor-mode)
-         (php-mode . ggtags-mode))
+  :hook ((php-mode . ggtags-mode))
   :straight t)
 
 (use-package php-extras
@@ -654,9 +644,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 
 (use-package ruby-mode
-  :commands ruby-mode
-  :hook ((ruby-mode . xen-coding-common-bindings)
-         (ruby-mode . yas-minor-mode)))
+  :commands ruby-mode)
 
 (use-package s
   :commands s-truncate
@@ -794,13 +782,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package ws-butler
   :commands ws-butler-mode
   :delight
-  :hook ((emacs-lisp-mode php-mode ruby-mode js-mode feature-mode) . ws-butler-mode)
+  :hook ((emacs-lisp-mode php-mode ruby-mode css-mode js-mode feature-mode) . ws-butler-mode)
   :straight t)
 
 (use-package xen
   :load-path "~/.emacs.d/xen/"
   :demand
-  :functions xen-coding-common-bindings
+  ;;:functions xen-coding-common-bindings
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("M-l" . xen-avy-goto-line)
          ("<f12>" . xen-big-fringe-mode)
@@ -852,6 +841,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package yasnippet
   :commands yas-reload-all
   :delight yas-minor-mode
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
   :config (yas-reload-all)
   :straight t)
 
