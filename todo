@@ -5,7 +5,6 @@
 - subsequent lines in /** commments aren't auto-indent'ed in JS files. Why?
 - wrap related stuff in xen.el in eval-after-load.
 - create autoloads for xen.el, maybe split stuff up into multiple files.
-- move projectile project indicator next to file (look at what ggtags does).
 - get paired delete into smartparens.
 - use-package flyspell-correct-ivy isn't actually using ivy,
 - try out undo-tree-auto-save-history (make it save under .emacs.d).

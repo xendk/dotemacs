@@ -645,10 +645,17 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
-  :delight '(:eval (if (projectile-project-p)
-                       (concat " [" (projectile-project-name) "]")
-                     ""))
-  :init (projectile-mode)
+  :delight ""
+  :init
+  (projectile-mode)
+  ;; Show current project next to the buffer name in the mode-line.
+  (add-hook 'find-file-hook
+            (lambda ()
+              (setq mode-line-buffer-identification
+                    (append mode-line-buffer-identification
+                            '((:eval (if (projectile-project-p)
+                                         (concat " [" (projectile-project-name) "]")
+                                       "")))))))
   :straight t)
 
 
