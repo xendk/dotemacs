@@ -645,7 +645,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
-  :delight '(:eval (concat " [" (projectile-project-name) "]"))
+  :delight '(:eval (if (projectile-project-p)
+                       (concat " [" (projectile-project-name) "]")
+                     ""))
   :init (projectile-mode)
   :straight t)
 
