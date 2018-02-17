@@ -101,6 +101,9 @@
  '(magit-status-buffer-switch-function (quote switch-to-buffer))
  '(magit-use-sticky-arguments (quote current))
  '(menu-bar-mode nil)
+ '(mode-line-format
+   (quote
+    ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(mouse-avoidance-mode (quote animate) nil (avoid))
  '(mouse-sel-default-bindings t)
  '(mouse-sel-mode t)
