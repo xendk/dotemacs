@@ -98,6 +98,7 @@
  '(magit-fetch-arguments (quote ("--prune")))
  '(magit-push-always-verify nil)
  '(magit-revert-buffers t t)
+ '(magit-save-repository-buffers (quote dontask))
  '(magit-status-buffer-switch-function (quote switch-to-buffer))
  '(magit-use-sticky-arguments (quote current))
  '(menu-bar-mode nil)
