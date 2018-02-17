@@ -199,7 +199,6 @@
  '(url-privacy-level (quote (email)))
  '(use-package-verbose t)
  '(user-mail-address "xen@xen.dk")
- '(vc-handled-backends nil)
  '(vcl-indent-level 2)
  '(vr/default-replace-preview t)
  '(yas-choose-keys-first nil)
