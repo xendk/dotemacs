@@ -191,6 +191,8 @@
      ("C-c C-y" . term-send-yank))))
  '(term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
  '(tool-bar-mode nil nil (tool-bar))
+ '(undo-tree-auto-save-history t)
+ '(undo-tree-history-directory-alist (quote (("." . "/home/xen/.emacs.d/undo-history"))))
  '(undo-tree-visualizer-diff nil)
  '(undo-tree-visualizer-relative-timestamps t)
  '(undo-tree-visualizer-timestamps t)
