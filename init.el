@@ -159,18 +159,6 @@
   :defines company-semantic-modes
   :init
   (global-company-mode)
-  ;; TODO: move this to xen-company.
-  ;; Remove enter key-binding, it messes with normal typing.
-  (unbind-key "RET" company-active-map)
-  (unbind-key "<return>" company-active-map)
-  ;; Define a local map that's only active when selection has changed,
-  ;; and bind return to the action we unbound it from in the normal
-  ;; keymap. This means we can use return to select the chosen item,
-  ;; but it wont mess with normal typing.
-  (defvar xen-company-explicit-map (make-sparse-keymap))
-  (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
-  (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
-                                           xen-company-explicit-map))
   :straight t)
 
 (use-package company-restclient
@@ -788,7 +776,19 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ;; double tabs all the times.
               ;; This completes the common part or selects the first (or selected) option.
               ("TAB" . xen-company-complete-common-or-selection)
-              ("<tab>" . xen-company-complete-common-or-selection)))
+              ("<tab>" . xen-company-complete-common-or-selection))
+  :config
+  ;; Remove enter key-binding, it messes with normal typing.
+  (unbind-key "RET" company-active-map)
+  (unbind-key "<return>" company-active-map)
+  ;; Define a local map that's only active when selection has changed,
+  ;; and bind return to the action we unbound it from in the normal
+  ;; keymap. This means we can use return to select the chosen item,
+  ;; but it wont mess with normal typing.
+  (defvar xen-company-explicit-map (make-sparse-keymap))
+  (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
+  (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
+                                           xen-company-explicit-map)))
 
 (use-package xen-flycheck
   :load-path "~/.emacs.d/xen/"
