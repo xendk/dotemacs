@@ -25,6 +25,8 @@
 ;;; Code:
 
 (require 'company)
+(require 'company-dabbrev)
+(require 'company-dabbrev-code)
 
 (defun xen-company-complete-common-or-selection ()
   "Insert the common part of all candidates, or select the current one."
@@ -34,6 +36,32 @@
       (call-interactively 'company-complete-common)
       (when (eq tick (buffer-chars-modified-tick))
         (company-complete-selection)))))
+
+(defun company-dabbrev-code-xen (command &optional arg &rest ignored)
+  "A dabbrev-like `company-mode' backend for code.
+
+Works like company-dabbrev-code with
+`company-dabbrev-code-everywhere' nil in code but t in comments.
+
+COMMAND, ARG and IGNORED is the arguments passed by company."
+  (interactive (list 'interactive))
+  (cl-case command
+    (interactive (company-begin-backend 'company-dabbrev-code))
+    (prefix (and (or (eq t company-dabbrev-code-modes)
+                     (apply #'derived-mode-p company-dabbrev-code-modes))
+                 (or (company-grab-symbol) 'stop)))
+    (candidates (let ((case-fold-search company-dabbrev-code-ignore-case))
+                  (company-dabbrev--search
+                   (company-dabbrev-code--make-regexp arg)
+                   company-dabbrev-code-time-limit
+                   (pcase company-dabbrev-code-other-buffers
+                     (`t (list major-mode))
+                     (`code company-dabbrev-code-modes)
+                     (`all `all))
+                   (not (company-in-string-or-comment)))))
+    (ignore-case company-dabbrev-code-ignore-case)
+    (duplicates t)))
+
 
 (provide 'xen-company)
 ;;; xen-company.el ends here

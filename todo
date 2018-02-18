@@ -1,6 +1,3 @@
-- company likes to complete capitalized words in PHP. Note an example next
-  time it happens.
-  /home/xen/sites/ereolen/sites/all/modules/reol_frontend/reol_frontend.module line 324, on "material".
 - how to disable drupal-mode in css-mode if the file is really scss?
 - subsequent lines in /** commments aren't auto-indent'ed in JS files. Why?
 - get paired delete into smartparens.

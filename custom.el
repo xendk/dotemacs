@@ -30,11 +30,11 @@
  '(company-auto-complete nil)
  '(company-backends
    (quote
-    ((php-extras-company company-dabbrev-code company-gtags company-keywords :with company-yasnippet)
+    ((php-extras-company company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
      company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf
-     (company-dabbrev-code company-gtags company-etags company-keywords)
+     (company-dabbrev-code-xen company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
- '(company-dabbrev-code-everywhere t)
+ '(company-dabbrev-code-everywhere nil)
  '(company-frontends
    (quote
     (company-pseudo-tooltip-unless-just-one-frontend-with-delay company-echo-metadata-frontend company-preview-frontend)))
