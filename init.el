@@ -810,7 +810,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :load-path "~/.emacs.d/xen/"
   :after (projectile ivy)
   :bind (:map projectile-command-map
-              ("s" . xen-projectile-switch-to-shell)))
+              ("s" . xen-projectile-switch-to-shell)
+              ("S" . fish)))
 
 (use-package xen-smartparens
   :load-path "~/.emacs.d/xen/"
