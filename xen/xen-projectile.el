@@ -32,8 +32,12 @@
   (interactive)
   (if (projectile-project-p)
       (let ((buffers (seq-filter
-                      (lambda (buffer) (eq 'term-mode
-                                           (buffer-local-value 'major-mode buffer)))
+                      (lambda (buffer) (and
+                                        ;; Major mode is term-mode.
+                                        (eq 'term-mode
+                                            (buffer-local-value 'major-mode buffer))
+                                        ;; Buffer is not visible.
+                                        (not (get-buffer-window buffer t))))
                       (projectile-project-buffers))))
 
         (cond
