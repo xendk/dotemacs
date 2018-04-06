@@ -15,7 +15,7 @@ Feature: js-mode mached pairs deletion
     And I load the following:
       """
       (require 'js)
-      (require 'smartparens)
+      (require 'xen-smartparens)
       """
     And I turn on js-mode
     And I quietly turn on smartparens-mode
