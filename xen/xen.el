@@ -201,6 +201,20 @@ Actually shrinks the region if the point is at the start of the region."
                          (region-beginning) (region-end)
                          "xmllint -format -" nil t)))
 
+(defun xen-json-pretty ()
+  "Run jq . on the region."
+  (interactive)
+  (if (region-active-p) (shell-command-on-region
+                         (region-beginning) (region-end)
+                         "jq ." nil t)))
+
+(defun xen-json-unpretty ()
+  "Run jq -c . on the region."
+  (interactive)
+  (if (region-active-p) (shell-command-on-region
+                         (region-beginning) (region-end)
+                         "jq -c ." nil t)))
+
 (defun xen-avy-goto-line (&optional arg)
   "A variant on avy-goto-line that remembers column position.  ARG is passed along."
   (interactive "p")
