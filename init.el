@@ -181,6 +181,9 @@
   :defer t
   :straight t)
 
+(use-package cov
+  :straight (:host github :repo "xendk/cov" :branch "undercover-support"))
+
 (use-package dashboard
   :commands dashboard-setup-startup-hook
   :demand
