@@ -129,6 +129,7 @@
    (quote
     ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
  '(php-mode-coding-style (quote psr2))
+ '(php-mode-enable-project-coding-style nil)
  '(projectile-cache-file "~/.emacs.d/.projectile.cache")
  '(projectile-completion-system (quote ivy))
  '(projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
