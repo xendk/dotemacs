@@ -30,18 +30,6 @@
 
 
 ;; Initialize straight package system.
-(setq straight-recipe-overrides
-      '((nil . ((straight :type git
-                          :host github
-                          :repo "xendk/straight.el"
-                          :branch "pull-refactor"
-                          :files ("straight.el")
-                          :upstream (:type git
-                                           :host github
-                                           :repo "raxod502/straight.el"
-                                           :branch "develop"
-                                           :files ("straight.el")))))))
-
 (let ((bootstrap-file (concat user-emacs-directory "straight/bootstrap.el"))
       (bootstrap-version 2))
   (unless (file-exists-p bootstrap-file)
