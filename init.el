@@ -582,6 +582,15 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands org-mode
   :mode "\\.org\\'")
 
+;; package-lint requires package for its package database. So we defer
+;; it and use :config to initialize it when someone requires it.
+(use-package package
+  :defer t
+  :config
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (package-initialize))
+
 (use-package page-break-lines
   :delight
   :hook (emacs-lisp-mode . page-break-lines-mode)
