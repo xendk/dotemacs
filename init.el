@@ -783,6 +783,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-company
   :load-path "~/.emacs.d/xen/"
+  :after (company php-mode)
+  ;; Enforce loading when company and php-mode has loaded, else the
+  ;; :bind will defer loading until
+  ;; xen-company-complete-common-or-selection is needed which means
+  ;; that the unbinds in :config wont be run until then.
+  :demand t
   :bind (:map company-active-map
               ;; company-complete-common is annying as it only completes
               ;; the common part, company-complete-selection always
