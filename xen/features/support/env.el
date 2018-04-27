@@ -16,6 +16,12 @@
 (require 'ert)
 (require 'shut-up)
 
+(when (require 'undercover nil t)
+  ;; Track coverage, but don't send to coveralls. Save in parent
+  ;; directory as undercover saves paths relative to the repository
+  ;; root.
+  (undercover "*.el" (:report-type :codecov) (:report-file "../coverage-final.json")))
+
 (Setup
  ;; Before anything has run
  )
