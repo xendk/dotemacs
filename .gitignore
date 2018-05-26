@@ -30,3 +30,5 @@ straight/build-cache.el
 magithub
 ; Undo tree history
 undo-history
+; Smex
+smex-items
