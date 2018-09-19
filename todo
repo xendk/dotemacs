@@ -13,6 +13,17 @@
   https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
   https://github.com/alpaker/Fill-Column-Indicator/issues/54
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
+- remap mouse wheel to send cursor up/down rather than scroll window in term-mode
+- options in xen-projectile-switch-to-shell to open new shell
+- Conditional abbrevs https://www.emacswiki.org/emacs/AbbrevMode
+- .htaccess mode?
+- swiper on all open buffers?
+- C-c p b, but using paths relative to project root.
+- As above, but for php classes.
+- https://github.com/emacs-php/phpactor.el
+- set phpcs standard automatically for spec files
+- when find-filing a new file in a new directory, it tries to chdir to the dir, fails
+  and leaves the new buffer buried. Didn't use to do that.
 
 would like something like this, but global-hl-line-mode, is, well, global.
 (defun my-term-switch-line-char ()
@@ -27,3 +38,12 @@ would like something like this, but global-hl-line-mode, is, well, global.
     (hl-line-mode 1))))
 
 https://superuser.com/questions/319545/changing-the-default-emacs-terminal-escape-character
+
+multi-mode and indentinator test:
+<?php print $fields['field_ding_faq_list_image']->content; ?>
+<div class="faq-content">
+  <?php print $fields['field_ding_faq_category']->content; ?>
+  <?php print $fields['title']->content; ?>
+  <?php print $fields['field_ding_faq_lead']->content; ?>
+</div>
+<?php print $fields['view_node']->content; ?>
