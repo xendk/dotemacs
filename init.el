@@ -608,7 +608,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package php-mode
   :commands php-mode
-  :hook ((php-mode . ggtags-mode))
   :straight t)
 
 (use-package php-extras
