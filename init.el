@@ -105,6 +105,11 @@
   :commands delight
   :straight t)
 
+(use-package apib-mode
+  :defer t
+  :mode "\\.apib$"
+  :straight t)
+
 (use-package ag
   :defer t
   :straight t)
