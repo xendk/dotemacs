@@ -626,6 +626,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; package-lint requires package for its package database. So we defer
 ;; it and use :config to initialize it when someone requires it.
 (use-package package
+  :commands package-initialize
   :defer t
   :config
   (add-to-list 'package-archives
