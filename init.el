@@ -432,7 +432,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package indentinator
-  :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode ruby-mode) . indentinator-mode)
+  :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode ruby-mode twig-mode) . indentinator-mode)
   :straight (:host github :repo "xendk/indentinator"))
 
 ;; Build in, but add some bindings.
