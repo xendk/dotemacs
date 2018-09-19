@@ -652,6 +652,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
   :delight ""
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :init
   (projectile-mode)
   ;; Show current project next to the buffer name in the mode-line.
