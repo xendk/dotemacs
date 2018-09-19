@@ -30,6 +30,7 @@
 
 ;; External variables referenced.
 (defvar er/try-expand-list)
+(defvar flycheck-phpcs-standard)
 
 (defgroup xen nil
   "Personal configuration"
@@ -276,6 +277,12 @@ FILE is ignored."
         (assq-delete-all 'drupal-mode minor-mode-map-alist)
         (add-to-list 'minor-mode-map-alist mode)))))
 (add-hook 'after-load-functions 'xen-fix-minor-mode-order)
+
+(defun xen-php-spec ()
+  "Set PHPCS to use PHPSpec standard."
+  (interactive)
+  (make-local-variable 'flycheck-phpcs-standard)
+  (setq flycheck-phpcs-standard "/home/xen/.config/composer/vendor/kmcculloch/phpspec-code-sniffer/PHPSpec/"))
 
 (provide 'xen)
 ;;; xen.el ends here
