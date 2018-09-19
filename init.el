@@ -467,7 +467,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("<f1> l" . counsel-load-library)
               ("<f2> i" . counsel-info-lookup-symbol)
               ("<f2> u" . counsel-unicode-char)
-              ("C-c g" . counsel-git)
               ("C-c a" . counsel-ag)
               :map ivy-minibuffer-map
               ("S-<return>" . ivy-immediate-done)
@@ -536,7 +535,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
-         ("C-c C-g" . magit-status))
+         ("C-c g" . magit-status))
   :config
   ;; Add --follow-tags options to the push popup.
   (magit-define-popup-switch 'magit-push-popup
