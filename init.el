@@ -210,10 +210,10 @@
 (use-package drush-make-mode
   :after drupal-mode)
 
-(use-package ede-php-autoload-mode
+(use-package ede-php-autoload
   :commands ede-php-autoload-mode
-  :load-path "~/.emacs.d/ede-php-autoload/"
-  :hook (php-mode . global-ede-mode))
+  :hook (php-mode . global-ede-mode)
+  :straight t)
 
 (use-package ede-php-autoload-composer-installers
   :after ede-php-autoload-mode
