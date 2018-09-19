@@ -22,8 +22,6 @@
 - As above, but for php classes.
 - https://github.com/emacs-php/phpactor.el
 - set phpcs standard automatically for spec files
-- when find-filing a new file in a new directory, it tries to chdir to the dir, fails
-  and leaves the new buffer buried. Didn't use to do that.
 
 would like something like this, but global-hl-line-mode, is, well, global.
 (defun my-term-switch-line-char ()
