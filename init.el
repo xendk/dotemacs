@@ -665,7 +665,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                                        "")))))))
   :straight t)
 
-
 (use-package rjsx-mode
   :commands rjsx-mode
   :mode "components\\/.*\\.js\\'"
