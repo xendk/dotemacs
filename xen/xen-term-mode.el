@@ -41,17 +41,19 @@
 Used to restore the original mode line face.")
 
 (defun xen-term-line-mode-advice ()
-  "Save current point. And set mode-line color."
-  (setq xen-term-mode-position (point))
-  (setq xen-term-mode-line-cookie (face-remap-add-relative 'mode-line 'xen-term-line-mode-face)))
+  "Save current point. And set mode-line color. And enable line highlight."
+  (setq xen-term-mode-position (point)
+        xen-term-mode-line-cookie (face-remap-add-relative 'mode-line 'xen-term-line-mode-face))
+  (hl-line-mode 1))
 (advice-add 'term-line-mode :before #'xen-term-line-mode-advice)
 
 (defun xen-term-char-mode-advice ()
-  "Restore saved point (if set). And reset mode-line color."
+  "Restore saved point (if set). And reset mode-line color. And remove line highlight."
   (when xen-term-mode-position
     (goto-char xen-term-mode-position))
   (face-remap-remove-relative xen-term-mode-line-cookie)
-  (setq xen-term-mode-line-cookie nil))
+  (setq xen-term-mode-line-cookie nil)
+  (hl-line-mode -1))
 (advice-add 'term-char-mode :before #'xen-term-char-mode-advice)
 
 (defun xen-term-mode-yank-into-char-mode ()

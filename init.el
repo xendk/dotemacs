@@ -387,7 +387,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package hl-line
-  :config (global-hl-line-mode))
+  ;; Let xen-term-mode handle hl-line-mode toggling in term buffers.
+  :hook (after-change-major-mode . (lambda ()
+                                     (unless (eq major-mode 'term-mode)
+                                       (hl-line-mode)))))
 
 (use-package hungry-delete
   :delight

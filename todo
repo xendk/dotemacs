@@ -19,18 +19,6 @@
 - https://github.com/emacs-php/phpactor.el
 - set phpcs standard automatically for spec files
 
-would like something like this, but global-hl-line-mode, is, well, global.
-(defun my-term-switch-line-char ()
-  "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
-  (interactive)
-  (cond
-   ((term-in-line-mode)
-    (term-char-mode)
-    (hl-line-mode -1))
-   ((term-in-char-mode)
-    (term-line-mode)
-    (hl-line-mode 1))))
-
 https://superuser.com/questions/319545/changing-the-default-emacs-terminal-escape-character
 
 multi-mode and indentinator test:
