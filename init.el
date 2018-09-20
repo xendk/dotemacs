@@ -250,7 +250,6 @@
   (auto-fill-function)
   (abbrev-mode)
   :hook (prog-mode . eldoc-mode)
-  :bind ("M-SPC" . xen-cycle-spacing)
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
@@ -274,16 +273,7 @@
                          (eq (overlay-start rol) start)
                          (eq (overlay-end rol) end))
               (move-overlay rol start end (current-buffer)))
-            rol)))
-  (defun xen-cycle-spacing (&optional n)
-    "Delete all spaces and tabs around point, leaving one space (or N spaces).
-If N is negative, delete newlines as well, leaving -N spaces.
-
-Subsequent calls will delete all spaces, or revert to the original spacing.
-
-See also `cycle-spacing'."
-    (interactive "*p")
-    (cycle-spacing n nil 'fast)))
+            rol))))
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
@@ -446,10 +436,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode ruby-mode twig-mode) . indentinator-mode)
   :straight (:host github :repo "xendk/indentinator"))
 
-;; Build in, but add some bindings.
-(use-package isearch
-  :commands isearch-backward)
-
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
 
@@ -590,8 +576,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package multi-term
   :commands (multi-term multi-term-dedicated-exist-p term-send-raw-string term-line-mode fish)
   :bind (:map term-mode-map
-              ("RET" . term-char-mode)
-              ("S-<return>" . xen-term-mode-yank-into-char-mode))
+              ("RET" . term-char-mode))
   :config
   (defun term-send-alt-up    () (interactive) (term-send-raw-string "\e[1;3A"))
   (defun term-send-alt-down  () (interactive) (term-send-raw-string "\e[1;3B"))
@@ -826,7 +811,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;;:functions xen-coding-common-bindings
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
-  :bind (("M-l" . xen-avy-goto-line)
+  :bind (("M-SPC" . xen-cycle-spacing)
+         ("M-l" . xen-avy-goto-line)
          ("<f12>" . xen-big-fringe-mode)
          ("C-S-d" . xen-duplicate-current-line)
          ;; ("C-!" . xen-multi-term-dedicated-toggle-and-select)
@@ -888,6 +874,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-term-mode
   :load-path "~/.emacs.d/xen/"
+  :bind (:map term-mode-map
+              ("S-<return>" . xen-term-mode-yank-into-char-mode))
   :after (multi-term))
 
 (use-package yaml-mode

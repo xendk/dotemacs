@@ -284,5 +284,15 @@ FILE is ignored."
   (make-local-variable 'flycheck-phpcs-standard)
   (setq flycheck-phpcs-standard "/home/xen/.config/composer/vendor/kmcculloch/phpspec-code-sniffer/PHPSpec/"))
 
+(defun xen-cycle-spacing (&optional n)
+  "Delete all spaces and tabs around point, leaving one space (or N spaces).
+If N is negative, delete newlines as well, leaving -N spaces.
+
+Subsequent calls will delete all spaces, or revert to the original spacing.
+
+See also `cycle-spacing'."
+    (interactive "*p")
+    (cycle-spacing n nil 'fast))
+
 (provide 'xen)
 ;;; xen.el ends here
