@@ -138,12 +138,15 @@
   :delight auto-revert-mode)
 
 (use-package browse-kill-ring
-  :commands browse-kill-ring-default-keybindings
-  ;; browse-kill-ring-default-keybindings doesn't really set up a
-  ;; keybinding, but advices yank-pop, so we can't use :bind to
-  ;; lazy-load it.
-  :demand t
-  :config (browse-kill-ring-default-keybindings)
+  ;; Duplicate the effect of the advice that
+  ;; browse-kill-ring-default-keybindings creates with a function.
+  ;; This allows us to autoload on demand.
+  :bind ("M-y" . (lambda (arg)
+                   (interactive "p")
+                   (if (not (eq last-command 'yank))
+                       (browse-kill-ring)
+                     (barf-if-buffer-read-only)
+                     (yank-pop arg))))
   :straight t)
 
 (use-package cask-mode
