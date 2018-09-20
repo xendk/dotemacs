@@ -25,6 +25,7 @@
 ;;; Code:
 
 (require 'face-remap)
+(require 'term)
 
 (defface xen-term-line-mode-face
   '((t :inherit region))
@@ -52,6 +53,13 @@ Used to restore the original mode line face.")
   (face-remap-remove-relative xen-term-mode-line-cookie)
   (setq xen-term-mode-line-cookie nil))
 (advice-add 'term-char-mode :before #'xen-term-char-mode-advice)
+
+(defun xen-term-mode-yank-into-char-mode ()
+  "Copy current region to selection, and yank it in term-char-mode."
+  (interactive)
+  (kill-ring-save nil nil t)
+  (term-char-mode)
+  (yank))
 
 (provide 'xen-term-mode)
 ;;; xen-term-mode.el ends here

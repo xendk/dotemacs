@@ -3,7 +3,6 @@
   https://github.com/fgallina/region-bindings-mode perhaps?
 - no syntax check in js/json buffers? because I haven't installed node.js.
 - paired delete for multichar pairs?
-- paste current region when exiting term-line-mode? (S-return)
 - multi-mode and indentinator (can we make indentinator stop when the mode changes?)
 - company and indentinator
   these might help:

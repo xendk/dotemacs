@@ -584,7 +584,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package multi-term
   :commands (multi-term multi-term-dedicated-exist-p term-send-raw-string term-line-mode fish)
   :bind (:map term-mode-map
-              ("RET" . term-char-mode))
+              ("RET" . term-char-mode)
+              ("S-<return>" . xen-term-mode-yank-into-char-mode))
   :config
   (defun term-send-alt-up    () (interactive) (term-send-raw-string "\e[1;3A"))
   (defun term-send-alt-down  () (interactive) (term-send-raw-string "\e[1;3B"))
