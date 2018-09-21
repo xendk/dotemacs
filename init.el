@@ -527,11 +527,20 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
-         ("C-c g" . magit-status))
+         ("C-c g g" . magit-status)
+         ;; This should really be in magit-file-mode-map, but as we've
+         ;; turned C-g g into a prefix map above, that wont work. So
+         ;; just make them global.
+         ("C-c g d" . magit-dispatch-popup)
+         ("C-c g f" . magit-file-popup))
   :config
+  ;; Let's remove these extremely difficult key combinations. We've
+  ;; bound the functions above.
+  (unbind-key "\C-x\M-g" magit-file-mode-map)
+  (unbind-key "\C-c\M-g" magit-file-mode-map)
   ;; Add --follow-tags options to the push popup.
   (magit-define-popup-switch 'magit-push-popup
-                             ?t "Follow tags" "--follow-tags")
+    ?t "Follow tags" "--follow-tags")
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
