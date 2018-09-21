@@ -176,6 +176,9 @@
   ;; Redefine tab to insert common prefix first.
   (define-key company-active-map [tab] 'company-complete-common-or-cycle)
   (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+  ;; Swap search and filter shortcuts.
+  (define-key company-active-map "\C-s" 'company-filter-candidates)
+  (define-key company-active-map "\C-\M-s" 'company-search-candidates)
   ;; TODO: this doesn't quite work, but it would be nice.
   ;; (defun company-preview-if-not-tng-frontend (command)
   ;;   "`company-preview-frontend', but not when tng is active."
