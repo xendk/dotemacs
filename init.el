@@ -874,6 +874,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-term-mode
   :load-path "~/.emacs.d/xen/"
+  ;; Enforce loading so advices get applied when term-mode loads.
+  :demand t
   :bind (:map term-mode-map
               ("S-<return>" . xen-term-mode-yank-into-char-mode))
   :after (multi-term))
