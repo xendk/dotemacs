@@ -484,7 +484,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ;; from the history and goes on from there.
               ("C-<tab>" . ivy-next-line-or-history)
               ;; For symmetry.
-              ("C-<iso-lefttab>" . ivy-previous-line-or-history)))
+              ("C-<backtab>" . ivy-previous-line-or-history)))
 
 (use-package ivy-hydra
   :straight t)

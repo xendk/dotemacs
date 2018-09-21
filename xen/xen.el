@@ -153,7 +153,7 @@ Actually shrinks the region if the point is at the start of the region."
   "Common bindings and minor-modes for coding."
   (local-set-key (kbd "C-o") 'xen-open)
   (local-set-key [tab] 'xen-tab)
-  (local-set-key [S-iso-lefttab] 'indent-for-tab-command))
+  (local-set-key [backtab] 'indent-for-tab-command))
 
 ;; expand-region stuff.
 (defun xen-php-mark-next-accessor ()
