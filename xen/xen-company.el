@@ -28,15 +28,6 @@
 (require 'company-dabbrev)
 (require 'company-dabbrev-code)
 
-(defun xen-company-complete-common-or-selection ()
-  "Insert the common part of all candidates, or select the current one."
-  (interactive)
-  (when (company-manual-begin)
-    (let ((tick (buffer-chars-modified-tick)))
-      (call-interactively 'company-complete-common)
-      (when (eq tick (buffer-chars-modified-tick))
-        (company-complete-selection)))))
-
 (defun company-dabbrev-code-xen (command &optional arg &rest ignored)
   "A dabbrev-like `company-mode' backend for code.
 

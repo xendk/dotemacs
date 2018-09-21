@@ -171,6 +171,22 @@
   :defines company-semantic-modes
   :init
   (global-company-mode)
+  ;; Use the TAB only frontend.
+  (company-tng-configure-default)
+  ;; Redefine tab to insert common prefix first.
+  (define-key company-active-map [tab] 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+  ;; TODO: this doesn't quite work, but it would be nice.
+  ;; (defun company-preview-if-not-tng-frontend (command)
+  ;;   "`company-preview-frontend', but not when tng is active."
+  ;;   (unless (and (eq command 'post-command)
+  ;;                company-selection-changed
+  ;;                (memq 'company-tng-frontend company-frontends))
+  ;;     (company-preview-frontend command)))
+  ;; (setq company-frontends '(company-tng-frontend
+  ;;                           company-preview-if-not-tng-frontend
+  ;;                           company-pseudo-tooltip-frontend
+  ;;                           company-echo-metadata-frontend))
   :straight t)
 
 (use-package company-restclient
@@ -830,32 +846,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-company
   :load-path "~/.emacs.d/xen/"
-  :after (company php-mode)
-  ;; Enforce loading when company and php-mode has loaded, else the
-  ;; :bind will defer loading until
-  ;; xen-company-complete-common-or-selection is needed which means
-  ;; that the unbinds in :config wont be run until then.
-  :demand t
-  :bind (:map company-active-map
-              ;; company-complete-common is annying as it only completes
-              ;; the common part, company-complete-selection always
-              ;; selects the first option and company-complete requires
-              ;; double tabs all the times.
-              ;; This completes the common part or selects the first (or selected) option.
-              ("TAB" . xen-company-complete-common-or-selection)
-              ("<tab>" . xen-company-complete-common-or-selection))
-  :config
-  ;; Remove enter key-binding, it messes with normal typing.
-  (unbind-key "RET" company-active-map)
-  (unbind-key "<return>" company-active-map)
-  ;; Define a local map that's only active when selection has changed,
-  ;; and bind return to the action we unbound it from in the normal
-  ;; keymap. This means we can use return to select the chosen item,
-  ;; but it wont mess with normal typing.
-  (defvar xen-company-explicit-map (make-sparse-keymap))
-  (bind-key "RET" 'company-complete-selection xen-company-explicit-map)
-  (add-to-list 'minor-mode-map-alist (cons 'company-selection-changed
-                                           xen-company-explicit-map)))
+  :after (company php-mode))
 
 (use-package xen-flycheck
   :load-path "~/.emacs.d/xen/"
