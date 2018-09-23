@@ -39,7 +39,9 @@
    (quote
     (company-pseudo-tooltip-unless-just-one-frontend-with-delay company-echo-metadata-frontend company-preview-frontend)))
  '(company-idle-delay 0)
+ '(company-minimum-prefix-length 2)
  '(company-require-match nil)
+ '(company-search-regexp-function (quote company-search-words-in-any-order-regexp))
  '(company-show-numbers nil)
  '(company-tooltip-flip-when-above nil)
  '(company-tooltip-idle-delay 0)
