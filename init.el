@@ -176,9 +176,16 @@
   ;; Redefine tab to insert common prefix first.
   (define-key company-active-map [tab] 'company-complete-common-or-cycle)
   (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+
+  ;; Use return to select in search mode (muscle memory is too used to
+  ;; telling isearch that I'm done with return).
+  (define-key company-search-map [return] 'company-complete-selection)
+  (define-key company-search-map (kbd "RET") 'company-complete-selection)
+
   ;; Swap search and filter shortcuts.
   (define-key company-active-map "\C-s" 'company-filter-candidates)
   (define-key company-active-map "\C-\M-s" 'company-search-candidates)
+
   ;; TODO: this doesn't quite work, but it would be nice.
   ;; (defun company-preview-if-not-tng-frontend (command)
   ;;   "`company-preview-frontend', but not when tng is active."
