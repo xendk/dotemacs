@@ -53,6 +53,18 @@ COMMAND, ARG and IGNORED is the arguments passed by company."
     (ignore-case company-dabbrev-code-ignore-case)
     (duplicates t)))
 
+(defun xen-company-sort (candidates)
+  "Sort CANDIDATES so if the first match prefix, it'll be moved to the end."
+  (when (equal (car candidates) (company-call-backend 'prefix))
+    (setq candidates (cdr candidates))
+    (nconc candidates (list (company-call-backend 'prefix))))
+  candidates)
+
+(defun xen-company-filter (candidates)
+  "Remove the first string from CANDIDATES if it match prefix."
+  (when (equal (car candidates) (company-call-backend 'prefix))
+    (setq candidates (cdr candidates)))
+  candidates)
 
 (provide 'xen-company)
 ;;; xen-company.el ends here

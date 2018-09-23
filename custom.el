@@ -47,7 +47,7 @@
  '(company-tooltip-idle-delay 0)
  '(company-tooltip-limit 30)
  '(company-tooltip-minimum 20)
- '(company-transformers (quote (company-sort-by-occurrence)))
+ '(company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
  '(css-indent-offset 2)
  '(custom-safe-themes
    (quote
