@@ -856,7 +856,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-company
   :load-path "~/.emacs.d/xen/"
-  :after (company php-mode))
+  :after (company))
 
 (use-package xen-flycheck
   :load-path "~/.emacs.d/xen/"
