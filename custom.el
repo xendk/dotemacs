@@ -30,8 +30,9 @@
  '(company-auto-complete nil)
  '(company-backends
    (quote
-    ((php-extras-company company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
-     company-elisp company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf
+    (company-elisp
+     (php-extras-company company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
+     company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf
      (company-dabbrev-code-xen company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
  '(company-dabbrev-code-everywhere nil)
