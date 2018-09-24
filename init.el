@@ -166,10 +166,11 @@
   :commands global-company-mode
   :delight
   ;; Global mode, can't really be deferred, but delay it until
-  ;; php-extras has had a chance to define it's completer.
-  :after php-extras
+  ;; php-extras and xen-company has had a chance to define their
+  ;; completers and functions.
+  :after (php-extras xen-company)
   :defines company-semantic-modes
-  :init
+  :config
   (global-company-mode)
   ;; Use the TAB only frontend.
   (company-tng-configure-default)
@@ -855,8 +856,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ("C-c x" . xen-map)))
 
 (use-package xen-company
-  :load-path "~/.emacs.d/xen/"
-  :after (company))
+  :load-path "~/.emacs.d/xen/")
 
 (use-package xen-flycheck
   :load-path "~/.emacs.d/xen/"
