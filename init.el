@@ -178,6 +178,10 @@
   (define-key company-active-map [tab] 'company-complete-common-or-cycle)
   (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
 
+  ;; Don't mess with up and down.
+  (define-key company-active-map (kbd "<down>") nil)
+  (define-key company-active-map (kbd "<up>") nil)
+
   ;; Use return to select in search mode (muscle memory is too used to
   ;; telling isearch that I'm done with return).
   (define-key company-search-map [return] 'company-complete-selection)
