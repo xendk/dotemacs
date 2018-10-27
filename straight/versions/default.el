@@ -71,6 +71,7 @@
  ("restclient.el" . "859d944796ce298b5779d9d256bd8d271d57e221")
  ("rjsx-mode" . "68fe4c0e0277220e04f420e1968b9d251b4b75d1")
  ("s.el" . "03410e6a7a2b11e47e1fea3b7d9899c7df26435e")
+ ("selected.el" . "03edaeac90bc6000d263f03be3d889b4685e1bf7")
  ("smartparens" . "14a4d62b18da022bb7a4db4584dd82cda6d2f779")
  ("smex" . "55aaebe3d793c2c990b39a302eb26c184281c42c")
  ("straight.el" . "c80e48e90b945a7392c9ca471f160dbe4cbf7167")

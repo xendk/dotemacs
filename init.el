@@ -714,6 +714,22 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package saveplace
   :init (save-place-mode))
 
+(use-package selected
+  :demand
+  :commands (selected-minor-mode selected-global-mode)
+  :bind (:map selected-keymap
+              (";" . comment-or-uncomment-region)
+              ("?" . count-words-region)
+              ("a" . ag)
+              ("m" . apply-macro-to-region-lines)
+              ("q" . selected-off)
+              ("r" . delete-region)
+              ("s" . sort-lines)
+              ("u" . delete-duplicate-lines)
+              ("w" . kill-ring-save))
+  :config (selected-global-mode)
+  :straight t)
+
 ;; Figure this one out.
 ;; (use-package semantic-php
 ;;   :commands semantic-mode
