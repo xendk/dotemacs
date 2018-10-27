@@ -215,7 +215,7 @@
 (use-package cov
   :hook ((emacs-lisp-mode . cov-mode)
          (php-mode . cov-mode))
-  :straight (:host github :repo "xendk/cov" :branch "undercover-support"))
+  :straight t)
 
 (use-package dashboard
   :commands dashboard-setup-startup-hook
