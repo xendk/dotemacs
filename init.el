@@ -567,6 +567,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ;; just make them global.
          ("C-c g d" . magit-dispatch-popup)
          ("C-c g f" . magit-file-popup))
+  :hook (git-commit-setup . xen-git-commit-setup)
   :config
   ;; Let's remove these extremely difficult key combinations. We've
   ;; bound the functions above.

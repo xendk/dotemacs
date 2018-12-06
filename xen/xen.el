@@ -294,5 +294,21 @@ See also `cycle-spacing'."
     (interactive "*p")
     (cycle-spacing n nil 'fast))
 
+(defun xen-git-commit-setup ()
+  "Insert Jira issue number in commit message if branch name contain one."
+  (let ((ISSUEKEY "[[:alpha:][:digit:]]+-[[:digit:]]+"))
+    (when (and (magit-get-current-branch)
+               (string-match-p ISSUEKEY (magit-get-current-branch))
+               (looking-at-p "\n\n#"))
+      (insert
+       (concat
+        "\n\nSee "
+        (upcase (replace-regexp-in-string
+                 (concat ".*?\\(" ISSUEKEY "\\).*")
+                 "\\1"
+                 (magit-get-current-branch)))))
+      (push-mark)
+      (goto-char (point-min)))))
+
 (provide 'xen)
 ;;; xen.el ends here
