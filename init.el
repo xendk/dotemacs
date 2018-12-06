@@ -723,8 +723,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :bind (:map selected-keymap
               (";" . comment-or-uncomment-region)
               ("?" . count-words-region)
-              ("a" . ag)
+              ("A" . ag)
+              ("a" . xen-counsel-ag)
               ("m" . apply-macro-to-region-lines)
+              ("m" . mc/edit-lines)
               ("q" . selected-off)
               ("r" . delete-region)
               ("s" . sort-lines)
@@ -898,6 +900,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-swiper
   :load-path "~/.emacs.d/xen/"
+  :commands xen-counsel-ag
   :after (ivy)
   :bind (("C-<tab>" . xen-swiper)
          :map isearch-mode-map
