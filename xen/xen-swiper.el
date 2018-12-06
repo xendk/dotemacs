@@ -46,7 +46,6 @@
                    isearch-string
                  (regexp-quote isearch-string))))
     (isearch-exit)
-    (message query)
     (swiper query)))
 
 (defun xen-counsel-ag ()
