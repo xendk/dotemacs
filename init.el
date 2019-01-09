@@ -70,6 +70,10 @@
 ;; Take out it's mate for consistency.
 (unbind-key "M-v")
 
+;; I'm fat-fingering this when changing buffers some times. Having to
+;; delete the window is annoying.
+(unbind-key "C-x C-b")
+
 ;; Horizontal scrolling on trackpad produces these, which makes Emacs
 ;; print warnings about undefined keys. I don't want to do anything on
 ;; horizontal scroll.
