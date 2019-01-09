@@ -74,7 +74,7 @@
  ("selected.el" . "03edaeac90bc6000d263f03be3d889b4685e1bf7")
  ("smartparens" . "5afb18fe4eec988e8cecb66f20ba4f79500c1a74")
  ("smex" . "55aaebe3d793c2c990b39a302eb26c184281c42c")
- ("straight.el" . "3162136026660f3c9ab9e96a3a81b2a99f2612c0")
+ ("straight.el" . "093154e96ff4bbf00ab487234225e8391d533934")
  ("string-inflection" . "e9a50855a4c718592c28a5a892f164ecf46e39a8")
  ("swiper" . "c3692982ac03d3e463da9a0d416fc0b3e284b70e")
  ("systemd-mode" . "401d71c2dd24e424216ae5e4275c830f2a9c6b0c")
