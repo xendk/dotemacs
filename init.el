@@ -357,8 +357,11 @@
   :delight)
 
 (use-package flyspell-correct-ivy
+  ;; flyspell seems to overwrite its map when loaded, so defer to
+  ;; after it's loaded.
+  :after flyspell
   :bind (:map flyspell-mode-map
-              ("C-;" . flyspell-correct-previous-word-generic))
+              ("C-;" . flyspell-correct-wrapper))
   :straight t)
 
 ;; http://www.emacswiki.org/emacs/FrameMove
