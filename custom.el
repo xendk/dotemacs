@@ -98,6 +98,10 @@
  '(keyfreq-mode t)
  '(line-move-visual nil)
  '(load-prefer-newer t)
+ '(lsp-clients-php-server-command
+   (quote
+    ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
+ '(lsp-log-max 1000)
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(magit-fetch-arguments (quote ("--prune")))
@@ -249,6 +253,7 @@
  '(flymake-errline ((t (:background "#4b0000"))))
  '(flymake-warnline ((t (:background "#4b1500"))))
  '(hl-line ((t (:background "#222"))))
+ '(lsp-ui-sideline-global ((t (:background "dim gray"))))
  '(magit-diff-add ((t (:foreground "light green"))))
  '(magit-diff-del ((t (:foreground "tomato"))))
  '(magit-item-highlight ((t (:background "#111"))))
