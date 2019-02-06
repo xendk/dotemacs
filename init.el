@@ -441,9 +441,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              hydra--call-interactively-remap-maybe
              hydra-show-hint
              hydra-set-transient-map)
-  ;; TODO: use :config and :bind.
+
+  ;; Bind to prefix key, so the hint is shown immediately.
   :bind (("C-c w" . hydra-window/body)
-         ("M-c" . hydra-case/body))
+         ("M-c" . hydra-case/body)
+         ("C-z" . hydra-selection/body)
+         ("C-)" . hydra-selection/body))
+  ;; check out use-package-hydra
   :config
   (defhydra hydra-window (global-map "C-c w" :color pink)
     "window"
@@ -457,8 +461,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("j" shrink-window-horizontally "widen")
     ("l" enlarge-window-horizontally "slim")
     ("k" shrink-window "shrink")
-    ("q" nil "cancel"))
-  ;; Bind to prefix key, so the hint is shown immediately.
+    ("q" nil "exit"))
 
   (defhydra hydra-case (global-map "M-c")
     "case"
@@ -470,6 +473,27 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("a" string-inflection-lower-camelcase "lowerCamel")
     ("m" string-inflection-camelcase "UpperCamel")
     ("k" string-inflection-kebab-case "kebab-case")
+    )
+
+  (defvar hydra-selection-cookie nil
+    "Face remap cookie for hydra-selection/body")
+  (defhydra hydra-selection (global-map "C-z" :color blue
+                                        :pre (unless hydra-selection-cookie
+                                               (setq hydra-selection-cookie (face-remap-add-relative 'region :background "#48A")))
+                                        :post (when hydra-selection-cookie
+                                                (face-remap-remove-relative hydra-selection-cookie)
+                                                (setq hydra-selection-cookie nil)))
+    "selection"
+    (";" comment-or-uncomment-region "Comment")
+    ("?" count-words-region "Counts")
+    ("A" ag "ag")
+    ("a" xen-counsel-ag "counsel-ag")
+    ("m" apply-macro-to-region-lines "Apply macro")
+    ("m" mc/edit-lines "MC edit lines")
+    ("q" nil "cancel")
+    ("s" sort-lines "Sort")
+    ("u" delete-duplicate-lines "De-dupe")
+    ("w" kill-ring-save "Kill")
     )
   :straight t)
 
@@ -739,24 +763,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Built in, but we need to activate it.
 (use-package saveplace
   :init (save-place-mode))
-
-(use-package selected
-  :demand
-  :commands (selected-minor-mode selected-global-mode)
-  :bind (:map selected-keymap
-              (";" . comment-or-uncomment-region)
-              ("?" . count-words-region)
-              ("A" . ag)
-              ("a" . xen-counsel-ag)
-              ("m" . apply-macro-to-region-lines)
-              ("m" . mc/edit-lines)
-              ("q" . selected-off)
-              ("r" . delete-region)
-              ("s" . sort-lines)
-              ("u" . delete-duplicate-lines)
-              ("w" . kill-ring-save))
-  :config (selected-global-mode)
-  :straight t)
 
 ;; Figure this one out.
 ;; (use-package semantic-php
