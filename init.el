@@ -534,13 +534,44 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package lsp-mode
   :commands lsp
+  ;; Can't add to company-backends before company has been loaded.
+  :after company
+  :init
+  ;; Customize is somewhat broken for for me for lsp, so in the
+  ;; meantime:
+  (setq lsp-auto-configure nil)
   :hook ((lsp-mode . lsp-ui-mode)
+         (lsp-mode . (lambda ()
+                       (lsp-ui-flycheck-enable t)
+                       ;; Not currently using imenu, but enable the
+                       ;; support anyway.
+                       (lsp-enable-imenu)
+                       ;; Add lsp to backends rather than replacing
+                       ;; it, so the existing completers will get a
+                       ;; chance when lsp doesn't have any
+                       ;; suggestions.
+                       (add-to-list 'company-backends 'company-lsp)))
          ;; prog-mode?
          (php-mode . lsp))
+  :config
+  ;; This also depends on lsp-auto-configure, so we load them here.
+  (when lsp-auto-require-clients
+    (require 'lsp-clients))
+  (require 'lsp-ui-flycheck)
   :straight t)
 
+;; (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
+;; lsp-ui-sideline-mode
 (use-package lsp-ui
-  :commands lsp-ui-mode
+  :commands (lsp-ui-mode lsp-ui-sideline-mode)
+  :config
+  ;; Add phpcs as next-checker after lsp, so we get our PSR/Drupal
+  ;; style checkers back.
+  (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
+  ;; Use sideline mode in all flycheck buffers. Better than displaying
+  ;; in mini-buffer or flycheck-inline.
+  :hook (flycheck-mode . lsp-ui-sideline-mode)
+
   :straight t)
 
 (use-package company-lsp

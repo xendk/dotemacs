@@ -40,10 +40,12 @@
    (quote
     (company-pseudo-tooltip-unless-just-one-frontend-with-delay company-echo-metadata-frontend company-preview-frontend)))
  '(company-idle-delay 0)
+ '(company-lsp-cache-candidates t nil nil "Work around php-language-server not filtering and sorting hints. See https://github.com/tigersoldier/company-lsp/issues/79")
  '(company-minimum-prefix-length 2)
  '(company-require-match nil)
  '(company-search-regexp-function (quote company-search-words-in-any-order-regexp))
  '(company-show-numbers nil)
+ '(company-tooltip-align-annotations t)
  '(company-tooltip-flip-when-above nil)
  '(company-tooltip-idle-delay 0)
  '(company-tooltip-limit 30)
@@ -102,6 +104,7 @@
    (quote
     ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
  '(lsp-log-max 1000)
+ '(lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(magit-fetch-arguments (quote ("--prune")))
