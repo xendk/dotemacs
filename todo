@@ -1,10 +1,6 @@
 - no syntax check in js/json buffers? because I haven't installed node.js.
 - paired delete for multichar pairs?
 - multi-mode and indentinator (can we make indentinator stop when the mode changes?)
-- company and indentinator
-  these might help:
-  https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
-  https://github.com/alpaker/Fill-Column-Indicator/issues/54
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
 - remap mouse wheel to send cursor up/down rather than scroll window in term-mode
 - options in xen-projectile-switch-to-shell to open new shell
@@ -15,13 +11,16 @@
 - https://github.com/emacs-php/phpactor.el
 - set phpcs standard automatically for spec files
 - set a mark when deleting pair so C-SPC, C-x C-x will mark the just unwrapped region
-https://superuser.com/questions/319545/changing-the-default-emacs-terminal-escape-character
-- Inline flycheck messages: https://github.com/flycheck/flycheck-inline/
+- https://superuser.com/questions/319545/changing-the-default-emacs-terminal-escape-character
 - Indium for JS https://github.com/NicolasPetton/Indium/
 - Counsel tramp https://github.com/masasam/emacs-counsel-tramp/
 - Ivy xref (look into xref) https://github.com/alexmurray/ivy-xref
 - https://github.com/clemera/objed and https://www.with-emacs.com/posts/objed/incremental-construction-of-command-chains-to-replace-text/
 - delete on first [ in $['body']['value'] deletes $?
+- https://github.com/sebastiencs/company-box
+- https://github.com/alexmurray/dot_emacs.d/blob/master/init.el
+- doom-modeline
+- auto-fill-comments?
 
 multi-mode and indentinator test:
 <?php print $fields['field_ding_faq_list_image']->content; ?>
