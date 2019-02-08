@@ -4,8 +4,9 @@
 ;; My Emacs init.el.
 
 ;;; Code:
-;; Set background color to avoid flashing when doom-theme gets
-;; activated.
+;; Set foreground and background color to avoid flashing when
+;; doom-theme gets activated.
+(set-face-foreground 'default "#bbc2cf")
 (set-face-background 'default "#21242b")
 
 ;; Start server if not already running.
