@@ -101,7 +101,6 @@
 ;; go-mode
 ;; list-processes+
 ;; multi-line
-;; rainbow-mode
 
 
 ;; Make sure that delight is available as soon as any package triggers it.
@@ -746,6 +745,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                             '((:eval (if (projectile-project-p)
                                          (concat " [" (projectile-project-name) "]")
                                        "")))))))
+  :straight t)
+
+(use-package rainbow-mode
   :straight t)
 
 (use-package rjsx-mode
