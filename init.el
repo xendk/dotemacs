@@ -376,6 +376,19 @@
 (use-package flycheck-color-mode-line
   :commands flycheck-color-mode-line-mode
   :hook (flycheck-mode . flycheck-color-mode-line-mode)
+  :config
+  (eval-after-load "doom-themes"
+    '(progn
+       (set-face-attribute 'flycheck-color-mode-line-error-face nil :inherit nil
+                           :background (doom-darken 'error .60))
+       (set-face-attribute 'flycheck-color-mode-line-warning-face nil :inherit nil
+                           :background (doom-darken 'warning .70))
+       (set-face-attribute 'flycheck-color-mode-line-info-face nil :inherit nil
+                           :background (doom-darken 'blue .75))
+       (set-face-attribute 'flycheck-color-mode-line-running-face nil :inherit nil
+                           :background (doom-darken 'cyan .70))
+       (set-face-attribute 'flycheck-color-mode-line-success-face nil
+                           :background (doom-darken 'success .75))))
   :straight t)
 
 (use-package flycheck-package
