@@ -531,15 +531,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
                                                 (setq hydra-selection-cookie nil)))
     "selection"
     (";" comment-or-uncomment-region "Comment")
+    ("<return>" mc/edit-lines "MC edit lines")
     ("?" count-words-region "Counts")
     ("A" ag "ag")
     ("a" xen-counsel-ag "counsel-ag")
     ("m" apply-macro-to-region-lines "Apply macro")
-    ("m" mc/edit-lines "MC edit lines")
     ("q" nil "cancel")
     ("s" sort-lines "Sort")
     ("u" delete-duplicate-lines "De-dupe")
-    ("w" kill-ring-save "Kill")
     )
   :straight t)
 
