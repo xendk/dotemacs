@@ -130,6 +130,8 @@
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
+  :init
+  (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
   :straight t)
 
 (use-package all-the-icons
