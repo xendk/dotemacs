@@ -4,6 +4,9 @@
 ;; My Emacs init.el.
 
 ;;; Code:
+;; Set background color to avoid flashing when doom-theme gets
+;; activated.
+(set-face-background 'default "#21242b")
 
 ;; Start server if not already running.
 (require 'server)
@@ -102,6 +105,34 @@
 ;; list-processes+
 ;; multi-line
 
+;; Load doom-themes and doom-modeline first so we wont end up in
+;; default colors in case of error later.
+(use-package doom-themes
+  :config
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+  ;; may have their own settings.
+  (load-theme 'doom-one t)
+
+  ;; Set font.
+  (set-face-attribute 'default nil :height 110 :width
+                      'semi-condensed :foundry "FBI " :family "Input")
+  ;; Make comments starker colors.
+  (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
+  (set-face-foreground 'font-lock-doc-face (doom-lighten 'cyan .25))
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  :straight t)
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :straight t)
+
+(use-package all-the-icons
+  :straight t)
 
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
@@ -815,6 +846,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package smex
   ;; autoload when needed.
   :defer
+  :straight t)
+
+(use-package solaire-mode
+  :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+         (minibuffer-setup . solaire-mode-in-minibuffer))
+  :config
+  (solaire-mode-swap-bg)
   :straight t)
 
 (use-package string-inflection
