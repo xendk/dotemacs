@@ -523,12 +523,15 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
   (defvar hydra-selection-cookie nil
     "Face remap cookie for hydra-selection/body")
-  (defhydra hydra-selection (global-map "C-z" :color blue
-                                        :pre (unless hydra-selection-cookie
-                                               (setq hydra-selection-cookie (face-remap-add-relative 'region :background "#48A")))
-                                        :post (when hydra-selection-cookie
-                                                (face-remap-remove-relative hydra-selection-cookie)
-                                                (setq hydra-selection-cookie nil)))
+  (defhydra hydra-selection
+    (global-map "C-z" :color blue
+                :pre (unless hydra-selection-cookie
+                       (setq
+                        hydra-selection-cookie (face-remap-add-relative
+                                                'region :background "#48A")))
+                :post (when hydra-selection-cookie
+                        (face-remap-remove-relative hydra-selection-cookie)
+                        (setq hydra-selection-cookie nil)))
     "selection"
     (";" comment-or-uncomment-region "Comment")
     ("<return>" mc/edit-lines "MC edit lines")
