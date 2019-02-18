@@ -132,6 +132,41 @@
   :hook (after-init . doom-modeline-mode)
   :init
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
+  ;; Define a custom mode-line segment.
+  (doom-modeline-def-segment buffer-info-simple-icon
+    "As `buffer-info', but without state icon."
+    (let ((active (doom-modeline--active)))
+      (concat
+       " "
+
+       ;; major mode icon
+       (when (and doom-modeline-icon doom-modeline-major-mode-icon)
+         (when-let ((icon (or doom-modeline--buffer-file-icon
+                              (doom-modeline-update-buffer-file-icon))))
+           (concat
+            (if (and active doom-modeline-major-mode-color-icon)
+                icon
+              (propertize icon
+                          'face `(:height
+                                  ,(doom-modeline-icon-height 1.1)
+                                  :family
+                                  ,(all-the-icons-icon-family icon)
+                                  :inherit)))
+            doom-modeline-vspc)))
+
+       ;; buffer file name
+       (when-let ((name (or doom-modeline--buffer-file-name
+                            (doom-modeline-update-buffer-file-name))))
+         (if active
+             name
+           (propertize name 'face 'mode-line-inactive))))))
+  ;; As 'minimal, but without buffer state icon.
+  (doom-modeline-def-modeline 'xen-minimal
+    '(bar matches " " buffer-info-simple-icon)
+    '(media-info major-mode " "))
+  ;; Use 'xen-minimal in term buffes.
+  :hook (term-mode . (lambda ()
+                       (doom-modeline-set-modeline 'xen-minimal)))
   :straight t)
 
 (use-package all-the-icons
