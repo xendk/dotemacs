@@ -232,6 +232,11 @@
   :commands column-enforce-mode
   :delight
   :hook drupal-mode
+  :config
+  (eval-after-load "doom-themes"
+    (set-face-attribute 'column-enforce-face nil :inherit nil
+                        :underline nil
+                        :background (doom-darken 'warning .65)))
   :straight t)
 
 (use-package company
