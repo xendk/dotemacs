@@ -132,6 +132,7 @@
   :hook (after-init . doom-modeline-mode)
   :init
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
+  :config
   ;; Define a custom mode-line segment.
   (doom-modeline-def-segment buffer-info-simple-icon
     "As `buffer-info', but without state icon."
