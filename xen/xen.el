@@ -302,7 +302,7 @@ See also `cycle-spacing'."
                (looking-at-p "\n\n#"))
       (insert
        (concat
-        "\n\nSee "
+        "\n\nRef "
         (upcase (replace-regexp-in-string
                  (concat ".*?\\(" ISSUEKEY "\\).*")
                  "\\1"
