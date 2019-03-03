@@ -926,6 +926,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ;; Get paste working in (multi-)term-mode.
               ("C-y" . term-paste)))
 
+;; Use terraform-mode for Github Actions workflow files.
+(use-package terraform-mode
+  :mode "\\.workflow\\'"
+  :straight t)
+
 (use-package twig-mode
   :defer t
   :straight t)
