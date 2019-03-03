@@ -455,6 +455,10 @@
               ("C-;" . flyspell-correct-wrapper))
   :straight t)
 
+(use-package forge
+  :after magit
+  :straight t)
+
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
   :config (setq framemove-hook-into-windmove t)
