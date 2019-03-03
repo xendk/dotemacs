@@ -295,6 +295,10 @@
          (php-mode . cov-mode))
   :straight t)
 
+(use-package dap-mode
+  :commands (dap-mode dap-ui-mode)
+  :straight t)
+
 (use-package dashboard
   :commands dashboard-setup-startup-hook
   :demand

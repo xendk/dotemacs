@@ -56,6 +56,9 @@
  '(custom-safe-themes
    (quote
     ("312d406efad37131050256bbfdfa0054b348b861a7ef40811afb4cc94e8eb2f9" "9e5dd5a4bacdbddcb30286e06638975a4f4e850b3e02957d55afce607360c1d0" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(dap-php-debug-program
+   (quote
+    ("node" "/home/xen/.emacs.d/vscode-php-debug/out/phpDebug.js")))
  '(delete-selection-mode t nil (delsel))
  '(desktop-files-not-to-save "^/none[^/:]*:")
  '(desktop-restore-eager 3)
