@@ -24,6 +24,7 @@ games
 ; Straight package manager.
 straight/repos
 straight/build
+straight/modified
 straight/bootstrap.el
 straight/build-cache.el
 ; Magithubs cache.
@@ -32,3 +33,5 @@ magithub
 undo-history
 ; Smex
 smex-items
+; Transient stuff
+transient

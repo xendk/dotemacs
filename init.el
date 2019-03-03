@@ -670,7 +670,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;; This also depends on lsp-auto-configure, so we load them here.
   (when lsp-auto-require-clients
     (require 'lsp-clients))
-  (require 'lsp-ui-flycheck)
   :straight t)
 
 ;; (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
@@ -683,6 +682,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
   ;; Use sideline mode in all flycheck buffers. Better than displaying
   ;; in mini-buffer or flycheck-inline.
+  (require 'lsp-ui-flycheck)
   :hook (flycheck-mode . lsp-ui-sideline-mode)
 
   :straight t)
@@ -692,7 +692,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package magit
-  :commands magit-define-popup-switch
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
@@ -700,8 +699,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ;; This should really be in magit-file-mode-map, but as we've
          ;; turned C-g g into a prefix map above, that wont work. So
          ;; just make them global.
-         ("C-c g d" . magit-dispatch-popup)
-         ("C-c g f" . magit-file-popup))
+         ("C-c g d" . magit-dispatch)
+         ("C-c g f" . magit-file-dispatch))
   :hook (git-commit-setup . xen-git-commit-setup)
   :config
   ;; Let's remove these extremely difficult key combinations. We've
@@ -709,8 +708,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   (unbind-key "\C-x\M-g" magit-file-mode-map)
   (unbind-key "\C-c\M-g" magit-file-mode-map)
   ;; Add --follow-tags options to the push popup.
-  (magit-define-popup-switch 'magit-push-popup
-    ?t "Follow tags" "--follow-tags")
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
