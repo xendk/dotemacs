@@ -225,6 +225,7 @@
  '(use-package-verbose t)
  '(user-mail-address "xen@xen.dk")
  '(vcl-indent-level 2)
+ '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t)
  '(yas-choose-keys-first nil)
  '(yas-choose-tables-first t)

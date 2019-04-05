@@ -962,6 +962,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands watch-buffer
   :straight t)
 
+(use-package visual-fill-column
+  :commands visual-fill-column-mode
+  :straight t)
+
 (use-package visual-regexp
   :bind (("C-c r" . vr/replace)
          ("C-c q" . vr/query-replace)
