@@ -452,7 +452,7 @@
   ;; after it's loaded.
   :after flyspell
   :bind (:map flyspell-mode-map
-              ("C-;" . flyspell-correct-wrapper))
+              ("C-$" . flyspell-correct-wrapper))
   :straight t)
 
 (use-package forge
