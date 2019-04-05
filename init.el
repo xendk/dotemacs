@@ -820,6 +820,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package php-mode
   :commands php-mode
+  :config
+  (require 'dap-php)
   :straight t)
 
 (use-package php-extras
