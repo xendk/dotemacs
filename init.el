@@ -973,7 +973,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-g" . undo-tree-visualizer-abort)
               ("q" . undo-tree-visualizer-abort))
   ;; Pull package directly from maintainer, the elpa package is behind.
-  :straight (undo-tree :type git :host nil :repo "http://www.dr-qubit.org/git/undo-tree.git"))
+  :straight (:type git :host nil :repo "http://www.dr-qubit.org/git/undo-tree.git"))
 
 (use-package vcl-mode
   :commands vcl-mode
