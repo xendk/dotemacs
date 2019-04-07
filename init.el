@@ -110,13 +110,13 @@
 ;; default colors in case of error later.
 (use-package doom-themes
   :config
-  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
-  ;; may have their own settings.
+  ;; Load the theme
   (load-theme 'doom-one t)
 
   ;; Set font.
   (set-face-attribute 'default nil :height 110 :width
                       'semi-condensed :foundry "FBI " :family "Input")
+  
   ;; Make comments starker colors.
   (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
   (set-face-foreground 'font-lock-doc-face (doom-lighten 'cyan .25))
@@ -139,8 +139,7 @@
     (let ((active (doom-modeline--active)))
       (concat
        " "
-
-       ;; major mode icon
+       ;; Major mode icon.
        (when (and doom-modeline-icon doom-modeline-major-mode-icon)
          (when-let ((icon (or doom-modeline--buffer-file-icon
                               (doom-modeline-update-buffer-file-icon))))
@@ -155,7 +154,7 @@
                                   :inherit)))
             doom-modeline-vspc)))
 
-       ;; buffer file name
+       ;; Buffer file name.
        (when-let ((name (or doom-modeline--buffer-file-name
                             (doom-modeline-update-buffer-file-name))))
          (if active
@@ -193,16 +192,17 @@
 
 (use-package avy
   ;; Override minor mode binding for these.
-  :bind* (
-          ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
-          ;; use-package xen.
-          ("M-u" . avy-goto-char-in-line)
-          ("M-U" . avy-goto-char))
+  :bind*
+  ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
+  ;; use-package xen.
+  ("M-u" . avy-goto-char-in-line)
+  ("M-U" . avy-goto-char)
   :straight t)
 
 (use-package avy-zap
-  :bind (("M-z" . avy-zap-to-char-dwim)
-         ("M-Z" . avy-zap-up-to-char-dwim))
+  :bind
+  ("M-z" . avy-zap-to-char-dwim)
+  ("M-Z" . avy-zap-up-to-char-dwim)
   :straight t)
 
 ;; Used by magit, we'll delight it.
@@ -214,7 +214,8 @@
   ;; Duplicate the effect of the advice that
   ;; browse-kill-ring-default-keybindings creates with a function.
   ;; This allows us to autoload on demand.
-  :bind ("M-y" . (lambda (arg)
+  :bind
+  ("M-y" . (lambda (arg)
                    (interactive "p")
                    (if (not (eq last-command 'yank))
                        (browse-kill-ring)
@@ -291,8 +292,9 @@
   :straight t)
 
 (use-package cov
-  :hook ((emacs-lisp-mode . cov-mode)
-         (php-mode . cov-mode))
+  :hook
+  (emacs-lisp-mode . cov-mode)
+  (php-mode . cov-mode)
   :straight t)
 
 (use-package dap-mode
@@ -389,11 +391,13 @@
             rol))))
 
 (use-package executor
+  :disabled t
   :bind (:map compilation-mode-map
               ("e" . executor-execute)
               ("f" . executor-visit-file)
               ("b" . executor-select-buffer))
-  :bind-keymap (("C-x C-m" . executor-global-map))
+  :bind-keymap
+  ("C-x C-m" . executor-global-map)
   :hook
   (prog-mode . executor-maybe-enable-mode)
   (text-mode . executor-maybe-enable-mode)
@@ -462,8 +466,9 @@
 
 (use-package flyspell
   :commands flyspell-mode
-  :hook (((gfm-mode yaml-mode) . flyspell-mode)
-         ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode))
+  :hook
+  ((gfm-mode yaml-mode) . flyspell-mode)
+  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
   :delight)
 
 (use-package flyspell-correct-ivy
@@ -505,40 +510,43 @@
   :bind ("C-c h" . harvest)
   ;; Override function to truncate project and client, so the comment
   ;; is visible.
-  :config (defun harvest-format-entry (entry)
-            "Format an ENTRY as a string.
+  :config
+  (defun harvest-format-entry (entry)
+    "Format an ENTRY as a string.
 Format is PROJECT (CLIENT) \n TASK - NOTES"
-            (let ((formatted-string (concat
-                                     (s-truncate 10 (harvest-alist-get '(project) entry))
-                                     " ("
-                                     (s-truncate 10 (harvest-alist-get '(client) entry))
-                                     ")"
-                                     ": "
-                                     (harvest-alist-get '(task) entry)
-                                     " - "
-                                     (harvest-alist-get '(notes) entry)
-                                     "\t["
-                                     (number-to-string (harvest-alist-get '(hours) entry))
-                                     "]"
-                                     )))
-              (if (harvest-alist-get '(timer_started_at) entry)
-                  (propertize formatted-string 'face '(:background "green" :foreground "white"))
-                (propertize formatted-string 'face 'nil))))
+    (let ((formatted-string (concat
+                             (s-truncate 10 (harvest-alist-get '(project) entry))
+                             " ("
+                             (s-truncate 10 (harvest-alist-get '(client) entry))
+                             ")"
+                             ": "
+                             (harvest-alist-get '(task) entry)
+                             " - "
+                             (harvest-alist-get '(notes) entry)
+                             "\t["
+                             (number-to-string (harvest-alist-get '(hours) entry))
+                             "]"
+                             )))
+      (if (harvest-alist-get '(timer_started_at) entry)
+          (propertize formatted-string 'face '(:background "green" :foreground "white"))
+        (propertize formatted-string 'face 'nil))))
   :straight t)
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :delight
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . highlight-symbol-mode)
-  :bind (("M-<left>" . highlight-symbol-prev)
-         ("M-<right>" . highlight-symbol-next))
+  :bind
+  ("M-<left>" . highlight-symbol-prev)
+  ("M-<right>" . highlight-symbol-next)
   :straight t)
 
 (use-package hl-line
   ;; Let xen-term-mode handle hl-line-mode toggling in term buffers.
-  :hook (after-change-major-mode . (lambda ()
-                                     (unless (eq major-mode 'term-mode)
-                                       (hl-line-mode)))))
+  :hook
+  (after-change-major-mode . (lambda ()
+                               (unless (eq major-mode 'term-mode)
+                                 (hl-line-mode)))))
 
 (use-package hungry-delete
   :delight
@@ -631,7 +639,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
              swiper)
   :init
   (ivy-mode 1)
-  ;; Buffer switching with preview.
   :bind (:map ivy-mode-map
               ("M-x" . counsel-M-x)
               ("C-x C-f" . counsel-find-file)
@@ -680,19 +687,20 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;; Customize is somewhat broken for for me for lsp, so in the
   ;; meantime:
   (setq lsp-auto-configure nil)
-  :hook ((lsp-mode . lsp-ui-mode)
-         (lsp-mode . (lambda ()
-                       (lsp-ui-flycheck-enable t)
-                       ;; Not currently using imenu, but enable the
-                       ;; support anyway.
-                       (lsp-enable-imenu)
-                       ;; Add lsp to backends rather than replacing
-                       ;; it, so the existing completers will get a
-                       ;; chance when lsp doesn't have any
-                       ;; suggestions.
-                       (add-to-list 'company-backends 'company-lsp)))
-         ;; prog-mode?
-         (php-mode . lsp))
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  (lsp-mode . (lambda ()
+                (lsp-ui-flycheck-enable t)
+                ;; Not currently using imenu, but enable the
+                ;; support anyway.
+                (lsp-enable-imenu)
+                ;; Add lsp to backends rather than replacing
+                ;; it, so the existing completers will get a
+                ;; chance when lsp doesn't have any
+                ;; suggestions.
+                (add-to-list 'company-backends 'company-lsp)))
+  ;; prog-mode?
+  (php-mode . lsp)
   :config
   ;; This also depends on lsp-auto-configure, so we load them here.
   (when lsp-auto-require-clients
@@ -711,7 +719,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;; in mini-buffer or flycheck-inline.
   (require 'lsp-ui-flycheck)
   :hook (flycheck-mode . lsp-ui-sideline-mode)
-
   :straight t)
 
 (use-package company-lsp
@@ -759,14 +766,16 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package markdown-mode
-  :mode (("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
-         ("\\.md$" . gfm-mode))
-  :hook ((gfm-mode . auto-fill-mode))
+  :mode
+  ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
+  ("\\.md$" . gfm-mode)
+  :hook (gfm-mode . auto-fill-mode)
   :straight t)
 
 (use-package mwim
-  :bind (("C-a" . mwim-beginning)
-         ("C-e" . mwim-end))
+  :bind
+  ("C-a" . mwim-beginning)
+  ("C-e" . mwim-end)
   :straight t)
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
@@ -802,13 +811,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package multiple-cursors
-  :bind (
-         ("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this)
-         ("C-M-m" . mc/mark-more-like-this-extended)
-         ("C-*" . mc/mark-all-like-this)
-         ("C-%" . mc/mark-all-in-region)
-         ("C-=" . mc/mark-all-like-this-dwim))
+  :bind 
+  ("C-<" . mc/mark-previous-like-this)
+  ("C->" . mc/mark-next-like-this)
+  ("C-M-m" . mc/mark-more-like-this-extended)
+  ("C-*" . mc/mark-all-like-this)
+  ("C-%" . mc/mark-all-in-region)
+  ("C-=" . mc/mark-all-like-this-dwim)
   :straight t)
 
 ;; We're using the built in version of org. Upgrading it requires some hackery:
@@ -856,6 +865,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package rainbow-mode
+  :defer t
   :straight t)
 
 (use-package rjsx-mode
@@ -922,12 +932,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package smex
   ;; autoload when needed.
-  :defer
+  :defer t
   :straight t)
 
 (use-package solaire-mode
-  :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-         (minibuffer-setup . solaire-mode-in-minibuffer))
+  :hook
+  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  (minibuffer-setup . solaire-mode-in-minibuffer)
   :config
   (solaire-mode-swap-bg)
   :straight t)
@@ -947,7 +958,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 ;; Built in.
 (use-package term
-  :defer
+  :defer t
   :bind (:map term-raw-map
               ;; Get paste working in (multi-)term-mode.
               ("C-y" . term-paste)))
@@ -989,9 +1000,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package visual-regexp
-  :bind (("C-c r" . vr/replace)
-         ("C-c q" . vr/query-replace)
-         ("C-c m" . vr/mc-mark))
+  :bind
+  ("C-c r" . vr/replace)
+  ("C-c q" . vr/query-replace)
+  ("C-c m" . vr/mc-mark)
   :straight t)
 
 ;; Writable grep buffer.
@@ -1001,15 +1013,17 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (use-package windmove
-  :bind* (("<S-up>" . windmove-up)
-          ("<S-down>" . windmove-down)
-          ("<S-left>" . windmove-left)
-          ("<S-right>" . windmove-right))
+  :bind*
+  ("<S-up>" . windmove-up)
+  ("<S-down>" . windmove-down)
+  ("<S-left>" . windmove-left)
+  ("<S-right>" . windmove-right)
   ;; Make windmove work in org-mode:
-  :hook ((org-shiftup-final  . windmove-up)
-         (org-shiftleft-final  . windmove-left)
-         (org-shiftdown-final  . windmove-down)
-         (org-shiftright-final  . windmove-right)))
+  :hook
+  (org-shiftup-final  . windmove-up)
+  (org-shiftleft-final  . windmove-left)
+  (org-shiftdown-final  . windmove-down)
+  (org-shiftright-final  . windmove-right))
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
 ;; Built in.
@@ -1028,13 +1042,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ;;:functions xen-coding-common-bindings
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
-  :bind (("M-SPC" . xen-cycle-spacing)
-         ("M-l" . xen-avy-goto-line)
-         ("<f12>" . xen-big-fringe-mode)
-         ("C-S-d" . xen-duplicate-current-line)
-         ;; ("C-!" . xen-multi-term-dedicated-toggle-and-select)
-         ("C-S-l" . xen-mark-lines)
-         ("C-c x" . xen-map)))
+  :bind
+  ("M-SPC" . xen-cycle-spacing)
+  ("M-l" . xen-avy-goto-line)
+  ("<f12>" . xen-big-fringe-mode)
+  ("C-S-d" . xen-duplicate-current-line)
+  ;; ("C-!" . xen-multi-term-dedicated-toggle-and-select)
+  ("C-S-l" . xen-mark-lines)
+  ("C-c x" . xen-map))
 
 (use-package xen-company
   :load-path "~/.emacs.d/xen/")
@@ -1062,6 +1077,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          :map isearch-mode-map
          ("C-<tab>" . xen-swiper-from-isearch)
          :map ivy-mode-map
+         ;; Buffer switching with preview.
          ("C-x b" . xen-switch-buffer)))
 
 (use-package xen-term-mode
