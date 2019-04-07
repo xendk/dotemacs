@@ -388,6 +388,25 @@
               (move-overlay rol start end (current-buffer)))
             rol))))
 
+(use-package executor
+  :bind (:map compilation-mode-map
+              ("e" . executor-execute)
+              ("f" . executor-visit-file)
+              ("b" . executor-select-buffer))
+  :bind-keymap (("C-x C-m" . executor-global-map))
+  :hook
+  (prog-mode . executor-maybe-enable-mode)
+  (text-mode . executor-maybe-enable-mode)
+  :config
+  (require 'ansi-color)
+  (defun xen-colorize-compilation ()
+    "Colorize from `compilation-filter-start' to `point'."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region
+       compilation-filter-start (point))))
+  :hook (compilation-filter . xen-colorize-compilation)
+  :straight (:host gitlab :repo "thiderman/executor.el"))
+
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :hook (php-mode . xen-php-mode-expansions)
