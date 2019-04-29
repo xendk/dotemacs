@@ -391,7 +391,6 @@
             rol))))
 
 (use-package executor
-  :disabled t
   :bind (:map compilation-mode-map
               ("e" . executor-execute)
               ("f" . executor-visit-file)
