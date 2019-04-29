@@ -707,8 +707,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     (require 'lsp-clients))
   :straight t)
 
-;; (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
-;; lsp-ui-sideline-mode
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
   :config
