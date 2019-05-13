@@ -35,9 +35,6 @@
      (company-dabbrev-code-xen company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
  '(company-dabbrev-code-everywhere nil)
- '(company-frontends
-   (quote
-    (company-pseudo-tooltip-unless-just-one-frontend-with-delay company-echo-metadata-frontend company-preview-frontend)))
  '(company-idle-delay 0)
  '(company-lsp-cache-candidates t nil nil "Work around php-language-server not filtering and sorting hints. See https://github.com/tigersoldier/company-lsp/issues/79")
  '(company-minimum-prefix-length 2)
