@@ -4,10 +4,28 @@
 ;; My Emacs init.el.
 
 ;;; Code:
-;; Set foreground and background color to avoid flashing when
-;; doom-theme gets activated.
+;; Setup some things that can't wait for customize to load. Set
+;; foreground and background color to avoid flashing when doom-theme
+;; gets activated.
 (set-face-foreground 'default "#bbc2cf")
 (set-face-background 'default "#21242b")
+;; Setting the bright background, as that seems to be the default used
+;; in startup.
+(set-face-background 'default "#282c34")
+;; Set font too.
+(set-face-attribute 'default nil :height 110 :width
+                    'semi-condensed :foundry "FBI " :family "Input")
+;; Disable the mode-line in the initial buffer (whatever that is).
+(setq mode-line-format nil)
+;; Disable tool-bar.
+(tool-bar-mode 0)
+;; Disable scroll-bars.
+(scroll-bar-mode 0)
+;; Disable menu-bar.
+(menu-bar-mode 0)
+;; Make use-package verbose.
+(defvar use-package-verbose)
+(setq use-package-verbose t)
 
 ;; Start server if not already running.
 (require 'server)
@@ -25,7 +43,7 @@
 ;; Loading them first so colors, faces and menu/toolbar/scrollbar is
 ;; removed early.
 (setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file)
+;; (load custom-file)
 
 ;;; Aliases and advices
 ;; I'm grown up, I can manage using y/n for even destructive commands.
@@ -113,10 +131,6 @@
   ;; Load the theme
   (load-theme 'doom-one t)
 
-  ;; Set font.
-  (set-face-attribute 'default nil :height 110 :width
-                      'semi-condensed :foundry "FBI " :family "Input")
-  
   ;; Make comments starker colors.
   (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
   (set-face-foreground 'font-lock-doc-face (doom-lighten 'cyan .25))
@@ -325,9 +339,11 @@
 (use-package drupal-mode
   :defer t
   :config
+  (message "drupal-ignore-paths-regexp: %S" drupal-ignore-paths-regexp)
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight t)
+
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
@@ -1097,6 +1113,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 
+
+(load custom-file)
 
 ;;; Some places for inspiration
 
