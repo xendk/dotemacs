@@ -824,7 +824,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package multiple-cursors
-  :bind 
+  :bind
   ("C-<" . mc/mark-previous-like-this)
   ("C->" . mc/mark-next-like-this)
   ("C-M-m" . mc/mark-more-like-this-extended)
