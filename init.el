@@ -488,7 +488,7 @@
 (use-package flyspell
   :commands flyspell-mode
   :hook
-  ((gfm-mode yaml-mode) . flyspell-mode)
+  ((gfm-mode yaml-mode org-mode) . flyspell-mode)
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
   :delight)
 
