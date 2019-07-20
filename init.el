@@ -96,6 +96,11 @@
 ;; delete the window is annoying.
 (unbind-key "C-x C-b")
 
+;; 99% of the time I want to kill the current buffer.
+(bind-key "C-x k" 'kill-current-buffer)
+;; And often I want to kill the window too.
+(bind-key "C-x K" 'kill-buffer-and-window)
+
 ;; Horizontal scrolling on trackpad produces these, which makes Emacs
 ;; print warnings about undefined keys. I don't want to do anything on
 ;; horizontal scroll.
