@@ -200,10 +200,6 @@
   :defer t
   :straight t)
 
-(use-package atomic-chrome
-  :defer t
-  :straight t)
-
 (use-package avy
   ;; Override minor mode binding for these.
   :bind*
