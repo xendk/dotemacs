@@ -233,4 +233,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cov-heavy-face ((t (:foreground "green"))))
+ '(cov-light-face ((t (:foreground "orange"))))
+ '(cov-none-face ((t (:foreground "red"))))
  '(lsp-ui-sideline-global ((t (:background "#3f444a")))))
