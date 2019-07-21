@@ -381,6 +381,8 @@
   :delight
   (auto-fill-function)
   (abbrev-mode)
+  ;; Alternatives: electric-buffer-list or bs-show.
+  ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
@@ -635,6 +637,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("s" sort-lines "Sort")
     ("u" delete-duplicate-lines "De-dupe")
     )
+  :straight t)
+
+(use-package ibuffer-vc
+  :hook
+  (ibuffer . (lambda ()
+               (ibuffer-vc-set-filter-groups-by-vc-root)
+               (unless (eq ibuffer-sorting-mode 'alphabetic)
+                 (ibuffer-do-sort-by-alphabetic))))
   :straight t)
 
 (use-package indentinator
