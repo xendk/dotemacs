@@ -341,7 +341,6 @@
 (use-package drupal-mode
   :defer t
   :config
-  (message "drupal-ignore-paths-regexp: %S" drupal-ignore-paths-regexp)
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight t)
