@@ -67,10 +67,6 @@
 ;; the straight-register-package.
 (eval-and-compile
   (require 'straight))
-;; Work around seq package disappearing from EmacsMirror. See
-;; https://github.com/raxod502/straight.el/issues/170
-(straight-register-package
- '(seq :repo "https://git.savannah.gnu.org/git/emacs/elpa.git" :files ("packages/seq/*.el")))
 
 ;; Bootstrap `use-package'
 (straight-use-package 'use-package)
