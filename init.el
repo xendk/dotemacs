@@ -509,6 +509,12 @@
 (use-package git-attr
   :straight (:host github :repo "arnested/emacs-git-attr"))
 
+;; TODO: Clean this up if sticking with it.
+(use-package god-mode
+  :config
+  (global-set-key (kbd "<escape>") 'god-mode-all)
+  :straight t)
+
 (use-package google-this
   :commands google-this-mode
   :delight
