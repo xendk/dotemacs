@@ -266,9 +266,25 @@
   :after (php-extras xen-company)
   :defines company-semantic-modes
   :config
-  (global-company-mode)
-  ;; Use the TAB only frontend.
+  ;; Use the TAB only frontend. Configure before enabling the mode, so
+  ;; we'll get the tng frontend in before company-box makes
+  ;; company-frontends buffer local.
   (company-tng-configure-default)
+
+  ;; Define a frontend that displays a preview, but only when tng
+  ;; hasn't made a selection yet. We have to get this in before
+  ;; company-box too.
+  (defun company-preview-if-not-tng-frontend (command)
+    "`company-preview-frontend', but not when tng is active."
+    (unless (and (eq command 'post-command)
+                 company-selection-changed
+                 (memq 'company-tng-frontend company-frontends))
+      (company-preview-frontend command)))
+  (setq company-frontends '(company-tng-frontend
+                            company-preview-if-not-tng-frontend
+                            company-echo-metadata-frontend))
+
+  (global-company-mode)
   ;; Redefine tab to insert common prefix first.
   (define-key company-active-map [tab] 'company-complete-common-or-cycle)
   (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
@@ -285,18 +301,16 @@
   ;; Swap search and filter shortcuts.
   (define-key company-active-map "\C-s" 'company-filter-candidates)
   (define-key company-active-map "\C-\M-s" 'company-search-candidates)
+  :straight t)
 
-  ;; TODO: this doesn't quite work, but it would be nice.
-  ;; (defun company-preview-if-not-tng-frontend (command)
-  ;;   "`company-preview-frontend', but not when tng is active."
-  ;;   (unless (and (eq command 'post-command)
-  ;;                company-selection-changed
-  ;;                (memq 'company-tng-frontend company-frontends))
-  ;;     (company-preview-frontend command)))
-  ;; (setq company-frontends '(company-tng-frontend
-  ;;                           company-preview-if-not-tng-frontend
-  ;;                           company-pseudo-tooltip-frontend
-  ;;                           company-echo-metadata-frontend))
+;; Switched to this frontend because the built-in
+;; company-pseudo-tooltip-frontend had alignment problems with the
+;; company-preview-if-not-tng-frontend. As a nice side effect, it
+;; displays the docstrings (and has icons).
+;; TODO: https://github.com/sebastiencs/company-box/issues/43
+;; and https://github.com/sebastiencs/company-box/issues/12
+(use-package company-box
+  :hook (company-mode . company-box-mode)
   :straight t)
 
 (use-package company-restclient
