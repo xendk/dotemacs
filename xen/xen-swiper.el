@@ -48,10 +48,10 @@
     (isearch-exit)
     (swiper query)))
 
-(defun xen-counsel-ag ()
-  "Invoke `counsel-ag' with contents of regian."
+(defun xen-counsel-rg ()
+  "Invoke `counsel-rg' with contents of regian."
   (interactive)
-  (counsel-ag (buffer-substring-no-properties (region-beginning) (region-end))))
+  (counsel-rg (buffer-substring-no-properties (region-beginning) (region-end))))
 
 (defun xen-switch-buffer ()
   "Switch to another buffer."

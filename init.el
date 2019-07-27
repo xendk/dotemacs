@@ -197,10 +197,6 @@
   :mode "\\.apib$"
   :straight t)
 
-(use-package ag
-  :defer t
-  :straight t)
-
 (use-package avy
   ;; Override minor mode binding for these.
   :bind*
@@ -650,8 +646,8 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     (";" comment-or-uncomment-region "Comment")
     ("<return>" mc/edit-lines "MC edit lines")
     ("?" count-words-region "Counts")
-    ("A" ag "ag")
-    ("a" xen-counsel-ag "counsel-ag")
+    ("d" deadgrep "deadgrep")
+    ("r" xen-counsel-rg "counsel-rg")
     ("m" apply-macro-to-region-lines "Apply macro")
     ("q" nil "cancel")
     ("s" sort-lines "Sort")
@@ -906,10 +902,19 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ("C-c p" . projectile-command-map)
   :init
   (projectile-mode)
+  :config
+  (projectile-register-project-type 'php-laravel '("composer.json" "app" "vendor")
+                                    :compile "./artisan serve"
+                                    :test "./vendor/bin/phpunit "
+                                    :test-dir "tests"
+                                    :test-suffix "Test")
   :straight t)
 
 (use-package rainbow-mode
   :defer t
+  :straight t)
+
+(use-package deadgrep
   :straight t)
 
 (use-package rjsx-mode
@@ -1115,7 +1120,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-swiper
   :load-path "~/.emacs.d/xen/"
-  :commands xen-counsel-ag
+  :commands xen-counsel-rg
   :after (ivy)
   :bind (("C-<tab>" . xen-swiper)
          :map isearch-mode-map
