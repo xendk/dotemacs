@@ -180,7 +180,17 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-php-mode-expansions ()
   "My expand-region setup for php-mode."
   (make-local-variable 'er/try-expand-list)
-  (setq er/try-expand-list '(er/mark-word er/mark-symbol er/mark-symbol-with-prefix xen-php-mark-next-accessor xen-php-mark-method-call-or-array er/mark-comment er/mark-comment-block er/mark-inside-quotes er/mark-outside-quotes er/mark-inside-pairs er/mark-outside-pairs)))
+  (setq er/try-expand-list '(er/mark-word
+                             er/mark-symbol
+                             er/mark-symbol-with-prefix
+                             xen-php-mark-next-accessor
+                             xen-php-mark-method-call-or-array
+                             er/mark-comment
+                             er/mark-comment-block
+                             er/mark-inside-quotes
+                             er/mark-outside-quotes
+                             er/mark-inside-pairs
+                             er/mark-outside-pairs)))
 
 ;; Geben hackery.
 ;; (defun xen-geben-open ()
