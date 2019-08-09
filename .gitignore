@@ -1,26 +1,13 @@
 session.*
-tramp
 auto-save-list
-.org-id-locations
-elpa
-.mc-lists.el
-; Our token shouldn't be committed.
-paradox-token.el
-**/.yas-compiled-snippets.el
 semanticdb
-url
-var
-keyfreq*
-ede-projects.el
-.edbi-ds-history
-.cask
-.projectile-bookmarks.eld
 eshell
 .harvest
-cask
 saveplaces
 network-security.data
-games
+; Cask
+.cask
+cask
 ; Straight package manager.
 straight/repos
 straight/build
@@ -35,3 +22,28 @@ undo-history
 smex-items
 ; Transient stuff
 transient
+; Forge database
+forge-database.sqlite
+; Projectile
+.projectile.cache
+.projectile-bookmarks.eld
+; This one seems a bug, but ignore in for now.
+projectile-bookmarks.eld
+; LSP
+.lsp-session-v1
+; DAP
+.dap-breakpoints
+; Tramp history
+tramp
+; Yasnippet
+**/.yas-compiled-snippets.el
+; Keyfreq
+keyfreq*
+; Multiple cursors
+.mc-lists.el
+; EDE
+ede-projects.el
+; Game highscores
+games
+; W3 cookies
+url
