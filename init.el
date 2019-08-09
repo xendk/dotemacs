@@ -176,12 +176,12 @@
              name
            (propertize name 'face 'mode-line-inactive))))))
   ;; As 'minimal, but without buffer state icon.
-  (doom-modeline-def-modeline 'xen-minimal
-    '(bar matches " " buffer-info-simple-icon)
+  (doom-modeline-def-modeline 'xen-terminal
+    '(bar matches buffer-info-simple " " buffer-info-simple-icon)
     '(media-info major-mode " "))
-  ;; Use 'xen-minimal in term buffes.
-  :hook (term-mode . (lambda ()
-                       (doom-modeline-set-modeline 'xen-minimal)))
+  ;; Use xen-terminal in vterm buffers.
+  :hook ((vterm-mode . (lambda ()
+                         (doom-modeline-set-modeline 'xen-terminal))))
   :straight t)
 
 (use-package all-the-icons
@@ -576,10 +576,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package hl-line
-  ;; Let xen-term-mode handle hl-line-mode toggling in term buffers.
+  ;; Let xen-vterm handle hl-line-mode toggling in vterm buffers.
   :hook
   (after-change-major-mode . (lambda ()
-                               (unless (eq major-mode 'term-mode)
+                               (unless (eq major-mode 'vterm-mode)
                                  (hl-line-mode)))))
 
 (use-package hungry-delete
@@ -825,31 +825,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 ;; Example:
 ;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
 
-(use-package multi-term
-  :commands (multi-term multi-term-dedicated-exist-p term-send-raw-string term-line-mode fish)
-  :bind (:map term-mode-map
-              ("RET" . term-char-mode))
-  :config
-  (defun term-send-alt-up    () (interactive) (term-send-raw-string "\e[1;3A"))
-  (defun term-send-alt-down  () (interactive) (term-send-raw-string "\e[1;3B"))
-  (defun term-send-alt-right () (interactive) (term-send-raw-string "\e[1;3C"))
-  (defun term-send-alt-left  () (interactive) (term-send-raw-string "\e[1;3D"))
-  (defun term-send-ctrl-right () (interactive) (term-send-raw-string "\e[1;5C"))
-  (defun term-send-ctrl-left  () (interactive) (term-send-raw-string "\e[1;5D"))
-  (defun term-send-alt-backspace  () (interactive) (term-send-raw-string "\e\C-?"))
-  (defun term-send-yank  () (interactive) (term-send-raw-string "\C-y"))
-  (defun term-swiper  () (interactive) (term-line-mode) (swiper))
-  (defun term-isearch-backward  () (interactive) (term-line-mode) (isearch-backward))
-  (defun term-avy-goto-word-1  () (interactive) (term-line-mode) (call-interactively 'avy-goto-word-1))
-  (defun term-xen-avy-goto-line  () (interactive) (term-line-mode) (xen-avy-goto-line))
-  (defun fish ()
-    "Open a fish shell buffer."
-    (interactive)
-    (let ((multi-term-program "fish")
-          (multi-term-buffer-name "fish "))
-      (multi-term)))
-  :straight t)
-
 (use-package multiple-cursors
   :bind
   ("C-<" . mc/mark-previous-like-this)
@@ -1005,13 +980,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :defer t
   :straight t)
 
-;; Built in.
-(use-package term
-  :defer t
-  :bind (:map term-raw-map
-              ;; Get paste working in (multi-)term-mode.
-              ("C-y" . term-paste)))
-
 ;; Use terraform-mode for Github Actions workflow files.
 (use-package terraform-mode
   :mode "\\.workflow\\'"
@@ -1055,6 +1023,26 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ("C-c m" . vr/mc-mark)
   :straight t)
 
+;; TODO: Use vterm-exit-functions to automatically kill buffers when shell-exits.
+(use-package vterm
+  :bind (:map vterm-mode-map
+              ;; Rebind M/C-cursors so they'll get sent to the process.
+              ("M-<up>" . vterm--self-insert)
+              ("M-<down>" . vterm--self-insert)
+              ("M-<right>" . vterm--self-insert)
+              ("M-<left>" . vterm--self-insert)
+              ("C-<up>" . vterm--self-insert)
+              ("C-<down>" . vterm--self-insert)
+              ("C-<right>" . vterm--self-insert)
+              ("C-<left>" . vterm--self-insert))
+  :config
+  ;; Set buffer name to terminal title.
+  (defun xen-vterm--rename-buffer-as-title (title)
+    (rename-buffer (format "*VTerm %s*" title) t))
+  (add-hook 'vterm-set-title-functions 'xen-vterm--rename-buffer-as-title)
+
+  :straight t)
+
 ;; Writable grep buffer.
 ;; (use-package wgrep
 ;;   :straight t)
@@ -1096,7 +1084,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ("M-l" . xen-avy-goto-line)
   ("<f12>" . xen-big-fringe-mode)
   ("C-S-d" . xen-duplicate-current-line)
-  ;; ("C-!" . xen-multi-term-dedicated-toggle-and-select)
   ("C-S-l" . xen-mark-lines)
   ("C-c x" . xen-map))
 
@@ -1112,7 +1099,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :after (projectile ivy)
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
-              ("S" . fish)))
+              ("S" . vterm)))
 
 (use-package xen-smartparens
   :load-path "~/.emacs.d/xen/"
@@ -1129,13 +1116,12 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
          ;; Buffer switching with preview.
          ("C-x b" . xen-switch-buffer)))
 
-(use-package xen-term-mode
+(use-package xen-vterm
   :load-path "~/.emacs.d/xen/"
-  ;; Enforce loading so advices get applied when term-mode loads.
+  ;; Enforce loading so advices get applied when vterm loads.
   :demand t
-  :bind (:map term-mode-map
-              ("S-<return>" . xen-term-mode-yank-into-char-mode))
-  :after (multi-term))
+  :after (vterm)
+  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook))
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"

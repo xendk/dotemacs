@@ -10,6 +10,8 @@
 (depends-on "projectile")
 (depends-on "smartparens")
 (depends-on "swiper")
+(depends-on "counsel")
+(depends-on "vterm")
 
 (development
  (depends-on "ecukes")

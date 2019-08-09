@@ -33,15 +33,15 @@
   (if (projectile-project-p)
       (let ((buffers (seq-filter
                       (lambda (buffer) (and
-                                        ;; Major mode is term-mode.
-                                        (eq 'term-mode
+                                        ;; Major mode is vterm-mode.
+                                        (eq 'vterm-mode
                                             (buffer-local-value 'major-mode buffer))
                                         ;; Buffer is not visible.
                                         (not (get-buffer-window buffer t))))
                       (projectile-project-buffers))))
 
         (cond
-         ((not buffers) (call-interactively 'fish))
+         ((not buffers) (call-interactively 'vterm))
          ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
          (t (ivy-read "Shell buffer: "
                       (mapcar #'buffer-name buffers)

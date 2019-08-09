@@ -31,6 +31,9 @@
 ;; External variables referenced.
 (defvar er/try-expand-list)
 (defvar flycheck-phpcs-standard)
+(defvar vterm-copy-mode)
+
+(declare-function magit-get-current-branch "magit-git.el")
 
 (defgroup xen nil
   "Personal configuration"
@@ -126,14 +129,6 @@ Use prefix argument ARG for more copies."
           (eq (char-syntax (char-before)) ?\ )) ; Or whitespace
       (indent-for-tab-command)))
 
-;; Multi-term.
-;; (defun xen-multi-term-dedicated-toggle-and-select ()
-;;   "Toggle dedicated `multi-term' window and select it."
-;;   (interactive)
-;;   (if (multi-term-dedicated-exist-p)
-;;       (multi-term-dedicated-close)
-;;     (progn (multi-term-dedicated-open) (multi-term-dedicated-select))))
-
 (defun xen-mark-lines ()
   "Mark the current line, or expand the selection to another line.
 
@@ -225,13 +220,22 @@ Actually shrinks the region if the point is at the start of the region."
       (move-to-column col-pos))))
 
 (defun xen-avy-goto-word-1 ()
-  "When in minibuffer or term-char-mode disable `emulation-mode-map-alists'.
+  "When in minibuffer or vterm-mode disable `emulation-mode-map-alists'.
 
-Else just call `avy-goto-word-1'"
+Else just call `avy-goto-word-1'.
+
+This hackery is needed to disable avy in minibuffer and terminal.
+The :bind* stanza for use-package makes it use an
+emulation-mode-map in order to override all major and minor mode
+bindings. Which makes it tricky to override in the one case where
+we want to.
+
+An alternative might be a globalized minor mode map, and ensuring
+the minor mode is loaded first."
   (interactive)
   (if (or (window-minibuffer-p)
-          (and (eq major-mode 'term-mode)
-               (when (fboundp 'term-in-char-mode) (term-in-char-mode))))
+          (and (eq major-mode 'vterm-mode)
+               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode))))
       (let ((emulation-mode-map-alists nil)
             (binding (key-binding (kbd "S-<SPC>") t)))
         (when binding
