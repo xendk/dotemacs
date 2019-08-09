@@ -34,6 +34,7 @@
      company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf
      (company-dabbrev-code-xen company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
+ '(company-box-icons-alist (quote company-box-icons-all-the-icons))
  '(company-dabbrev-code-everywhere nil)
  '(company-idle-delay 0)
  '(company-lsp-cache-candidates t nil nil "Work around php-language-server not filtering and sorting hints. See https://github.com/tigersoldier/company-lsp/issues/79")
