@@ -1,4 +1,4 @@
-;;; xen-company.el --- Company helper functions      -*- lexical-binding: t; -*-
+;;; xen-company.el --- Company helper functions      -*- lexical-binding: t; flycheck-emacs-lisp-load-path: inherit; -*-
 
 ;; Copyright (C) 2018  Thomas Fini Hansen
 
