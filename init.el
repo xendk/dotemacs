@@ -151,40 +151,43 @@
   ;; Define a custom mode-line segment.
   (doom-modeline-def-segment buffer-info-simple-icon
     "As `buffer-info', but without state icon."
-    (let ((active (doom-modeline--active)))
-      (concat
-       " "
-       ;; Major mode icon.
-       (when (and doom-modeline-icon doom-modeline-major-mode-icon)
-         (when-let ((icon (or doom-modeline--buffer-file-icon
-                              (doom-modeline-update-buffer-file-icon))))
-           (concat
-            (if (and active doom-modeline-major-mode-color-icon)
-                icon
-              (propertize icon
-                          'face `(:height
-                                  ,(doom-modeline-icon-height 1.1)
-                                  :family
-                                  ,(all-the-icons-icon-family icon)
-                                  :inherit)))
-            doom-modeline-vspc)))
-
-       ;; Buffer file name.
-       (when-let ((name (or doom-modeline--buffer-file-name
-                            (doom-modeline-update-buffer-file-name))))
-         (if active
-             name
-           (propertize name 'face 'mode-line-inactive))))))
+    (concat
+     (doom-modeline-spc)
+     (doom-modeline--buffer-mode-icon)
+     (doom-modeline--buffer-name)))
   ;; As 'minimal, but without buffer state icon.
-  (doom-modeline-def-modeline 'xen-terminal
-    '(bar matches buffer-info-simple " " buffer-info-simple-icon)
+  (doom-modeline-def-modeline 'xen-minimal
+    '(bar matches buffer-info-simple-icon)
     '(media-info major-mode " "))
-  ;; Use xen-terminal in vterm buffers.
-  :hook ((vterm-mode . (lambda ()
-                         (doom-modeline-set-modeline 'xen-terminal))))
+  ;; Set the mode-line of special buffers that existed before
+  ;; doom-modeline was loaded.
+  (eval-after-load "seq"
+    '(let ((buffers (seq-filter
+                     (lambda (buffer)
+                       (with-current-buffer buffer
+                         (derived-mode-p 'special-mode)))
+                     (buffer-list))))
+       (dolist (buffer buffers)
+         (with-current-buffer buffer
+           (doom-modeline-set-modeline 'xen-minimal)))))
+  ;; Use xen-minimal in misc virtual buffers.
+  :hook ((vterm-mode
+          lisp-interaction-mode
+          ;; special-mode covers straight process buffer, messages
+          ;; buffer, dashboard, help buffer and more.
+          special-mode) . (lambda ()
+                            ;; dashboard calls its hooks before
+                            ;; doom-modeline is loaded, so guard the
+                            ;; set with boundp. The dashboard buffer
+                            ;; modeline will be fixed by the
+                            ;; eval-after-load.
+                            (if (fboundp 'doom-modeline-set-modeline)
+                                (doom-modeline-set-modeline 'xen-minimal))))
   :straight t)
 
 (use-package all-the-icons
+  :config
+  (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0))
   :straight t)
 
 ;; Make sure that delight is available as soon as any package triggers it.
