@@ -731,7 +731,6 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("<f1> l" . counsel-load-library)
               ("<f2> i" . counsel-info-lookup-symbol)
               ("<f2> u" . counsel-unicode-char)
-              ("C-c a" . counsel-ag)
               :map ivy-minibuffer-map
               ("S-<return>" . ivy-immediate-done)
               ;; Like isearch.
