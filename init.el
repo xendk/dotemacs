@@ -408,6 +408,10 @@
 (use-package drush-make-mode
   :after drupal-mode)
 
+(use-package ecukes
+  :commands ecukes
+  :straight t)
+
 (use-package ede-php-autoload
   :commands ede-php-autoload-mode
   :hook (php-mode . global-ede-mode)
@@ -421,8 +425,9 @@
   :after ede-php-autoload-mode
   :load-path "~/.emacs.d/ede-php-autoload-drupal/")
 
-(use-package ecukes
-  :commands ecukes
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1)
   :straight t)
 
 ;; For editing code blocks in Markdown mode.
