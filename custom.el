@@ -48,6 +48,8 @@
  '(company-tooltip-limit 30)
  '(company-tooltip-minimum 20)
  '(company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
+ '(counsel-rg-base-command
+   "rg -S --no-heading --line-number --color never --glob '!*~' %s" nil nil "Add switch to ignore backup files")
  '(css-indent-offset 2)
  '(dap-php-debug-program
    (quote
