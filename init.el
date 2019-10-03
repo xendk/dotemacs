@@ -136,6 +136,14 @@
   (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
   (set-face-foreground 'font-lock-doc-face (doom-lighten 'cyan .25))
 
+  ;; Make symbol highlight and region highlights a darker version of the region.
+  (eval-after-load 'region-occurrences-highlighter
+    '(progn
+       (set-face-inverse-video 'region-occurrences-highlighter-face nil)
+       (set-face-background 'region-occurrences-highlighter-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
+  (eval-after-load 'highlight-symbol
+    '(set-face-background 'highlight-symbol-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
+
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
 
@@ -914,6 +922,13 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :straight t)
 
 (use-package deadgrep
+  :straight t)
+
+(use-package region-occurrences-highlighter
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . region-occurrences-highlighter-mode)
+  :bind (:map region-occurrences-highlighter-nav-mode-map
+              ("M-<up>" . region-occurrences-highlighter-prev)
+              ("M-<down>" . region-occurrences-highlighter-next))
   :straight t)
 
 (use-package rjsx-mode
