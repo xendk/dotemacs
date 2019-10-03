@@ -944,6 +944,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package rjsx-mode
   :commands rjsx-mode
   :mode "components\\/.*\\.js\\'"
+  :magic ("import React" . rjsx-mode)
   :straight t)
 
 (use-package ruby-mode
