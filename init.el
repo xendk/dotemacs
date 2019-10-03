@@ -1127,7 +1127,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :load-path "~/.emacs.d/xen/"
   :demand
   ;;:functions xen-coding-common-bindings
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
+  :hook
+  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
+  (php-mode . xen-setup-composer-phpcs-for-flycheck)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind
   ("M-SPC" . xen-cycle-spacing)

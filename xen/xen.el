@@ -32,6 +32,8 @@
 (defvar er/try-expand-list)
 (defvar flycheck-phpcs-standard)
 (defvar vterm-copy-mode)
+(defvar flycheck-php-phpcs-executable)
+(defvar flycheck-phpcs-standard)
 
 (declare-function magit-get-current-branch "magit-git.el")
 
@@ -324,6 +326,16 @@ See also `cycle-spacing'."
                  (magit-get-current-branch)))))
       (push-mark)
       (goto-char (point-min)))))
+
+(defun xen-setup-composer-phpcs-for-flycheck ()
+  "Setup flycheck to use a composer installed phpcs."
+  (let ((composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
+    (when (and composer-root (file-exists-p (concat composer-root "/vendor/bin/phpcs")))
+      (make-local-variable 'flycheck-php-phpcs-executable)
+      (setq flycheck-php-phpcs-executable (concat composer-root "/vendor/bin/phpcs"))
+      (make-local-variable 'flycheck-phpcs-standard)
+      (setq flycheck-phpcs-standard nil)
+      )))
 
 (provide 'xen)
 ;;; xen.el ends here
