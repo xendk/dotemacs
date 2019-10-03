@@ -930,6 +930,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 (use-package deadgrep
   :straight t)
 
+(use-package reaper
+  :load-path "~/.emacs.d/reaper/"
+  :bind ("C-c h" . reaper))
+
 (use-package region-occurrences-highlighter
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . region-occurrences-highlighter-mode)
   :bind (:map region-occurrences-highlighter-nav-mode-map
