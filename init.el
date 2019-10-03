@@ -1084,13 +1084,14 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
               ("C-<up>" . vterm--self-insert)
               ("C-<down>" . vterm--self-insert)
               ("C-<right>" . vterm--self-insert)
-              ("C-<left>" . vterm--self-insert))
+              ("C-<left>" . vterm--self-insert)
+              ("<delete>" . vterm--self-insert)
+              ("C-<backspace>" . vterm--self-insert))
   :config
   ;; Set buffer name to terminal title.
   (defun xen-vterm--rename-buffer-as-title (title)
     (rename-buffer (format "*VTerm %s*" title) t))
   (add-hook 'vterm-set-title-functions 'xen-vterm--rename-buffer-as-title)
-
   :straight t)
 
 ;; Writable grep buffer.

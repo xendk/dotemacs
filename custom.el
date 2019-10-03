@@ -145,7 +145,7 @@
  '(fci-rule-color "#282a2e")
  '(flycheck-disabled-checkers (quote (javascript-jshint)))
  '(flycheck-eslintrc nil)
- '(flycheck-global-modes (quote (not org-mode)))
+ '(flycheck-global-modes (quote (not org-mode vterm-mode)))
  '(flycheck-javascript-eslint-executable "/home/xen/.npm-global/bin/eslint")
  '(flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
  '(flycheck-phpcs-standard "PSR2")
