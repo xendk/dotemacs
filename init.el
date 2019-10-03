@@ -780,6 +780,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands company-lsp
   :straight t)
 
+(use-package nginx-mode
+  :commands nginx-mode
+  :straight t)
+
 (use-package magit
   :defines magit-last-seen-setup-instructions
   :init (setq magit-last-seen-setup-instructions "1.4.0")
