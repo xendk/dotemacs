@@ -266,7 +266,7 @@
   :defines company-semantic-modes
   :config
   ;; Use the TAB only frontend. Configure before enabling the mode, so
-  ;; we'll get the tng frontend in before company-box makes
+  ;; we'll get the tng frontend in before anyone makes
   ;; company-frontends buffer local.
   (company-tng-configure-default)
 
@@ -279,7 +279,17 @@
                  company-selection-changed
                  (memq 'company-tng-frontend company-frontends))
       (company-preview-frontend command)))
+  ;; Variant of `company-pseudo-tooltip-unless-just-one-frontend' that
+  ;; still shows a dropdown with only one candidate when filtering.
+  (defun company-pseudo-tooltip-unless-just-one-frontend-2 (command)
+    "`company-pseudo-tooltip-frontend', but not shown for single
+candidates, unless we're in filtering mode."
+    (unless (and (eq command 'post-command)
+                 (and (company--show-inline-p) (not company-search-filtering)))
+      (company-pseudo-tooltip-frontend command)))
+
   (setq company-frontends '(company-tng-frontend
+                            company-pseudo-tooltip-unless-just-one-frontend-2
                             company-preview-if-not-tng-frontend
                             company-echo-metadata-frontend))
 
@@ -300,56 +310,6 @@
   ;; Swap search and filter shortcuts.
   (define-key company-active-map "\C-s" 'company-filter-candidates)
   (define-key company-active-map "\C-\M-s" 'company-search-candidates)
-  :straight t)
-
-;; Switched to this frontend because the built-in
-;; company-pseudo-tooltip-frontend had alignment problems with the
-;; company-preview-if-not-tng-frontend. As a nice side effect, it
-;; displays the docstrings (and has icons).
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :config
-  ;; Highlight common part in the dropdown.
-  ;; https://github.com/sebastiencs/company-box/issues/43 . Grabbed from
-  ;; https://github.com/seagle0128/.emacs.d/commit/043f070241c0a802686775c333681438c1e89439
-  (defun xen-company-box--make-line (candidate)
-    (-let* (((candidate annotation len-c len-a backend) candidate)
-            (color (company-box--get-color backend))
-            ((c-color a-color i-color s-color) (company-box--resolve-colors color))
-            (icon-string (and company-box--with-icons-p (company-box--add-icon candidate)))
-            ;; This is the only change.
-            (candidate-string (xen-company-box--highlight-search
-                               (concat (propertize company-common 'face 'company-tooltip-common)
-                                       (substring (propertize candidate 'face 'company-box-candidate) (length company-common) nil))))
-            (align-string (when annotation
-                            (concat " " (and company-tooltip-align-annotations
-                                             (propertize " " 'display `(space :align-to (- right-fringe ,(or len-a 0) 1)))))))
-            (space company-box--space)
-            (icon-p company-box-enable-icon)
-            (annotation-string (and annotation (propertize annotation 'face 'company-box-annotation)))
-            (line (concat (unless (or (and (= space 2) icon-p) (= space 0))
-                            (propertize " " 'display `(space :width ,(if (or (= space 1) (not icon-p)) 1 0.75))))
-                          (company-box--apply-color icon-string i-color)
-                          (company-box--apply-color candidate-string c-color)
-                          align-string
-                          (company-box--apply-color annotation-string a-color)))
-            (len (length line)))
-      (add-text-properties 0 len (list 'company-box--len (+ len-c len-a)
-                                       'company-box--color s-color)
-                           line)
-      line))
-  ;; Hack in search highlighting. Upstream issue: https://github.com/sebastiencs/company-box/issues/12
-  (defun xen-company-box--highlight-search (candidate)
-    (when (let ((re (funcall company-search-regexp-function
-                             company-search-string)))
-            (and (not (string= re ""))
-                 (string-match re candidate (length company-prefix))))
-      (pcase-dolist (`(,beg . ,end) (company--search-chunks))
-        (font-lock-prepend-text-property beg end 'face
-                                         'company-tooltip-search
-                                         candidate)))
-    candidate)
-  (advice-add #'company-box--make-line :override #'xen-company-box--make-line)
   :straight t)
 
 (use-package company-restclient
