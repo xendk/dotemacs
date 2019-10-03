@@ -141,6 +141,7 @@
       web-mode-attr-indent-offset web-mode-attr-value-indent-offset web-mode-code-indent-offset web-mode-css-indent-offset web-mode-markup-indent-offset web-mode-sql-indent-offset web-mode-block-padding web-mode-script-padding web-mode-style-padding)
      (yaml-mode yaml-indent-offset)
      (rjsx-mode js2-basic-offset sgml-basic-offset))) nil nil "Add rjsx-mode")
+ '(expand-region-subword-enabled t)
  '(fci-rule-color "#282a2e")
  '(flycheck-disabled-checkers (quote (javascript-jshint)))
  '(flycheck-eslintrc nil)

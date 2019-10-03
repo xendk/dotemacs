@@ -180,7 +180,8 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-php-mode-expansions ()
   "My expand-region setup for php-mode."
   (make-local-variable 'er/try-expand-list)
-  (setq er/try-expand-list '(er/mark-word
+  (setq er/try-expand-list '(er/mark-subword
+                             er/mark-word
                              er/mark-symbol
                              er/mark-symbol-with-prefix
                              xen-php-mark-next-accessor

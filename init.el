@@ -880,6 +880,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   :commands php-mode
   :config
   (require 'dap-php)
+  :hook (php-mode . (lambda () (subword-mode 1)))
   :straight t)
 
 (use-package php-extras
