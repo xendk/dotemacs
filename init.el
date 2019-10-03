@@ -241,6 +241,10 @@
                      (yank-pop arg))))
   :straight t)
 
+(use-package buttercup
+  :defer t
+  :straight t)
+
 (use-package caddyfile-mode
   :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode))
