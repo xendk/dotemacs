@@ -335,8 +335,7 @@ candidates, unless we're in filtering mode."
 
 (use-package cov
   :hook
-  (emacs-lisp-mode . cov-mode)
-  (php-mode . cov-mode)
+  ((emacs-lisp-mode php-mode js-mode) . cov-mode)
   :straight t)
 
 (use-package dap-mode
