@@ -540,7 +540,7 @@ candidates, unless we're in filtering mode."
   :straight (:host github :repo "arnested/emacs-git-attr"))
 
 (use-package google-this
-  :commands google-this-mode
+  :commands (google-this-mode google-this-region)
   :delight
   ;; Why does this use use-package-autoload-keymap?
   :bind-keymap ("C-c /" . google-this-mode-submap)
@@ -666,7 +666,9 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("q" nil "cancel")
     ("s" sort-lines "Sort")
     ("u" delete-duplicate-lines "De-dupe")
-    )
+    ("g" (lambda ()
+           (interactive)
+           (google-this-region nil t)) "Google"))
   :straight t)
 
 (use-package ibuffer-vc
