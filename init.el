@@ -670,7 +670,7 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
     ("q" nil "cancel")
     ("s" sort-lines "Sort")
     ("u" delete-duplicate-lines "De-dupe")
-    ("g" (lambda ()
+    ("/" (lambda ()
            (interactive)
            (google-this-region nil t)) "Google"))
   :straight t)
