@@ -841,6 +841,11 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
   ("C-e" . mwim-end)
   :straight t)
 
+(use-package multi-line
+  :bind
+  ("C-c d" . multi-line)
+  :straight t)
+
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
 (use-package multi-mode
   :load-path "~/.emacs.d/lib/"
