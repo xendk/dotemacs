@@ -148,7 +148,7 @@
  '(flycheck-global-modes (quote (not org-mode vterm-mode)))
  '(flycheck-javascript-eslint-executable "/home/xen/.npm-global/bin/eslint")
  '(flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
- '(flycheck-phpcs-standard "PSR2")
+ '(flycheck-phpcs-standard "PSR12")
  '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming")))
  '(flycheck-scss-compass t)
  '(flymake-cursor-error-display-delay 0.3)
