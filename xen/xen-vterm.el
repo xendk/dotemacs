@@ -50,5 +50,34 @@ Used to restore the original mode line face.")
     (setq xen-vterm-copy-mode-cookie nil)
     (hl-line-mode -1)))
 
+(defun xen-switch-to-shell (&optional buffer-list)
+  "Switch to a shell buffer. Use ivy if multiple buffers.
+
+Limit to buffers BUFFER-LIST if supplied."
+  (interactive)
+  (let* ((buffer-list (or buffer-list (buffer-list)))
+         (buffers (seq-filter
+                   (lambda (buffer) (and
+                                     ;; Major mode is vterm-mode.
+                                     (eq 'vterm-mode
+                                         (buffer-local-value 'major-mode buffer))
+                                     ;; Buffer is not visible.
+                                     (not (get-buffer-window buffer t))))
+                   buffer-list)))
+
+    (cond
+     ((not buffers) (call-interactively 'vterm))
+     ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
+     (t (ivy-read "Shell buffer: "
+                  (mapcar #'buffer-name buffers)
+                  :matcher #'ivy--switch-buffer-matcher
+                  :preselect (buffer-name (other-buffer (current-buffer)))
+                  :action #'ivy--switch-buffer-action
+                  :keymap ivy-switch-buffer-map
+                  :caller 'ivy-switch-buffer
+                  :update-fn (lambda ()
+                               (if (get-buffer (ivy-state-current ivy-last))
+                                   (ivy-call))))))))
+
 (provide 'xen-vterm)
 ;;; xen-vterm.el ends here

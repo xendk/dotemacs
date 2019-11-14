@@ -31,24 +31,7 @@
   "Switch to shell buffer in project. Use ivy if multiple buffers."
   (interactive)
   (if (projectile-project-p)
-      (let ((buffers (seq-filter
-                      (lambda (buffer) (and
-                                        ;; Major mode is vterm-mode.
-                                        (eq 'vterm-mode
-                                            (buffer-local-value 'major-mode buffer))
-                                        ;; Buffer is not visible.
-                                        (not (get-buffer-window buffer t))))
-                      (projectile-project-buffers))))
-
-        (cond
-         ((not buffers) (call-interactively 'vterm))
-         ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
-         (t (ivy-read "Shell buffer: "
-                      (mapcar #'buffer-name buffers)
-                      :matcher #'ivy--switch-buffer-matcher
-                      :action #'ivy--switch-buffer-action
-                      :keymap ivy-switch-buffer-map
-                      :caller 'ivy-switch-buffer))))
+      (xen-switch-to-shell (projectile-project-buffers))
     (message "No project.")))
 
 

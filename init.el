@@ -1175,10 +1175,10 @@ Format is PROJECT (CLIENT) \n TASK - NOTES"
 
 (use-package xen-vterm
   :load-path "~/.emacs.d/xen/"
-  ;; Enforce loading so advices get applied when vterm loads.
-  :demand t
-  :after (vterm)
-  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook))
+  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
+  :bind
+  ("C-c s" . xen-switch-to-shell)
+  ("C-c S" . vterm))
 
 (use-package yaml-mode
   :mode "\\.e?ya?ml$"
