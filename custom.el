@@ -262,6 +262,7 @@
  '(vcl-indent-level 2)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t)
+ '(wdired-allow-to-change-permissions t)
  '(yas-choose-keys-first nil)
  '(yas-choose-tables-first t)
  '(yas-fallback-behavior (quote call-other-command))
