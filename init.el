@@ -556,33 +556,6 @@ candidates, unless we're in filtering mode."
   :commands ggtags-mode
   :straight t)
 
-(use-package harvest
-  :commands harvest-alist-get
-  :bind ("C-c h" . harvest)
-  ;; Override function to truncate project and client, so the comment
-  ;; is visible.
-  :config
-  (defun harvest-format-entry (entry)
-    "Format an ENTRY as a string.
-Format is PROJECT (CLIENT) \n TASK - NOTES"
-    (let ((formatted-string (concat
-                             (s-truncate 10 (harvest-alist-get '(project) entry))
-                             " ("
-                             (s-truncate 10 (harvest-alist-get '(client) entry))
-                             ")"
-                             ": "
-                             (harvest-alist-get '(task) entry)
-                             " - "
-                             (harvest-alist-get '(notes) entry)
-                             "\t["
-                             (number-to-string (harvest-alist-get '(hours) entry))
-                             "]"
-                             )))
-      (if (harvest-alist-get '(timer_started_at) entry)
-          (propertize formatted-string 'face '(:background "green" :foreground "white"))
-        (propertize formatted-string 'face 'nil))))
-  :straight t)
-
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :delight
