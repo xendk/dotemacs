@@ -563,6 +563,13 @@ candidates, unless we're in filtering mode."
   :bind
   ("M-<left>" . highlight-symbol-prev)
   ("M-<right>" . highlight-symbol-next)
+  :config
+  (add-hook 'activate-mark-hook (lambda () (when highlight-symbol-mode
+                                             (setq-local highlight-symbol-mode-suspend t)
+                                             (highlight-symbol-mode 0))))
+  (add-hook 'deactivate-mark-hook (lambda () (when (bound-and-true-p highlight-symbol-mode-suspend)
+                                               (kill-local-variable highlight-symbol-mode-suspend)
+                                               (highlight-symbol-mode 1))))
   :straight t)
 
 (use-package hl-line
