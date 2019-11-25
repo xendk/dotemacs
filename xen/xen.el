@@ -29,11 +29,7 @@
 ;;; Code:
 
 ;; External variables referenced.
-(defvar er/try-expand-list)
-(defvar flycheck-phpcs-standard)
 (defvar vterm-copy-mode)
-(defvar flycheck-php-phpcs-executable)
-(defvar flycheck-phpcs-standard)
 
 (declare-function magit-get-current-branch "magit-git.el")
 
@@ -152,57 +148,6 @@ Actually shrinks the region if the point is at the start of the region."
   (local-set-key [tab] 'xen-tab)
   (local-set-key [backtab] 'indent-for-tab-command))
 
-;; expand-region stuff.
-(defun xen-php-mark-next-accessor ()
-  "Presuming that current symbol is already marked, skip over one arrow and mark the next symbol."
-  (interactive)
-  (when (use-region-p)
-    (when (< (point) (mark))
-      (exchange-point-and-mark))
-    (let ((symbol-regexp "\\s_\\|\\sw"))
-      (when (looking-at "->")
-        (forward-char 2)
-        (skip-syntax-forward "_w")
-        (exchange-point-and-mark)))))
-
-(defun xen-php-mark-method-call-or-array ()
-  "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
-  (interactive)
-  (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
-    (when (or (looking-at symbol-regexp)
-              (looking-back symbol-regexp 1))
-      (skip-syntax-backward "_w.")
-      (set-mark (point))
-      (while (looking-at symbol-regexp)
-        (forward-char))
-      (if (looking-at "(\\|\\[")
-          (forward-list))
-      (exchange-point-and-mark))))
-
-(defun xen-php-mode-expansions ()
-  "My expand-region setup for php-mode."
-  (make-local-variable 'er/try-expand-list)
-  (setq er/try-expand-list '(er/mark-subword
-                             er/mark-word
-                             er/mark-symbol
-                             er/mark-symbol-with-prefix
-                             xen-php-mark-next-accessor
-                             xen-php-mark-method-call-or-array
-                             er/mark-comment
-                             er/mark-comment-block
-                             er/mark-inside-quotes
-                             er/mark-outside-quotes
-                             er/mark-inside-pairs
-                             er/mark-outside-pairs)))
-
-;; Geben hackery.
-;; (defun xen-geben-open ()
-;;   "Open the current buffer in geben."
-;;   (interactive)
-;;   (progn
-;;     (let ((geben-current-session (car geben-sessions)))
-;;       (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name))))))
-
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
   (interactive)
@@ -295,12 +240,6 @@ FILE is ignored."
         (add-to-list 'minor-mode-map-alist mode)))))
 (add-hook 'after-load-functions 'xen-fix-minor-mode-order)
 
-(defun xen-php-spec ()
-  "Set PHPCS to use PHPSpec standard."
-  (interactive)
-  (make-local-variable 'flycheck-phpcs-standard)
-  (setq flycheck-phpcs-standard "/home/xen/.config/composer/vendor/kmcculloch/phpspec-code-sniffer/PHPSpec/"))
-
 (defun xen-cycle-spacing (&optional n)
   "Delete all spaces and tabs around point, leaving one space (or N spaces).
 If N is negative, delete newlines as well, leaving -N spaces.
@@ -326,16 +265,6 @@ See also `cycle-spacing'."
                  (magit-get-current-branch)))))
       (push-mark)
       (goto-char (point-min)))))
-
-(defun xen-setup-composer-phpcs-for-flycheck ()
-  "Setup flycheck to use a composer installed phpcs."
-  (let ((composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
-    (when (and composer-root (file-exists-p (concat composer-root "/vendor/bin/phpcs")))
-      (make-local-variable 'flycheck-php-phpcs-executable)
-      (setq flycheck-php-phpcs-executable (concat composer-root "/vendor/bin/phpcs"))
-      (make-local-variable 'flycheck-phpcs-standard)
-      (setq flycheck-phpcs-standard nil)
-      )))
 
 (provide 'xen)
 ;;; xen.el ends here

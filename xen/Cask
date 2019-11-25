@@ -14,6 +14,7 @@
 (depends-on "vterm")
 
 (development
+ (depends-on "buttercup")
  (depends-on "ecukes")
  (depends-on "el-mock")
  (depends-on "ert-runner")

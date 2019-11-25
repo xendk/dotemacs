@@ -968,13 +968,6 @@ candidates, unless we're in filtering mode."
   ;; Don't autopair ' when after a word (makes the first word of this
   ;; sentence difficult to type).
   (sp-pair "'" nil :unless '(sp-point-after-word-p))
-  ;; When pressing return as the first thing after inserting
-  ;; a { or (, add another and indent.
-  (sp-local-pair 'php-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
-  (sp-local-pair 'php-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
-
-  (sp-local-pair 'php-mode "/*" "*/" :actions '(wrap insert)
-                 :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
 
   (sp-local-pair 'js-mode "/*" "*/" :actions '(wrap insert)
                  :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
@@ -1118,7 +1111,6 @@ candidates, unless we're in filtering mode."
   ;;:functions xen-coding-common-bindings
   :hook
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
-  (php-mode . xen-setup-composer-phpcs-for-flycheck)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind
   ("M-SPC" . xen-cycle-spacing)
@@ -1134,6 +1126,23 @@ candidates, unless we're in filtering mode."
 (use-package xen-flycheck
   :load-path "~/.emacs.d/xen/"
   :functions xen-flycheck-mode-line-status-text)
+
+(use-package xen-php
+  :load-path "~/.emacs.d/xen/"
+  :hook
+  (php-mode . xen-php-setup-composer-phpcs-for-flycheck)
+  :config
+  (sp-with-modes '(php-mode)
+    ;; (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")))
+    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
+                                              ("* |\n[i]" "RET")
+                                              (xen-php-handle-docstring "*")))
+
+    ;; When pressing return as the first thing after inserting
+    ;; a { or (, add another and indent.
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
+  :after (php-mode))
 
 (use-package xen-projectile
   :load-path "~/.emacs.d/xen/"

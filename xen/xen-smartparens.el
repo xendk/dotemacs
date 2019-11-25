@@ -71,6 +71,5 @@ only work when ARG is 1 or the region is not active."
 
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
-
 (provide 'xen-smartparens)
 ;;; xen-smartparens.el ends here
