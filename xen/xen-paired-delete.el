@@ -1,4 +1,4 @@
-;;; xen-smartparens.el --- Smartparens helper functions  -*- lexical-binding: t; -*-
+;;; xen-paired-delete.el --- Delete pairs mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018  Thomas Fini Hansen
 
@@ -26,7 +26,7 @@
 
 (require 'smartparens)
 
-(defvar xen-delete-char-disabled)
+(defvar xen-paired-delete-char-disabled)
 
 (defun xen-paired-delete (backwards-p &optional arg)
   "Deletes the matching pair if deleting a pair.
@@ -52,24 +52,40 @@ only work when ARG is 1 or the region is not active."
                          (sp-unwrap-sexp))
                         (t nil)))))))))
 
-(defun xen-delete-char-advice (orig-fun n &optional kill-flag)
+(defun xen-paired-delete-delete-char-advice (orig-fun n &optional kill-flag)
   "Advice for delete char.  ORIG-FUN is the overriden function. Use N and ignore KILL-FLAG."
-  (if (not (boundp 'xen-delete-char-disabled))
-      (let ((xen-delete-char-disabled t))
+  (if (not (boundp 'xen-paired-delete-char-disabled))
+      (let ((xen-paired-delete-char-disabled t))
         (save-match-data (progn
                            (if (not (xen-paired-delete (> 0 n) (abs n)))
                                (funcall orig-fun n kill-flag)))))
     (funcall orig-fun n kill-flag)))
-(advice-add 'delete-char :around #'xen-delete-char-advice)
+;; (advice-add 'delete-char :around #'xen-paired-delete-delete-char-advice)
 
-(defun xen-sp-insert-pair-advice (orig-fun &rest args)
+(defun xen-paired-delet-sp-insert-pair-advice (orig-fun &rest args)
   "Advice to disable paired delete in sp-insert-pair/sp-skip-closing-pair.  Call ORIG-FUN with ARGS."
-  (let ((xen-delete-char-disabled t))
+  (let ((xen-paired-delete-char-disabled t))
     (apply orig-fun args)))
-(advice-add 'sp-insert-pair :around #'xen-sp-insert-pair-advice)
-(advice-add 'sp-skip-closing-pair :around #'xen-sp-insert-pair-advice)
+;; (advice-add 'sp-insert-pair :around #'xen-paired-delet-sp-insert-pair-advice)
+;; (advice-add 'sp-skip-closing-pair :around #'xen-paired-delet-sp-insert-pair-advice)
 
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
-(provide 'xen-smartparens)
-;;; xen-smartparens.el ends here
+(define-minor-mode xen-paired-delete-mode
+  "Toggle paired delete mode."
+  :init-value nil
+  (if xen-paired-delete-mode
+      (progn
+        (advice-add 'delete-char :around #'xen-paired-delete-delete-char-advice)
+        (advice-add 'sp-insert-pair :around #'xen-paired-delet-sp-insert-pair-advice)
+        (advice-add 'sp-skip-closing-pair :around #'xen-paired-delet-sp-insert-pair-advice))
+    (advice-remove 'delete-char #'xen-paired-delete-delete-char-advice)
+    (advice-remove 'sp-insert-pair #'xen-paired-delet-sp-insert-pair-advice)
+    (advice-remove 'sp-skip-closing-pair #'xen-paired-delet-sp-insert-pair-advice)))
+
+(define-globalized-minor-mode global-xen-paired-delete-mode
+  xen-paired-delete-mode
+  xen-paired-delete-mode)
+
+(provide 'xen-paired-delete)
+;;; xen-paired-delete.el ends here

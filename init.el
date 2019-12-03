@@ -1127,6 +1127,12 @@ candidates, unless we're in filtering mode."
   :load-path "~/.emacs.d/xen/"
   :functions xen-flycheck-mode-line-status-text)
 
+(use-package xen-paired-delete
+  :load-path "~/.emacs.d/xen/"
+  :after (smartparens)
+  :config
+  (global-xen-paired-delete-mode))
+
 (use-package xen-php
   :load-path "~/.emacs.d/xen/"
   :hook
@@ -1150,10 +1156,6 @@ candidates, unless we're in filtering mode."
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
               ("S" . vterm)))
-
-(use-package xen-smartparens
-  :load-path "~/.emacs.d/xen/"
-  :after (smartparens))
 
 (use-package xen-swiper
   :load-path "~/.emacs.d/xen/"
