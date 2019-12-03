@@ -515,6 +515,16 @@ candidates, unless we're in filtering mode."
   :hook (flycheck-mode . flycheck-package-setup)
   :straight t)
 
+(use-package flycheck-phpstan
+  :hook (php-mode . (lambda ()
+                      ;; Use error level from phpstan.neon.
+                      (setq phpstan-level nil)))
+  :after flycheck
+  :config
+  (eval-after-load 'flycheck
+    '(flycheck-add-next-checker 'php-phpcs '(t . phpstan)))
+  :straight t)
+
 (use-package flyspell
   :commands flyspell-mode
   :hook
