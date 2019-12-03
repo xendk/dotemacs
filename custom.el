@@ -262,6 +262,7 @@
  '(vcl-indent-level 2)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t)
+ '(vterm-max-scrollback 100000)
  '(wdired-allow-to-change-permissions t)
  '(yas-choose-keys-first nil)
  '(yas-choose-tables-first t)
