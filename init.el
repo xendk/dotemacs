@@ -241,6 +241,10 @@
                      (yank-pop arg))))
   :straight t)
 
+(use-package bug-hunter
+  :commands (bug-hunter-init-file bug-hunter-file)
+  :straight t)
+
 (use-package buttercup
   :defer t
   :straight t)
