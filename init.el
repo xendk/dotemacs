@@ -1016,6 +1016,10 @@ candidates, unless we're in filtering mode."
   (solaire-mode-swap-bg)
   :straight t)
 
+(use-package speed-type
+  :commands (speed-type-text speed-type-region speed-type-buffer)
+  :straight t)
+
 (use-package string-inflection
   ;; autoload when needed.
   :commands (string-inflection-underscore
