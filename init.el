@@ -293,8 +293,7 @@
   (company-tng-configure-default)
 
   ;; Define a frontend that displays a preview, but only when tng
-  ;; hasn't made a selection yet. We have to get this in before
-  ;; company-box too.
+  ;; hasn't made a selection yet.
   (defun company-preview-if-not-tng-frontend (command)
     "`company-preview-frontend', but not when tng is active."
     (unless (and (eq command 'post-command)
