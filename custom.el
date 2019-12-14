@@ -220,7 +220,6 @@
  '(query-replace-highlight t)
  '(recentf-max-saved-items 500)
  '(safe-local-variable-values (quote ((flycheck-emacs-lisp-load-path . inherit))) nil nil "Allow inherit for flycheck-emacs-lisp-load-path for my init.el.")
- '(save-place-file "/home/xen/.emacs.d/saveplaces")
  '(scroll-bar-mode nil)
  '(scss-compile-at-save nil)
  '(sentence-end-double-space nil)

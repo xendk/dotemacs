@@ -959,7 +959,10 @@ candidates, unless we're in filtering mode."
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
-  :init (save-place-mode))
+  :custom
+  (save-place-file (concat user-emacs-directory "saveplaces"))
+  :init
+  (save-place-mode))
 
 ;; Figure this one out.
 ;; (use-package semantic-php
