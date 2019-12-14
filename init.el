@@ -419,6 +419,7 @@ candidates, unless we're in filtering mode."
   :delight
   (auto-fill-function)
   (abbrev-mode)
+  :bind
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
