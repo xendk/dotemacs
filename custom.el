@@ -8,9 +8,6 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(auto-hscroll-mode (quote current-line))
- '(auto-indent-assign-indent-level-variables nil)
- '(auto-indent-blank-lines-on-move nil)
- '(auto-indent-next-pair nil)
  '(auto-insert-mode t nil (autoinsert))
  '(avy-background t)
  '(avy-keys
