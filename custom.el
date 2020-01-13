@@ -48,11 +48,6 @@
  '(desktop-restore-eager 3)
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode nil)
- '(drupal-ignore-paths-regexp
-   "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
- '(drupal/emacs-drush-update-tags-after-save t)
- '(drupal/phpcs-standard
-   "/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/Drupal,/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/DrupalPractice")
  '(echo-keystrokes 0.1)
  '(ediff-keep-variants nil)
  '(ediff-split-window-function (quote split-window-horizontally))
