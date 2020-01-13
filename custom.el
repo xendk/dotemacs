@@ -253,7 +253,6 @@
  '(url-cookie-confirmation (quote nil))
  '(url-honor-refresh-requests (quote t))
  '(url-privacy-level (quote (email)))
- '(use-package-verbose t)
  '(user-mail-address "xen@xen.dk")
  '(vcl-indent-level 2)
  '(visual-fill-column-center-text t)

@@ -69,6 +69,7 @@
   (require 'straight))
 
 ;; Bootstrap `use-package'
+(customize-set-variable 'use-package-verbose t)
 (straight-use-package 'use-package)
 ;; When flycheck checks this file it needs use-package (and straight
 ;; above) loaded to understand the use-package forms. Also the reason
