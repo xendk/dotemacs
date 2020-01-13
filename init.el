@@ -210,6 +210,11 @@
   :straight t)
 
 (use-package avy
+  :custom
+  (avy-background t)
+  (avy-keys
+   (quote
+    (97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122)))
   ;; Override minor mode binding for these.
   :bind*
   ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
