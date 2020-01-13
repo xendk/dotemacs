@@ -1054,6 +1054,12 @@ candidates, unless we're in filtering mode."
 
 (use-package smartparens
   :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair)
+  :custom
+  (sp-autodelete-closing-pair nil)
+  (sp-autodelete-opening-pair nil)
+  (sp-autodelete-pair nil)
+  (sp-autoskip-closing-pair (quote always))
+  (sp-show-pair-from-inside t)
   :demand
   :delight
   :config
