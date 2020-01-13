@@ -815,6 +815,10 @@ candidates, unless we're in filtering mode."
 
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
+  :custom
+  (lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
+  :custom-face
+  (lsp-ui-sideline-global ((t (:background "#3f444a"))))
   :config
   ;; Add phpcs as next-checker after lsp, so we get our PSR/Drupal
   ;; style checkers back.

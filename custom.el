@@ -137,7 +137,6 @@
  '(js-indent-level 2)
  '(js2-strict-missing-semi-warning nil)
  '(line-move-visual nil)
- '(lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(magit-fetch-arguments (quote ("--prune")))
@@ -230,10 +229,3 @@
  '(yas-wrap-around-region nil))
 
 (put 'narrow-to-region 'disabled nil)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-box-background ((t (:background "#282c34"))) nil "Set to the light background color")
- '(lsp-ui-sideline-global ((t (:background "#3f444a")))))
