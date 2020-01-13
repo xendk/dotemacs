@@ -41,8 +41,6 @@
  '(company-tooltip-limit 30)
  '(company-tooltip-minimum 20)
  '(company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
- '(counsel-rg-base-command
-   "rg -S --no-heading --line-number --color never --glob '!*~' %s" nil nil "Add switch to ignore backup files")
  '(css-fontify-colors nil nil nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
  '(css-indent-offset 2)
  '(dap-php-debug-program

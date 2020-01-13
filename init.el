@@ -343,6 +343,9 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package counsel
+  :custom
+  (counsel-rg-base-command
+   "rg -S --no-heading --line-number --color never --glob '!*~' %s" nil nil "Add switch to ignore backup files")
   :defer t
   :straight t)
 
