@@ -43,9 +43,6 @@
  '(company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
  '(css-fontify-colors nil nil nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
  '(css-indent-offset 2)
- '(dap-php-debug-program
-   (quote
-    ("node" "/home/xen/.emacs.d/vscode-php-debug/out/phpDebug.js")))
  '(delete-selection-mode t nil (delsel))
  '(desktop-files-not-to-save "^/none[^/:]*:")
  '(desktop-restore-eager 3)

@@ -360,6 +360,10 @@ candidates, unless we're in filtering mode."
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
+  :custom
+  (dap-php-debug-program
+   (quote
+    ("node" "/home/xen/.emacs.d/vscode-php-debug/out/phpDebug.js")))
   :straight t)
 
 (use-package dashboard
