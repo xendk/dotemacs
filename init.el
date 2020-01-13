@@ -1129,6 +1129,12 @@ candidates, unless we're in filtering mode."
 
 (use-package undo-tree
   :commands global-undo-tree-mode
+  :custom
+  (undo-tree-auto-save-history t)
+  (undo-tree-history-directory-alist (quote (("." . "/home/xen/.emacs.d/undo-history"))))
+  (undo-tree-visualizer-diff nil)
+  (undo-tree-visualizer-relative-timestamps t)
+  (undo-tree-visualizer-timestamps t)
   :demand
   :delight
   :init (global-undo-tree-mode)
