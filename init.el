@@ -69,7 +69,6 @@
   (require 'straight))
 
 ;; Bootstrap `use-package'
-(customize-set-variable 'use-package-verbose t)
 (straight-use-package 'use-package)
 ;; When flycheck checks this file it needs use-package (and straight
 ;; above) loaded to understand the use-package forms. Also the reason
@@ -210,11 +209,6 @@
   :straight t)
 
 (use-package avy
-  :custom
-  (avy-background t)
-  (avy-keys
-   (quote
-    (97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122)))
   ;; Override minor mode binding for these.
   :bind*
   ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
@@ -343,27 +337,16 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package counsel
-  :custom
-  (counsel-rg-base-command
-   "rg -S --no-heading --line-number --color never --glob '!*~' %s" nil nil "Add switch to ignore backup files")
   :defer t
   :straight t)
 
 (use-package cov
-  :custom-face
-  (cov-heavy-face ((t (:foreground "green"))))
-  (cov-light-face ((t (:foreground "orange"))))
-  (cov-none-face ((t (:foreground "red"))))
   :hook
   ((emacs-lisp-mode php-mode js-mode) . cov-mode)
   :straight t)
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
-  :custom
-  (dap-php-debug-program
-   (quote
-    ("node" "/home/xen/.emacs.d/vscode-php-debug/out/phpDebug.js")))
   :straight t)
 
 (use-package dashboard
@@ -389,12 +372,7 @@ candidates, unless we're in filtering mode."
 
 (use-package drupal-mode
   :defer t
-  :custom
-  (drupal-ignore-paths-regexp
-   "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
-  (drupal/emacs-drush-update-tags-after-save t)
-  (drupal/phpcs-standard
-   "/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/Drupal,/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/DrupalPractice")
+  :config
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight t)
@@ -444,10 +422,6 @@ candidates, unless we're in filtering mode."
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
-  :custom
-  (load-prefer-newer t "Prefer newer .el file over .elc")
-  (backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                            "backups"))) "Don't place backups next to the original file, but move them to .emacs.d/backups.")
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
@@ -509,15 +483,6 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package flycheck
-  :custom
-  (flycheck-disabled-checkers (quote (javascript-jshint)))
-  (flycheck-eslintrc nil)
-  (flycheck-global-modes (quote (not org-mode vterm-mode)))
-  (flycheck-javascript-eslint-executable "/home/xen/.npm-global/bin/eslint")
-  (flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
-  (flycheck-phpcs-standard "PSR12")
-  (flycheck-phpmd-rulesets (quote ("codesize" "design" "naming")))
-  (flycheck-scss-compass t)
   :bind (:map flycheck-mode-map
               ("M-<up>" . flycheck-previous-error)
               ("M-<down>" . flycheck-next-error))
@@ -566,8 +531,6 @@ candidates, unless we're in filtering mode."
 
 (use-package flyspell
   :commands flyspell-mode
-  :custom
-  (flyspell-default-dictionary nil)
   :hook
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
@@ -609,8 +572,6 @@ candidates, unless we're in filtering mode."
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
-  :custom
-  (highlight-symbol-idle-delay 0.5)
   :delight
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . highlight-symbol-mode)
   :bind
@@ -731,10 +692,6 @@ candidates, unless we're in filtering mode."
              ivy--switch-buffer-action
              ivy-call
              swiper)
-  :custom
-  (ivy-count-format "(%d/%d) ")
-  (ivy-display-style (quote fancy))
-  (ivy-extra-directories nil)
   :init
   (ivy-mode 1)
   :bind (:map ivy-mode-map
@@ -771,10 +728,6 @@ candidates, unless we're in filtering mode."
 (use-package keyfreq
   :if xen-primary
   :commands (keyfreq-mode keyfreq-autosave-mode)
-  :custom
-  (keyfreq-autosave-mode t)
-  (keyfreq-file "~/.emacs.d/keyfreq")
-  (keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
@@ -784,11 +737,6 @@ candidates, unless we're in filtering mode."
   :commands lsp
   ;; Can't add to company-backends before company has been loaded.
   :after company
-  :custom
-  (lsp-clients-php-server-command
-   (quote
-    ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
-  (lsp-log-max 1000)
   :init
   ;; Customize is somewhat broken for for me for lsp, so in the
   ;; meantime:
@@ -815,10 +763,6 @@ candidates, unless we're in filtering mode."
 
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
-  :custom
-  (lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
-  :custom-face
-  (lsp-ui-sideline-global ((t (:background "#3f444a"))))
   :config
   ;; Add phpcs as next-checker after lsp, so we get our PSR/Drupal
   ;; style checkers back.
@@ -839,15 +783,6 @@ candidates, unless we're in filtering mode."
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
-  :custom
-  (magit-completing-read-function (quote ivy-completing-read))
-  (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
-  (magit-fetch-arguments (quote ("--prune")))
-  (magit-push-always-verify nil)
-  (magit-revert-buffers t t)
-  (magit-save-repository-buffers (quote dontask))
-  (magit-status-buffer-switch-function (quote switch-to-buffer))
-  (magit-use-sticky-arguments (quote current))
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c g g" . magit-status)
@@ -949,29 +884,16 @@ candidates, unless we're in filtering mode."
 
 (use-package php-mode
   :commands php-mode
-  :custom
-  (php-file-patterns
-   (quote
-    ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
-  (php-mode-coding-style (quote psr2))
-  (php-mode-enable-project-coding-style nil)
   :config
   (require 'dap-php)
   :hook (php-mode . (lambda () (subword-mode 1)))
   :straight t)
 
 (use-package php-extras
-  :custom
-  (php-extras-auto-complete-insert-parenthesis nil)
   :straight (:host github :repo "arnested/php-extras"))
 
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
-  :custom
-  (projectile-cache-file "~/.emacs.d/.projectile.cache")
-  (projectile-completion-system (quote ivy))
-  (projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
-  (projectile-switch-project-action (quote projectile-vc))
   :delight ""
   :bind-keymap
   ("C-c p" . projectile-command-map)
@@ -1054,12 +976,6 @@ candidates, unless we're in filtering mode."
 
 (use-package smartparens
   :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair)
-  :custom
-  (sp-autodelete-closing-pair nil)
-  (sp-autodelete-opening-pair nil)
-  (sp-autodelete-pair nil)
-  (sp-autoskip-closing-pair (quote always))
-  (sp-show-pair-from-inside t)
   :demand
   :delight
   :config
@@ -1087,8 +1003,6 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package smex
-  :custom
-  (smex-save-file "/home/xen/.emacs.d/smex-items")
   ;; autoload when needed.
   :defer t
   :straight t)
@@ -1129,12 +1043,6 @@ candidates, unless we're in filtering mode."
 
 (use-package undo-tree
   :commands global-undo-tree-mode
-  :custom
-  (undo-tree-auto-save-history t)
-  (undo-tree-history-directory-alist (quote (("." . "/home/xen/.emacs.d/undo-history"))))
-  (undo-tree-visualizer-diff nil)
-  (undo-tree-visualizer-relative-timestamps t)
-  (undo-tree-visualizer-timestamps t)
   :demand
   :delight
   :init (global-undo-tree-mode)
@@ -1169,8 +1077,6 @@ candidates, unless we're in filtering mode."
 
 ;; TODO: Use vterm-exit-functions to automatically kill buffers when shell-exits.
 (use-package vterm
-  :custom
-  (vterm-max-scrollback 100000)
   :bind (:map vterm-mode-map
               ;; Rebind M/C-cursors so they'll get sent to the process.
               ("M-<up>" . vterm--self-insert)
@@ -1296,15 +1202,6 @@ candidates, unless we're in filtering mode."
 
 (use-package yasnippet
   :commands yas-reload-all
-  :custom
-  (yas-choose-keys-first nil)
-  (yas-choose-tables-first t)
-  (yas-fallback-behavior (quote call-other-command))
-  (yas-prompt-functions
-   (quote
-    (yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)))
-  (yas-triggers-in-field t)
-  (yas-wrap-around-region nil)
   :delight yas-minor-mode
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
   :config (yas-reload-all)
@@ -1313,11 +1210,6 @@ candidates, unless we're in filtering mode."
 
 
 (load custom-file)
-
-;; Enable some disabled commands.
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 
 ;;; Some places for inspiration
 
@@ -1329,3 +1221,5 @@ candidates, unless we're in filtering mode."
 
 (provide 'init)
 ;;; init.el ends here
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
