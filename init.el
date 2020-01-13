@@ -444,6 +444,10 @@ candidates, unless we're in filtering mode."
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
+  :custom
+  (load-prefer-newer t "Prefer newer .el file over .elc")
+  (backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                            "backups"))) "Don't place backups next to the original file, but move them to .emacs.d/backups.")
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil

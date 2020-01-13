@@ -157,7 +157,6 @@
  '(keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
  '(keyfreq-mode t)
  '(line-move-visual nil)
- '(load-prefer-newer t)
  '(lsp-clients-php-server-command
    (quote
     ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
