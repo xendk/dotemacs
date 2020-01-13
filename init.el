@@ -731,6 +731,10 @@ candidates, unless we're in filtering mode."
              ivy--switch-buffer-action
              ivy-call
              swiper)
+  :custom
+  (ivy-count-format "(%d/%d) ")
+  (ivy-display-style (quote fancy))
+  (ivy-extra-directories nil)
   :init
   (ivy-mode 1)
   :bind (:map ivy-mode-map
