@@ -967,6 +967,11 @@ candidates, unless we're in filtering mode."
 
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
+  :custom
+  (projectile-cache-file "~/.emacs.d/.projectile.cache")
+  (projectile-completion-system (quote ivy))
+  (projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
+  (projectile-switch-project-action (quote projectile-vc))
   :delight ""
   :bind-keymap
   ("C-c p" . projectile-command-map)
