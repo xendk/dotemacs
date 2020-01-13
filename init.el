@@ -350,6 +350,10 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package cov
+  :custom-face
+  (cov-heavy-face ((t (:foreground "green"))))
+  (cov-light-face ((t (:foreground "orange"))))
+  (cov-none-face ((t (:foreground "red"))))
   :hook
   ((emacs-lisp-mode php-mode js-mode) . cov-mode)
   :straight t)
