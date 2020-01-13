@@ -771,6 +771,10 @@ candidates, unless we're in filtering mode."
 (use-package keyfreq
   :if xen-primary
   :commands (keyfreq-mode keyfreq-autosave-mode)
+  :custom
+  (keyfreq-autosave-mode t)
+  (keyfreq-file "~/.emacs.d/keyfreq")
+  (keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)

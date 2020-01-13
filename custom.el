@@ -136,10 +136,6 @@
  '(jit-lock-stealth-time 10)
  '(js-indent-level 2)
  '(js2-strict-missing-semi-warning nil)
- '(keyfreq-autosave-mode t)
- '(keyfreq-file "~/.emacs.d/keyfreq")
- '(keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
- '(keyfreq-mode t)
  '(line-move-visual nil)
  '(lsp-clients-php-server-command
    (quote
