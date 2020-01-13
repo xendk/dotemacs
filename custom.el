@@ -129,7 +129,6 @@
  '(git-commit-mode-hook
    (quote
     (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)) t)
- '(highlight-symbol-idle-delay 0.5)
  '(hscroll-margin 15)
  '(indent-tabs-mode nil)
  '(indentinator-idle-time 0.005)

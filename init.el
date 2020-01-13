@@ -566,6 +566,8 @@ candidates, unless we're in filtering mode."
 
 (use-package flyspell
   :commands flyspell-mode
+  :custom
+  (flyspell-default-dictionary nil)
   :hook
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
