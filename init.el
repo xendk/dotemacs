@@ -839,6 +839,15 @@ candidates, unless we're in filtering mode."
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
+  :custom
+  (magit-completing-read-function (quote ivy-completing-read))
+  (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
+  (magit-fetch-arguments (quote ("--prune")))
+  (magit-push-always-verify nil)
+  (magit-revert-buffers t t)
+  (magit-save-repository-buffers (quote dontask))
+  (magit-status-buffer-switch-function (quote switch-to-buffer))
+  (magit-use-sticky-arguments (quote current))
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c g g" . magit-status)
