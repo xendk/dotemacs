@@ -157,11 +157,6 @@
      (clojure-mode . origami-clj-parser))))
  '(password-cache-expiry 3600)
  '(php-extras-auto-complete-insert-parenthesis nil)
- '(php-file-patterns
-   (quote
-    ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
- '(php-mode-coding-style (quote psr2))
- '(php-mode-enable-project-coding-style nil)
  '(projectile-cache-file "~/.emacs.d/.projectile.cache")
  '(projectile-completion-system (quote ivy))
  '(projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
