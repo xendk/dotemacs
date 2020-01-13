@@ -126,17 +126,6 @@
      (rjsx-mode js2-basic-offset sgml-basic-offset))) nil nil "Add rjsx-mode")
  '(expand-region-subword-enabled t)
  '(fci-rule-color "#282a2e")
- '(flycheck-disabled-checkers (quote (javascript-jshint)))
- '(flycheck-eslintrc nil)
- '(flycheck-global-modes (quote (not org-mode vterm-mode)))
- '(flycheck-javascript-eslint-executable "/home/xen/.npm-global/bin/eslint")
- '(flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
- '(flycheck-phpcs-standard "PSR12")
- '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming")))
- '(flycheck-scss-compass t)
- '(flymake-cursor-error-display-delay 0.3)
- '(flymake-cursor-number-of-errors-to-display 1)
- '(flyspell-default-dictionary nil)
  '(git-commit-mode-hook
    (quote
     (turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode)) t)
