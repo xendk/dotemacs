@@ -1296,6 +1296,15 @@ candidates, unless we're in filtering mode."
 
 (use-package yasnippet
   :commands yas-reload-all
+  :custom
+  (yas-choose-keys-first nil)
+  (yas-choose-tables-first t)
+  (yas-fallback-behavior (quote call-other-command))
+  (yas-prompt-functions
+   (quote
+    (yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)))
+  (yas-triggers-in-field t)
+  (yas-wrap-around-region nil)
   :delight yas-minor-mode
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
   :config (yas-reload-all)
@@ -1304,6 +1313,11 @@ candidates, unless we're in filtering mode."
 
 
 (load custom-file)
+
+;; Enable some disabled commands.
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 ;;; Some places for inspiration
 
@@ -1315,5 +1329,3 @@ candidates, unless we're in filtering mode."
 
 (provide 'init)
 ;;; init.el ends here
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)

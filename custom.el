@@ -189,13 +189,4 @@
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t)
  '(wdired-allow-to-change-permissions t)
- '(yas-choose-keys-first nil)
- '(yas-choose-tables-first t)
- '(yas-fallback-behavior (quote call-other-command))
- '(yas-prompt-functions
-   (quote
-    (yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)))
- '(yas-triggers-in-field t)
- '(yas-wrap-around-region nil))
-
-(put 'narrow-to-region 'disabled nil)
+ )
