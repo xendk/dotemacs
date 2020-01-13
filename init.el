@@ -784,6 +784,11 @@ candidates, unless we're in filtering mode."
   :commands lsp
   ;; Can't add to company-backends before company has been loaded.
   :after company
+  :custom
+  (lsp-clients-php-server-command
+   (quote
+    ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
+  (lsp-log-max 1000)
   :init
   ;; Customize is somewhat broken for for me for lsp, so in the
   ;; meantime:

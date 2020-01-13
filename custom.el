@@ -137,10 +137,6 @@
  '(js-indent-level 2)
  '(js2-strict-missing-semi-warning nil)
  '(line-move-visual nil)
- '(lsp-clients-php-server-command
-   (quote
-    ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
- '(lsp-log-max 1000)
  '(lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
