@@ -961,6 +961,8 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package php-extras
+  :custom
+  (php-extras-auto-complete-insert-parenthesis nil)
   :straight (:host github :repo "arnested/php-extras"))
 
 (use-package projectile

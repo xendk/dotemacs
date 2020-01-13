@@ -156,7 +156,6 @@
      (lisp-interaction-mode . origami-elisp-parser)
      (clojure-mode . origami-clj-parser))))
  '(password-cache-expiry 3600)
- '(php-extras-auto-complete-insert-parenthesis nil)
  '(projectile-cache-file "~/.emacs.d/.projectile.cache")
  '(projectile-completion-system (quote ivy))
  '(projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
