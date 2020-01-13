@@ -4,7 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(add-log-time-format (quote xen-changelog-timestamp))
- '(ag-highlight-search t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(auto-hscroll-mode (quote current-line))
