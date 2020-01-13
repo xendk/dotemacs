@@ -165,7 +165,6 @@
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(set-mark-command-repeat-pop t)
  '(shift-select-mode nil)
- '(smex-save-file "/home/xen/.emacs.d/smex-items")
  '(speedbar-fetch-etags-command "etags")
  '(speedbar-hide-button-brackets-flag nil)
  '(speedbar-ignored-modes nil)

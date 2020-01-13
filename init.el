@@ -1087,6 +1087,8 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package smex
+  :custom
+  (smex-save-file "/home/xen/.emacs.d/smex-items")
   ;; autoload when needed.
   :defer t
   :straight t)
