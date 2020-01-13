@@ -609,6 +609,8 @@ candidates, unless we're in filtering mode."
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
+  :custom
+  (highlight-symbol-idle-delay 0.5)
   :delight
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . highlight-symbol-mode)
   :bind
