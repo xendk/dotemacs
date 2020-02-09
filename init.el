@@ -225,7 +225,7 @@
   ("M-Z" . avy-zap-up-to-char-dwim)
   :straight t)
 
-;; Used by magit, we'll delight it.
+;; Built in, used by magit, we'll delight it.
 (use-package autorevert
   :commands auto-revert-mode
   :delight auto-revert-mode)
@@ -374,6 +374,22 @@ candidates, unless we're in filtering mode."
   (dashboard-setup-startup-hook)
   :straight t)
 
+;; Built in.
+(use-package delsel
+  :init
+  (delete-selection-mode))
+
+;; Built in.
+(use-package desktop
+  :custom
+  ;; Look into desktop-restore-frames if frame restoring becomes annoying.
+  (desktop-restore-eager 5 "Load 5 buffers when emacs starts")
+  (desktop-save (quote ask-if-new) "Only ask if creating new")
+  (desktop-restore-in-current-display nil "Restore frames to their original display, if possible")
+  (desktop-base-file-name (if xen-primary ".emacs.desktop" ".emacs.desktop2") "Desktop file depends on whether this emacs is primary")
+  :init
+  (desktop-save-mode))
+
 (use-package diff-hl
   :commands global-diff-hl-mode
   :config (global-diff-hl-mode)
@@ -394,7 +410,6 @@ candidates, unless we're in filtering mode."
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight t)
-
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
@@ -441,9 +456,34 @@ candidates, unless we're in filtering mode."
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
   :custom
+  (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+                          "Don't place backups next to the original file, but move them to .emacs.d/backups")
+  (echo-keystrokes 0.02 "Echo keystrokes quickly")
+  (eval-expression-print-level nil "Print everything when eval'ing")
+  (help-window-select t "Makes it easier to dismiss them with q")
+  (history-delete-duplicates t "No need for dupes in history")
   (load-prefer-newer t "Prefer newer .el file over .elc")
-  (backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                            "backups"))) "Don't place backups next to the original file, but move them to .emacs.d/backups.")
+  (max-mini-window-height 0.33 "Give mini-buffers a bit more room")
+  (save-interprogram-paste-before-kill t "Don't lose clips from other programs")
+  (scroll-conservatively 2 "Scroll linewise rather than jumping")
+  (scroll-margin 5 "Keep a margin to top/bottom of window")
+  (scroll-preserve-screen-position t "Don't jump around when scrolling")
+  (track-eol t "Want to stick to end of line")
+  (whitespace-style '(tab-mark) "Make tabs more visible")
+  :init
+  ;; Show file size in mode-line.
+  (size-indication-mode)
+  ;; Show column number in mode-line.
+  (column-number-mode)
+  ;; Enable whitespace mode globally.
+  (global-whitespace-mode)
+  ;; Display tabs with a more specific character.
+  (setf
+   (cdr (assoc 'tab-mark whitespace-display-mappings))
+   '(?\t [?↹ ?\t] [?\t]))
+  ;; Protect scratch buffer against accidental killing.
+  (with-current-buffer "*scratch*"
+    (emacs-lock-mode 'kill))
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
@@ -812,7 +852,7 @@ candidates, unless we're in filtering mode."
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
   :custom
-  (lsp-ui-flycheck-live-reporting nil nil nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
+  (lsp-ui-flycheck-live-reporting nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
   :custom-face
   (lsp-ui-sideline-global ((t (:background "#3f444a"))))
   :config
@@ -1029,6 +1069,20 @@ candidates, unless we're in filtering mode."
 (use-package s
   :commands s-truncate
   :straight t)
+
+;; Built in.
+(use-package savehist
+  :custom
+  (savehist-save-minibuffer-history t "Save mini-buffer history")
+  (savehist-additional-variables
+   '(kill-ring
+     search-ring
+     regexp-search-ring
+     last-kbd-macro
+     kmacro-ring
+     shell-command-history) "Other interesting things to save")
+  :init
+  (savehist-mode))
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
