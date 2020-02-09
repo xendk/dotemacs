@@ -89,10 +89,6 @@
 ;; Take out it's mate for consistency.
 (unbind-key "M-v")
 
-;; I'm fat-fingering this when changing buffers some times. Having to
-;; delete the window is annoying.
-(unbind-key "C-x C-b")
-
 ;; 99% of the time I want to kill the current buffer.
 (bind-key "C-x k" 'kill-current-buffer)
 ;; And often I want to kill the window too.
