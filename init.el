@@ -469,7 +469,7 @@ candidates, unless we're in filtering mode."
   (scroll-margin 5 "Keep a margin to top/bottom of window")
   (scroll-preserve-screen-position t "Don't jump around when scrolling")
   (track-eol t "Want to stick to end of line")
-  (whitespace-style '(tab-mark) "Make tabs more visible")
+  (whitespace-style '(face tabs tab-mark) "Make tabs more visible")
   :init
   ;; Show file size in mode-line.
   (size-indication-mode)
