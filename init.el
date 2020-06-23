@@ -509,6 +509,12 @@ candidates, unless we're in filtering mode."
               (move-overlay rol start end (current-buffer)))
             rol))))
 
+(use-package exec-path-from-shell
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+  :straight t)
+
 (use-package executor
   :bind (:map compilation-mode-map
               ("e" . executor-execute)
