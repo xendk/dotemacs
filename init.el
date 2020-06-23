@@ -629,6 +629,15 @@ candidates, unless we're in filtering mode."
 (use-package git-attr
   :straight (:host github :repo "arnested/emacs-git-attr"))
 
+(use-package go-mode
+  :mode "\\.go\\'"
+  :defer t
+  :hook ((go-mode . subword-mode)
+         (go-mode . (lambda ()
+                      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                      (add-hook 'before-save-hook #'lsp-organize-imports t t))))
+  :straight t)
+
 (use-package google-this
   :commands (google-this-mode google-this-region)
   :delight
@@ -817,7 +826,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package lsp-mode
-  :commands lsp
+  :commands lsp lsp-deferred
   ;; Can't add to company-backends before company has been loaded.
   :after company
   :custom
@@ -842,8 +851,7 @@ candidates, unless we're in filtering mode."
                 ;; chance when lsp doesn't have any
                 ;; suggestions.
                 (add-to-list 'company-backends 'company-lsp)))
-  ;; prog-mode?
-  (php-mode . lsp)
+  (prog-mode . lsp-deferred)
   :config
   ;; This also depends on lsp-auto-configure, so we load them here.
   (when lsp-auto-require-clients
