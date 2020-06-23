@@ -825,6 +825,7 @@ candidates, unless we're in filtering mode."
    (quote
     ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
   (lsp-log-max 1000)
+  (lsp-prefer-flymake nil)
   :init
   ;; Customize is somewhat broken for for me for lsp, so in the
   ;; meantime:
