@@ -370,7 +370,10 @@ candidates, unless we're in filtering mode."
   (setq dashboard-startup-banner 'logo)
   (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
   (add-to-list 'dashboard-item-generators '(xen-todo . xen-dashboard-todo))
-  (setq dashboard-items '((projects . 20) (xen-tip) (xen-todo)))
+  (add-to-list 'dashboard-item-generators '(xen-desktops . xen-dashboard-desktops))
+  (setq dashboard-items '((xen-desktops 30) (projects . 10) (xen-tip) (xen-todo)))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
   (dashboard-setup-startup-hook)
   :straight t)
 
@@ -386,9 +389,55 @@ candidates, unless we're in filtering mode."
   (desktop-restore-eager 5 "Load 5 buffers when emacs starts")
   (desktop-save (quote ask-if-new) "Only ask if creating new")
   (desktop-restore-in-current-display nil "Restore frames to their original display, if possible")
-  (desktop-base-file-name (if xen-primary ".emacs.desktop" ".emacs.desktop2") "Desktop file depends on whether this emacs is primary")
+  (desktop-base-file-name (if xen-primary "primary" "secondary")
+                          "Default desktop file depends on whether this emacs is primary")
+  (desktop-path (list (locate-user-emacs-file "desktop")))
+  (desktop-clear-preserve-buffers
+   (quote
+    ("\\*scratch\\*" "\\*Messages\\*" "\\*server\\*" "\\*tramp/.+\\*" "\\*Warnings\\*" "\\*dashboard\\*"))
+   "Add dashboard to preserved buffers.")
+
   :init
-  (desktop-save-mode))
+  (defun xen-save-desktop (name)
+    (interactive "sSave desktop as: ")
+    ;; Release lock on any existing.
+    (desktop-release-lock)
+    (let ((desktop-base-file-name name)
+          (desktop-base-lock-name (concat name ".lock")))
+      (desktop-save desktop-dirname t))
+    (desktop-clear))
+  (defun xen-load-desktop (name)
+    (interactive "sLoad desktop: ")
+    ;; todo: check existence
+    ;; (unless ())
+    (desktop-release-lock)
+    (let ((desktop-base-file-name name)
+          (desktop-base-lock-name (concat name ".lock")))
+      (desktop-clear)
+      (desktop-read desktop-dirname)
+      (desktop-release-lock))
+    ;; Fudge loaded file mtime to avoid warnings about overwriting different desktop file.
+    (setq desktop-file-modtime (nth 5 (file-attributes (desktop-full-file-name)))))
+  (defun xen-switch-desktop (name)
+    (interactive "sSwitch to desktop: ")
+    (desktop-release-lock)
+    (when (file-exists-p (concat (file-name-as-directory (locate-user-emacs-file "desktop")) name))
+      (desktop-clear))
+    (setq desktop-base-file-name name)
+    (setq desktop-base-lock-name (concat name ".lock"))
+    (desktop-read desktop-dirname)
+    (unless desktop-save-mode
+      (desktop-save-mode)))
+  (defun xen-close-desktop ()
+    (interactive)
+    (desktop-release-lock)
+    (desktop-clear)
+    (let ((name (if xen-primary "primary" "secondary")))
+      (setq desktop-base-file-name name)
+      (setq desktop-base-lock-name (concat name ".lock")))
+    (when desktop-save-mode
+      (desktop-save-mode -1)))
+  )
 
 (use-package diff-hl
   :commands global-diff-hl-mode

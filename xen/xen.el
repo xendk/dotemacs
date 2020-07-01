@@ -217,16 +217,37 @@ Passes TIME and ZONE to `format-time-string.'"
   "Insert a tip into the dashboard.
 
 LIST-SIZE is ignored."
+  (dashboard-insert-heading "Tip of the day" "t")
+  (insert "\n")
   (let ((tips (with-temp-buffer
                 (insert-file-contents (locate-user-emacs-file "tips"))
                 (split-string (buffer-string) "\f" t))))
-    (insert (elt tips (random (length tips))))))
+    (insert (elt tips (random (length tips)))))
+  (dashboard-insert-shortcut "t" "Tip of the day"))
 
 (defun xen-dashboard-todo (list-size)
   "Insert todo in the dashboard.
 
 LIST-SIZE is ignored."
-  (insert-file-contents (locate-user-emacs-file "todo")))
+  (dashboard-insert-heading "Todo" "o")
+  (insert "\n")
+  (insert-file-contents (locate-user-emacs-file "todo"))
+  (dashboard-insert-shortcut "o" "Todo"))
+
+(defun xen-dashboard-desktops (list-size)
+  "Insert list of saved desktops in the dashboard.
+
+LIST-SIZE is the maximum number to insert."
+  (dashboard-insert-section
+   "Desktops:"
+   (dashboard-subseq (directory-files (locate-user-emacs-file "desktop") nil "[^.].*")
+                     0 list-size)
+   list-size
+   "d"
+   `(lambda (&rest ignore) (xen-switch-desktop ,el))
+   el
+   )
+  )
 
 ;; misc minor modes
 
