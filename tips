@@ -44,3 +44,25 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Coding-Conventions.htm
 
  C-c a counsel-ag
  C-u C-c a counsel-ag with dir and args
+
+Movement:
+
+M-< beginning-of-buffer
+M-> end-of-buffer
+C-M-f           forward-sexp
+C-M-b           backward-sexp
+C-M-d           down-list
+C-M-n           forward-list
+C-M-p           backward-list
+C-u C-SPC       (pop-mark)
+
+The Emacs Package Developer's Handbook
+https://alphapapa.github.io/emacs-package-dev-handbook/
+
+' is shorthand for (quote)
+#' is shorthand for (function)
+
+The latter does the same as the first, but tells the compiler that
+it's a function. Lambdas have one implicitly.
+
+M-x speed-type-text
