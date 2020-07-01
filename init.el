@@ -1405,7 +1405,7 @@ candidates, unless we're in filtering mode."
   ("C-c S" . vterm))
 
 (use-package yaml-mode
-  :mode "\\.e?ya?ml$"
+  :mode "\\.e?ya?ml\\(.dist\\)$"
   :straight t)
 
 (use-package yasnippet
