@@ -687,6 +687,9 @@ candidates, unless we're in filtering mode."
 (use-package go-mode
   :mode "\\.go\\'"
   :defer t
+  :config
+  ;; Tell gopls that we're using go modules.
+  (setenv "GO111MODULE" "on")
   :hook ((go-mode . subword-mode)
          (go-mode . (lambda ()
                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
