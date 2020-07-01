@@ -47,3 +47,11 @@ ede-projects.el
 games
 ; W3 cookies
 url
+; Speed-type data
+speed-type
+; save-hist
+history
+; emacs-emojify
+emojis
+; desktops
+desktop
