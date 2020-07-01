@@ -936,6 +936,9 @@ candidates, unless we're in filtering mode."
   (magit-save-repository-buffers (quote dontask))
   (magit-status-buffer-switch-function (quote switch-to-buffer))
   (magit-use-sticky-arguments (quote current))
+  ;; Don't require selecting a commit if point is already on one when
+  ;; creating fixup and squash commits.
+  (magit-commit-squash-confirm nil)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (;; Add shortcut to open magit status buffer.
          ("C-c g g" . magit-status)
