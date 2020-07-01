@@ -91,8 +91,7 @@
         (make-local-variable 'flycheck-php-phpcs-executable)
         (setq flycheck-php-phpcs-executable (concat composer-root "/vendor/bin/phpcs"))
         (make-local-variable 'flycheck-phpcs-standard)
-        (setq flycheck-phpcs-standard nil)
-        ))))
+        (setq flycheck-phpcs-standard nil)))))
 
 ;; Geben hackery.
 ;; (defun xen-geben-open ()
