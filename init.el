@@ -892,40 +892,25 @@ candidates, unless we're in filtering mode."
    (quote
     ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
   (lsp-log-max 1000)
-  (lsp-prefer-flymake nil)
   :init
-  ;; Customize is somewhat broken for for me for lsp, so in the
-  ;; meantime:
-  (setq lsp-auto-configure nil)
+  ;; Recommended setup.
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-prefer-capf t)
+  ;;(setq lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar")
   :hook
   (lsp-mode . lsp-ui-mode)
-  (lsp-mode . (lambda ()
-                (lsp-ui-flycheck-enable t)
-                ;; Not currently using imenu, but enable the
-                ;; support anyway.
-                (lsp-enable-imenu)
-                ;; Add lsp to backends rather than replacing
-                ;; it, so the existing completers will get a
-                ;; chance when lsp doesn't have any
-                ;; suggestions.
-                (add-to-list 'company-backends 'company-lsp)))
   (prog-mode . lsp-deferred)
   :config
-  ;; This also depends on lsp-auto-configure, so we load them here.
-  (when lsp-auto-require-clients
-    (require 'lsp-clients))
+  (flycheck-add-next-checker 'lsp 'php-phpcs)
+  (unbind-key "C-S-SPC" lsp-mode-map)
   :straight t)
 
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
-  :custom
-  (lsp-ui-flycheck-live-reporting nil "Letting flycheck perform check rather than wait for lsp to trigger it, performs better.")
   :custom-face
   (lsp-ui-sideline-global ((t (:background "#3f444a"))))
   :config
-  ;; Add phpcs as next-checker after lsp, so we get our PSR/Drupal
-  ;; style checkers back.
-  (flycheck-add-next-checker 'lsp-ui '(warning . php-phpcs))
   ;; Use sideline mode in all flycheck buffers. Better than displaying
   ;; in mini-buffer or flycheck-inline.
   (require 'lsp-ui-flycheck)
