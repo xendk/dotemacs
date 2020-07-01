@@ -495,7 +495,7 @@ candidates, unless we're in filtering mode."
   :commands eldoc-mode
   :delight)
 
-;; Core emacs stuff.
+;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
 (use-package emacs
   :delight
   (auto-fill-function)
