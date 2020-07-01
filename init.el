@@ -1040,10 +1040,13 @@ candidates, unless we're in filtering mode."
 
 (use-package php-mode
   :commands php-mode
+  :mode
+  ("\\.php[s34]?\\'" . php-mode)
+  ("\\.phtml\\'" . php-mode)
+  ("\\.inc\\'" . php-mode)
+  ("\\.module\\'" . php-mode)
+  :magic ("<?php" . php-mode-maybe)
   :custom
-  (php-file-patterns
-   (quote
-    ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'" "\\.module\\'")))
   (php-mode-coding-style (quote psr2))
   (php-mode-enable-project-coding-style nil)
   :config
