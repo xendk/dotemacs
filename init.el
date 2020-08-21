@@ -1285,6 +1285,7 @@ candidates, unless we're in filtering mode."
 (use-package vterm
   :custom
   (vterm-max-scrollback 100000)
+  (vterm-buffer-name-string "vterm: %s")
   :bind (:map vterm-mode-map
               ;; Rebind M/C-cursors so they'll get sent to the process.
               ("M-<up>" . vterm--self-insert)
@@ -1297,11 +1298,6 @@ candidates, unless we're in filtering mode."
               ("C-<left>" . vterm--self-insert)
               ("<delete>" . vterm--self-insert)
               ("C-<backspace>" . vterm--self-insert))
-  :config
-  ;; Set buffer name to terminal title.
-  (defun xen-vterm--rename-buffer-as-title (title)
-    (rename-buffer (format "*VTerm %s*" title) t))
-  (add-hook 'vterm-set-title-functions 'xen-vterm--rename-buffer-as-title)
   :straight t)
 
 ;; Writable grep buffer.
