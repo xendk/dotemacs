@@ -883,6 +883,11 @@ candidates, unless we're in filtering mode."
   (keyfreq-autosave-mode 1)
   :straight t)
 
+(use-package literate-calc-mode
+  :commands literate-calc-mode
+  :defer t
+  :straight t)
+
 (use-package lsp-mode
   :commands lsp lsp-deferred
   ;; Can't add to company-backends before company has been loaded.
