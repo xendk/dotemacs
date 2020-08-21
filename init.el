@@ -978,6 +978,7 @@ candidates, unless we're in filtering mode."
 
 (use-package magithub
   :commands magithub-feature-autoinject
+  :disabled t
   :after magit
   :config (magithub-feature-autoinject t)
   :straight t)
