@@ -913,24 +913,23 @@ candidates, unless we're in filtering mode."
   :hook
   (lsp-mode . lsp-ui-mode)
   (prog-mode . lsp-deferred)
+  ;; This is not proper as the lsp checker is global across modes, and
+  ;; this adds php-phpcs in all modes. But until lsp/flycheck deals
+  ;; with this problem, this will work.
+  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'lsp 'php-phpcs)))
   :config
-  (flycheck-add-next-checker 'lsp 'php-phpcs)
   (unbind-key "C-S-SPC" lsp-mode-map)
   :straight t)
 
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
+  :after lsp
   :custom-face
   (lsp-ui-sideline-global ((t (:background "#3f444a"))))
   :config
   ;; Use sideline mode in all flycheck buffers. Better than displaying
   ;; in mini-buffer or flycheck-inline.
-  (require 'lsp-ui-flycheck)
   :hook (flycheck-mode . lsp-ui-sideline-mode)
-  :straight t)
-
-(use-package company-lsp
-  :commands company-lsp
   :straight t)
 
 (use-package nginx-mode
