@@ -87,9 +87,11 @@
   "Setup flycheck to use a composer installed phpcs."
   (when (buffer-file-name)
     (let ((composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
-      (when (and composer-root (file-exists-p (concat composer-root "/vendor/bin/phpcs")))
+      (when (and composer-root (file-exists-p (concat composer-root "vendor/bin/phpcs")))
         (make-local-variable 'flycheck-php-phpcs-executable)
-        (setq flycheck-php-phpcs-executable (concat composer-root "/vendor/bin/phpcs"))
+        (setq flycheck-php-phpcs-executable (concat composer-root "vendor/bin/phpcs"))
+        (make-local-variable 'flycheck-drupal-phpcs-executable)
+        (setq flycheck-drupal-phpcs-executable (concat composer-root "vendor/bin/phpcs"))
         (make-local-variable 'flycheck-phpcs-standard)
         (setq flycheck-phpcs-standard nil)))))
 
