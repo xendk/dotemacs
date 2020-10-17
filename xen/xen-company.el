@@ -61,7 +61,7 @@ COMMAND, ARG and IGNORED is the arguments passed by company."
   candidates)
 
 (defun xen-company-filter (candidates)
-  "Remove the first string from CANDIDATES if it match prefix."
+  "Remove the first string from CANDIDATES if it match the prefix."
   (when (equal (car candidates) (company-call-backend 'prefix))
     (setq candidates (cdr candidates)))
   candidates)
