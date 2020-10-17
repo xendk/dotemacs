@@ -1357,7 +1357,9 @@ candidates, unless we're in filtering mode."
   ("<f12>" . xen-big-fringe-mode)
   ("C-S-d" . xen-duplicate-current-line)
   ("C-S-l" . xen-mark-lines)
-  ("C-c x" . xen-map))
+  ("C-c x" . xen-map)
+  ("M-g g" . xen-avy-goto-line)
+  ("M-g M-g" . xen-avy-goto-line))
 
 (use-package xen-company
   :load-path "~/.emacs.d/xen/")
