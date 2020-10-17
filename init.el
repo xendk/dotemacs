@@ -70,6 +70,8 @@
 
 ;; Bootstrap `use-package'
 (customize-set-variable 'use-package-verbose t)
+;; Emacs 26 doesn't seem to know that it has nadvice.
+(customize-set-variable 'straight-built-in-pseudo-packages (quote (emacs python nadvice)))
 (straight-use-package 'use-package)
 ;; When flycheck checks this file it needs use-package (and straight
 ;; above) loaded to understand the use-package forms. Also the reason
