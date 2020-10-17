@@ -1396,7 +1396,7 @@ candidates, unless we're in filtering mode."
   :after (projectile ivy)
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
-              ("S" . vterm)))
+              ("S" . projectile-run-vterm)))
 
 (use-package xen-swiper
   :load-path "~/.emacs.d/xen/"
