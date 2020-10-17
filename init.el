@@ -288,16 +288,16 @@
   ;; Use the TAB only frontend. Configure before enabling the mode, so
   ;; we'll get the tng frontend in before anyone makes
   ;; company-frontends buffer local.
-  (company-tng-configure-default)
+  (company-tng-mode)
 
   ;; Define a frontend that displays a preview, but only when tng
   ;; hasn't made a selection yet.
-  (defun company-preview-if-not-tng-frontend (command)
+  (defun company-preview-common-if-not-tng-frontend (command)
     "`company-preview-frontend', but not when tng is active."
     (unless (and (eq command 'post-command)
                  company-selection-changed
                  (memq 'company-tng-frontend company-frontends))
-      (company-preview-frontend command)))
+      (company-preview-common-frontend command)))
   ;; Variant of `company-pseudo-tooltip-unless-just-one-frontend' that
   ;; still shows a dropdown with only one candidate when filtering.
   (defun company-pseudo-tooltip-unless-just-one-frontend-2 (command)
@@ -309,7 +309,7 @@ candidates, unless we're in filtering mode."
 
   (setq company-frontends '(company-tng-frontend
                             company-pseudo-tooltip-unless-just-one-frontend-2
-                            company-preview-if-not-tng-frontend
+                            company-preview-common-if-not-tng-frontend
                             company-echo-metadata-frontend))
 
   (global-company-mode)
