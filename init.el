@@ -1276,6 +1276,14 @@ candidates, unless we're in filtering mode."
   :commands watch-buffer
   :straight t)
 
+(use-package which-key
+  :init
+  (which-key-mode)
+  :custom
+  (which-key-show-early-on-C-h t)
+  (which-key-sort-order (quote which-key-key-order))
+  :straight t)
+
 (use-package visual-fill-column
   :commands visual-fill-column-mode
   :straight t)
