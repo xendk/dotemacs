@@ -854,6 +854,7 @@ candidates, unless we're in filtering mode."
               ("<f1> l" . counsel-load-library)
               ("<f2> i" . counsel-info-lookup-symbol)
               ("<f2> u" . counsel-unicode-char)
+              ("C-c z" . ivy-resume)
               :map ivy-minibuffer-map
               ("S-<return>" . ivy-immediate-done)
               ;; Like isearch.
