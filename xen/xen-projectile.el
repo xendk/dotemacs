@@ -26,6 +26,7 @@
 
 (require 'projectile)
 (require 'ivy)
+(require 'xen-vterm)
 
 (defun xen-projectile-switch-to-shell ()
   "Switch to shell buffer in project. Use ivy if multiple buffers."
@@ -33,7 +34,6 @@
   (if (projectile-project-p)
       (xen-switch-to-shell (projectile-project-buffers))
     (message "No project.")))
-
 
 (provide 'xen-projectile)
 ;;; xen-projectile.el ends here
