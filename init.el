@@ -712,6 +712,10 @@ candidates, unless we're in filtering mode."
   :commands ggtags-mode
   :straight t)
 
+(use-package github-review
+  :after forge
+  :straight t)
+
 (use-package highlight-symbol
   :commands highlight-symbol-mode
   :custom
