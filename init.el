@@ -711,7 +711,9 @@ candidates, unless we're in filtering mode."
   ;; Let xen-vterm handle hl-line-mode toggling in vterm buffers.
   :hook
   (after-change-major-mode . (lambda ()
-                               (unless (eq major-mode 'vterm-mode)
+                               "Enable hl-line-mode unless in minibuffer or vterm-mode"
+                               (unless (or (minibufferp)
+                                           (eq major-mode 'vterm-mode))
                                  (hl-line-mode)))))
 
 (use-package hungry-delete
