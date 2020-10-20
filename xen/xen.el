@@ -234,21 +234,6 @@ LIST-SIZE is ignored."
   (insert-file-contents (locate-user-emacs-file "todo"))
   (dashboard-insert-shortcut "o" "Todo"))
 
-(defun xen-dashboard-desktops (list-size)
-  "Insert list of saved desktops in the dashboard.
-
-LIST-SIZE is the maximum number to insert."
-  (dashboard-insert-section
-   "Desktops:"
-   (dashboard-subseq (directory-files (locate-user-emacs-file "desktop") nil "[^.].*")
-                     0 list-size)
-   list-size
-   "d"
-   `(lambda (&rest ignore) (xen-switch-desktop ,el))
-   el
-   )
-  )
-
 ;; misc minor modes
 
 (defun xen-fix-minor-mode-order (file)
