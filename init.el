@@ -125,6 +125,10 @@
 ;; default colors in case of error later.
 (use-package doom-themes
   :config
+  ;; Make the comments brighter and loose the background color.
+  (setq doom-one-brighter-comments t
+        doom-one-comment-bg nil)
+
   ;; Load the theme
   (load-theme 'doom-one t)
 
@@ -142,10 +146,6 @@
   ;; Default hl-line clashes with the new solaire-default.
   (eval-after-load 'hl-line
     '(set-face-background 'hl-line "#282c34"))
-
-  ;; Make comments starker colors.
-  (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
-  (set-face-foreground 'font-lock-doc-face (doom-lighten 'cyan .25))
 
   ;; Make symbol highlight and region highlights a darker version of the region.
   (eval-after-load 'region-occurrences-highlighter
