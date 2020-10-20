@@ -67,17 +67,24 @@ Limit to buffers BUFFER-LIST if supplied."
 
     (cond
      ((not buffers) (call-interactively 'vterm))
-     ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
-     (t (ivy-read "Shell buffer: "
+     ;; ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
+     (t (ivy-read "Shell buffer (S-RET for new): "
                   (mapcar #'buffer-name buffers)
                   :matcher #'ivy--switch-buffer-matcher
                   :preselect (buffer-name (other-buffer (current-buffer)))
-                  :action #'ivy--switch-buffer-action
+                  :action #'xen-ivy--switch-vbuffer-action
                   :keymap ivy-switch-buffer-map
                   :caller 'ivy-switch-buffer
                   :update-fn (lambda ()
                                (if (get-buffer (ivy-state-current ivy-last))
                                    (ivy-call))))))))
+
+(defun xen-ivy--switch-vbuffer-action (buffer)
+  "Switch to vterm BUFFER.
+If BUFFER is an empty string, create a new vterm buffer."
+  (if (string-empty-p buffer)
+      (vterm)
+    (ivy--switch-buffer-action buffer)))
 
 (provide 'xen-vterm)
 ;;; xen-vterm.el ends here
