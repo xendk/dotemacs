@@ -51,7 +51,7 @@ Used to restore the original mode line face.")
     (hl-line-mode -1)))
 
 (defun xen-switch-to-shell (&optional buffer-list)
-  "Switch to a shell buffer. Use ivy if multiple buffers.
+  "Switch to a vterm buffer. Create one or use ivy.
 
 Limit to buffers BUFFER-LIST if supplied."
   (interactive)
