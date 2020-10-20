@@ -1277,7 +1277,6 @@ candidates, unless we're in filtering mode."
   ("C-c m" . vr/mc-mark)
   :straight t)
 
-;; TODO: Use vterm-exit-functions to automatically kill buffers when shell-exits.
 (use-package vterm
   :custom
   (vterm-max-scrollback 100000)
