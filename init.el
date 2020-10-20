@@ -427,10 +427,13 @@ candidates, unless we're in filtering mode."
    "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
   (drupal/emacs-drush-update-tags-after-save t)
   (drupal/phpcs-standard
-   "/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/Drupal,/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/DrupalPractice")
+   (string-join
+    (list "/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/Drupal"
+          "/home/xen/.config/composer/vendor/drupal/coder/coder_sniffer/DrupalPractice")
+    ","))
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
-  :straight t)
+  :straight (:host github :repo "arnested/drupal-mode" :branch "develop"))
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
