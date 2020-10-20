@@ -29,7 +29,6 @@
  '(company-box-icons-alist (quote company-box-icons-all-the-icons))
  '(company-dabbrev-code-everywhere nil)
  '(company-idle-delay 0)
- '(company-lsp-cache-candidates t nil nil "Work around php-language-server not filtering and sorting hints. See https://github.com/tigersoldier/company-lsp/issues/79")
  '(company-minimum-prefix-length 2)
  '(company-require-match nil)
  '(company-search-regexp-function (quote company-search-words-in-any-order-regexp))

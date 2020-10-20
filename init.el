@@ -875,16 +875,15 @@ candidates, unless we're in filtering mode."
   ;; Can't add to company-backends before company has been loaded.
   :after company
   :custom
-  (lsp-clients-php-server-command
-   (quote
-    ("php" "/home/xen/.emacs.d/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php")))
   (lsp-log-max 1000)
+  (lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar" "Set server path")
+  (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
   :init
   ;; Recommended setup.
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (setq lsp-prefer-capf t)
-  ;;(setq lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar")
+  (setq lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar")
   :hook
   (lsp-mode . lsp-ui-mode)
   (prog-mode . lsp-deferred)
