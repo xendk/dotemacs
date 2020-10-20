@@ -1294,6 +1294,10 @@ candidates, unless we're in filtering mode."
               ("C-<left>" . vterm--self-insert)
               ("<delete>" . vterm--self-insert)
               ("C-<backspace>" . vterm--self-insert))
+  :hook
+  ;; Disable string highlighting.
+  (vterm-mode . (lambda ()
+                  (setq-local font-lock-keywords-only t)))
   :straight t)
 
 ;; Writable grep buffer.
