@@ -9,9 +9,6 @@
 ;; gets activated.
 (set-face-foreground 'default "#bbc2cf")
 (set-face-background 'default "#21242b")
-;; Setting the bright background, as that seems to be the default used
-;; in startup.
-(set-face-background 'default "#282c34")
 ;; Set font too.
 (set-face-attribute 'default nil :height 110 :width
                     'semi-condensed :foundry "FBI " :family "Input")
@@ -130,6 +127,21 @@
   :config
   ;; Load the theme
   (load-theme 'doom-one t)
+
+  ;; Make the background darker.
+  (set-face-background 'default "#21242b")
+
+  ;; Make modeline follow bockground.
+  (set-face-background 'mode-line (doom-darken (doom-color 'bg-alt) .15))
+  (set-face-background 'mode-line-inactive (doom-darken (doom-color 'bg-alt) .1))
+
+  ;; Make solaire-mode background darker.
+  (eval-after-load 'solaire-mode
+    '(set-face-background 'solaire-default-face "#14161a"))
+
+  ;; Default hl-line clashes with the new solaire-default.
+  (eval-after-load 'hl-line
+    '(set-face-background 'hl-line "#282c34"))
 
   ;; Make comments starker colors.
   (set-face-foreground 'font-lock-comment-face (doom-lighten 'cyan .5))
@@ -1173,10 +1185,17 @@ candidates, unless we're in filtering mode."
 
 (use-package solaire-mode
   :hook
-  ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+  ((after-change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
   (minibuffer-setup . solaire-mode-in-minibuffer)
   :config
-  (solaire-mode-swap-bg)
+  ;; We're actually doing the reverse and darkening non-file-visiting buffers.-
+  (defun xen-solaire-mode-not-real-buffer-p ()
+    "Return t if the BUF is not a file-visiting buffer and not vterm buffer."
+    ;; vterm-mode doesn't play nice with face remapping. Only remamps
+    ;; the background after the content, which looks bad.
+    (and (not (buffer-file-name (buffer-base-buffer)))
+         (not (eq major-mode 'vterm-mode))))
+  (setq solaire-mode-auto-swap-bg nil)
   :straight t)
 
 (use-package speed-type
