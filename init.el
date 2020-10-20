@@ -296,6 +296,27 @@
   ;; completers and functions.
   :after (php-extras xen-company)
   :defines company-semantic-modes
+  :custom
+  (company-auto-commit nil)
+  (company-backends
+   (quote
+    (company-elisp
+     (:separate company-capf php-extras-company company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
+     company-bbdb company-semantic company-clang company-cmake
+     (company-dabbrev-code-xen company-gtags company-etags company-keywords)
+     company-oddmuse company-files company-dabbrev)))
+  (company-dabbrev-code-everywhere nil)
+  (company-idle-delay 0)
+  (company-minimum-prefix-length 2)
+  (company-require-match nil)
+  (company-search-regexp-function (quote company-search-words-in-any-order-regexp))
+  (company-show-numbers nil)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-flip-when-above nil)
+  (company-tooltip-idle-delay 0)
+  (company-tooltip-limit 30)
+  (company-tooltip-minimum 20)
+  (company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
   :config
   ;; Use the TAB only frontend. Configure before enabling the mode, so
   ;; we'll get the tng frontend in before anyone makes
@@ -411,6 +432,8 @@ candidates, unless we're in filtering mode."
 ;; Built in.
 (use-package display-line-numbers-mode
   :commands display-line-numbers-mode
+  :custom
+  (display-line-numbers-grow-only t "Only grow room for line numbers")
   :hook (prog-mode . (lambda ()
                        "Enable line numbers in file-visiting buffers."
                        (when (buffer-file-name (buffer-base-buffer))
@@ -625,6 +648,8 @@ candidates, unless we're in filtering mode."
                       ;; Use error level from phpstan.neon.
                       (setq phpstan-level nil)))
   :after flycheck
+  :custom
+  (phpstan-enable-on-no-config-file nil)
   :config
   (eval-after-load 'flycheck
     '(flycheck-add-next-checker 'php-phpcs '(t . phpstan)))
@@ -1193,6 +1218,9 @@ candidates, unless we're in filtering mode."
   :hook
   ((after-change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
   (minibuffer-setup . solaire-mode-in-minibuffer)
+  :custom
+  (solaire-mode-auto-swap-bg t)
+  (solaire-mode-real-buffer-fn (quote xen-solaire-mode-not-real-buffer-p))
   :config
   ;; We're actually doing the reverse and darkening non-file-visiting buffers.-
   (defun xen-solaire-mode-not-real-buffer-p ()
@@ -1263,7 +1291,11 @@ candidates, unless we're in filtering mode."
   :init
   (which-key-mode)
   :custom
+  (which-key-idle-secondary-delay 0.1)
+  (which-key-mode t)
+  (which-key-popup-type (quote side-window))
   (which-key-show-early-on-C-h t)
+  (which-key-side-window-max-height 0.5)
   (which-key-sort-order (quote which-key-key-order))
   :straight t)
 
