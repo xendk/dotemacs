@@ -1093,6 +1093,8 @@ candidates, unless we're in filtering mode."
 
 (use-package reaper
   :load-path "~/.emacs.d/reaper/"
+  :config
+  (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
   :bind ("C-c h" . reaper))
 
 (use-package region-occurrences-highlighter

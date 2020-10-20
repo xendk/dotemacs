@@ -53,3 +53,5 @@ speed-type
 history
 ; emacs-emojify
 emojis
+; Reaper key
+reaper-key.el
