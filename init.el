@@ -418,7 +418,7 @@ candidates, unless we're in filtering mode."
 
 (use-package diff-hl
   :commands global-diff-hl-mode
-  :config (global-diff-hl-mode)
+  :init (global-diff-hl-mode)
   :straight t)
 
 (use-package dimmer
