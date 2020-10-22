@@ -103,10 +103,10 @@
 ;;     (let ((geben-current-session (car geben-sessions)))
 ;;       (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name))))))
 
-;; These was copied from the smartparens' authors personal
+;; These was originally copied from the smartparens' authors personal
 ;; configuration at
 ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
-
+;; Some modifications has been made.
 (defun xen-php-wrap-handler (&rest _ignored)
   "Wrap block properly.
 Inserts newline in after the start brace and before the end
@@ -189,7 +189,7 @@ brace, if needed, and indents."
       (save-excursion
         (insert "\n"))
       )
-    (when jump-to
+    (when bound
       (re-search-forward jump-to bound t))
     )
   (let ((o (sp--get-active-overlay))
