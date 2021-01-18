@@ -394,7 +394,7 @@ candidates, unless we're in filtering mode."
   :custom
   (dap-php-debug-program
    (quote
-    ("node" "/home/xen/.emacs.d/vscode-php-debug/out/phpDebug.js")))
+    ("node" (concat user-emacs-directory "vscode-php-debug/out/phpDebug.js"))))
   :straight t)
 
 (use-package dashboard
@@ -473,11 +473,11 @@ candidates, unless we're in filtering mode."
 
 (use-package ede-php-autoload-composer-installers
   :after ede-php-autoload-mode
-  :load-path "~/.emacs.d/ede-php-autoload-composer-installers/")
+  :load-path  "ede-php-autoload-composer-installers")
 
 (use-package ede-php-autoload-drupal
   :after ede-php-autoload-mode
-  :load-path "~/.emacs.d/ede-php-autoload-drupal/")
+  :load-path "ede-php-autoload-drupal")
 
 (use-package editorconfig
   :config
@@ -504,7 +504,7 @@ candidates, unless we're in filtering mode."
   :hook (prog-mode . eldoc-mode)
   :custom
   (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
-                          "Don't place backups next to the original file, but move them to .emacs.d/backups")
+                          "Don't place backups next to the original file, but move them to <user-emacs-directory>/backups")
   (echo-keystrokes 0.02 "Echo keystrokes quickly")
   (eval-expression-print-level nil "Print everything when eval'ing")
   (help-window-select t "Makes it easier to dismiss them with q")
@@ -870,7 +870,7 @@ candidates, unless we're in filtering mode."
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
-  :load-path "~/.emacs.d/lib/"
+  :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
 
@@ -883,8 +883,8 @@ candidates, unless we're in filtering mode."
   :commands (keyfreq-mode keyfreq-autosave-mode)
   :custom
   (keyfreq-autosave-mode t)
-  (keyfreq-file "~/.emacs.d/keyfreq")
-  (keyfreq-file-lock "~/.emacs.d/keyfreq.lock")
+  (keyfreq-file (concat user-emacs-directory "keyfreq"))
+  (keyfreq-file-lock (concat user-emacs-directory "keyfreq.lock"))
   :init
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1)
@@ -901,7 +901,7 @@ candidates, unless we're in filtering mode."
   :after company
   :custom
   (lsp-log-max 1000)
-  (lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar" "Set server path")
+  (lsp-serenata-server-path (concat user-emacs-directory "serenata-5.3.0.phar") "Set server path")
   (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
   :init
   ;; Recommended setup.
@@ -1008,7 +1008,7 @@ candidates, unless we're in filtering mode."
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
 (use-package multi-mode
-  :load-path "~/.emacs.d/lib/"
+  :load-path "lib/"
   :commands multi-mode)
 ;; Example:
 ;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
@@ -1073,9 +1073,9 @@ candidates, unless we're in filtering mode."
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
   :custom
-  (projectile-cache-file "~/.emacs.d/.projectile.cache")
+  (projectile-cache-file (concat user-emacs-directory ".projectile.cache"))
   (projectile-completion-system (quote ivy))
-  (projectile-known-projects-file "~/.emacs.d/.projectile-bookmarks.eld")
+  (projectile-known-projects-file (concat user-emacs-directory ".projectile-bookmarks.eld"))
   (projectile-switch-project-action (quote projectile-vc))
   :delight ""
   :bind-keymap
@@ -1116,7 +1116,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package reaper
-  :load-path "~/.emacs.d/reaper/"
+  :load-path "reaper"
   :config
   (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
   :bind ("C-c h" . reaper))
@@ -1165,11 +1165,11 @@ candidates, unless we're in filtering mode."
 ;; Figure this one out.
 ;; (use-package semantic-php
 ;;   :commands semantic-mode
-;;   :load-path "~/.emacs.d/semantic-php/"
+;;   :load-path "semantic-php/"
 ;;   :init
 ;;   (add-hook 'php-mode-hook #'semantic-mode)
 ;;   :config
-;;   (load "~/.emacs.d/semantic-php/loaddefs.el")
+;;   (load (concat user-emacs-directory "semantic-php/loaddefs.el"))
 ;;   (add-to-list 'company-semantic-modes 'php-mode)
 ;;   )
 
@@ -1209,7 +1209,7 @@ candidates, unless we're in filtering mode."
 
 (use-package smex
   :custom
-  (smex-save-file "/home/xen/.emacs.d/smex-items")
+  (smex-save-file (concat user-emacs-directory "smex-items"))
   ;; autoload when needed.
   :defer t
   :straight t)
@@ -1262,7 +1262,7 @@ candidates, unless we're in filtering mode."
   :commands global-undo-tree-mode
   :custom
   (undo-tree-auto-save-history t)
-  (undo-tree-history-directory-alist (quote (("." . "/home/xen/.emacs.d/undo-history"))))
+  (undo-tree-history-directory-alist (list (cons "." (concat user-emacs-directory "undo-history"))))
   (undo-tree-visualizer-diff nil)
   (undo-tree-visualizer-relative-timestamps t)
   (undo-tree-visualizer-timestamps t)
@@ -1364,7 +1364,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package xen
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :demand
   ;;:functions xen-coding-common-bindings
   :hook
@@ -1381,20 +1381,20 @@ candidates, unless we're in filtering mode."
   ("M-g M-g" . xen-avy-goto-line))
 
 (use-package xen-company
-  :load-path "~/.emacs.d/xen/")
+  :load-path "xen")
 
 (use-package xen-flycheck
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :functions xen-flycheck-mode-line-status-text)
 
 (use-package xen-paired-delete
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :after (smartparens)
   :config
   (global-xen-paired-delete-mode))
 
 (use-package xen-php
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :hook
   (php-mode . xen-php-setup-composer-phpcs-for-flycheck)
   :config
@@ -1411,14 +1411,14 @@ candidates, unless we're in filtering mode."
   :after (php-mode))
 
 (use-package xen-projectile
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :after (projectile ivy)
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
               ("S" . projectile-run-vterm)))
 
 (use-package xen-swiper
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :commands xen-counsel-rg
   :after (ivy)
   :bind (("C-<tab>" . xen-swiper)
@@ -1429,7 +1429,7 @@ candidates, unless we're in filtering mode."
          ("C-x b" . xen-switch-buffer)))
 
 (use-package xen-vterm
-  :load-path "~/.emacs.d/xen/"
+  :load-path "xen"
   :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
   :bind
   ("C-c s" . xen-switch-to-shell)
