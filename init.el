@@ -1133,6 +1133,11 @@ candidates, unless we're in filtering mode."
               ("M-<down>" . region-occurrences-highlighter-next))
   :straight t)
 
+(use-package restclient
+  :defer t
+  :mode (("\\.http$" . restclient-mode))
+  :straight t)
+
 (use-package rjsx-mode
   :commands rjsx-mode
   :mode "components\\/.*\\.js\\'"
