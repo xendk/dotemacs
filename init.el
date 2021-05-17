@@ -880,7 +880,8 @@ candidates, unless we're in filtering mode."
 
 ;; Built in.
 (use-package js
-  :commands js-mode)
+  :commands js-mode
+  :mode "\\.ts$")
 
 (use-package keyfreq
   :if xen-primary
