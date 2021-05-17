@@ -1340,7 +1340,7 @@ candidates, unless we're in filtering mode."
   ;; Disable string highlighting.
   (vterm-mode . (lambda ()
                   ;; Don't fontify stings.
-                  (setq-local font-lock-defaults '('() t))))
+                  (setq font-lock-defaults '('() t))))
   :straight t)
 
 ;; Writable grep buffer.
