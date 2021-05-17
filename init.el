@@ -389,6 +389,9 @@ candidates, unless we're in filtering mode."
   ((emacs-lisp-mode php-mode js-mode) . cov-mode)
   :straight t)
 
+(use-package crystal-mode
+  :straight t)
+
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
   :custom
