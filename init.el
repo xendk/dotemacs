@@ -506,6 +506,7 @@ candidates, unless we're in filtering mode."
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
   :custom
+  (auth-sources '("~/.config/emacs/authinfo.gpg") "Move auth-sources to XDG_CONFIG")
   (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
                           "Don't place backups next to the original file, but move them to <user-emacs-directory>/backups")
   (echo-keystrokes 0.02 "Echo keystrokes quickly")
