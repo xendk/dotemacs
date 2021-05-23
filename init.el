@@ -513,6 +513,7 @@ candidates, unless we're in filtering mode."
   (eval-expression-print-level nil "Print everything when eval'ing")
   (help-window-select t "Makes it easier to dismiss them with q")
   (history-delete-duplicates t "No need for dupes in history")
+  (isearch-lazy-count t "Show counts in isearch")
   (load-prefer-newer t "Prefer newer .el file over .elc")
   (max-mini-window-height 0.33 "Give mini-buffers a bit more room")
   (save-interprogram-paste-before-kill t "Don't lose clips from other programs")
