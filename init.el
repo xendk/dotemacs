@@ -810,7 +810,6 @@ candidates, unless we're in filtering mode."
     (";" comment-or-uncomment-region "Comment")
     ("<return>" mc/edit-lines "MC edit lines")
     ("?" count-words-region "Counts")
-    ("d" deadgrep "deadgrep")
     ("r" xen-counsel-rg "counsel-rg")
     ("m" apply-macro-to-region-lines "Apply macro")
     ("q" nil "cancel")
@@ -1116,9 +1115,6 @@ candidates, unless we're in filtering mode."
   (advice-add #'rainbow-turn-off :after #'xen-rainbow-clear-overlays)
   :hook
   (css-mode . rainbow-mode)
-  :straight t)
-
-(use-package deadgrep
   :straight t)
 
 (use-package reaper
