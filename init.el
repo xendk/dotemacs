@@ -373,11 +373,67 @@ candidates, unless we're in filtering mode."
   :after company
   :straight t)
 
-(use-package counsel
-  :custom
-  (counsel-rg-base-command
-   "rg -S --no-heading --line-number --color never --glob '!*~' %s" "Add switch to ignore backup files")
-  :defer t
+(use-package consult
+  ;; Replace bindings. Lazily loaded due by `use-package'.
+  :bind (("C-<tab>" . xen-consult-line)
+         ("C-x b" . consult-buffer)
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         :map isearch-mode-map
+         ;; Trying this out.
+         ("M-e" . consult-isearch)
+         ("C-<tab>" . consult-line))
+  :init
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :config
+  (defun xen-consult-line ()
+    "Call consult-line, using region as inital input, if active."
+    (interactive)
+    (if (use-region-p)
+        (progn
+          (deactivate-mark)
+          (consult-line (buffer-substring-no-properties (region-beginning) (region-end))))
+      (consult-line)))
+  (defun xen-consult-ripgrep ()
+    "Call consult-repgrep, using region as inital input, if active."
+    (interactive)
+    (if (use-region-p)
+        (progn
+          (deactivate-mark)
+          (consult-ripgrep nil (buffer-substring-no-properties (region-beginning) (region-end))))
+      (consult-ripgrep)))
+  ;; Referenced in consult-buffer-sources.
+  (defvar consult--source-vterm-buffer
+    `(:name "VTerm"
+            :narrow   ?v
+            :category buffer
+            :face     consult-buffer
+            :history  buffer-name-history
+            :state    ,#'consult--buffer-state
+            :hidden t
+            :items
+            ,(lambda ()
+               (seq-map (lambda (buff)
+                          (buffer-name buff))
+                        (seq-filter (lambda (buf)
+                                      (provided-mode-derived-p
+                                       (buffer-local-value 'major-mode buf)
+                                       'vterm-mode))
+                                    (buffer-list)))))
+    "VTerm buffer candidate source for `consult-buffer'.")
+  (setq consult-narrow-key "<") ;; (kbd "C-+")
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  (autoload 'projectile-project-root "projectile")
+  (setq consult-project-root-function #'projectile-project-root)
+  :straight t)
+
+(use-package consult-flycheck
   :straight t)
 
 (use-package cov
@@ -669,14 +725,6 @@ candidates, unless we're in filtering mode."
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
   :delight)
 
-(use-package flyspell-correct-ivy
-  ;; flyspell seems to overwrite its map when loaded, so defer to
-  ;; after it's loaded.
-  :after flyspell
-  :bind (:map flyspell-mode-map
-              ("C-$" . flyspell-correct-wrapper))
-  :straight t)
-
 (use-package forge
   :after magit
   :straight t)
@@ -810,7 +858,7 @@ candidates, unless we're in filtering mode."
     (";" comment-or-uncomment-region "Comment")
     ("<return>" mc/edit-lines "MC edit lines")
     ("?" count-words-region "Counts")
-    ("r" xen-counsel-rg "counsel-rg")
+    ("r" xen-consult-ripgrep "xen-consult-ripgrep")
     ("m" apply-macro-to-region-lines "Apply macro")
     ("q" nil "cancel")
     ("s" sort-lines "Sort")
@@ -834,43 +882,6 @@ candidates, unless we're in filtering mode."
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (use-package iso-transl)
-
-;; Technically part of swiper, but we'll configure it here.
-(use-package ivy
-  :delight
-  :commands (ivy-mode
-             ivy-read
-             ivy--switch-buffer-matcher
-             ivy--switch-buffer-action
-             ivy-call
-             swiper)
-  :custom
-  (ivy-count-format "(%d/%d) ")
-  (ivy-display-style (quote fancy))
-  (ivy-extra-directories nil)
-  :init
-  (ivy-mode 1)
-  :bind (:map ivy-mode-map
-              ("M-x" . counsel-M-x)
-              ("C-x C-f" . counsel-find-file)
-              ("<f1> f" . counsel-describe-function)
-              ("<f1> v" . counsel-describe-variable)
-              ("<f1> l" . counsel-load-library)
-              ("<f2> i" . counsel-info-lookup-symbol)
-              ("<f2> u" . counsel-unicode-char)
-              ("C-c z" . ivy-resume)
-              :map ivy-minibuffer-map
-              ("S-<return>" . ivy-immediate-done)
-              ;; Like isearch.
-              ("C-w" . ivy-yank-word)
-              ;; Like isearch, repeating the key uses the last item
-              ;; from the history and goes on from there.
-              ("C-<tab>" . ivy-next-line-or-history)
-              ;; For symmetry.
-              ("C-<backtab>" . ivy-previous-line-or-history)))
-
-(use-package ivy-hydra
-  :straight t)
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
@@ -943,7 +954,6 @@ candidates, unless we're in filtering mode."
 (use-package magit
   :defines magit-last-seen-setup-instructions
   :custom
-  (magit-completing-read-function (quote ivy-completing-read))
   (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
   (magit-fetch-arguments (quote ("--prune")))
   (magit-push-always-verify nil)
@@ -1079,7 +1089,6 @@ candidates, unless we're in filtering mode."
   :commands (projectile-mode projectile-project-p)
   :custom
   (projectile-cache-file (concat user-emacs-directory ".projectile.cache"))
-  (projectile-completion-system (quote ivy))
   (projectile-known-projects-file (concat user-emacs-directory ".projectile-bookmarks.eld"))
   (projectile-switch-project-action (quote projectile-vc))
   :delight ""
@@ -1168,6 +1177,17 @@ candidates, unless we're in filtering mode."
   (save-place-file (concat user-emacs-directory "saveplaces"))
   :init
   (save-place-mode))
+
+(use-package selectrum
+  :init
+  (selectrum-mode +1)
+  :straight t)
+
+(use-package selectrum-prescient
+  :init
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1)
+  :straight t)
 
 ;; Figure this one out.
 ;; (use-package semantic-php
@@ -1423,17 +1443,6 @@ candidates, unless we're in filtering mode."
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
               ("S" . projectile-run-vterm)))
-
-(use-package xen-swiper
-  :load-path "xen"
-  :commands xen-counsel-rg
-  :after (ivy)
-  :bind (("C-<tab>" . xen-swiper)
-         :map isearch-mode-map
-         ("C-<tab>" . xen-swiper-from-isearch)
-         :map ivy-mode-map
-         ;; Buffer switching with preview.
-         ("C-x b" . xen-switch-buffer)))
 
 (use-package xen-vterm
   :load-path "xen"
