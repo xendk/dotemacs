@@ -244,19 +244,6 @@
   :commands auto-revert-mode
   :delight auto-revert-mode)
 
-(use-package browse-kill-ring
-  ;; Duplicate the effect of the advice that
-  ;; browse-kill-ring-default-keybindings creates with a function.
-  ;; This allows us to autoload on demand.
-  :bind
-  ("M-y" . (lambda (arg)
-                   (interactive "p")
-                   (if (not (eq last-command 'yank))
-                       (browse-kill-ring)
-                     (barf-if-buffer-read-only)
-                     (yank-pop arg))))
-  :straight t)
-
 (use-package bug-hunter
   :commands (bug-hunter-init-file bug-hunter-file)
   :straight t)
@@ -377,6 +364,7 @@ candidates, unless we're in filtering mode."
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (("C-<tab>" . xen-consult-line)
          ("C-x b" . consult-buffer)
+         ("M-y" . consult-yank-pop)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          :map isearch-mode-map
