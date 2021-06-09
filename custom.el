@@ -105,8 +105,6 @@
  '(line-move-visual nil)
  '(menu-bar-mode nil)
  '(mouse-avoidance-mode nil nil (avoid))
- '(mouse-sel-default-bindings t)
- '(mouse-sel-mode t)
  '(mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control))))
  '(mouse-yank-at-point t)
  '(org-agenda-files (quote ("~/Documents/Todo.org")))
