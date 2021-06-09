@@ -1001,6 +1001,10 @@ candidates, unless we're in filtering mode."
                        'face '(:family "FontAwesome")) :major)
   :straight t)
 
+;; Why this isn't handled by dependencies, I don't know.
+(use-package magit-section
+  :straight t)
+
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
