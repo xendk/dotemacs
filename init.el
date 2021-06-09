@@ -1313,7 +1313,7 @@ candidates, unless we're in filtering mode."
               ("C-g" . undo-tree-visualizer-abort)
               ("q" . undo-tree-visualizer-abort))
   ;; Pull package directly from maintainer, the elpa package is behind.
-  :straight (:type git :host nil :repo "http://www.dr-qubit.org/git/undo-tree.git"))
+  :straight (:type git :host gitlab :repo "tsc25/undo-tree"))
 
 (use-package vcl-mode
   :commands vcl-mode
