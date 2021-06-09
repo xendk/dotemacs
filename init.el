@@ -9,8 +9,9 @@
 ;; gets activated.
 (set-face-foreground 'default "#bbc2cf")
 (set-face-background 'default "#21242b")
-;; Set font too.
-(set-face-attribute 'default nil :height 110 :width
+;; Set font too. TODO: This should be determined automatically:
+;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
+(set-face-attribute 'default nil :height 140 :width
                     'semi-condensed :foundry "FBI " :family "Input")
 ;; Disable the mode-line in the initial buffer (whatever that is).
 (setq mode-line-format nil)
