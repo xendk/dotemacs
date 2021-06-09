@@ -917,14 +917,14 @@ candidates, unless we're in filtering mode."
   :after company
   :custom
   (lsp-log-max 1000)
-  (lsp-serenata-server-path (concat user-emacs-directory "serenata-5.3.0.phar") "Set server path")
+  (lsp-serenata-server-path "serenata" "Set server path")
+  (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
   (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
   :init
   ;; Recommended setup.
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (setq lsp-prefer-capf t)
-  (setq lsp-serenata-server-path "/home/xen/.emacs.d/serenata-5.3.0.phar")
   :hook
   (lsp-mode . lsp-ui-mode)
   (prog-mode . lsp-deferred)
