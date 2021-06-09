@@ -647,9 +647,7 @@ candidates, unless we're in filtering mode."
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :hook (php-mode . xen-php-mode-expansions)
-  ;; How it manages to load expand-region without requiring this is an
-  ;; interesting question.
-  :config (require 'er-basic-expansions)
+  :demand
   :straight t)
 
 (use-package feature-mode
