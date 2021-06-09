@@ -890,7 +890,7 @@ candidates, unless we're in filtering mode."
   :hook (java-mode . java-mode-indent-annotations-setup))
 
 ;; Built in.
-(use-package js
+(use-package js-mode
   :commands js-mode
   :mode "\\.ts$")
 
