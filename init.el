@@ -372,6 +372,10 @@ candidates, unless we're in filtering mode."
          ;; Trying this out.
          ("M-e" . consult-isearch)
          ("C-<tab>" . consult-line))
+  :custom
+  (consult-buffer-sources
+   '(consult--source-hidden-buffer consult--source-buffer xen-consult--source-vterm-buffer consult--source-file consult--source-bookmark consult--source-project-buffer consult--source-project-file))
+  (consult-fontify-max-size 102400)
   :init
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
@@ -394,7 +398,7 @@ candidates, unless we're in filtering mode."
           (consult-ripgrep nil (buffer-substring-no-properties (region-beginning) (region-end))))
       (consult-ripgrep)))
   ;; Referenced in consult-buffer-sources.
-  (defvar consult--source-vterm-buffer
+  (defvar xen-consult--source-vterm-buffer
     `(:name "VTerm"
             :narrow   ?v
             :category buffer
