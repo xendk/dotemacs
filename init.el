@@ -644,25 +644,6 @@ candidates, unless we're in filtering mode."
     (exec-path-from-shell-initialize))
   :straight t)
 
-(use-package executor
-  :bind (:map compilation-mode-map
-              ("e" . executor-execute)
-              ("f" . executor-visit-file)
-              ("b" . executor-select-buffer))
-  :bind-keymap
-  ("C-x C-m" . executor-global-map)
-  :config
-  (require 'ansi-color)
-  (defun xen-colorize-compilation ()
-    "Colorize from `compilation-filter-start' to `point'."
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region
-       compilation-filter-start (point))))
-  :hook
-  ((prog-mode text-mode)  . executor-maybe-enable-mode)
-  (compilation-filter . xen-colorize-compilation)
-  :straight (:host gitlab :repo "thiderman/executor.el"))
-
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :hook (php-mode . xen-php-mode-expansions)
