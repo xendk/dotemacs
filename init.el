@@ -954,6 +954,7 @@ candidates, unless we're in filtering mode."
 (use-package magit
   :defines magit-last-seen-setup-instructions
   :custom
+  (magit-define-global-key-bindings nil "Don't bind global keys, we have our own")
   (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
   (magit-fetch-arguments (quote ("--prune")))
   (magit-push-always-verify nil)
@@ -974,10 +975,6 @@ candidates, unless we're in filtering mode."
          ("C-c g f" . magit-file-dispatch))
   :hook (git-commit-setup . xen-git-commit-setup)
   :config
-  ;; Let's remove these extremely difficult key combinations. We've
-  ;; bound the functions above.
-  (unbind-key "\C-x\M-g" magit-file-mode-map)
-  (unbind-key "\C-c\M-g" magit-file-mode-map)
   ;; Add --follow-tags options to the push popup.
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
