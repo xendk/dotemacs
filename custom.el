@@ -7,9 +7,7 @@
  '(css-fontify-colors nil nil nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
  '(css-indent-offset 2)
  '(ediff-keep-variants nil)
- '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-use-last-dir t)
- '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(editorconfig-indentation-alist
    '((apache-mode apache-indent-level)
      (awk-mode c-basic-offset)
