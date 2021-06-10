@@ -927,7 +927,25 @@ candidates, unless we're in filtering mode."
   (setq lsp-prefer-capf t)
   :hook
   (lsp-mode . lsp-ui-mode)
-  (prog-mode . lsp-deferred)
+  (lsp-mode . lsp-enable-which-key-integration)
+  ;; Check lsp-language-id-configuration for supported modes.
+  ((css-mode
+    dockerfile-mode
+    go-mode
+    html-mode
+    js-mode
+    json-mode
+    markdown-mode
+    nxml-mode
+    php-mode
+    rjsx-mode
+    ruby-mode
+    scss-mode
+    sh-mode
+    sql-mode
+    typescript-mode
+    xml-mode
+    yaml-mode) . lsp-deferred)
   ;; This is not proper as the lsp checker is global across modes, and
   ;; this adds php-phpcs in all modes. But until lsp/flycheck deals
   ;; with this problem, this will work.
