@@ -4,7 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-insert-mode t nil (autoinsert))
- '(comint-input-autoexpand t)
  '(css-fontify-colors nil nil nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
  '(css-indent-offset 2)
  '(ediff-keep-variants nil)
