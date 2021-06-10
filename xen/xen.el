@@ -205,14 +205,6 @@ the minor mode is loaded first."
 (set-face-attribute 'xen-font-awesome-face nil
                     :family "FontAwesome")
 
-
-(defun xen-changelog-timestamp (&optional time zone)
-  "Return a time string for ~/ChangeLog.
-
-Passes TIME and ZONE to `format-time-string.'"
-  (interactive)
-  (insert (format-time-string "%Y-%m-%d %H:%M:%S" time zone)))
-
 (defun xen-dashboard-tip (list-size)
   "Insert a tip into the dashboard.
 
