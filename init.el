@@ -263,6 +263,9 @@
   :straight t)
 
 (use-package css-mode
+  :custom
+  (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
+  (css-indent-offset 2 "Set default CSS indent offset")
   :commands css-mode)
 
 (use-package column-enforce-mode
