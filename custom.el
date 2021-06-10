@@ -4,8 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-insert-mode t nil (autoinsert))
- '(ediff-keep-variants nil)
- '(ediff-use-last-dir t)
  '(editorconfig-indentation-alist
    '((apache-mode apache-indent-level)
      (awk-mode c-basic-offset)
