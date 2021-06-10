@@ -3,15 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(auto-hscroll-mode 'current-line)
  '(auto-insert-mode t nil (autoinsert))
- '(backward-delete-char-untabify-method 'all)
- '(browse-url-browser-function 'browse-url-generic)
- '(browse-url-generic-program "sensible-browser")
- '(c-basic-offset 'set-from-style)
- '(c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "psr2")))
  '(comint-input-autoexpand t)
  '(css-fontify-colors nil nil nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
  '(css-indent-offset 2)
