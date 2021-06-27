@@ -1477,7 +1477,7 @@ candidates, unless we're in filtering mode."
 
 (use-package xen-projectile
   :load-path "xen"
-  :after (projectile ivy)
+  :after (projectile)
   :bind (:map projectile-command-map
               ("s" . xen-projectile-switch-to-shell)
               ("S" . projectile-run-vterm)))
