@@ -63,3 +63,9 @@ The latter does the same as the first, but tells the compiler that
 it's a function. Lambdas have one implicitly.
 
 M-x speed-type-text
+
+C-S-backspace    kill-whole-line
+
+In isearch:
+M-e     edit string
+M-s .   search for symbol under point
