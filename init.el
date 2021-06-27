@@ -626,14 +626,11 @@ candidates, unless we're in filtering mode."
   :bind
   (("C-S-a" . embark-act)       ;; pick some comfortable binding
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
+  :custom
+  ;; The which-key alternative from the readme doesn't quite work for
+  ;; prefix keys, so go with this for a start.
+  (embark-prompter 'embark-completing-read-prompter "Use Selectrum completion to select.")
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
