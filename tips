@@ -42,9 +42,6 @@ visual-regexp:
 Reread the Emacs Lisp Coding Conventions once in a while
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Coding-Conventions.html
 
- C-c a counsel-ag
- C-u C-c a counsel-ag with dir and args
-
 Movement:
 
 M-< beginning-of-buffer
