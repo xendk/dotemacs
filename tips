@@ -2,7 +2,7 @@ Handy trick:
 (set-face-attribute 'default nil :height 140)
 
 Handy variables for line (non-)wrapping:
-trucante-lines
+truncate-lines
 word-wrap
 Also, look into adaptive-wrap (mentioned here: http://emacswiki.org/emacs/LineWrap )
 
