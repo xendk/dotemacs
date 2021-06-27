@@ -944,7 +944,8 @@ candidates, unless we're in filtering mode."
     html-mode
     js-mode
     json-mode
-    markdown-mode
+    ;; Doesn't work for gfm-mode. Also, install unified-language-server.
+    ;; markdown-mode
     nxml-mode
     php-mode
     rjsx-mode
