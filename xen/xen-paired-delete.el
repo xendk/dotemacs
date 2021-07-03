@@ -20,7 +20,8 @@
 
 ;;; Commentary:
 
-;;
+;; todo: figure out how this messes with visual-regexp. It shouldn't
+;; trigger when vr is doing its replacements.
 
 ;;; Code:
 
@@ -53,7 +54,7 @@ only work when ARG is 1 or the region is not active."
                         (t nil)))))))))
 
 (defun xen-paired-delete-delete-char-advice (orig-fun n &optional kill-flag)
-  "Advice for delete char.  ORIG-FUN is the overriden function. Use N and ignore KILL-FLAG."
+  "Advice for delete char.  ORIG-FUN is the overriden function. Pass N and KILL-FLAG to original."
   (if (not (boundp 'xen-paired-delete-char-disabled))
       (let ((xen-paired-delete-char-disabled t))
         (save-match-data (progn
