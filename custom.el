@@ -18,7 +18,6 @@
  '(menu-bar-mode nil)
  '(mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control))))
  '(mouse-yank-at-point t)
- '(org-agenda-files (quote ("~/Documents/Todo.org")))
  '(org-support-shift-select t)
  '(password-cache-expiry 3600)
  '(query-replace-highlight t)
