@@ -927,10 +927,12 @@ candidates, unless we're in filtering mode."
   ;; Can't add to company-backends before company has been loaded.
   :after company
   :custom
-  (lsp-log-max 1000)
-  (lsp-serenata-server-path "serenata" "Set server path")
-  (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
+  (lsp-keymap-prefix "C-c l" "Set the keymap prefix")
+  (lsp-log-max 1000 "Limit log entries to a thousand lines")
   (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
+  (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
+  (lsp-serenata-server-path "serenata" "Set server path")
+  (lsp-solargraph-use-bundler t "Use the bundler installed Solargraph")
   :init
   ;; Recommended setup.
   (setq gc-cons-threshold 100000000)
