@@ -25,7 +25,6 @@
 ;;; Code:
 
 (require 'projectile)
-(require 'ivy)
 (require 'xen-vterm)
 
 (defun xen-projectile-switch-to-shell ()
