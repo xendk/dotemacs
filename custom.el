@@ -39,7 +39,6 @@
  '(url-honor-refresh-requests 't)
  '(url-privacy-level '(email))
  '(user-mail-address "xen@xen.dk")
- '(vcl-indent-level 2)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t)
  '(wdired-allow-to-change-permissions t))

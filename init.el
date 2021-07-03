@@ -1350,6 +1350,8 @@ candidates, unless we're in filtering mode."
 (use-package vcl-mode
   :commands vcl-mode
   :mode "\\.vcl\\'"
+  :custom
+  (vcl-indent-level 2 "Set indent level")
   :straight t)
 
 (use-package watch-buffer
