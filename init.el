@@ -1219,6 +1219,9 @@ candidates, unless we're in filtering mode."
   :commands rjsx-mode
   :mode "components\\/.*\\.js\\'"
   :magic ("import.*react" . rjsx-mode)
+  :custom
+  ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
+  (js2-strict-missing-semi-warning nil "Don't require semi-colons if not needed")
   :straight t)
 
 (use-package ruby-mode

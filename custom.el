@@ -7,7 +7,6 @@
  '(git-commit-mode-hook
    '(turn-on-auto-fill flyspell-mode git-commit-save-message yas-minor-mode) t)
  '(indentinator-idle-time 0.005)
- '(js2-strict-missing-semi-warning nil)
  '(org-support-shift-select t)
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(straight-check-for-modifications 'at-startup)
