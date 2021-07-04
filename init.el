@@ -556,6 +556,10 @@ candidates, unless we're in filtering mode."
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
+  ;; Some variables set above is duplicated here to make use-package
+  ;; hide them from re-exporting by custom. Alternatively I could
+  ;; create a theme like use-package does and use
+  ;; custom-theme-set-variables to set them.
   :custom
   (ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold] "Better ANSI colors")
   (auth-sources '("~/.config/emacs/authinfo.gpg") "Move auth-sources to XDG_CONFIG")
@@ -573,22 +577,48 @@ candidates, unless we're in filtering mode."
   (eval-expression-print-level nil "Print everything when eval'ing")
   (help-window-select t "Makes it easier to dismiss them with q")
   (history-delete-duplicates t "No need for dupes in history")
+  (hscroll-margin 15 "Increase margin for horizontal scroll")
+  (indent-tabs-mode nil "Don't use tabs for indentation")
+  (inhibit-startup-screen t "Don't need the startup screen anymore")
   (isearch-lazy-count t "Show counts in isearch")
+  (jit-lock-stealth-time 10 "Seconds idle before starting to fontify in the background")
+  (js-indent-level 2 "Set indent level")
   (lazy-count-prefix-format nil "Counts before the seach string messes with readability...")
   (lazy-count-suffix-format " [%s of %s]" "...so show them as suffix.")
+  (line-move-visual nil "Don't move by visual lines")
+  (menu-bar-mode nil "Remove menu bar")
+  (mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control))) "Make scrollwheel behave more like in other apps")
+  (mouse-yank-at-point t "Yank at point, not pointer position when mouse-yanking")
   (load-prefer-newer t "Prefer newer .el file over .elc")
   (max-mini-window-height 0.33 "Give mini-buffers a bit more room")
+  (password-cache-expiry 3600 "Cache passwords a bit longer")
+  (query-replace-highlight t "Highlight matches when query-replacing")
+  (recentf-max-saved-items 500 "Save more items in recent files")
   (save-interprogram-paste-before-kill t "Don't lose clips from other programs")
+  (scroll-bar-mode nil "Don't show scrollbars")
   (scroll-conservatively 2 "Scroll linewise rather than jumping")
   (scroll-margin 5 "Keep a margin to top/bottom of window")
   (scroll-preserve-screen-position t "Don't jump around when scrolling")
+  (sentence-end-double-space nil "Don't require double space after period to consider it a sentence")
+  (set-mark-command-repeat-pop t "Allow for repeatedly popping the mark using C-SPC")
+  (shift-select-mode nil "Don't use shift + cursors to mark regions")
   (track-eol t "Want to stick to end of line")
+  (uniquify-after-kill-buffer-p t "Re-uniquify buffers after killing some")
+  (uniquify-buffer-name-style 'post-forward-angle-brackets "Use appended brackets for file path")
+  (uniquify-trailing-separator-p t "Add a slash to directory buffers")
+  (url-cookie-confirmation 'nil "Don't require confirmation on cookies")
+  (user-mail-address "xen@xen.dk" "Set email address")
+  (wdired-allow-to-change-permissions t "Allow C-x C-q to change permissions too")
   (whitespace-style '(face tabs tab-mark) "Make tabs more visible")
   :init
+  ;; Disable tool-bar-mode.
+  (tool-bar-mode 0)
   ;; Show file size in mode-line.
   (size-indication-mode)
   ;; Show column number in mode-line.
   (column-number-mode)
+  ;; Offer to automatically populate some new files.
+  (auto-insert-mode)
   ;; Enable whitespace mode globally.
   (global-whitespace-mode)
   ;; Display tabs with a more specific character.
