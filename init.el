@@ -921,6 +921,8 @@ candidates, unless we're in filtering mode."
 
 (use-package indentinator
   :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode ruby-mode twig-mode) . indentinator-mode)
+  :custom
+  (indentinator-idle-time 0.005 "Speed up indentinator")
   :straight (:host github :repo "xendk/indentinator"))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
