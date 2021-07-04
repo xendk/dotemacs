@@ -11,6 +11,5 @@
  '(org-support-shift-select t)
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(straight-check-for-modifications 'at-startup)
- '(switch-to-buffer-in-dedicated-window 'prompt)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t))
