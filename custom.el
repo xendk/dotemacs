@@ -13,7 +13,5 @@
  '(straight-check-for-modifications 'at-startup)
  '(switch-to-buffer-in-dedicated-window 'prompt)
  '(uniquify-ask-about-buffer-names-p t)
- '(url-honor-refresh-requests 't)
- '(url-privacy-level '(email))
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t))
