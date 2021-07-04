@@ -687,6 +687,8 @@ candidates, unless we're in filtering mode."
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :hook (php-mode . xen-php-mode-expansions)
+  :custom
+  (expand-region-subword-enabled t "Use subword expansion")
   :demand
   :straight t)
 
