@@ -765,6 +765,7 @@ candidates, unless we're in filtering mode."
   :hook
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
+  (git-commit-mode . flyspell-mode)
   :delight)
 
 (use-package forge
@@ -1036,7 +1037,10 @@ candidates, unless we're in filtering mode."
          ;; just make them global.
          ("C-c g d" . magit-dispatch)
          ("C-c g f" . magit-file-dispatch))
-  :hook (git-commit-setup . xen-git-commit-setup)
+  :hook
+  (git-commit-setup . xen-git-commit-setup)
+  (git-commit-mode . turn-on-auto-fill)
+  (git-commit-mode . git-commit-save-message)
   :config
   ;; Add --follow-tags options to the push popup.
   ;; Delight has better handling for major-modes.
@@ -1545,7 +1549,9 @@ candidates, unless we're in filtering mode."
   (yas-triggers-in-field t)
   (yas-wrap-around-region nil)
   :delight yas-minor-mode
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
+  :hook
+  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
+  (git-commit-mode . yas-minor-mode)
   :config (yas-reload-all)
   :straight t)
 
