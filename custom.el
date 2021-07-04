@@ -4,7 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-support-shift-select t)
- '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(straight-check-for-modifications 'at-startup)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t))
