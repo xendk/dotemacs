@@ -12,6 +12,5 @@
  '(server-temp-file-regexp "^\\(/tmp/Re\\|/draft\\)\\|/tmp/\\(rat\\.\\|mutt-\\).*$")
  '(straight-check-for-modifications 'at-startup)
  '(switch-to-buffer-in-dedicated-window 'prompt)
- '(uniquify-ask-about-buffer-names-p t)
  '(visual-fill-column-center-text t)
  '(vr/default-replace-preview t))
