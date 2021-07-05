@@ -366,22 +366,21 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
+  ;; Many more examples at https://github.com/minad/consult#use-package-example
   :bind (("C-<tab>" . xen-consult-line)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          :map isearch-mode-map
-         ;; Trying this out.
          ("M-e" . consult-isearch)
          ("C-<tab>" . consult-line))
   :custom
   (consult-buffer-sources
-   '(consult--source-hidden-buffer consult--source-buffer xen-consult--source-vterm-buffer consult--source-file consult--source-bookmark consult--source-project-buffer consult--source-project-file))
-  (consult-fontify-max-size 102400)
+   '(consult--source-hidden-buffer consult--source-buffer xen-consult--source-vterm-buffer consult--source-file consult--source-bookmark consult--source-project-buffer consult--source-project-file) "Add vterm source")
+  (consult-fontify-max-size 102400 "Limit the max fontification size to avoid sluggishness")
   :init
-  ;; Use Consult to select xref locations with preview
+  ;; Use Consult to select xref locations with preview.
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   :config
