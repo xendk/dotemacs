@@ -627,6 +627,7 @@ candidates, unless we're in filtering mode."
   ;; Enable whitespace mode globally.
   (global-whitespace-mode)
   ;; Display tabs with a more specific character.
+  (defvar whitespace-display-mappings)
   (setf
    (cdr (assoc 'tab-mark whitespace-display-mappings))
    '(?\t [?↹ ?\t] [?\t]))
@@ -1290,7 +1291,7 @@ candidates, unless we're in filtering mode."
 ;;   )
 
 (use-package smartparens
-  :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair)
+  :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair sp-with-modes)
   :custom
   (sp-autodelete-closing-pair nil)
   (sp-autodelete-opening-pair nil)
@@ -1510,6 +1511,7 @@ candidates, unless we're in filtering mode."
   :functions xen-flycheck-mode-line-status-text)
 
 (use-package xen-paired-delete
+  :commands global-xen-paired-delete-mode
   :load-path "xen"
   :after (smartparens)
   :config
@@ -1530,7 +1532,7 @@ candidates, unless we're in filtering mode."
     ;; a { or (, add another and indent.
     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
     (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
-  :after (php-mode))
+  :after (php-mode smartparens))
 
 (use-package xen-projectile
   :load-path "xen"
