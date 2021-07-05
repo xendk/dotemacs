@@ -1414,6 +1414,8 @@ candidates, unless we're in filtering mode."
 
 (use-package visual-fill-column
   :commands visual-fill-column-mode
+  :custom
+  (visual-fill-column-center-text t "Center text when using this mode")
   :straight t)
 
 (use-package visual-regexp
