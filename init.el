@@ -72,9 +72,9 @@
 (customize-set-variable 'straight-built-in-pseudo-packages (quote (emacs python nadvice)))
 (straight-use-package 'use-package)
 ;; When flycheck checks this file it needs use-package (and straight
-;; above) loaded to understand the use-package forms. Also the reason
-;; for the flycheck-emacs-lisp-load-path on the first line of the
-;; file.
+;; above) loaded to understand the use-package forms. It's also the
+;; reason for the flycheck-emacs-lisp-load-path on the first line of
+;; the file.
 (eval-and-compile (require 'use-package))
 
 ;;; Bindings.
