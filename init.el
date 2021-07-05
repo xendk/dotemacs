@@ -596,6 +596,7 @@ candidates, unless we're in filtering mode."
   (password-cache-expiry 3600 "Cache passwords a bit longer")
   (query-replace-highlight t "Highlight matches when query-replacing")
   (recentf-max-saved-items 500 "Save more items in recent files")
+  (safe-local-variable-values '((flycheck-emacs-lisp-load-path . inherit)) "Allow inherit for flycheck-emacs-lisp-load-path for my init.el.")
   (save-interprogram-paste-before-kill t "Don't lose clips from other programs")
   (scroll-bar-mode nil "Don't show scrollbars")
   (scroll-conservatively 2 "Scroll linewise rather than jumping")
