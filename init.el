@@ -539,6 +539,7 @@ candidates, unless we're in filtering mode."
 
 (use-package editorconfig
   :config
+  (setq editorconfig--enable-20210221-testing t)
   (editorconfig-mode 1)
   :straight t)
 
