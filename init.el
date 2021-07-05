@@ -1423,6 +1423,8 @@ candidates, unless we're in filtering mode."
   ("C-c r" . vr/replace)
   ("C-c q" . vr/query-replace)
   ("C-c m" . vr/mc-mark)
+  :custom
+  (vr/default-replace-preview t "Show preview")
   :straight t)
 
 (use-package vterm
