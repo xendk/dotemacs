@@ -1122,7 +1122,9 @@ candidates, unless we're in filtering mode."
 ;; And as we're quite content with it, we're sticking with the built in version.
 (use-package org-mode
   :commands org-mode
-  :mode "\\.org\\'")
+  :mode "\\.org\\'"
+  :custom
+  (org-support-shift-select t "Don't mess with using S-cursors for window selection"))
 
 ;; package-lint requires package for its package database. So we defer
 ;; it and use :config to initialize it when someone requires it.
