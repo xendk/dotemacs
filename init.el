@@ -1523,7 +1523,6 @@ candidates, unless we're in filtering mode."
   (php-mode . xen-php-setup-composer-phpcs-for-flycheck)
   :config
   (sp-with-modes '(php-mode)
-    ;; (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")))
     (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
                                               ("* |\n[i]" "RET")
                                               (xen-php-handle-docstring "*")))
