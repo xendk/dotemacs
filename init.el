@@ -477,6 +477,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package dimmer
+  :disabled t
   :init
   (dimmer-configure-which-key)
   (dimmer-configure-hydra)
