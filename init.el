@@ -129,14 +129,16 @@
 (use-package doom-themes
   :config
   ;; Make the comments brighter and loose the background color.
-  (setq doom-one-brighter-comments t
-        doom-one-comment-bg nil)
+  (setq doom-one-brighter-comments t)
 
   ;; Load the theme
   (load-theme 'doom-one t)
 
   ;; Make the background darker.
   (set-face-background 'default "#21242b")
+
+  ;; Remove background color on comments.
+  (set-face-background 'font-lock-comment-face nil)
 
   ;; Make modeline follow bockground.
   (set-face-background 'mode-line (doom-darken (doom-color 'bg-alt) .15))
