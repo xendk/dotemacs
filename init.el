@@ -361,6 +361,8 @@ candidates, unless we're in filtering mode."
 (use-package company-tabnine
   :disabled
   :after company
+  :custom
+  (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary")
   :straight t)
 
 (use-package consult
