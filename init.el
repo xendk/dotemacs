@@ -21,9 +21,6 @@
 (scroll-bar-mode 0)
 ;; Disable menu-bar.
 (menu-bar-mode 0)
-;; Make use-package verbose.
-(defvar use-package-verbose)
-(setq use-package-verbose t)
 
 ;; Start server if not already running.
 (require 'server)
@@ -67,7 +64,6 @@
   (require 'straight))
 
 ;; Bootstrap `use-package'
-(customize-set-variable 'use-package-verbose t)
 ;; Emacs 26 doesn't seem to know that it has nadvice.
 (customize-set-variable 'straight-built-in-pseudo-packages (quote (emacs python nadvice)))
 (straight-use-package 'use-package)
@@ -76,6 +72,12 @@
 ;; reason for the flycheck-emacs-lisp-load-path on the first line of
 ;; the file.
 (eval-and-compile (require 'use-package))
+;; Already loaded at this point, but we use this to have somewhere to
+;; stick straight and use-package customs.
+(use-package use-package
+  :custom
+  (straight-check-for-modifications 'at-startup)
+  (use-package-verbose t))
 
 ;;; Bindings.
 ;; Used to M-DEL deleting a word.
