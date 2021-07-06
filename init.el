@@ -675,8 +675,12 @@ candidates, unless we're in filtering mode."
 
 (use-package embark
   :bind
-  (("C-S-a" . embark-act)       ;; pick some comfortable binding
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  (("C-." . embark-act)
+   ("C-," . embark-dwim)
+   ("C-h B" . embark-bindings)
+   :map embark-region-map
+   ("s" . sort-lines)
+   ("u" . delete-duplicate-lines))
   :custom
   ;; The which-key alternative from the readme doesn't quite work for
   ;; prefix keys, so go with this for a start.
@@ -786,6 +790,10 @@ candidates, unless we're in filtering mode."
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
   (git-commit-mode . flyspell-mode)
+  :config
+  ;; Want to hand these over to embark.
+  (unbind-key "C-." flyspell-mode-map)
+  (unbind-key "C-," flyspell-mode-map)
   :delight)
 
 (use-package flyspell-correct
