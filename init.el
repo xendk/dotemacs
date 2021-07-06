@@ -1345,6 +1345,7 @@ candidates, unless we're in filtering mode."
   (undo-tree-visualizer-diff nil)
   (undo-tree-visualizer-relative-timestamps t)
   (undo-tree-visualizer-timestamps t)
+  (undo-tree-incompatible-major-modes '(term-mode special-mode) "Don't use undo-tree in special-mode buffers")
   :demand
   :delight
   :init (global-undo-tree-mode)
