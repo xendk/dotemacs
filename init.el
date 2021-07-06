@@ -495,7 +495,6 @@ candidates, unless we're in filtering mode."
   :disabled t
   :init
   (dimmer-configure-which-key)
-  (dimmer-configure-hydra)
   (dimmer-configure-magit)
   (dimmer-mode t)
   :straight t)
@@ -680,7 +679,8 @@ candidates, unless we're in filtering mode."
    ("C-h B" . embark-bindings)
    :map embark-region-map
    ("s" . sort-lines)
-   ("u" . delete-duplicate-lines))
+   ("u" . delete-duplicate-lines)
+   ("/" . xen-google-region))
   :custom
   ;; The which-key alternative from the readme doesn't quite work for
   ;; prefix keys, so go with this for a start.
@@ -691,6 +691,10 @@ candidates, unless we're in filtering mode."
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none))))
+  (defun xen-google-region ()
+    "Google current region."
+    (interactive)
+    (google-this-region nil t))
   :straight t)
 
 (use-package embark-consult
@@ -873,75 +877,6 @@ candidates, unless we're in filtering mode."
 (use-package hungry-delete
   :delight
   :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . hungry-delete-mode)
-  :straight t)
-
-;; Checkout http://oremacs.com/2015/01/29/more-hydra-goodness/
-;; Window commands: http://emacs.stackexchange.com/questions/3458/how-to-switch-between-windows-quickly
-;; rotate package
-(use-package hydra
-  ;; defhydra expands to code using these.
-  :commands (hydra-default-pre
-             hydra-keyboard-quit
-             hydra--call-interactively-remap-maybe
-             hydra-show-hint
-             hydra-set-transient-map)
-
-  ;; Bind to prefix key, so the hint is shown immediately.
-  :bind (("C-c w" . hydra-window/body)
-         ("M-c" . hydra-case/body)
-         ("C-z" . hydra-selection/body)
-         ("C-)" . hydra-selection/body))
-  ;; check out use-package-hydra
-  :config
-  (defhydra hydra-window (global-map "C-c w" :color pink)
-    "window"
-    ;; Dvorak.
-    ("c" enlarge-window "enlarge")
-    ("h" shrink-window-horizontally "widen")
-    ("n" enlarge-window-horizontally "slim")
-    ("t" shrink-window "shrink")
-    ;; Qwerty.
-    ("i" enlarge-window "enlarge")
-    ("j" shrink-window-horizontally "widen")
-    ("l" enlarge-window-horizontally "slim")
-    ("k" shrink-window "shrink")
-    ("q" nil "exit"))
-
-  (defhydra hydra-case (global-map "M-c")
-    "case"
-    ("c" capitalize-word "Capitalize")
-    ("u" upcase-word "UPPER")
-    ("l" downcase-word "lower")
-    ("s" string-inflection-underscore "lower_snake")
-    ("n" string-inflection-upcase "UPPER_SNAKE")
-    ("a" string-inflection-lower-camelcase "lowerCamel")
-    ("m" string-inflection-camelcase "UpperCamel")
-    ("k" string-inflection-kebab-case "kebab-case")
-    )
-
-  (defvar hydra-selection-cookie nil
-    "Face remap cookie for hydra-selection/body")
-  (defhydra hydra-selection
-    (global-map "C-z" :color blue
-                :pre (unless hydra-selection-cookie
-                       (setq
-                        hydra-selection-cookie (face-remap-add-relative
-                                                'region :background "#48A")))
-                :post (when hydra-selection-cookie
-                        (face-remap-remove-relative hydra-selection-cookie)
-                        (setq hydra-selection-cookie nil)))
-    "selection"
-    (";" comment-or-uncomment-region "Comment")
-    ("<return>" mc/edit-lines "MC edit lines")
-    ("?" count-words-region "Counts")
-    ("r" xen-consult-ripgrep "xen-consult-ripgrep")
-    ("m" apply-macro-to-region-lines "Apply macro")
-    ("q" nil "cancel")
-    ("s" sort-lines "Sort")
-    ("u" delete-duplicate-lines "De-dupe")
-    ("/" (lambda ()
-           (interactive)
-           (google-this-region nil t)) "Google"))
   :straight t)
 
 (use-package ibuffer-vc
@@ -1520,15 +1455,24 @@ candidates, unless we're in filtering mode."
   :hook
   ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
-  :bind
-  ("M-SPC" . xen-cycle-spacing)
-  ("M-l" . xen-avy-goto-line)
-  ("<f12>" . xen-big-fringe-mode)
-  ("C-S-d" . xen-duplicate-current-line)
-  ("C-S-l" . xen-mark-lines)
-  ("C-c x" . xen-map)
-  ("M-g g" . xen-avy-goto-line)
-  ("M-g M-g" . xen-avy-goto-line))
+  :bind (("M-SPC" . xen-cycle-spacing)
+         ("M-l" . xen-avy-goto-line)
+         ("<f12>" . xen-big-fringe-mode)
+         ("C-S-d" . xen-duplicate-current-line)
+         ("C-S-l" . xen-mark-lines)
+         ("C-c x" . xen-map)
+         ("M-g g" . xen-avy-goto-line)
+         ("M-g M-g" . xen-avy-goto-line)
+         ("M-c" . xen-casing-map)
+         :map xen-casing-map
+         ("c" . capitalize-word)
+         ("u" . upcase-word)
+         ("l" . downcase-word)
+         ("s" . string-inflection-underscore)
+         ("n" . string-inflection-upcase)
+         ("a" . string-inflection-lower-camelcase)
+         ("m" . string-inflection-camelcase)
+         ("k" . string-inflection-kebab-case)))
 
 (use-package xen-company
   :load-path "xen")

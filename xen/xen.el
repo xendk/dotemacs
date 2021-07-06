@@ -41,6 +41,9 @@
 (defvar xen-map)
 (define-prefix-command 'xen-map)
 
+(defvar xen-casing-map)
+(define-prefix-command 'xen-casing-map)
+
 (define-key xen-map (kbd "e")
   #'(lambda()
       "Open init.el."
