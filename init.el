@@ -788,6 +788,11 @@ candidates, unless we're in filtering mode."
   (git-commit-mode . flyspell-mode)
   :delight)
 
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper))
+  :straight t)
+
 (use-package forge
   :after magit
   :straight t)
