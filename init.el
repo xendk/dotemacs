@@ -454,6 +454,19 @@ candidates, unless we're in filtering mode."
     ("node" (concat user-emacs-directory "vscode-php-debug/out/phpDebug.js"))))
   :straight t)
 
+;; To use dap, the container running xdebug needs something like:
+;; export XDEBUG_CONFIG="remote_host=172.17.0.1 remote_connect_back=Off remote_autostart=On"
+;; And dap needs something like this:
+;; (dap-register-debug-template "My Php Debug"
+;;   (list :type "php"
+;;         :cwd nil
+;;         :request "launch"
+;;         :name "Php Debug"
+;;         :args '("--server=4711")
+;;         :stopOnEntry t
+;;         :pathMappings (ht ("/var/www/web/" "/home/xen/sites/ding2/web/"))
+;;         :sourceMaps t))
+
 (use-package dashboard
   :commands dashboard-setup-startup-hook
   :demand
