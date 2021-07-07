@@ -142,10 +142,6 @@
   (set-face-background 'mode-line (doom-darken (doom-color 'bg-alt) .15))
   (set-face-background 'mode-line-inactive (doom-darken (doom-color 'bg-alt) .1))
 
-  ;; Make solaire-mode background darker.
-  (eval-after-load 'solaire-mode
-    '(set-face-background 'solaire-default-face "#14161a"))
-
   ;; Default hl-line clashes with the new solaire-default.
   (eval-after-load 'hl-line
     '(set-face-background 'hl-line "#282c34"))
@@ -1291,24 +1287,6 @@ candidates, unless we're in filtering mode."
   (smex-save-file (concat user-emacs-directory "smex-items"))
   ;; autoload when needed.
   :defer t
-  :straight t)
-
-(use-package solaire-mode
-  :hook
-  ((after-change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-  (minibuffer-setup . solaire-mode-in-minibuffer)
-  :custom
-  (solaire-mode-auto-swap-bg t)
-  (solaire-mode-real-buffer-fn (quote xen-solaire-mode-not-real-buffer-p))
-  :config
-  ;; We're actually doing the reverse and darkening non-file-visiting buffers.-
-  (defun xen-solaire-mode-not-real-buffer-p ()
-    "Return t if the BUF is not a file-visiting buffer and not vterm buffer."
-    ;; vterm-mode doesn't play nice with face remapping. Only remamps
-    ;; the background after the content, which looks bad.
-    (and (not (buffer-file-name (buffer-base-buffer)))
-         (not (eq major-mode 'vterm-mode))))
-  (setq solaire-mode-auto-swap-bg nil)
   :straight t)
 
 (use-package speed-type
