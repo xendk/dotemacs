@@ -514,7 +514,6 @@ candidates, unless we're in filtering mode."
   :custom
   (drupal-ignore-paths-regexp
    "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
-  (drupal/emacs-drush-update-tags-after-save t)
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
   :straight (:host github :repo "arnested/drupal-mode" :branch "develop"))
