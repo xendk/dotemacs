@@ -1,6 +1,5 @@
 - paired delete for multichar pairs?
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
-- remap mouse wheel to send cursor up/down rather than scroll window in term-mode
 - .htaccess mode?
 - swiper on all open buffers?
 - C-c p b, but using paths relative to project root.

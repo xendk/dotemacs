@@ -1383,7 +1383,9 @@ candidates, unless we're in filtering mode."
               ("C-<right>" . vterm--self-insert)
               ("C-<left>" . vterm--self-insert)
               ("<delete>" . vterm--self-insert)
-              ("C-<backspace>" . vterm--self-insert))
+              ("C-<backspace>" . vterm--self-insert)
+              ("<mouse-4>" . vterm-send-up)
+              ("<mouse-5>" . vterm-send-down))
   :hook
   ;; Disable string highlighting.
   (vterm-mode . (lambda ()
