@@ -666,17 +666,22 @@ candidates, unless we're in filtering mode."
 (use-package embark
   :bind
   (("C-." . embark-act)
+   ("C-)" . embark-act)
    ("C-," . embark-dwim)
+   ("C-(" . embark-dwim)
    ("C-h B" . embark-bindings)
    :map embark-region-map
    ("s" . sort-lines)
    ("u" . delete-duplicate-lines)
-   ("/" . xen-google-region))
-  :custom
-  ;; The which-key alternative from the readme doesn't quite work for
-  ;; prefix keys, so go with this for a start.
-  (embark-prompter 'embark-completing-read-prompter "Use Selectrum completion to select.")
+   ("/" . xen-google-region)
+   ("C-s" . xen-region-isearch-forward)
+   ("C-r" . xen-region-isearch-backward))
   :config
+  (setq embark-action-indicator
+        (lambda (map _target)
+          (which-key--show-keymap "Embark" map nil nil 'no-paging)
+          #'which-key--hide-popup-ignore-command)
+        embark-become-indicator embark-action-indicator)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -1425,6 +1430,7 @@ candidates, unless we're in filtering mode."
 
 (use-package xen
   :load-path "xen"
+  :commands (xen-region-isearch-forward xen-region-isearch-backward)
   :demand
   ;;:functions xen-coding-common-bindings
   :hook
