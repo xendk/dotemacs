@@ -1463,7 +1463,10 @@ candidates, unless we're in filtering mode."
 (use-package xen-php
   :load-path "xen"
   :hook
-  (php-mode . xen-php-setup-composer-phpcs-for-flycheck)
+  ;; Use hack-local-variables-hook to run after `.dir-local.el'
+  ;; variables has been set.
+  (php-mode . (lambda ()
+                (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
   :config
   (sp-with-modes '(php-mode)
     (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")

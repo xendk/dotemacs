@@ -83,17 +83,18 @@
   (make-local-variable 'flycheck-phpcs-standard)
   (setq flycheck-phpcs-standard "/home/xen/.config/composer/vendor/kmcculloch/phpspec-code-sniffer/PHPSpec/"))
 
-(defun xen-php-setup-composer-phpcs-for-flycheck ()
-  "Setup flycheck to use a composer installed phpcs."
+(defvar xen-php-bin-dir "vendor/bin"
+  "Directory for composer installed tools. Defaults to `vendor/bin'")
+
+(defun xen-php-setup-tools ()
+  "Point flycheck towards composer installed tools."
   (when (buffer-file-name)
-    (let ((composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
-      (when (and composer-root (file-exists-p (concat composer-root "vendor/bin/phpcs")))
-        (make-local-variable 'flycheck-php-phpcs-executable)
-        (setq flycheck-php-phpcs-executable (concat composer-root "vendor/bin/phpcs"))
-        (make-local-variable 'flycheck-drupal-phpcs-executable)
-        (setq flycheck-drupal-phpcs-executable (concat composer-root "vendor/bin/phpcs"))
-        (make-local-variable 'flycheck-phpcs-standard)
-        (setq flycheck-phpcs-standard nil)))))
+    (let* ((composer-root (locate-dominating-file (buffer-file-name) "composer.json"))
+           (bin-dir (concat (file-name-as-directory (concat composer-root xen-php-bin-dir)))))
+      (when (and composer-root (file-exists-p (concat bin-dir "phpcs")))
+        (setq-local flycheck-php-phpcs-executable (concat bin-dir "phpcs")))
+      (when (and composer-root (file-exists-p (concat bin-dir "phpstan")))
+        (setq-local phpstan-executable (concat bin-dir "phpstan"))))))
 
 ;; Geben hackery.
 ;; (defun xen-geben-open ()
