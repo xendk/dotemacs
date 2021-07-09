@@ -69,3 +69,7 @@ C-S-backspace    kill-whole-line
 In isearch:
 M-e     edit string
 M-s .   search for symbol under point
+
+M-x transpose-regions
+
+Also available on region embark
