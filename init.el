@@ -765,15 +765,14 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package flycheck-phpstan
-  :hook (php-mode . (lambda ()
-                      ;; Use error level from phpstan.neon.
-                      (setq phpstan-level nil)))
-  :after flycheck
+  :hook
+  (php-mode . (lambda ()
+                ;; Use error level from phpstan.neon.
+                (setq phpstan-level nil)))
+  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'php-phpcs 'phpstan)))
+  :after (flycheck lsp-mode)
   :custom
   (phpstan-enable-on-no-config-file nil)
-  :config
-  (eval-after-load 'flycheck
-    '(flycheck-add-next-checker 'php-phpcs '(t . phpstan)))
   :straight t)
 
 (use-package flyspell
