@@ -1454,7 +1454,6 @@ candidates, unless we're in filtering mode."
   :functions xen-flycheck-mode-line-status-text)
 
 (use-package xen-paired-delete
-  :commands global-xen-paired-delete-mode
   :load-path "xen"
   :after (smartparens)
   :config
