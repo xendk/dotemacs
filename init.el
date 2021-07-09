@@ -347,7 +347,8 @@ candidates, unless we're in filtering mode."
   (define-key company-search-map [return] 'company-complete-selection)
   (define-key company-search-map (kbd "RET") 'company-complete-selection)
 
-  ;; Swap search and filter shortcuts.
+  ;; Swap search and filter shortcuts. I prefer filtering the dropdown
+  ;; rather than searching in it.
   (define-key company-active-map "\C-s" 'company-filter-candidates)
   (define-key company-active-map "\C-\M-s" 'company-search-candidates)
   :straight t)
