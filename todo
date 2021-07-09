@@ -1,7 +1,6 @@
 - paired delete for multichar pairs?
 - http://emacsredux.com/blog/2016/03/02/pimp-my-minibuffer/
 - .htaccess mode?
-- swiper on all open buffers?
 - C-c p b, but using paths relative to project root.
 - As above, but for php classes.
 - https://github.com/emacs-php/phpactor.el
@@ -10,7 +9,6 @@
 - https://superuser.com/questions/319545/changing-the-default-emacs-terminal-escape-character
 - Indium for JS https://github.com/NicolasPetton/Indium/
 - Counsel tramp https://github.com/masasam/emacs-counsel-tramp/
-- Ivy xref (look into xref) https://github.com/alexmurray/ivy-xref
 - delete on first [ in $['body']['value'] deletes $?
 - https://github.com/alexmurray/dot_emacs.d/blob/master/init.el
 - auto-fill-comments?
