@@ -73,3 +73,6 @@ M-s .   search for symbol under point
 M-x transpose-regions
 
 Also available on region embark
+
+Reread Bbatsovs coding style guide:
+https://github.com/bbatsov/emacs-lisp-style-guide
