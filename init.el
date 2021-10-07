@@ -676,12 +676,33 @@ candidates, unless we're in filtering mode."
    ("/" . xen-google-region)
    ("C-s" . xen-region-isearch-forward)
    ("C-r" . xen-region-isearch-backward))
+  :custom
+  (embark-verbose-indicator-display-action
+   '(display-buffer-at-bottom (window-height . fit-window-to-buffer))
+   "Make embark-verbose-indicator shrink to content")
   :config
-  (setq embark-action-indicator
-        (lambda (map _target)
-          (which-key--show-keymap "Embark" map nil nil 'no-paging)
-          #'which-key--hide-popup-ignore-command)
-        embark-become-indicator embark-action-indicator)
+  ;; Use which-key as indicator, rather than the minimal default or
+  ;; the completing-read one.
+  ;;   (defun embark-which-key-indicator (keymap targets)
+  ;;     "An embark indicator that displays KEYMAP with which-key.
+  ;; The which-key help message will show the type and value of the
+  ;; current target followed by an ellipsis if there are further
+  ;; TARGETS."
+  ;;   (which-key--show-keymap
+  ;;    (if (eq (caar targets) 'embark-become)
+  ;;        "Become"
+  ;;      (format "Act on %s '%s'%s"
+  ;;              (caar targets)
+  ;;              (embark--truncate-target (cdar targets))
+  ;;              (if (cdr targets) "…" "")))
+  ;;    keymap
+  ;;    nil nil t)
+  ;;   (lambda (prefix)
+  ;;     (if prefix
+  ;;         (embark-which-key-indicator (lookup-key keymap prefix) targets)
+  ;;       (kill-buffer which-key--buffer))))
+
+  ;;   (setq embark-indicator #'embark-which-key-indicator)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
