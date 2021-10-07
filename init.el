@@ -273,7 +273,7 @@
   (eval-after-load "doom-themes"
     (set-face-attribute 'column-enforce-face nil :inherit nil
                         :underline nil
-                        :background (doom-darken 'warning .65)))
+                        :background (doom-darken 'warning .75)))
   :straight t)
 
 (use-package company
