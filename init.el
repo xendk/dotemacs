@@ -1108,7 +1108,8 @@ candidates, unless we're in filtering mode."
   :commands (org-mode turn-on-orgtbl)
   :mode "\\.org\\'"
   :custom
-  (org-support-shift-select t "Don't mess with using S-cursors for window selection"))
+  (org-support-shift-select t "Don't mess with using S-cursors for window selection")
+  (org-startup-indented t "Use cleaner looking org-indent-mode"))
 
 ;; package-lint requires package for its package database. So we defer
 ;; it and use :config to initialize it when someone requires it.
