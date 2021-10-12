@@ -468,6 +468,8 @@ candidates, unless we're in filtering mode."
   :commands dashboard-setup-startup-hook
   :demand
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
+  :custom
+  (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
   :config
   (setq dashboard-startup-banner 'logo)
   (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
