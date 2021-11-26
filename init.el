@@ -1258,6 +1258,8 @@ candidates, unless we're in filtering mode."
   :init
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1)
+  :custom
+  (prescient-sort-full-matches-first t "Sort complete matches first")
   :straight t)
 
 ;; Figure this one out.
