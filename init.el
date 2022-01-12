@@ -617,6 +617,7 @@ candidates, unless we're in filtering mode."
   (uniquify-buffer-name-style 'post-forward-angle-brackets "Use appended brackets for file path")
   (uniquify-trailing-separator-p t "Add a slash to directory buffers")
   (url-cookie-confirmation 'nil "Don't require confirmation on cookies")
+  (use-dialog-box nil "Disable (mouse) dialogs, something is confusing emacs making it think some commands where mouse initiated")
   (user-mail-address "xen@xen.dk" "Set email address")
   (wdired-allow-to-change-permissions t "Allow C-x C-q to change permissions too")
   (whitespace-style '(face tabs tab-mark) "Make tabs more visible")
