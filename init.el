@@ -114,7 +114,6 @@
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
-;; buttercup
 ;; cask-mode
 ;; git-link
 ;; geben
