@@ -253,4 +253,50 @@ function banana(): void {
        )
       )
     )
-  )
+
+  (describe "xen-php-setup-tools"
+    (describe "sets the proper tools in the simple case"
+      (before-each
+        (spy-on 'buffer-file-name :and-return-value "/home/xen/project/src/File.php")
+        (spy-on 'locate-dominating-file :and-call-fake (lambda (file name)
+                                                         (cond
+                                                          ((equal file "/home/xen/project/src/File.php")
+                                                           "/home/xen/project/")
+                                                          (t nil))))
+        (spy-on 'file-exists-p :and-call-fake (lambda (file)
+                                                (cond
+                                                 ((equal file "/home/xen/project/vendor/bin/phpcs") t)
+                                                 ((equal file "/home/xen/project/vendor/bin/phpstan") t)
+                                                 (t nil))))
+        (xen-php-setup-tools))
+      (it "sets the phpcs and phpstan executables properly"
+        (expect flycheck-php-phpcs-executable :to-equal "/home/xen/project/vendor/bin/phpcs")
+        (expect phpstan-executable :to-equal "/home/xen/project/vendor/bin/phpstan")))
+
+    (describe "handles nested projects"
+      (before-each
+        (spy-on 'buffer-file-name :and-return-value "/home/xen/project/vendor/xendk/subproject/src/File.php")
+        (spy-on 'locate-dominating-file :and-call-fake (lambda (file name)
+                                                         (cond
+                                                          ((equal file "/home/xen/project/vendor/xendk/subproject/src/File.php")
+                                                           "/home/xen/project/vendor/xendk/subproject/")
+                                                          ;; Shouldn't hit this one, or we'll infinite loop.
+                                                          ((equal file "/home/xen/project/vendor/xendk/subproject")
+                                                           "/home/xen/project/vendor/xendk/subproject/")
+                                                          ((equal file "/home/xen/project/vendor/xendk/")
+                                                           "/home/xen/project/")
+                                                          (t nil))))
+        (spy-on 'file-exists-p :and-call-fake
+                (lambda (file)
+                  (cond
+                   ((equal file "/home/xen/project/vendor/xendk/subproject/vendor/bin/phpcs") t)
+                   ((equal file "/home/xen/project/vendor/xendk/subproject/vendor/bin/phpstan") nil)
+                   ((equal file "/home/xen/project/vendor/bin/phpcs") nil)
+                   ((equal file "/home/xen/project/vendor/bin/phpstan") t)
+                   (t nil))))
+        (xen-php-setup-tools))
+      (it "sets phpcs executable to the one found in the subproject"
+        (expect flycheck-php-phpcs-executable :to-equal "/home/xen/project/vendor/xendk/subproject/vendor/bin/phpcs"))
+      (it "sets phpstan executable to the one found in the parent project"
+        (expect phpstan-executable :to-equal "/home/xen/project/vendor/bin/phpstan")
+        (message "%S" (spy-calls-all-args 'locate-dominating-file))))))

@@ -84,17 +84,22 @@
   (setq flycheck-phpcs-standard "/home/xen/.config/composer/vendor/kmcculloch/phpspec-code-sniffer/PHPSpec/"))
 
 (defvar xen-php-bin-dir "vendor/bin"
-  "Directory for composer installed tools. Defaults to `vendor/bin'")
+  "Directory for composer installed tools. Defaults to `vendor/bin'.")
 
 (defun xen-php-setup-tools ()
   "Point flycheck towards composer installed tools."
   (when (buffer-file-name)
-    (let* ((composer-root (locate-dominating-file (buffer-file-name) "composer.json"))
-           (bin-dir (concat (file-name-as-directory (concat composer-root xen-php-bin-dir)))))
-      (when (and composer-root (file-exists-p (concat bin-dir "phpcs")))
-        (setq-local flycheck-php-phpcs-executable (concat bin-dir "phpcs")))
-      (when (and composer-root (file-exists-p (concat bin-dir "phpstan")))
-        (setq-local phpstan-executable (concat bin-dir "phpstan"))))))
+    (let ((tools '(("phpcs" . flycheck-php-phpcs-executable) ("phpstan" . phpstan-executable)))
+          (composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
+      (while (and tools composer-root)
+        (dolist (tool tools)
+          (let ((file (concat (concat (file-name-as-directory (concat composer-root xen-php-bin-dir))) (car tool))))
+            (when (file-exists-p file)
+              (set (cdr tool) file)
+              (delete tool tools))))
+        (setq composer-root (locate-dominating-file
+                             (unless (equal "/" composer-root)
+                               (file-name-directory (directory-file-name composer-root))) "composer.json"))))))
 
 ;; Geben hackery.
 ;; (defun xen-geben-open ()
