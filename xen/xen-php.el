@@ -89,7 +89,7 @@
 (defun xen-php-setup-tools ()
   "Point flycheck towards composer installed tools."
   (when (buffer-file-name)
-    (let ((tools '(("phpcs" . flycheck-php-phpcs-executable) ("phpstan" . phpstan-executable)))
+    (let ((tools (list '("phpcs" . flycheck-php-phpcs-executable) '("phpstan" . phpstan-executable)))
           (composer-root (locate-dominating-file (buffer-file-name) "composer.json")))
       (while (and tools composer-root)
         (dolist (tool tools)
