@@ -76,3 +76,8 @@ Also available on region embark
 
 Reread Bbatsovs coding style guide:
 https://github.com/bbatsov/emacs-lisp-style-guide
+
+M-x ielm
+
+Iteractive elisp
+
