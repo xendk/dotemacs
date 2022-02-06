@@ -1252,6 +1252,8 @@ candidates, unless we're in filtering mode."
 (use-package selectrum
   :init
   (selectrum-mode +1)
+  :custom
+  (selectrum-quick-keys '(97 111 101 117 104 116 110 115 105 100) "Use Dvorak home row")
   :straight t)
 
 (use-package selectrum-prescient
