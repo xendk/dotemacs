@@ -1471,6 +1471,7 @@ candidates, unless we're in filtering mode."
          ("M-g g" . xen-avy-goto-line)
          ("M-g M-g" . xen-avy-goto-line)
          ("M-c" . xen-casing-map)
+         ("C-c y" . xen-edit-clipboard)
          :map xen-casing-map
          ("c" . capitalize-word)
          ("u" . upcase-word)
