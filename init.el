@@ -1433,11 +1433,12 @@ candidates, unless we're in filtering mode."
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (use-package windmove
-  :bind*
-  ("<S-up>" . windmove-up)
-  ("<S-down>" . windmove-down)
-  ("<S-left>" . windmove-left)
-  ("<S-right>" . windmove-right)
+  :init
+  ;; Shift is default.
+  (windmove-default-keybindings)
+  (windmove-swap-states-default-keybindings '(shift meta))
+  ;; Let's try this on for size.
+  (windmove-display-default-keybindings '(shift meta ctrl))
   ;; Make windmove work in org-mode:
   :hook
   (org-shiftup-final  . windmove-up)
