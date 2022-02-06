@@ -13,8 +13,6 @@
 ;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
 (set-face-attribute 'default nil :height 140 :width
                     'semi-condensed :foundry "FBI " :family "Input")
-;; Disable the mode-line in the initial buffer (whatever that is).
-(setq mode-line-format nil)
 ;; Disable tool-bar.
 (tool-bar-mode 0)
 ;; Disable scroll-bars.
