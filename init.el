@@ -1529,7 +1529,7 @@ candidates, unless we're in filtering mode."
   ("C-c S" . vterm))
 
 (use-package yaml-mode
-  :mode "\\.e?ya?ml\\(.dist\\)$"
+  :mode "\\.(e?ya?ml|neon)\\(.dist\\)$"
   :straight t)
 
 (use-package yasnippet
