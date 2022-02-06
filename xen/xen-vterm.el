@@ -50,8 +50,22 @@ Used to restore the original mode line face.")
     (setq xen-vterm-copy-mode-cookie nil)
     (hl-line-mode -1)))
 
+(defvar xen-consult--source-vterm-buffer2
+  `(:name "VTerm"
+          :narrow   ?v
+          :category buffer
+          :face     consult-buffer
+          :history  buffer-name-history
+          :state    ,#'consult--buffer-state
+          :default t
+          :items
+          ,(lambda () (consult--buffer-query :sort 'alpha
+                                             :mode 'vterm-mode
+                                             :as #'buffer-name)))
+  "VTerm buffer candidate source for `consult-buffer'.")
+
 (defun xen-switch-to-shell (&optional buffer-list)
-  "Switch to a vterm buffer. Create one or use ivy.
+  "Switch to a vterm buffer. Create one or use consult-buffer.
 
 Limit to buffers BUFFER-LIST if supplied."
   (interactive)
@@ -67,24 +81,8 @@ Limit to buffers BUFFER-LIST if supplied."
 
     (cond
      ((not buffers) (call-interactively 'vterm))
-     ;; ((eq 1 (length buffers)) (switch-to-buffer (car buffers)))
-     (t (ivy-read "Shell buffer (S-RET for new): "
-                  (mapcar #'buffer-name buffers)
-                  :matcher #'ivy--switch-buffer-matcher
-                  :preselect (buffer-name (other-buffer (current-buffer)))
-                  :action #'xen-ivy--switch-vbuffer-action
-                  :keymap ivy-switch-buffer-map
-                  :caller 'ivy-switch-buffer
-                  :update-fn (lambda ()
-                               (if (get-buffer (ivy-state-current ivy-last))
-                                   (ivy-call))))))))
-
-(defun xen-ivy--switch-vbuffer-action (buffer)
-  "Switch to vterm BUFFER.
-If BUFFER is an empty string, create a new vterm buffer."
-  (if (string-empty-p buffer)
-      (vterm)
-    (ivy--switch-buffer-action buffer)))
+     (t (let ((consult-buffer-sources '(xen-consult--source-vterm-buffer2)))
+          (consult-buffer))))))
 
 (provide 'xen-vterm)
 ;;; xen-vterm.el ends here
