@@ -107,7 +107,6 @@
   ;; Quickly open URLs. Really obsoleted by embark, but for my muscle
   ;; memory.
   ("C-c b" . browse-url-at-point)
-
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
