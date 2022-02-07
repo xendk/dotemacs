@@ -170,8 +170,6 @@
   :init
   ;; Disable tool-bar-mode.
   (tool-bar-mode 0)
-  ;; Show file size in mode-line.
-  (size-indication-mode)
   ;; Show column number in mode-line.
   (column-number-mode)
   ;; Offer to automatically populate some new files.
