@@ -33,10 +33,7 @@
 
 ;;; Configuration.
 ;; Relocate and load customs (so we don't clutter init.el with them).
-;; Loading them first so colors, faces and menu/toolbar/scrollbar is
-;; removed early.
 (setq custom-file (locate-user-emacs-file "custom.el"))
-;; (load custom-file)
 
 ;;; Aliases and advices
 ;; I'm grown up, I can manage using y/n for even destructive commands.
