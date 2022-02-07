@@ -602,6 +602,11 @@ candidates, unless we're in filtering mode."
   :commands display-line-numbers-mode
   :custom
   (display-line-numbers-grow-only t "Only grow room for line numbers")
+  (display-line-numbers-major-tick 20 "Show major line ever 20 lines")
+  (display-line-numbers-minor-tick 5 "Show minor line every 5 lines")
+  :custom-face
+  (line-number-major-tick ((t (:foreground "dark gray"))))
+  (line-number-minor-tick ((t (:foreground "dim gray"))))
   :hook (prog-mode . (lambda ()
                        "Enable line numbers in file-visiting buffers."
                        (when (buffer-file-name (buffer-base-buffer))
