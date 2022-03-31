@@ -1276,7 +1276,7 @@ candidates, unless we're in filtering mode."
   (sp-autodelete-closing-pair nil)
   (sp-autodelete-opening-pair nil)
   (sp-autodelete-pair nil)
-  (sp-autoskip-closing-pair (quote always))
+  (sp-autoskip-closing-pair (quote always-end) "Only skip typed closing pair when we're at it")
   (sp-show-pair-from-inside t)
   :demand
   :delight
