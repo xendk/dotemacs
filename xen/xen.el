@@ -218,7 +218,7 @@ LIST-SIZE is ignored."
                 (insert-file-contents (locate-user-emacs-file "tips"))
                 (split-string (buffer-string) "\f" t))))
     (insert (elt tips (random (length tips)))))
-  (dashboard-insert-shortcut "t" "Tip of the day"))
+  (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
 
 (defun xen-dashboard-todo (list-size)
   "Insert todo in the dashboard.
@@ -227,7 +227,7 @@ LIST-SIZE is ignored."
   (dashboard-insert-heading "Todo" "o")
   (insert "\n")
   (insert-file-contents (locate-user-emacs-file "todo"))
-  (dashboard-insert-shortcut "o" "Todo"))
+  (dashboard-insert-shortcut 'todo "o" "Todo"))
 
 ;; misc minor modes
 

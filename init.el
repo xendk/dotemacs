@@ -565,6 +565,8 @@ candidates, unless we're in filtering mode."
 (use-package dashboard
   :commands dashboard-setup-startup-hook
   :demand
+  ;; Need page-break-lines for pretty separators.
+  :after page-break-lines
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
