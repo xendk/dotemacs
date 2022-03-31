@@ -473,8 +473,6 @@ candidates, unless we're in filtering mode."
          ("M-e" . consult-isearch)
          ("C-<tab>" . consult-line))
   :custom
-  (consult-buffer-sources
-   '(consult--source-hidden-buffer consult--source-buffer xen-consult--source-vterm-buffer consult--source-file consult--source-bookmark consult--source-project-buffer consult--source-project-file) "Add vterm source")
   (consult-fontify-max-size 102400 "Limit the max fontification size to avoid sluggishness")
   :init
   ;; Use Consult to select xref locations with preview.
@@ -497,25 +495,6 @@ candidates, unless we're in filtering mode."
           (deactivate-mark)
           (consult-ripgrep nil (buffer-substring-no-properties (region-beginning) (region-end))))
       (consult-ripgrep)))
-  ;; Referenced in consult-buffer-sources.
-  (defvar xen-consult--source-vterm-buffer
-    `(:name "VTerm"
-            :narrow   ?v
-            :category buffer
-            :face     consult-buffer
-            :history  buffer-name-history
-            :state    ,#'consult--buffer-state
-            :hidden t
-            :items
-            ,(lambda ()
-               (seq-map (lambda (buff)
-                          (buffer-name buff))
-                        (seq-filter (lambda (buf)
-                                      (provided-mode-derived-p
-                                       (buffer-local-value 'major-mode buf)
-                                       'vterm-mode))
-                                    (buffer-list)))))
-    "VTerm buffer candidate source for `consult-buffer'.")
   (setq consult-narrow-key "<") ;; (kbd "C-+")
 
   ;; Optionally make narrowing help available in the minibuffer.
