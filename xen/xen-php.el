@@ -95,6 +95,7 @@
         (dolist (tool tools)
           (let ((file (concat (concat (file-name-as-directory (concat composer-root xen-php-bin-dir))) (car tool))))
             (when (file-exists-p file)
+              (make-variable-buffer-local (cdr tool))
               (set (cdr tool) file)
               (delete tool tools))))
         (setq composer-root (locate-dominating-file
