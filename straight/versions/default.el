@@ -17,7 +17,7 @@
  ("company-restclient" . "e5a3ec54edb44776738c13e13e34c85b3085277b")
  ("consult" . "473e6585c516d0e7fd4c256c333713fb40e9947a")
  ("consult-flycheck" . "0ad7e8ff15683a4d64b79c29b3fcf847edfe244b")
- ("cov" . "bf3dd5a27b1d9c809fe4e4a3e4e6f69368e15b03")
+ ("cov" . "8396fa82a84965cd88fa23f5b361ab80ff28e231")
  ("cucumber.el" . "8e1464113b489b54067294cd988ff6a11a423fdb")
  ("dap-mode" . "f918c0580bd17105cbe50aa701a2375abca5a6ab")
  ("dash.el" . "da167c51e9fd167a48d06c7c0ee8e3ac7abd9718")
