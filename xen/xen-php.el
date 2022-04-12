@@ -114,21 +114,31 @@
 ;; configuration at
 ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
 ;; Some modifications has been made.
-(defun xen-php-wrap-handler (&rest _ignored)
+(defun xen-php-wrap-handler (_id action _context)
   "Wrap block properly.
 Inserts newline in after the start brace and before the end
-brace, if needed, and indents."
-  (save-excursion
+brace, if needed.
+
+ACTION is the currently run wrapping action, we're only interested in `'wrap'.
+
+Indentation is assumed to be handled by indentinator."
+  (when (eq action 'wrap)
     (sp-get sp-last-wrapped-region
-      (goto-char :beg-in)
-      (unless (looking-at "[ \t]*$")
-        (newline-and-indent))
-      (goto-char :end-in)
-      (beginning-of-line)
-      (unless (looking-at "[ \t]*}[ \t]*$")
-        (goto-char :end-in)
-        (newline-and-indent))
-      (indent-region :beg-prf :end-suf))))
+      ;; Don't bother if both ends are on the same line.
+      (unless (eq (line-number-at-pos :beg-in) (line-number-at-pos :end-in))
+        (save-excursion
+          (goto-char :beg-in)
+          ;; Add newline if there's anything but white-space after the
+          ;; opening pair.
+          (unless (looking-at "[ \t]*$")
+            (newline))
+          (goto-char :end-in)
+          (beginning-of-line)
+          ;; Add newline if there's anything but white-space before
+          ;; and after the closing pair.
+          (unless (looking-at "[ \t]*}[ \t]*$")
+            (goto-char :end-in)
+            (newline)))))))
 
 (defun xen-php-handle-docstring (&rest _ignored)
   "Handle doc-strings for smartparens."

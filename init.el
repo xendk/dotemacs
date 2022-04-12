@@ -709,6 +709,7 @@ candidates, unless we're in filtering mode."
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
+  :after xen-php
   :hook (php-mode . xen-php-mode-expansions)
   :custom
   (expand-region-subword-enabled t "Use subword expansion")
@@ -1488,9 +1489,16 @@ candidates, unless we're in filtering mode."
                                               (xen-php-handle-docstring "*")))
 
     ;; When pressing return as the first thing after inserting
-    ;; a { or (, add another and indent.
+    ;; a {, [ or (, add another and indent.
     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-    (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
+    (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
+  :bind (:map php-mode-map
+              ;; Unbind c-electric-paren ta fall back to
+              ;; self-insert-command, which allows smartparens to do
+              ;; its magic.
+              ("(" . nil)
+              (")" . nil))
   :after (php-mode smartparens))
 
 (use-package xen-projectile
