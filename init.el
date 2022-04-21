@@ -613,19 +613,6 @@ candidates, unless we're in filtering mode."
   :commands ecukes
   :straight t)
 
-(use-package ede-php-autoload
-  :commands ede-php-autoload-mode
-  :hook (php-mode . global-ede-mode)
-  :straight t)
-
-(use-package ede-php-autoload-composer-installers
-  :after ede-php-autoload-mode
-  :load-path  "ede-php-autoload-composer-installers")
-
-(use-package ede-php-autoload-drupal
-  :after ede-php-autoload-mode
-  :load-path "ede-php-autoload-drupal")
-
 (use-package editorconfig
   :config
   (setq editorconfig--enable-20210221-testing t)
