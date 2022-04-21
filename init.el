@@ -817,12 +817,6 @@ candidates, unless we're in filtering mode."
   :config (google-this-mode)
   :straight t)
 
-(use-package ggtags
-  ;; TODO: icon lighter
-  :delight
-  :commands ggtags-mode
-  :straight t)
-
 (use-package github-review
   :after forge
   :straight t)
