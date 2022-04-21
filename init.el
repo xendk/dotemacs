@@ -241,16 +241,15 @@
   (set-face-background 'mode-line-inactive (doom-darken (doom-color 'bg-alt) .1))
 
   ;; Default hl-line clashes with the new solaire-default.
-  (eval-after-load 'hl-line
-    '(set-face-background 'hl-line "#282c34"))
+  (with-eval-after-load 'hl-line
+    (set-face-background 'hl-line "#282c34"))
 
   ;; Make symbol highlight and region highlights a darker version of the region.
-  (eval-after-load 'region-occurrences-highlighter
-    '(progn
-       (set-face-inverse-video 'region-occurrences-highlighter-face nil)
-       (set-face-background 'region-occurrences-highlighter-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
-  (eval-after-load 'highlight-symbol
-    '(set-face-background 'highlight-symbol-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
+  (with-eval-after-load 'region-occurrences-highlighter
+    (set-face-inverse-video 'region-occurrences-highlighter-face nil)
+    (set-face-background 'region-occurrences-highlighter-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
+  (with-eval-after-load 'highlight-symbol
+    (set-face-background 'highlight-symbol-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -277,15 +276,15 @@
     '(media-info major-mode " "))
   ;; Set the mode-line of special buffers that existed before
   ;; doom-modeline was loaded.
-  (eval-after-load "seq"
-    '(let ((buffers (seq-filter
-                     (lambda (buffer)
-                       (with-current-buffer buffer
-                         (derived-mode-p 'special-mode)))
-                     (buffer-list))))
-       (dolist (buffer buffers)
-         (with-current-buffer buffer
-           (doom-modeline-set-modeline 'xen-minimal)))))
+  (with-eval-after-load "seq"
+    (let ((buffers (seq-filter
+                    (lambda (buffer)
+                      (with-current-buffer buffer
+                        (derived-mode-p 'special-mode)))
+                    (buffer-list))))
+      (dolist (buffer buffers)
+        (with-current-buffer buffer
+          (doom-modeline-set-modeline 'xen-minimal)))))
   ;; Use xen-minimal in misc virtual buffers.
   :hook ((vterm-mode
           lisp-interaction-mode
@@ -296,7 +295,7 @@
                             ;; doom-modeline is loaded, so guard the
                             ;; set with boundp. The dashboard buffer
                             ;; modeline will be fixed by the
-                            ;; eval-after-load.
+                            ;; with-eval-after-load.
                             (if (fboundp 'doom-modeline-set-modeline)
                                 (doom-modeline-set-modeline 'xen-minimal))))
   :straight t)
@@ -368,7 +367,7 @@
   :delight
   :hook drupal-mode
   :config
-  (eval-after-load "doom-themes"
+  (with-eval-after-load "doom-themes"
     (set-face-attribute 'column-enforce-face nil :inherit nil
                         :underline nil
                         :background (doom-darken 'warning .75)))
@@ -697,8 +696,8 @@ candidates, unless we're in filtering mode."
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
   :config
-  (eval-after-load "php-mode"
-    '(add-hook 'php-mode-hook #'xen-php-mode-expansions))
+  (with-eval-after-load "php-mode"
+    (add-hook 'php-mode-hook #'xen-php-mode-expansions))
   :custom
   (expand-region-subword-enabled t "Use subword expansion")
   :demand
@@ -738,18 +737,17 @@ candidates, unless we're in filtering mode."
   :commands flycheck-color-mode-line-mode
   :hook (flycheck-mode . flycheck-color-mode-line-mode)
   :config
-  (eval-after-load "doom-themes"
-    '(progn
-       (set-face-attribute 'flycheck-color-mode-line-error-face nil :inherit nil
-                           :background (doom-darken 'error .60))
-       (set-face-attribute 'flycheck-color-mode-line-warning-face nil :inherit nil
-                           :background (doom-darken 'warning .70))
-       (set-face-attribute 'flycheck-color-mode-line-info-face nil :inherit nil
-                           :background (doom-darken 'blue .75))
-       (set-face-attribute 'flycheck-color-mode-line-running-face nil :inherit nil
-                           :background (doom-darken 'cyan .70))
-       (set-face-attribute 'flycheck-color-mode-line-success-face nil
-                           :background (doom-darken 'success .75))))
+  (with-eval-after-load "doom-themes"
+    (set-face-attribute 'flycheck-color-mode-line-error-face nil :inherit nil
+                        :background (doom-darken 'error .60))
+    (set-face-attribute 'flycheck-color-mode-line-warning-face nil :inherit nil
+                        :background (doom-darken 'warning .70))
+    (set-face-attribute 'flycheck-color-mode-line-info-face nil :inherit nil
+                        :background (doom-darken 'blue .75))
+    (set-face-attribute 'flycheck-color-mode-line-running-face nil :inherit nil
+                        :background (doom-darken 'cyan .70))
+    (set-face-attribute 'flycheck-color-mode-line-success-face nil
+                        :background (doom-darken 'success .75)))
   :straight t)
 
 (use-package flycheck-package
@@ -1283,8 +1281,8 @@ candidates, unless we're in filtering mode."
   (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
   (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
   ;; Hmm, no workie.
-  ;; (eval-after-load "twig-mode"      '(require 'smartparens-html))
-  ;; (eval-after-load "smartparens" '(sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
+  ;; (with-eval-after-load "twig-mode"      (require 'smartparens-html))
+  ;; (with-eval-after-load "smartparens" (sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
   ;; (require 'smartparens-html)
   :straight t)
 
