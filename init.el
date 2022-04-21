@@ -709,8 +709,9 @@ candidates, unless we're in filtering mode."
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
-  :after xen-php
-  :hook (php-mode . xen-php-mode-expansions)
+  :config
+  (eval-after-load "php-mode"
+    '(add-hook 'php-mode-hook #'xen-php-mode-expansions))
   :custom
   (expand-region-subword-enabled t "Use subword expansion")
   :demand
