@@ -1062,13 +1062,17 @@ candidates, unless we're in filtering mode."
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
-(use-package org
-  ;; orgtbl is used by feature-mode.
-  :commands (org-mode turn-on-orgtbl)
+(use-package org-mode
   :mode "\\.org\\'"
   :custom
   (org-support-shift-select t "Don't mess with using S-cursors for window selection")
   (org-startup-indented t "Use cleaner looking org-indent-mode"))
+;; And we have to define it twice. Using the name `org' means that the
+;; :mode in the above can't load the file, but using `org-mode' means
+;; that `turn-on-orgtbl' can't load the file.
+(use-package org
+  ;; orgtbl is used by feature-mode.
+  :commands (turn-on-orgtbl))
 
 ;; package-lint requires package for its package database. So we defer
 ;; it and use :config to initialize it when someone requires it.
