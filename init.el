@@ -1165,6 +1165,8 @@ candidates, unless we're in filtering mode."
       (cons 308078 271967))
      ((string-match (rx bos "mad" eos) notes)
       (cons 8810170 271967))
+     ((string-match (rx "fredagsmøde") notes)
+      (cons 308078 262900))
      ((string-match (rx "daily") notes)
       (cons nil 1193992))
      ((string-match (rx "INF-" num) notes)
