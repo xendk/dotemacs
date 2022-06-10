@@ -469,7 +469,7 @@ candidates, unless we're in filtering mode."
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          :map isearch-mode-map
-         ("M-e" . consult-isearch)
+         ("M-e" . consult-isearch-history)
          ("C-<tab>" . consult-line))
   :custom
   (consult-fontify-max-size 102400 "Limit the max fontification size to avoid sluggishness")
