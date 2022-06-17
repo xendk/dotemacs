@@ -45,6 +45,10 @@
 
 
 
+;; Have straight install a workaround to flycheck, so flycheck doesn't
+;; create any temporary files in the straight git repo checkouts
+;; causing unnecessary rebuilds.
+(setq straight-fix-flycheck t)
 ;; Initialize straight package system.
 (let ((bootstrap-file (concat user-emacs-directory "straight/bootstrap.el"))
       (bootstrap-version 2))
@@ -267,7 +271,7 @@
   (doom-modeline-def-segment buffer-info-simple-icon
     "As `buffer-info', but without state icon."
     (concat
-     (doom-modeline-spc)
+     doom-modeline-spc
      (doom-modeline--buffer-mode-icon)
      (doom-modeline--buffer-name)))
   ;; As 'minimal, but without buffer state icon.
