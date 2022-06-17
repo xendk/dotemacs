@@ -1173,7 +1173,7 @@ candidates, unless we're in filtering mode."
       (cons 308078 262900))
      ((string-match (rx "daily") notes)
       (cons nil 1193992))
-     ((string-match (rx "INF-" num) notes)
+     ((string-match (rx (or "INF-" "ABO-") num) notes)
       (cons 31342642 262899))
      ((string-match (rx "BUPL-" num) notes)
       (cons 31214849 262899))))
