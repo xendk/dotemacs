@@ -710,6 +710,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package feature-mode
+  ;; See readme for how to set up jump to step.
   :defer t
   :straight t)
 
