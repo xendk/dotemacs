@@ -243,11 +243,7 @@
   ;; Remove background color on comments.
   (set-face-background 'font-lock-comment-face nil)
 
-  ;; Make modeline follow bockground.
-  (set-face-background 'mode-line (doom-darken (doom-color 'bg-alt) .15))
-  (set-face-background 'mode-line-inactive (doom-darken (doom-color 'bg-alt) .1))
-
-  ;; Default hl-line clashes with the new solaire-default.
+  ;; Adjust hl-line color.
   (with-eval-after-load 'hl-line
     (set-face-background 'hl-line "#282c34"))
 
