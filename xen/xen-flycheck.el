@@ -55,5 +55,26 @@ This is my own version using FontAwesome icons."
                                          'face 'xen-font-awesome-face)))))
     (list " " text)))
 
+(defun xen-flycheck-insert-suppressor ()
+  "Inset checker suppression comment."
+  (interactive)
+  (let ((errors (flycheck-overlay-errors-at (point))))
+    (if errors
+        (dolist (error errors)
+          (let (suppressor)
+            (cl-case (flycheck-error-checker error)
+              ('phpstan
+               (setq suppressor "// @phpstan-ignore-next-line"))
+              ('php-phpcs
+               (setq suppressor (concat "// phpcs:ignore " (flycheck-error-id error))))
+              (t (message "Unknown checker")))
+            (when suppressor
+              (save-excursion
+                (beginning-of-line)
+                (newline)
+                (forward-line -1)
+                (indent-for-tab-command)
+                (insert suppressor)))))
+      (message "No flycheck error at point"))))
 (provide 'xen-flycheck)
 ;;; xen-flycheck.el ends here

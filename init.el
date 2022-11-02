@@ -1471,7 +1471,10 @@ candidates, unless we're in filtering mode."
 
 (use-package xen-flycheck
   :load-path "xen"
-  :functions xen-flycheck-mode-line-status-text)
+  :functions xen-flycheck-mode-line-status-text
+  :bind (:map flycheck-mode-map
+              ("C-c ! s" . xen-flycheck-insert-suppressor))
+  )
 
 (use-package xen-paired-delete
   :load-path "xen"
