@@ -76,6 +76,9 @@
 ;; Already loaded at this point, but we use this to have somewhere to
 ;; stick straight and use-package customs.
 (use-package use-package
+  :config
+  ;; Collect statistics for use-package-report.
+  (setq use-package-compute-statistics t)
   :custom
   (straight-check-for-modifications 'at-startup)
   (use-package-verbose t))
