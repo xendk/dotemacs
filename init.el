@@ -262,9 +262,12 @@
   :straight t)
 
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  ;; Load after flycheck-color-mode-line in order for doom-modeline to
+  ;; remaps its mode-line faces.
+  :after (flycheck-color-mode-line)
   :init
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (doom-modeline-mode)
   :config
   ;; Define a custom mode-line segment.
   (doom-modeline-def-segment buffer-info-simple-icon
