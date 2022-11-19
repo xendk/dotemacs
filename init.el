@@ -50,12 +50,14 @@
 ;; causing unnecessary rebuilds.
 (setq straight-fix-flycheck t)
 ;; Initialize straight package system.
-(let ((bootstrap-file (concat user-emacs-directory "straight/bootstrap.el"))
-      (bootstrap-version 2))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -1097,6 +1099,8 @@ candidates, unless we're in filtering mode."
 
 (use-package page-break-lines
   :delight
+  ;; We need it before after-init-hook is triggered as dashboard depends on it.
+  :demand
   :hook (emacs-lisp-mode . page-break-lines-mode)
   :straight t)
 
@@ -1234,21 +1238,6 @@ candidates, unless we're in filtering mode."
   :init
   (save-place-mode))
 
-(use-package selectrum
-  :init
-  (selectrum-mode +1)
-  :custom
-  (selectrum-quick-keys '(97 111 101 117 104 116 110 115 105 100) "Use Dvorak home row")
-  :straight t)
-
-(use-package selectrum-prescient
-  :init
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1)
-  :custom
-  (prescient-sort-full-matches-first t "Sort complete matches first")
-  :straight t)
-
 ;; Figure this one out.
 ;; (use-package semantic-php
 ;;   :commands semantic-mode
@@ -1370,6 +1359,21 @@ candidates, unless we're in filtering mode."
   (which-key-side-window-max-height 0.5)
   (which-key-sort-order (quote which-key-key-order))
   :straight t)
+
+(use-package vertico
+  :straight (:files (:defaults "extensions/*"))
+  :init
+  (vertico-mode))
+
+(use-package vertico-prescient
+  :init
+  ;; todo: is this customs?
+  (setq prescient-filter-method '(literal initialism prefix regexp)
+        prescient-sort-full-matches-first t)
+  (vertico-prescient-mode 1)
+  (prescient-persist-mode 1)
+  :straight t
+  )
 
 (use-package visual-fill-column
   :commands visual-fill-column-mode
