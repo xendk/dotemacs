@@ -1238,17 +1238,6 @@ candidates, unless we're in filtering mode."
   :init
   (save-place-mode))
 
-;; Figure this one out.
-;; (use-package semantic-php
-;;   :commands semantic-mode
-;;   :load-path "semantic-php/"
-;;   :init
-;;   (add-hook 'php-mode-hook #'semantic-mode)
-;;   :config
-;;   (load (concat user-emacs-directory "semantic-php/loaddefs.el"))
-;;   (add-to-list 'company-semantic-modes 'php-mode)
-;;   )
-
 (use-package smartparens
   :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair sp-with-modes)
   :custom
