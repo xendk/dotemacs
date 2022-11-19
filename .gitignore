@@ -55,5 +55,7 @@ history
 emojis
 ; Reaper key
 reaper-key.el
+; Reaper autofile function
+xen-reaper.el
 ; Passwords
 authinfo.gpg

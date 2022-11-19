@@ -1174,20 +1174,8 @@ candidates, unless we're in filtering mode."
   :load-path "reaper"
   :config
   (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
-  (defun xen-reaper-autofile-function (notes)
-    (cond
-     ((string-match (rx (or "morgenstatus" "kontortid")) notes)
-      (cons 308078 271967))
-     ((string-match (rx bos "mad" eos) notes)
-      (cons 8810170 271967))
-     ((string-match (rx "fredagsmøde") notes)
-      (cons 308078 262900))
-     ((string-match (rx "daily") notes)
-      (cons nil 1193992))
-     ((string-match (rx (or "INF-" "ABO-") num) notes)
-      (cons 31342642 262899))
-     ((string-match (rx "BUPL-" num) notes)
-      (cons 31214849 262899))))
+  ;; Store the autofile function in an uncommitted file.
+  (load (locate-user-emacs-file "xen-reaper.el") :noerror :nomessage)
   :init
   (add-hook 'reaper-autofile-functions 'xen-reaper-autofile-function)
   :bind ("C-c h" . reaper))
