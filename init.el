@@ -97,8 +97,8 @@
   ("C-v" . nil)
   ;; Take out it's mate for consistency.
   ("M-v" . nil)
-  ;; 99% of the time I want to kill the current buffer.
-  ("C-x k" . kill-current-buffer)
+  ;; Quickly delete the current buffer.
+  ("C-x C-k" . kill-current-buffer)
   ;; And often I want to kill the window too.
   ("C-x K" . kill-buffer-and-window)
   ;; Horizontal scrolling on trackpad produces these, which makes Emacs
