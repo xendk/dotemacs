@@ -693,6 +693,10 @@ candidates, unless we're in filtering mode."
   (embark-collect-mode . consult-preview-at-point-mode)
   :straight t)
 
+(use-package enh-ruby-mode
+  :mode "\\.rb\\'"
+  :straight t)
+
 (use-package exec-path-from-shell
   :init
   (when (memq window-system '(mac ns x))
@@ -779,7 +783,7 @@ candidates, unless we're in filtering mode."
   (flyspell-default-dictionary nil)
   :hook
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
-  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . flyspell-prog-mode)
+  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . flyspell-prog-mode)
   (git-commit-mode . flyspell-mode)
   :config
   ;; Want to hand these over to embark.
@@ -833,7 +837,7 @@ candidates, unless we're in filtering mode."
   :custom
   (highlight-symbol-idle-delay 0.5)
   :delight
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . highlight-symbol-mode)
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . highlight-symbol-mode)
   :bind
   ("M-<left>" . highlight-symbol-prev)
   ("M-<right>" . highlight-symbol-next)
@@ -857,7 +861,7 @@ candidates, unless we're in filtering mode."
 
 (use-package hungry-delete
   :delight
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . hungry-delete-mode)
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . hungry-delete-mode)
   :straight t)
 
 (use-package ibuffer-vc
@@ -869,7 +873,7 @@ candidates, unless we're in filtering mode."
   :straight t)
 
 (use-package indentinator
-  :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode ruby-mode twig-mode) . indentinator-mode)
+  :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode enh-ruby-mode twig-mode) . indentinator-mode)
   :custom
   (indentinator-idle-time 0.005 "Speed up indentinator")
   :straight (:host github :repo "xendk/indentinator"))
@@ -936,7 +940,7 @@ candidates, unless we're in filtering mode."
     nxml-mode
     php-mode
     rjsx-mode
-    ruby-mode
+    enh-ruby-mode
     scss-mode
     sh-mode
     sql-mode
@@ -1185,7 +1189,7 @@ candidates, unless we're in filtering mode."
   :bind ("C-c h" . reaper))
 
 (use-package region-occurrences-highlighter
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . region-occurrences-highlighter-mode)
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . region-occurrences-highlighter-mode)
   :bind (:map region-occurrences-highlighter-nav-mode-map
               ("M-<up>" . region-occurrences-highlighter-prev)
               ("M-<down>" . region-occurrences-highlighter-next))
@@ -1204,9 +1208,6 @@ candidates, unless we're in filtering mode."
   ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
   (js2-strict-missing-semi-warning nil "Don't require semi-colons if not needed")
   :straight t)
-
-(use-package ruby-mode
-  :commands ruby-mode)
 
 (use-package s
   :commands s-truncate
@@ -1438,7 +1439,7 @@ candidates, unless we're in filtering mode."
 (use-package ws-butler
   :commands ws-butler-mode
   :delight
-  :hook ((emacs-lisp-mode php-mode ruby-mode css-mode js-mode feature-mode) . ws-butler-mode)
+  :hook ((emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode) . ws-butler-mode)
   :straight t)
 
 (use-package xen
@@ -1447,7 +1448,7 @@ candidates, unless we're in filtering mode."
   :demand
   ;;:functions xen-coding-common-bindings
   :hook
-  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . xen-coding-common-bindings)
+  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("M-SPC" . xen-cycle-spacing)
          ("M-l" . xen-avy-goto-line)
@@ -1542,7 +1543,7 @@ candidates, unless we're in filtering mode."
   (yas-wrap-around-region nil)
   :delight yas-minor-mode
   :hook
-  ((emacs-lisp-mode php-mode css-mode js-mode ruby-mode) . yas-minor-mode)
+  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . yas-minor-mode)
   (git-commit-mode . yas-minor-mode)
   :config (yas-reload-all)
   :straight t)
