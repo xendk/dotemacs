@@ -45,48 +45,72 @@
 
 
 
-;; Have straight install a workaround to flycheck, so flycheck doesn't
-;; create any temporary files in the straight git repo checkouts
-;; causing unnecessary rebuilds.
-(setq straight-fix-flycheck t)
-;; Initialize straight package system.
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(defvar elpaca-installer-version 0.3)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (kill-buffer buffer)
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-;; Ensure that flycheck can see that straight will be available for
-;; the straight-register-package.
-(eval-and-compile
-  (require 'straight))
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
+  (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
+  (setq elpaca-use-package-by-default t)
+  (setq use-package-compute-statistics t)
+  (setq use-package-verbose t))
 
-;; Bootstrap `use-package'
-(straight-use-package 'use-package)
-;; When flycheck checks this file it needs use-package (and straight
-;; above) loaded to understand the use-package forms. It's also the
-;; reason for the flycheck-emacs-lisp-load-path on the first line of
-;; the file.
-(eval-and-compile (require 'use-package))
-;; Already loaded at this point, but we use this to have somewhere to
-;; stick straight and use-package customs.
+;; TODO: Figure out how to make a menu.
+;; (defun elpaca-menu-xen (request_)
+;;   "A minimal menu example.
+;; Ignore REQUEST, as this is a static, curated list of packages."
+;;   '((framemove :source "Xens stuff" :recipe (framemove :host github :repo "emacsmirror/framemove"))))
+
+;; (elpaca-queue (elpaca nil (add-to-list 'elpaca-menu-functions #'elpaca-menu-xen)))
+
+;; Block until current queue processed.
+(elpaca-wait)
+
 (use-package use-package
   :config
   ;; Collect statistics for use-package-report.
   (setq use-package-compute-statistics t)
   :custom
-  (straight-check-for-modifications 'at-startup)
   (use-package-verbose t))
 
 ;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
 (use-package emacs
+  :elpaca nil
   :delight
   (auto-fill-function)
   (abbrev-mode)
@@ -173,6 +197,7 @@
   (url-cookie-confirmation 'nil "Don't require confirmation on cookies")
   (use-dialog-box nil "Disable (mouse) dialogs, something is confusing emacs making it think some commands were mouse initiated")
   (user-mail-address "xen@xen.dk" "Set email address")
+  (warning-minimum-level :error "Only show warnings buffer on errors")
   (wdired-allow-to-change-permissions t "Allow C-x C-q to change permissions too")
   (whitespace-style '(face tabs tab-mark) "Make tabs more visible")
   :init
@@ -260,8 +285,7 @@
   (doom-themes-visual-bell-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  :straight t)
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   ;; Load after flycheck-color-mode-line in order for doom-modeline to
@@ -296,8 +320,8 @@
   ;; Use xen-minimal in misc virtual buffers.
   :hook ((vterm-mode
           lisp-interaction-mode
-          ;; special-mode covers straight process buffer, messages
-          ;; buffer, dashboard, help buffer and more.
+          ;; special-mode covers messages buffer, dashboard, help
+          ;; buffer and more.
           special-mode) . (lambda ()
                             ;; dashboard calls its hooks before
                             ;; doom-modeline is loaded, so guard the
@@ -305,23 +329,19 @@
                             ;; modeline will be fixed by the
                             ;; with-eval-after-load.
                             (if (fboundp 'doom-modeline-set-modeline)
-                                (doom-modeline-set-modeline 'xen-minimal))))
-  :straight t)
+                                (doom-modeline-set-modeline 'xen-minimal)))))
 
 (use-package all-the-icons
   :config
-  (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0))
-  :straight t)
+  (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0)))
 
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
-  :commands delight
-  :straight t)
+  :commands delight)
 
 (use-package apib-mode
   :defer t
-  :mode "\\.apib$"
-  :straight t)
+  :mode "\\.apib$")
 
 (use-package avy
   :custom
@@ -333,38 +353,34 @@
   ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
   ;; use-package xen.
   ("M-u" . avy-goto-char-in-line)
-  ("M-U" . avy-goto-char)
-  :straight t)
+  ("M-U" . avy-goto-char))
 
 (use-package avy-zap
   :bind
   ("M-z" . avy-zap-to-char-dwim)
-  ("M-Z" . avy-zap-up-to-char-dwim)
-  :straight t)
+  ("M-Z" . avy-zap-up-to-char-dwim))
 
 ;; Built in, used by magit, we'll delight it.
 (use-package autorevert
+  :elpaca nil
   :commands auto-revert-mode
   :delight auto-revert-mode)
 
 (use-package bug-hunter
-  :commands (bug-hunter-init-file bug-hunter-file)
-  :straight t)
+  :commands (bug-hunter-init-file bug-hunter-file))
 
 (use-package buttercup
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package caddyfile-mode
   :mode (("Caddyfile\\'" . caddyfile-mode)
-         ("caddy\\.conf\\'" . caddyfile-mode))
-  :straight t)
+         ("caddy\\.conf\\'" . caddyfile-mode)))
 
 (use-package cask-mode
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package css-mode
+  :elpaca nil
   :custom
   (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
   (css-indent-offset 2 "Set default CSS indent offset")
@@ -378,8 +394,7 @@
   (with-eval-after-load "doom-themes"
     (set-face-attribute 'column-enforce-face nil :inherit nil
                         :underline nil
-                        :background (doom-darken 'warning .75)))
-  :straight t)
+                        :background (doom-darken 'warning .75))))
 
 (use-package company
   :commands global-company-mode
@@ -455,19 +470,16 @@ candidates, unless we're in filtering mode."
   ;; Swap search and filter shortcuts. I prefer filtering the dropdown
   ;; rather than searching in it.
   (define-key company-active-map "\C-s" 'company-filter-candidates)
-  (define-key company-active-map "\C-\M-s" 'company-search-candidates)
-  :straight t)
+  (define-key company-active-map "\C-\M-s" 'company-search-candidates))
 
 (use-package company-restclient
-  :after (company restclient)
-  :straight t)
+  :after (company restclient))
 
 (use-package company-tabnine
   :disabled
   :after company
   :custom
-  (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary")
-  :straight t)
+  (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary"))
 
 (use-package consult
   ;; Many more examples at https://github.com/minad/consult#use-package-example
@@ -509,11 +521,9 @@ candidates, unless we're in filtering mode."
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
   (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root)
-  :straight t)
+  (setq consult-project-root-function #'projectile-project-root))
 
-(use-package consult-flycheck
-  :straight t)
+(use-package consult-flycheck)
 
 (use-package cov
   :custom-face
@@ -521,19 +531,16 @@ candidates, unless we're in filtering mode."
   (cov-light-face ((t (:foreground "orange"))))
   (cov-none-face ((t (:foreground "red"))))
   :hook
-  ((emacs-lisp-mode php-mode js-mode) . cov-mode)
-  :straight t)
+  ((emacs-lisp-mode php-mode js-mode) . cov-mode))
 
-(use-package crystal-mode
-  :straight t)
+(use-package crystal-mode)
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
   :custom
   (dap-php-debug-program
    (quote
-    ("node" (concat user-emacs-directory "vscode-php-debug/out/phpDebug.js"))))
-  :straight t)
+    ("node" (concat user-emacs-directory "vscode-php-debug/out/phpDebug.js")))))
 
 ;; To use dap, the container running xdebug needs something like:
 ;; export XDEBUG_CONFIG="remote_host=172.17.0.1 remote_connect_back=Off remote_autostart=On"
@@ -554,6 +561,17 @@ candidates, unless we're in filtering mode."
   ;; Need page-break-lines for pretty separators.
   :after page-break-lines
   :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
+  :init
+  ;; Elpaca triggers in after-init-hook, so dashboard gets in too
+  ;; late. Copy it's hooks to elpacas hook.
+  (add-hook 'elpaca-after-init-hook (lambda ()
+                                      ;; Display useful lists of items
+                                      (dashboard-insert-startupify-lists)))
+  (add-hook 'elpaca-after-init-hook (lambda ()
+                                      (switch-to-buffer dashboard-buffer-name)
+                                      (goto-char (point-min))
+                                      (redisplay)
+                                      (run-hooks 'dashboard-after-initialize-hook)))
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
   :config
@@ -562,29 +580,27 @@ candidates, unless we're in filtering mode."
   (add-to-list 'dashboard-item-generators '(xen-todo . xen-dashboard-todo))
   (setq dashboard-items '((projects . 10) (xen-tip) (xen-todo)))
   (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (dashboard-setup-startup-hook)
-  :straight t)
+  (setq dashboard-set-file-icons t))
 
 ;; Built in.
 (use-package delsel
+  :elpaca nil
   :init
   (delete-selection-mode))
 
 (use-package diff-hl
   :commands global-diff-hl-mode
-  :init (global-diff-hl-mode)
-  :straight t)
+  :init (global-diff-hl-mode))
 
 (use-package dimmer
   :init
   (dimmer-configure-which-key)
   (dimmer-configure-magit)
-  (dimmer-mode t)
-  :straight t)
+  (dimmer-mode t))
 
 ;; Built in.
 (use-package display-line-numbers-mode
+  :elpaca nil
   :commands display-line-numbers-mode
   :custom
   (display-line-numbers-grow-only t "Only grow room for line numbers")
@@ -599,8 +615,7 @@ candidates, unless we're in filtering mode."
                          (display-line-numbers-mode 1)))))
 
 (use-package dockerfile-mode
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package drupal-mode
   :defer t
@@ -610,26 +625,24 @@ candidates, unless we're in filtering mode."
   (drupal/phpcs-standard nil "Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard")
   :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
                                                      'face '(:family "FontAwesome"))))
-  :straight (:host github :repo "arnested/drupal-mode" :branch "develop"))
+  :elpaca (:host github :repo "arnested/drupal-mode" :branch "develop"))
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
+  :elpaca nil
   :after drupal-mode)
 
 (use-package ecukes
-  :commands ecukes
-  :straight t)
+  :commands ecukes)
 
 (use-package editorconfig
   :config
   (setq editorconfig--enable-20210221-testing t)
-  (editorconfig-mode 1)
-  :straight t)
+  (editorconfig-mode 1))
 
 ;; For editing code blocks in Markdown mode.
 (use-package edit-indirect
-  :after markdown-mode
-  :straight t)
+  :after markdown-mode)
 
 (use-package eldoc
   :commands eldoc-mode
@@ -683,8 +696,7 @@ candidates, unless we're in filtering mode."
   (defun xen-google-region ()
     "Google current region."
     (interactive)
-    (google-this-region nil t))
-  :straight t)
+    (google-this-region nil t)))
 
 (use-package embark-consult
   :after (embark consult)
@@ -692,18 +704,15 @@ candidates, unless we're in filtering mode."
   ;; if you want to have consult previews as you move around an
   ;; auto-updating embark collect buffer
   :hook
-  (embark-collect-mode . consult-preview-at-point-mode)
-  :straight t)
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package enh-ruby-mode
-  :mode "\\.rb\\'"
-  :straight t)
+  :mode "\\.rb\\'")
 
 (use-package exec-path-from-shell
   :init
   (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  :straight t)
+    (exec-path-from-shell-initialize)))
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
@@ -712,17 +721,14 @@ candidates, unless we're in filtering mode."
     (add-hook 'php-mode-hook #'xen-php-mode-expansions))
   :custom
   (expand-region-subword-enabled t "Use subword expansion")
-  :demand
-  :straight t)
+  :demand t)
 
 (use-package feature-mode
   ;; See readme for how to set up jump to step.
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package fish-mode
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package flycheck
   :custom
@@ -738,16 +744,17 @@ candidates, unless we're in filtering mode."
               ("M-<down>" . flycheck-next-error))
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
-  :hook (after-init . global-flycheck-mode)
-  :straight t)
+  :hook (after-init . global-flycheck-mode))
 
 (use-package flycheck-cask
   :commands flycheck-cask-setup
-  :hook (flycheck-mode . flycheck-cask-setup)
-  :straight t)
+  :hook (flycheck-mode . flycheck-cask-setup))
 
 (use-package flycheck-color-mode-line
   :commands flycheck-color-mode-line-mode
+  ;; doom-modeline depends on this, so it can't be deferred, lest we
+  ;; want to see default modelines.
+  :demand t
   :hook (flycheck-mode . flycheck-color-mode-line-mode)
   :config
   (with-eval-after-load "doom-themes"
@@ -760,13 +767,11 @@ candidates, unless we're in filtering mode."
     (set-face-attribute 'flycheck-color-mode-line-running-face nil :inherit nil
                         :background (doom-darken 'cyan .70))
     (set-face-attribute 'flycheck-color-mode-line-success-face nil
-                        :background (doom-darken 'success .75)))
-  :straight t)
+                        :background (doom-darken 'success .75))))
 
 (use-package flycheck-package
   :commands flycheck-package-setup
-  :hook (flycheck-mode . flycheck-package-setup)
-  :straight t)
+  :hook (flycheck-mode . flycheck-package-setup))
 
 (use-package flycheck-phpstan
   :hook
@@ -776,10 +781,10 @@ candidates, unless we're in filtering mode."
   (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'php-phpcs 'phpstan)))
   :after (flycheck lsp-mode)
   :custom
-  (phpstan-enable-on-no-config-file nil)
-  :straight t)
+  (phpstan-enable-on-no-config-file nil))
 
 (use-package flyspell
+  :elpaca nil
   :commands flyspell-mode
   :custom
   (flyspell-default-dictionary nil)
@@ -795,20 +800,19 @@ candidates, unless we're in filtering mode."
 
 (use-package flyspell-correct
   :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper))
-  :straight t)
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
 (use-package forge
-  :after magit
-  :straight t)
+  :after magit)
 
 ;; http://www.emacswiki.org/emacs/FrameMove
 (use-package framemove
-  :config (setq framemove-hook-into-windmove t)
-  :straight t)
+  ;; Elpaca doesn't have a menu for emacsmirror yet.
+  :elpaca (framemove :host github :repo "emacsmirror/framemove")
+  :config (setq framemove-hook-into-windmove t))
 
 (use-package git-attr
-  :straight (:host github :repo "arnested/emacs-git-attr"))
+  :elpaca (:host github :repo "arnested/emacs-git-attr"))
 
 (use-package go-mode
   :mode "\\.go\\'"
@@ -819,20 +823,17 @@ candidates, unless we're in filtering mode."
   :hook ((go-mode . subword-mode)
          (go-mode . (lambda ()
                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                      (add-hook 'before-save-hook #'lsp-organize-imports t t))))
-  :straight t)
+                      (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
 
 (use-package google-this
   :commands (google-this-mode google-this-region)
   :delight
   ;; Why does this use use-package-autoload-keymap?
   :bind-keymap ("C-c /" . google-this-mode-submap)
-  :config (google-this-mode)
-  :straight t)
+  :config (google-this-mode))
 
 (use-package github-review
-  :after forge
-  :straight t)
+  :after forge)
 
 (use-package highlight-symbol
   :commands highlight-symbol-mode
@@ -849,10 +850,10 @@ candidates, unless we're in filtering mode."
                                              (highlight-symbol-mode 0))))
   (add-hook 'deactivate-mark-hook (lambda () (when (bound-and-true-p highlight-symbol-mode-suspend)
                                                (kill-local-variable highlight-symbol-mode-suspend)
-                                               (highlight-symbol-mode 1))))
-  :straight t)
+                                               (highlight-symbol-mode 1)))))
 
 (use-package hl-line
+  :elpaca nil
   ;; Let xen-vterm handle hl-line-mode toggling in vterm buffers.
   :hook
   (after-change-major-mode . (lambda ()
@@ -863,34 +864,35 @@ candidates, unless we're in filtering mode."
 
 (use-package hungry-delete
   :delight
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . hungry-delete-mode)
-  :straight t)
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . hungry-delete-mode))
 
 (use-package ibuffer-vc
   :hook
   (ibuffer . (lambda ()
                (ibuffer-vc-set-filter-groups-by-vc-root)
                (unless (eq ibuffer-sorting-mode 'alphabetic)
-                 (ibuffer-do-sort-by-alphabetic))))
-  :straight t)
+                 (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package indentinator
   :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode enh-ruby-mode twig-mode) . indentinator-mode)
   :custom
   (indentinator-idle-time 0.005 "Speed up indentinator")
-  :straight (:host github :repo "xendk/indentinator"))
+  :elpaca (:host github :repo "xendk/indentinator"))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
-(use-package iso-transl)
+(use-package iso-transl
+  :elpaca nil)
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
+  :elpaca nil
   :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
 
 ;; Built in.
 (use-package js-mode
+  :elpaca nil
   :commands js-mode
   :mode "\\.ts$")
 
@@ -903,13 +905,11 @@ candidates, unless we're in filtering mode."
   (keyfreq-file-lock (concat user-emacs-directory "keyfreq.lock"))
   :init
   (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1)
-  :straight t)
+  (keyfreq-autosave-mode 1))
 
 (use-package literate-calc-mode
   :commands literate-calc-mode
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package lsp-mode
   :commands lsp lsp-deferred
@@ -954,8 +954,7 @@ candidates, unless we're in filtering mode."
   ;; with this problem, this will work.
   (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'lsp 'php-phpcs)))
   :config
-  (unbind-key "C-S-SPC" lsp-mode-map)
-  :straight t)
+  (unbind-key "C-S-SPC" lsp-mode-map))
 
 (use-package lsp-ui
   :commands (lsp-ui-mode lsp-ui-sideline-mode)
@@ -965,12 +964,10 @@ candidates, unless we're in filtering mode."
   :config
   ;; Use sideline mode in all flycheck buffers. Better than displaying
   ;; in mini-buffer or flycheck-inline.
-  :hook (flycheck-mode . lsp-ui-sideline-mode)
-  :straight t)
+  :hook (flycheck-mode . lsp-ui-sideline-mode))
 
 (use-package nginx-mode
-  :commands nginx-mode
-  :straight t)
+  :commands nginx-mode)
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
@@ -1003,37 +1000,31 @@ candidates, unless we're in filtering mode."
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
-                       'face '(:family "FontAwesome")) :major)
-  :straight t)
+                       'face '(:family "FontAwesome")) :major))
 
 ;; Why this isn't handled by dependencies, I don't know.
-(use-package magit-section
-  :straight t)
+(use-package magit-section)
 
 ;; Add git flow extension.
 (use-package magit-gitflow
   :after magit
   :delight
-  :hook (magit-mode . turn-on-magit-gitflow)
-  :straight t)
+  :hook (magit-mode . turn-on-magit-gitflow))
 
 (use-package magit-filenotify
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package magithub
   :commands magithub-feature-autoinject
   :disabled t
   :after magit
-  :config (magithub-feature-autoinject t)
-  :straight t)
+  :config (magithub-feature-autoinject t))
 
 (use-package markdown-mode
   :mode
   ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
   ("\\.md$" . gfm-mode)
-  :hook (gfm-mode . auto-fill-mode)
-  :straight t)
+  :hook (gfm-mode . auto-fill-mode))
 
 (use-package marginalia
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
@@ -1041,19 +1032,16 @@ candidates, unless we're in filtering mode."
          :map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init
-  (marginalia-mode)
-  :straight t)
+  (marginalia-mode))
 
 (use-package mwim
   :bind
   ("C-a" . mwim-beginning)
-  ("C-e" . mwim-end)
-  :straight t)
+  ("C-e" . mwim-end))
 
 (use-package multi-line
   :bind
-  ("C-c d" . multi-line)
-  :straight t)
+  ("C-c d" . multi-line))
 
 ;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
 (use-package multi-mode
@@ -1069,13 +1057,13 @@ candidates, unless we're in filtering mode."
   ("C-M-m" . mc/mark-more-like-this-extended)
   ("C-*" . mc/mark-all-like-this)
   ("C-%" . mc/mark-all-in-region)
-  ("C-=" . mc/mark-all-like-this-dwim)
-  :straight t)
+  ("C-=" . mc/mark-all-like-this-dwim))
 
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
 (use-package org-mode
+  :elpaca nil
   :mode "\\.org\\'"
   :custom
   (org-support-shift-select t "Don't mess with using S-cursors for window selection")
@@ -1084,12 +1072,14 @@ candidates, unless we're in filtering mode."
 ;; :mode in the above can't load the file, but using `org-mode' means
 ;; that `turn-on-orgtbl' can't load the file.
 (use-package org
+  :elpaca nil
   ;; orgtbl is used by feature-mode.
   :commands (turn-on-orgtbl))
 
 ;; package-lint requires package for its package database. So we defer
 ;; it and use :config to initialize it when someone requires it.
 (use-package package
+  :elpaca nil
   :commands package-initialize
   :defer t
   :config
@@ -1101,12 +1091,10 @@ candidates, unless we're in filtering mode."
   :delight
   ;; We need it before after-init-hook is triggered as dashboard depends on it.
   :demand
-  :hook (emacs-lisp-mode . page-break-lines-mode)
-  :straight t)
+  :hook (emacs-lisp-mode . page-break-lines-mode))
 
 (use-package php-boris
-  :commands php-boris
-  :straight t)
+  :commands php-boris)
 
 (use-package php-mode
   :commands php-mode
@@ -1121,13 +1109,12 @@ candidates, unless we're in filtering mode."
   (php-mode-enable-project-coding-style nil)
   :config
   (require 'dap-php)
-  :hook (php-mode . (lambda () (subword-mode 1)))
-  :straight t)
+  :hook (php-mode . (lambda () (subword-mode 1))))
 
 (use-package php-extras
   :custom
   (php-extras-auto-complete-insert-parenthesis nil)
-  :straight (:host github :repo "arnested/php-extras"))
+  :elpaca (:host github :repo "arnested/php-extras"))
 
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
@@ -1145,8 +1132,7 @@ candidates, unless we're in filtering mode."
                                     :compile "./artisan serve"
                                     :test "./vendor/bin/phpunit "
                                     :test-dir "tests"
-                                    :test-suffix "Test")
-  :straight t)
+                                    :test-suffix "Test"))
 
 (use-package rainbow-mode
   :defer t
@@ -1167,8 +1153,7 @@ candidates, unless we're in filtering mode."
     (remove-overlays (point-min) (point-max) 'ovrainbow t))
   (advice-add #'rainbow-turn-off :after #'xen-rainbow-clear-overlays)
   :hook
-  (css-mode . rainbow-mode)
-  :straight t)
+  (css-mode . rainbow-mode))
 
 (use-package reaper
   :load-path "reaper"
@@ -1184,13 +1169,11 @@ candidates, unless we're in filtering mode."
   :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . region-occurrences-highlighter-mode)
   :bind (:map region-occurrences-highlighter-nav-mode-map
               ("M-<up>" . region-occurrences-highlighter-prev)
-              ("M-<down>" . region-occurrences-highlighter-next))
-  :straight t)
+              ("M-<down>" . region-occurrences-highlighter-next)))
 
 (use-package restclient
   :defer t
-  :mode (("\\.http$" . restclient-mode))
-  :straight t)
+  :mode (("\\.http$" . restclient-mode)))
 
 (use-package rjsx-mode
   :commands rjsx-mode
@@ -1198,15 +1181,14 @@ candidates, unless we're in filtering mode."
   :magic ("import.*react" . rjsx-mode)
   :custom
   ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
-  (js2-strict-missing-semi-warning nil "Don't require semi-colons if not needed")
-  :straight t)
+  (js2-strict-missing-semi-warning nil "Don't require semi-colons if not needed"))
 
 (use-package s
-  :commands s-truncate
-  :straight t)
+  :commands s-truncate)
 
 ;; Built in.
 (use-package savehist
+  :elpaca nil
   :custom
   (savehist-save-minibuffer-history t "Save mini-buffer history")
   (savehist-additional-variables
@@ -1221,6 +1203,7 @@ candidates, unless we're in filtering mode."
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
+  :elpaca nil
   :custom
   (save-place-file (concat user-emacs-directory "saveplaces"))
   :init
@@ -1258,18 +1241,16 @@ candidates, unless we're in filtering mode."
   ;; (with-eval-after-load "twig-mode"      (require 'smartparens-html))
   ;; (with-eval-after-load "smartparens" (sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
   ;; (require 'smartparens-html)
-  :straight t)
+  )
 
 (use-package smex
   :custom
   (smex-save-file (concat user-emacs-directory "smex-items"))
   ;; autoload when needed.
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package speed-type
-  :commands (speed-type-text speed-type-region speed-type-buffer)
-  :straight t)
+  :commands (speed-type-text speed-type-region speed-type-buffer))
 
 (use-package string-inflection
   ;; autoload when needed.
@@ -1277,21 +1258,13 @@ candidates, unless we're in filtering mode."
              string-inflection-upcase
              string-inflection-lower-camelcase
              string-inflection-camelcase
-             string-inflection-kebab-case)
-  :straight t)
+             string-inflection-kebab-case))
 
 (use-package systemd
-  :defer t
-  :straight t)
-
-;; Use terraform-mode for Github Actions workflow files.
-(use-package terraform-mode
-  :mode "\\.workflow\\'"
-  :straight t)
+  :defer t)
 
 (use-package twig-mode
-  :defer t
-  :straight t)
+  :defer t)
 
 (use-package undo-tree
   :commands global-undo-tree-mode
@@ -1312,18 +1285,16 @@ candidates, unless we're in filtering mode."
               ("C-g" . undo-tree-visualizer-abort)
               ("q" . undo-tree-visualizer-abort))
   ;; Pull package directly from maintainer, the elpa package is behind.
-  :straight (:type git :host gitlab :repo "tsc25/undo-tree"))
+  :elpaca (:type git :host gitlab :repo "tsc25/undo-tree"))
 
 (use-package vcl-mode
   :commands vcl-mode
   :mode "\\.vcl\\'"
   :custom
-  (vcl-indent-level 2 "Set indent level")
-  :straight t)
+  (vcl-indent-level 2 "Set indent level"))
 
 (use-package watch-buffer
-  :commands watch-buffer
-  :straight t)
+  :commands watch-buffer)
 
 (use-package which-key
   :init
@@ -1334,11 +1305,10 @@ candidates, unless we're in filtering mode."
   (which-key-popup-type (quote side-window))
   (which-key-show-early-on-C-h t)
   (which-key-side-window-max-height 0.5)
-  (which-key-sort-order (quote which-key-key-order))
-  :straight t)
+  (which-key-sort-order (quote which-key-key-order)))
 
 (use-package vertico
-  :straight (:files (:defaults "extensions/*"))
+  :elpaca (:files (:defaults "extensions/*"))
   :init
   (vertico-mode))
 
@@ -1348,15 +1318,12 @@ candidates, unless we're in filtering mode."
   (setq prescient-filter-method '(literal initialism prefix regexp)
         prescient-sort-full-matches-first t)
   (vertico-prescient-mode 1)
-  (prescient-persist-mode 1)
-  :straight t
-  )
+  (prescient-persist-mode 1))
 
 (use-package visual-fill-column
   :commands visual-fill-column-mode
   :custom
-  (visual-fill-column-center-text t "Center text when using this mode")
-  :straight t)
+  (visual-fill-column-center-text t "Center text when using this mode"))
 
 (use-package visual-regexp
   :bind
@@ -1364,8 +1331,7 @@ candidates, unless we're in filtering mode."
   ("C-c q" . vr/query-replace)
   ("C-c m" . vr/mc-mark)
   :custom
-  (vr/default-replace-preview t "Show preview")
-  :straight t)
+  (vr/default-replace-preview t "Show preview"))
 
 (use-package vterm
   :custom
@@ -1389,16 +1355,16 @@ candidates, unless we're in filtering mode."
   ;; Disable string highlighting.
   (vterm-mode . (lambda ()
                   ;; Don't fontify stings.
-                  (setq font-lock-defaults '('() t))))
-  :straight t)
+                  (setq font-lock-defaults '('() t)))))
 
 ;; Writable grep buffer.
 ;; (use-package wgrep
-;;   :straight t)
+;;   )
 
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (use-package windmove
+  :elpaca nil
   :init
   ;; Shift is default.
   (windmove-default-keybindings)
@@ -1415,15 +1381,16 @@ candidates, unless we're in filtering mode."
 ;; http://www.emacswiki.org/emacs/WinnerMode
 ;; Built in.
 (use-package winner
+  :elpaca nil
   :config (winner-mode))
 
 (use-package ws-butler
   :commands ws-butler-mode
   :delight
-  :hook ((emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode) . ws-butler-mode)
-  :straight t)
+  :hook ((emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode) . ws-butler-mode))
 
 (use-package xen
+  :elpaca nil
   :load-path "xen"
   :commands (xen-region-isearch-forward xen-region-isearch-backward)
   :demand
@@ -1451,65 +1418,70 @@ candidates, unless we're in filtering mode."
          ("m" . string-inflection-camelcase)
          ("k" . string-inflection-kebab-case)))
 
-(use-package xen-company
-  :load-path "xen")
+(elpaca nil
+  (use-package xen-company
+    :elpaca nil
+    :load-path "xen")
 
-(use-package xen-flycheck
-  :load-path "xen"
-  :functions xen-flycheck-mode-line-status-text
-  :bind (:map flycheck-mode-map
-              ("C-c ! s" . xen-flycheck-insert-suppressor))
-  )
+  (use-package xen-flycheck
+    :elpaca nil
+    :load-path "xen"
+    :functions xen-flycheck-mode-line-status-text
+    :bind (:map flycheck-mode-map
+                ("C-c ! s" . xen-flycheck-insert-suppressor)))
 
-(use-package xen-paired-delete
-  :load-path "xen"
-  :after (smartparens)
-  :config
-  (global-xen-paired-delete-mode))
+  (use-package xen-paired-delete
+    :elpaca nil
+    :load-path "xen"
+    :after (smartparens)
+    :config
+    (global-xen-paired-delete-mode))
 
-(use-package xen-php
-  :load-path "xen"
-  :hook
-  ;; Use hack-local-variables-hook to run after `.dir-local.el'
-  ;; variables has been set.
-  (php-mode . (lambda ()
-                (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
-  :config
-  (sp-with-modes '(php-mode)
-    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
-                                              ("* |\n[i]" "RET")
-                                              (xen-php-handle-docstring "*")))
+  (use-package xen-php
+    :elpaca nil
+    :load-path "xen"
+    :hook
+    ;; Use hack-local-variables-hook to run after `.dir-local.el'
+    ;; variables has been set.
+    (php-mode . (lambda ()
+                  (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
+    :config
+    (sp-with-modes '(php-mode)
+      (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
+                                                ("* |\n[i]" "RET")
+                                                (xen-php-handle-docstring "*")))
 
-    ;; When pressing return as the first thing after inserting
-    ;; a {, [ or (, add another and indent.
-    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-    (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-    (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
-  :bind (:map php-mode-map
-              ;; Unbind c-electric-paren ta fall back to
-              ;; self-insert-command, which allows smartparens to do
-              ;; its magic.
-              ("(" . nil)
-              (")" . nil))
-  :after (php-mode smartparens))
+      ;; When pressing return as the first thing after inserting
+      ;; a {, [ or (, add another and indent.
+      (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+      (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+      (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
+    :bind (:map php-mode-map
+                ;; Unbind c-electric-paren ta fall back to
+                ;; self-insert-command, which allows smartparens to do
+                ;; its magic.
+                ("(" . nil)
+                (")" . nil))
+    :after (php-mode smartparens))
 
-(use-package xen-projectile
-  :load-path "xen"
-  :after (projectile)
-  :bind (:map projectile-command-map
-              ("s" . xen-projectile-switch-to-shell)
-              ("S" . projectile-run-vterm)))
+  (use-package xen-projectile
+    :elpaca nil
+    :load-path "xen"
+    :after (projectile)
+    :bind (:map projectile-command-map
+                ("s" . xen-projectile-switch-to-shell)
+                ("S" . projectile-run-vterm)))
 
-(use-package xen-vterm
-  :load-path "xen"
-  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
-  :bind
-  ("C-c s" . xen-switch-to-shell)
-  ("C-c S" . vterm))
+  (use-package xen-vterm
+    :elpaca nil
+    :load-path "xen"
+    :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
+    :bind
+    ("C-c s" . xen-switch-to-shell)
+    ("C-c S" . vterm)))
 
 (use-package yaml-mode
-  :mode "\\.(e?ya?ml|neon)\\(.dist\\)$"
-  :straight t)
+  :mode "\\.(e?ya?ml|neon)\\(.dist\\)$")
 
 (use-package yasnippet
   :commands yas-reload-all
@@ -1526,8 +1498,7 @@ candidates, unless we're in filtering mode."
   :hook
   ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . yas-minor-mode)
   (git-commit-mode . yas-minor-mode)
-  :config (yas-reload-all)
-  :straight t)
+  :config (yas-reload-all))
 
 
 
