@@ -1130,6 +1130,9 @@ candidates, unless we're in filtering mode."
   (php-extras-auto-complete-insert-parenthesis nil)
   :elpaca (:host github :repo "arnested/php-extras"))
 
+(use-package po-mode
+  :defer t)
+
 (use-package projectile
   :commands (projectile-mode projectile-project-p)
   :custom
