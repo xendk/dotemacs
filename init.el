@@ -1252,6 +1252,9 @@ candidates, unless we're in filtering mode."
 (use-package speed-type
   :commands (speed-type-text speed-type-region speed-type-buffer))
 
+;; Suggested by forge.
+(use-package sqlite3)
+
 (use-package string-inflection
   ;; autoload when needed.
   :commands (string-inflection-underscore
