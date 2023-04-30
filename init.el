@@ -481,6 +481,18 @@ candidates, unless we're in filtering mode."
   :custom
   (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary"))
 
+(use-package copilot
+  :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-mode-map
+              ("C-f" . copilot-accept-completion)
+              ("C-S-f" . copilot-accept-completion-by-line)
+              ("M-f" . copilot-accept-completion-by-word)
+              ;; ("C-<tab>" . copilot-next-completion)
+              ;; ("C-S-<tab>" . copilot-previous-completion)
+              ;; ("C-g" . copilot-clear-overlay)
+              ))
+
 (use-package consult
   ;; Many more examples at https://github.com/minad/consult#use-package-example
   :bind (("C-<tab>" . xen-consult-line)
