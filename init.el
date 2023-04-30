@@ -636,8 +636,10 @@ candidates, unless we're in filtering mode."
   :commands ecukes)
 
 (use-package editorconfig
+  :custom
+  ;; Makefiles always use tabs. So exclude them.
+  (editorconfig-exclude-modes '(makefile-gmake-mode))
   :config
-  (setq editorconfig--enable-20210221-testing t)
   (editorconfig-mode 1))
 
 ;; For editing code blocks in Markdown mode.
