@@ -299,7 +299,7 @@
   (doom-modeline-def-segment buffer-info-simple-icon
     "As `buffer-info', but without state icon."
     (concat
-     doom-modeline-spc
+     (doom-modeline-spc)
      (doom-modeline--buffer-mode-icon)
      (doom-modeline--buffer-name)))
   ;; As 'minimal, but without buffer state icon.
