@@ -201,7 +201,7 @@ the minor mode is loaded first."
             (binding (key-binding (kbd "S-<SPC>") t)))
         (when binding
           (call-interactively binding)))
-    (call-interactively 'avy-goto-word-1)))
+    (call-interactively 'avy-goto-char-timer)))
 
 ;; Define a FontAwesome face.
 (make-face 'xen-font-awesome-face)
