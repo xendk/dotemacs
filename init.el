@@ -980,6 +980,8 @@ candidates, unless we're in filtering mode."
   ;; in mini-buffer or flycheck-inline.
   :hook (flycheck-mode . lsp-ui-sideline-mode))
 
+(use-package nerd-icons)
+
 (use-package nginx-mode
   :commands nginx-mode)
 
