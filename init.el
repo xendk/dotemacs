@@ -1334,6 +1334,11 @@ candidates, unless we're in filtering mode."
 
 (use-package vertico
   :elpaca (:files (:defaults "extensions/*"))
+  :bind (:map vertico-map
+              ("S-SPC" . vertico-quick-exit))
+  :custom
+  (vertico-quick1 "aoeu" "Set quick navigation keys")
+  (vertico-quick2 "dhtn" "Ditto")
   :init
   (vertico-mode))
 
