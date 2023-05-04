@@ -143,6 +143,8 @@
   ;; Alternatives: electric-buffer-list or bs-show.
   ("C-x C-b" . ibuffer)
   :hook (prog-mode . eldoc-mode)
+  (prog-mode . (lambda () (setq-local comment-auto-fill-only-comments t)
+                 (auto-fill-mode)))
   ;; Some variables set above is duplicated here to make use-package
   ;; hide them from re-exporting by custom. Alternatively I could
   ;; create a theme like use-package does and use
