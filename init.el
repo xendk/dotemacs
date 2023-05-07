@@ -1428,7 +1428,8 @@ candidates, unless we're in filtering mode."
   :hook
   ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
-  :bind (("M-SPC" . xen-cycle-spacing)
+  :bind (("RET" . xen-newline)
+         ("M-SPC" . xen-cycle-spacing)
          ("M-l" . xen-avy-goto-line)
          ("<f12>" . xen-big-fringe-mode)
          ("C-S-d" . xen-duplicate-current-line)

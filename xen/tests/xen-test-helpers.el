@@ -70,6 +70,16 @@ See xen-test-with-temp-buffer."
                               (sp-local-pair 'php-mode "/*" "*/" :post-handlers '((xen-php-handle-docstring "*")))
                               ,@forms))
 
+(defmacro xen-test-with-temp-elisp-buffer (initial &rest forms)
+  "Setup a new `emacs-lisp-mode' buffer.
+
+See xen-test-with-temp-buffer."
+  (declare (indent 1)
+           (debug (form body)))
+  `(xen-test-with-temp-buffer ,initial
+                              (emacs-lisp-mode)
+                              ,@forms))
+
 (defun xen-expect-buffer-equals (result)
   "Compare buffer to RESULT.
 

@@ -324,5 +324,119 @@ See also `cycle-spacing'."
       (xen-edit-clipboard-mode))
     (switch-to-buffer buffer)))
 
+(defun xen-newline (&optional arg interactive)
+  "Insert a newline, using `default-indent-new-line' in comments and `newline' otherwise.
+
+After two empty line comments, it'll delete both.
+
+Pass ARG and INTERACTIVE to `newline'."
+  (interactive "*P\np")
+  (barf-if-buffer-read-only)
+
+  ;; Use syntax table to determine if we're in a comment (gleaned from
+  ;; mwim).
+  (if (xen-in-comment)
+      ;; Remove the comment if we're looking at two empty single line
+      ;; comments.
+      (let ((empty-comment-start (xen-empty-comment-start)))
+        (if empty-comment-start
+            (delete-region empty-comment-start (point))
+          (xen-default-indent-new-line)))
+    (newline arg interactive)))
+
+(defun xen-empty-comment-start ()
+  "Return start of empty comment block if we're on the second empty single line comment."
+  (if comment-start
+      (ignore-errors
+        (if (xen-comment-is-empty)
+            (let ((this-start (xen-in-comment)))
+              (save-excursion
+                (previous-line)
+                (if (xen-in-comment)
+                    (let ((start-of-comment (xen-in-comment)))
+                      (if (xen-comment-is-empty)
+                          ;; We got an empty comment on the previous
+                          ;; line, return it, if it matches the
+                          ;; comment-start (block comments shouldn't).
+                          (let ((trimmed-comment-start (string-trim-right comment-start)))
+                            (goto-char start-of-comment)
+                            (if (looking-at-p trimmed-comment-start)
+                                start-of-comment))))
+                  ;; Return the start of the original if there's no
+                  ;; comment on the previous line.
+                  this-start)))))))
+
+(defun xen-comment-is-empty ()
+  (let ((in-comment (xen-in-comment)))
+    (if in-comment
+        (save-excursion
+          (goto-char in-comment)
+          ;; In modes without a unique comment character (php-mode being one
+          ;; example), the start comment char(s) doesn't have the comment
+          ;; start syntax. So look up the syntax of the first char in the
+          ;; comment and skip that class.
+          (let ((syntax-class (char-syntax (char-after))))
+            (skip-syntax-forward (string syntax-class))
+            ;; Skip white-space.
+            (skip-syntax-forward "-")
+            (or (eobp) (eq (char-syntax (char-after)) ?>)))))))
+
+(defun xen-in-comment ()
+  "Returns start of comment, or nil if not inside comment."
+  (let ((syn (syntax-ppss)))
+    (and (nth 4 syn)
+         (nth 8 syn))))
+
+(defun xen-default-indent-new-line ()
+  "Calls `default-indent-new-line', or handles emacs-lisp-mode specifically."
+  (if (eq major-mode 'emacs-lisp-mode)
+      (let (comment-start num-semis)
+        (save-excursion
+          (goto-char (xen-in-comment))
+          (setq comment-start (point))
+          (skip-chars-forward ";")
+          (setq num-semis (- (point) comment-start)))
+        (newline)
+        (insert (make-string num-semis ?\;) " "))
+    (default-indent-new-line)))
+
+;; (define-minor-mode autosemi-mode
+;;   "Toggle automatic semi-colon mode."
+;;   :lighter " AS"
+;;   (if autosemi-mode
+;;       (progn
+;;         (add-hook 'pre-command-hook 'autosemi-pre-command nil t)
+;;         (add-hook 'post-command-hook 'autosemi-post-command nil t)
+;;         )
+;;     (remove-hook 'pre-command-hook 'autosemi-pre-command t)
+;;     (remove-hook 'post-command-hook 'autosemi-post-command t)))
+
+;; (defvar autosemi-candidate nil
+;;   "Whether the current command is candidate for automatic semi-colon insertion.")
+
+;; (defvar autosemi-supressors '(?\; ?{ ?\[ ?\())
+
+;; (defun autosemi-pre-command ()
+;;   ;; (when (eq 'self-insert-command this-command)
+;;   ;;   (save-excursion
+;;   ;;     (skip-syntax-backward " ")
+;;   ;;     (if (member (char-before) autosemi-supressors)
+;;   ;;         (message "supressed")
+;;   ;;       (message "candidate")
+;;   ;;       )
+;;   ;;     ;;(message "%S" (char-before))
+;;   ;;     )
+;;   ;;   ;;(message "hit")
+;;   ;;   )
+;;   )
+
+;; (defun autosemi-post-command ()
+;;   (when (eq this-command 'self-insert-command)
+;;     (if (not (eq (char-after) ?\;))
+;;         (save-excursion
+;;           (message "ing")
+;;           (insert ";")))
+;;     ))
+
 (provide 'xen)
 ;;; xen.el ends here
