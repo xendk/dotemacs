@@ -102,9 +102,14 @@
 /**
  *
  * |
- */")
-       )
-      ))
+ */")))
+    (it "should handle start of multiline comments"
+      (xen-test-with-temp-php-buffer
+       "<php\n/**|\n *\n */\n"
+       (xen-newline)
+       ;; Sadly there's not a space before point, but that's an issue
+       ;; with `default-indent-new-line'.
+       (xen-expect-buffer-equals "<php\n/**\n *|\n *\n */\n"))))
   (describe "for emacs-lisp-mode"
     (it "Handles insertion properly"
       (xen-test-with-temp-elisp-buffer

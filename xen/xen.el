@@ -349,7 +349,8 @@ Pass ARG and INTERACTIVE to `newline'."
   (if comment-start
       (ignore-errors
         (if (xen-comment-is-empty)
-            (let ((this-start (xen-in-comment)))
+            (let ((this-start (xen-in-comment))
+                  (trimmed-comment-start (string-trim-right comment-start)))
               (save-excursion
                 (previous-line)
                 (if (xen-in-comment)
@@ -358,13 +359,16 @@ Pass ARG and INTERACTIVE to `newline'."
                           ;; We got an empty comment on the previous
                           ;; line, return it, if it matches the
                           ;; comment-start (block comments shouldn't).
-                          (let ((trimmed-comment-start (string-trim-right comment-start)))
+                          (progn
                             (goto-char start-of-comment)
                             (if (looking-at-p trimmed-comment-start)
                                 start-of-comment))))
                   ;; Return the start of the original if there's no
                   ;; comment on the previous line.
-                  this-start)))))))
+                  (progn
+                    (goto-char this-start)
+                    (if (looking-at-p trimmed-comment-start)
+                        this-start)))))))))
 
 (defun xen-comment-is-empty ()
   (let ((in-comment (xen-in-comment)))
