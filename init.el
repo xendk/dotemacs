@@ -1015,7 +1015,6 @@ candidates, unless we're in filtering mode."
   (git-commit-mode . turn-on-auto-fill)
   (git-commit-mode . git-commit-save-message)
   :config
-  ;; Add --follow-tags options to the push popup.
   ;; Delight has better handling for major-modes.
   (delight 'magit-status-mode
            (propertize (concat " " [#xF1D3])
