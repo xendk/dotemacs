@@ -63,12 +63,10 @@ only work when ARG is 1 or the region is not active."
     (funcall orig-fun n kill-flag)))
 ;; (advice-add 'delete-char :around #'xen-paired-delete-delete-char-advice)
 
-(defun xen-paired-delet-sp-insert-pair-advice (orig-fun &rest args)
+(defun xen-paired-delete-sp-insert-pair-advice (orig-fun &rest args)
   "Advice to disable paired delete in sp-insert-pair/sp-skip-closing-pair.  Call ORIG-FUN with ARGS."
   (let ((xen-paired-delete-char-disabled t))
     (apply orig-fun args)))
-;; (advice-add 'sp-insert-pair :around #'xen-paired-delet-sp-insert-pair-advice)
-;; (advice-add 'sp-skip-closing-pair :around #'xen-paired-delet-sp-insert-pair-advice)
 
 (put 'xen-paired-delete 'delete-selection 'supersede)
 
@@ -78,11 +76,11 @@ only work when ARG is 1 or the region is not active."
   (if xen-paired-delete-mode
       (progn
         (advice-add 'delete-char :around #'xen-paired-delete-delete-char-advice)
-        (advice-add 'sp-insert-pair :around #'xen-paired-delet-sp-insert-pair-advice)
-        (advice-add 'sp-skip-closing-pair :around #'xen-paired-delet-sp-insert-pair-advice))
+        (advice-add 'sp-insert-pair :around #'xen-paired-delete-sp-insert-pair-advice)
+        (advice-add 'sp-skip-closing-pair :around #'xen-paired-delete-sp-insert-pair-advice))
     (advice-remove 'delete-char #'xen-paired-delete-delete-char-advice)
-    (advice-remove 'sp-insert-pair #'xen-paired-delet-sp-insert-pair-advice)
-    (advice-remove 'sp-skip-closing-pair #'xen-paired-delet-sp-insert-pair-advice)))
+    (advice-remove 'sp-insert-pair #'xen-paired-delete-sp-insert-pair-advice)
+    (advice-remove 'sp-skip-closing-pair #'xen-paired-delete-sp-insert-pair-advice)))
 
 (define-globalized-minor-mode global-xen-paired-delete-mode
   xen-paired-delete-mode
