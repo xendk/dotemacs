@@ -37,21 +37,21 @@ only work when ARG is 1 or the region is not active."
   (when (and (= arg 1)
              (bound-and-true-p smartparens-mode)
              (not (use-region-p)))
-    (let ((ok (sp-get-thing backwards-p)))
+    ;; Set sp-navigate-consider-symbols to only get balanced symbols.
+    ;; Else it would consider `//' a pair in Crystal (which it is),
+    ;; but sp-unwrap-sexp won't work on it, but rather unwrap the next
+    ;; pair it finds.
+    (let* ((sp-navigate-consider-symbols nil)
+           (ok (sp-get-thing backwards-p)))
+      (message "%S" ok)
       (when ok
-        (sp-get ok (progn
-                     ;; If either open or close is empty, bomb
-                     ;; out. This is the case for symbols, and
-                     ;; anyway it doesn't make sense. Look into
-                     ;; sp-navigate-consider-symbols for
-                     ;; sp-get-thing.
-                     (unless (or (equal :op "") (equal :cl ""))
-                       (cond
-                        ((and backwards-p (or (= (point) :beg-in) (= (point) :end)))
-                         (sp-backward-unwrap-sexp))
-                        ((and (not backwards-p) (or (= (point) :beg) (= (point) :end-in)))
-                         (sp-unwrap-sexp))
-                        (t nil)))))))))
+        (sp-get ok
+          (cond
+           ((and backwards-p (or (= (point) :beg-in) (= (point) :end)))
+            (sp-backward-unwrap-sexp))
+           ((and (not backwards-p) (or (= (point) :beg) (= (point) :end-in)))
+            (sp-unwrap-sexp))
+           (t nil)))))))
 
 (defun xen-paired-delete-delete-char-advice (orig-fun n &optional kill-flag)
   "Advice for delete char.  ORIG-FUN is the overriden function. Pass N and KILL-FLAG to original."
