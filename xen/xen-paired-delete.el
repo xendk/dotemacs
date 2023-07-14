@@ -43,7 +43,6 @@ only work when ARG is 1 or the region is not active."
     ;; pair it finds.
     (let* ((sp-navigate-consider-symbols nil)
            (ok (sp-get-thing backwards-p)))
-      (message "%S" ok)
       (when ok
         (sp-get ok
           (cond
