@@ -960,6 +960,7 @@ candidates, unless we're in filtering mode."
   (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
   (lsp-serenata-server-path "serenata" "Set server path")
   (lsp-solargraph-use-bundler t "Use the bundler installed Solargraph")
+  (lsp-clients-crystal-executable '("crystalline" "--stdio") "Use crystalline instead of scry")
   :init
   ;; Recommended setup.
   (setq gc-cons-threshold 100000000)
