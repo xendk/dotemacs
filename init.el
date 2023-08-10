@@ -1104,6 +1104,9 @@ candidates, unless we're in filtering mode."
   ("C-%" . mc/mark-all-in-region)
   ("C-=" . mc/mark-all-like-this-dwim))
 
+(use-package olivetti
+  :defer t)
+
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
@@ -1457,7 +1460,7 @@ candidates, unless we're in filtering mode."
   :bind (("RET" . xen-newline)
          ("M-SPC" . xen-cycle-spacing)
          ("M-l" . xen-avy-goto-line)
-         ("<f12>" . xen-big-fringe-mode)
+         ("<f12>" . olivetti-mode)
          ("C-S-d" . xen-duplicate-current-line)
          ("C-S-l" . xen-mark-lines)
          ("C-c x" . xen-map)

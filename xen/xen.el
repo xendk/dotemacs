@@ -62,22 +62,6 @@
       (interactive)
       (find-file (locate-user-emacs-file "todo"))))
 
-(defvar xen-big-fringe-mode nil)
-(define-minor-mode xen-big-fringe-mode
-  "Minor mode to use big fringe in the current buffer."
-  :init-value nil
-  :global t
-  ;; emacs-lisp-package require this, but I don't think it'll work.
-  :require 'xen
-  :variable xen-big-fringe-mode
-  :group 'editing-basics
-  (if (not xen-big-fringe-mode)
-      (fringe-mode nil)
-    (fringe-mode
-     (/ (- (frame-pixel-width)
-           (* 120 (frame-char-width)))
-        2))))
-
 ;; Originally duplicate-current-line from
 ;; http://emacswiki.org/emacs/CopyingWholeLines, but that have
 ;; problems at the end of buffer. This version adapted from:
@@ -441,6 +425,12 @@ Pass ARG and INTERACTIVE to `newline'."
 ;;           (message "ing")
 ;;           (insert ";")))
 ;;     ))
+
+;; (defun xen-autotype ()
+;;   (interactive)
+;;   (dolist (char (string-to-list "exa -l\n"))
+;;     (execute-kbd-macro (string char))
+;;     (sit-for 0.1)))
 
 (provide 'xen)
 ;;; xen.el ends here
