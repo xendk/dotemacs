@@ -1075,6 +1075,11 @@ candidates, unless we're in filtering mode."
   :init
   (marginalia-mode))
 
+(use-package move-text
+  :bind
+  ("C-M-<up>" . move-text-up)
+  ("C-M-<down>" . move-text-down))
+
 (use-package mwim
   :bind
   ("C-a" . mwim-beginning)
