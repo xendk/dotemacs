@@ -554,7 +554,15 @@ candidates, unless we're in filtering mode."
   :hook
   ((emacs-lisp-mode php-mode js-mode) . cov-mode))
 
-(use-package crystal-mode)
+(use-package crystal-mode
+  ;; ECR files can be anything really, but html-mode is what I most
+  ;; often use.
+  :mode ("\\.ecr\\'" . html-mode)
+  ;; The language server can't figure out how to indent regions, so
+  ;; it's basically useless. Tell lsp-mode not to use it.
+  :hook (crystal-mode . (lambda ()
+                          (setq-local lsp-enable-indentation nil)))
+  )
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
@@ -887,7 +895,7 @@ candidates, unless we're in filtering mode."
 
 (use-package hungry-delete
   :delight
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . hungry-delete-mode))
+  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode) . hungry-delete-mode))
 
 (use-package ibuffer-vc
   :hook
@@ -897,7 +905,14 @@ candidates, unless we're in filtering mode."
                  (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package indentinator
-  :hook ((emacs-lisp-mode cask-mode php-mode css-mode js-mode enh-ruby-mode twig-mode) . indentinator-mode)
+  :hook ((emacs-lisp-mode
+          cask-mode
+          php-mode
+          css-mode
+          js-mode
+          enh-ruby-mode
+          twig-mode
+          crystal-mode) . indentinator-mode)
   :custom
   (indentinator-idle-time 0.005 "Speed up indentinator")
   :elpaca (:host github :repo "xendk/indentinator"))
@@ -955,6 +970,7 @@ candidates, unless we're in filtering mode."
   (lsp-mode . lsp-enable-which-key-integration)
   ;; Check lsp-language-id-configuration for supported modes.
   ((css-mode
+    crystal-mode
     dockerfile-mode
     go-mode
     html-mode
