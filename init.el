@@ -606,8 +606,7 @@ candidates, unless we're in filtering mode."
   :config
   (setq dashboard-startup-banner 'logo)
   (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
-  (add-to-list 'dashboard-item-generators '(xen-todo . xen-dashboard-todo))
-  (setq dashboard-items '((projects . 10) (xen-tip) (xen-todo)))
+  (setq dashboard-items '((projects . 10) (xen-tip)))
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t))
 
