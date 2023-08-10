@@ -160,6 +160,9 @@
   (browse-url-generic-program "sensible-browser" "Set a working browser")
   (c-basic-offset 'set-from-style "Use indent from c-style")
   (c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu")) "Set c-styles")
+  ;; Lock files mess with watchers, and I don't have much use for it
+  ;; on a single-user system.
+  (create-lockfiles nil "Don't create lockfiles")
   (echo-keystrokes 0.02 "Echo keystrokes quickly")
   (ediff-split-window-function 'split-window-horizontally "Split windows horizontally")
   (ediff-window-setup-function 'ediff-setup-windows-plain "Use a single frame for all ediff windows")
