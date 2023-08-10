@@ -166,6 +166,7 @@
   (echo-keystrokes 0.02 "Echo keystrokes quickly")
   (ediff-split-window-function 'split-window-horizontally "Split windows horizontally")
   (ediff-window-setup-function 'ediff-setup-windows-plain "Use a single frame for all ediff windows")
+  (enable-recursive-minibuffers t "Allow recursive minibuffers")
   (eval-expression-print-level nil "Print everything when eval'ing")
   (help-window-select t "Makes it easier to dismiss them with q")
   (history-delete-duplicates t "No need for dupes in history")
@@ -214,6 +215,8 @@
   (auto-insert-mode)
   ;; Enable whitespace mode globally.
   (global-whitespace-mode)
+  ;; Show minibuffer depth when using recursive minibuffers.
+  (minibuffer-depth-indicate-mode)
   ;; Display tabs with a more specific character.
   (defvar whitespace-display-mappings)
   (setf
