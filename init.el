@@ -616,6 +616,13 @@ candidates, unless we're in filtering mode."
   :init
   (delete-selection-mode))
 
+(use-package devdocs
+  :bind (("C-c i" . (lambda ()
+                      (interactive)
+                      (devdocs-lookup nil (thing-at-point 'symbol t)))))
+  :hook (crystal-mode . (lambda ()
+                          (setq-local devdocs-current-docs '("crystal")))))
+
 (use-package diff-hl
   :commands global-diff-hl-mode
   :init (global-diff-hl-mode))
