@@ -1147,8 +1147,7 @@ candidates, unless we're in filtering mode."
 (use-package php-mode
   :commands php-mode
   :mode
-  ("\\.php[s34]?\\'" . php-mode)
-  ("\\.phtml\\'" . php-mode)
+  ("\\.php\\'" . php-mode)
   ("\\.inc\\'" . php-mode)
   ("\\.module\\'" . php-mode)
   :magic ("<?php" . php-mode-maybe)
