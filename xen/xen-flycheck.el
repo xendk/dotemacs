@@ -56,7 +56,7 @@ This is my own version using FontAwesome icons."
     (list " " text)))
 
 (defun xen-flycheck-insert-suppressor ()
-  "Inset checker suppression comment."
+  "Insert checker suppression comment."
   (interactive)
   (let ((errors (flycheck-overlay-errors-at (point))))
     (if errors
