@@ -620,8 +620,13 @@ candidates, unless we're in filtering mode."
   :bind (("C-c i" . (lambda ()
                       (interactive)
                       (devdocs-lookup nil (thing-at-point 'symbol t)))))
-  :hook (crystal-mode . (lambda ()
-                          (setq-local devdocs-current-docs '("crystal")))))
+  :hook
+  (emacs-lisp-mode . (lambda ()
+                       (setq-local devdocs-current-docs '("elisp"))))
+  (crystal-mode . (lambda ()
+                    (setq-local devdocs-current-docs '("crystal"))))
+  (php-mode . (lambda ()
+                (setq-local devdocs-current-docs '("php")))))
 
 (use-package diff-hl
   :commands global-diff-hl-mode
