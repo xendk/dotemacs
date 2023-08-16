@@ -1414,8 +1414,8 @@ candidates, unless we're in filtering mode."
               ("C-<left>" . vterm--self-insert)
               ("<delete>" . vterm--self-insert)
               ("C-<backspace>" . vterm--self-insert)
-              ("<mouse-4>" . vterm-send-up)
-              ("<mouse-5>" . vterm-send-down)
+              ("<mouse-4>" . (lambda () (interactive) (vterm-send-key "<up>")))
+              ("<mouse-5>" . (lambda () (interactive) (vterm-send-key "<down>")))
               :map vterm-copy-mode-map
               ;; More ways to quit.
               ("C-c C-c" . vterm-copy-mode-done)
