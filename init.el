@@ -1415,7 +1415,11 @@ candidates, unless we're in filtering mode."
               ("<delete>" . vterm--self-insert)
               ("C-<backspace>" . vterm--self-insert)
               ("<mouse-4>" . vterm-send-up)
-              ("<mouse-5>" . vterm-send-down))
+              ("<mouse-5>" . vterm-send-down)
+              :map vterm-copy-mode-map
+              ;; More ways to quit.
+              ("C-c C-c" . vterm-copy-mode-done)
+              ("C-d" . vterm-copy-mode-done))
   :hook
   ;; Disable string highlighting.
   (vterm-mode . (lambda ()
