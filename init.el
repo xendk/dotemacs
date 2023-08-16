@@ -1032,13 +1032,9 @@ candidates, unless we're in filtering mode."
   ;; creating fixup and squash commits.
   (magit-commit-squash-confirm nil)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind (;; Add shortcut to open magit status buffer.
-         ("C-c g g" . magit-status)
-         ;; This should really be in magit-file-mode-map, but as we've
-         ;; turned C-g g into a prefix map above, that wont work. So
-         ;; just make them global.
-         ("C-c g d" . magit-dispatch)
-         ("C-c g f" . magit-file-dispatch))
+  :bind (("C-c g g" ("Status" . magit-status))
+         ("C-c g d" ("Dispatch" . magit-dispatch))
+         ("C-c g f" ("File dispatch" . magit-file-dispatch)))
   :hook
   (git-commit-setup . xen-git-commit-setup)
   (git-commit-mode . turn-on-auto-fill)
@@ -1479,14 +1475,14 @@ candidates, unless we're in filtering mode."
          ("M-c" . xen-casing-map)
          ("C-c y" . xen-edit-clipboard)
          :map xen-casing-map
-         ("c" . capitalize-word)
-         ("u" . upcase-word)
-         ("l" . downcase-word)
-         ("s" . string-inflection-underscore)
-         ("n" . string-inflection-upcase)
-         ("a" . string-inflection-lower-camelcase)
-         ("m" . string-inflection-camelcase)
-         ("k" . string-inflection-kebab-case)))
+         ("c" ("Capitalize" . capitalize-word))
+         ("u" ("UPPERCASE" . upcase-word))
+         ("l" ("downcase" . downcase-word))
+         ("s" ("snake_case" . string-inflection-underscore))
+         ("n" ("UPPER_SNAKE" . string-inflection-upcase))
+         ("a" ("camelCase" . string-inflection-lower-camelcase))
+         ("m" ("CamelCase" . string-inflection-camelcase))
+         ("k" ("kebab-case" . string-inflection-kebab-case))))
 
 (elpaca nil
   (use-package xen-company
