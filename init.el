@@ -339,6 +339,23 @@
                             (if (fboundp 'doom-modeline-set-modeline)
                                 (doom-modeline-set-modeline 'xen-minimal)))))
 
+(use-package aas
+  :hook (php-mode . aas-activate-for-major-mode)
+  :config
+  (aas-set-snippets 'php-mode
+    :cond (lambda ()
+            (not (xen-in-comment)))
+    "if " '(tempel "if (" (p "condition") ") {" n> r ";" n> "}")
+    "else " '(tempel "else {" n> r ";" n> "}")
+    "try " '(tempel "try {" n> p n> "} catch (" (p "\\Throwable") " $o_O) {" n> r n> "}")
+    "fore" '(tempel "foreach (" (p "array") " as $" (p "value") ") {" n> r ";" n> "}")
+    "$" (lambda () (interactive)
+          (if (looking-back "as \\$")
+              (tempel-insert '((p "key") " => $" (p "value")))
+            (insert "$")))
+    :cond #'bolp
+    "dst" "declare(strict_types=1);\n"))
+
 (use-package all-the-icons
   :config
   (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0)))
@@ -1323,6 +1340,11 @@ candidates, unless we're in filtering mode."
 
 (use-package systemd
   :defer t)
+
+;; Used through aas. Couldn't get corfu working.
+(use-package tempel
+  :bind (:map tempel-map
+              ("<tab>" . tempel-next)))
 
 (use-package twig-mode
   :defer t)
