@@ -80,4 +80,10 @@ https://github.com/bbatsov/emacs-lisp-style-guide
 M-x ielm
 
 Iteractive elisp
+
+crystal-mode:
 
+C-c '    crystal-toggle-string-quotes
+C-c {    crystal-toggle-block
+
+crystal-spec-switch
