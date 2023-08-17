@@ -1426,6 +1426,8 @@ candidates, unless we're in filtering mode."
   (vterm-max-scrollback 100000)
   (vterm-buffer-name-string "vterm: %s")
   :bind (:map vterm-mode-map
+              ;; Fish understands C-g too.
+              ("C-g" . vterm--self-insert)
               ;; Rebind M/C-cursors so they'll get sent to the process.
               ("M-<up>" . vterm--self-insert)
               ("M-<down>" . vterm--self-insert)
