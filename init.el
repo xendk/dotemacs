@@ -1441,6 +1441,12 @@ candidates, unless we're in filtering mode."
               ("C-<backspace>" . vterm--self-insert)
               ("<mouse-4>" . (lambda () (interactive) (vterm-send-key "<up>")))
               ("<mouse-5>" . (lambda () (interactive) (vterm-send-key "<down>")))
+              ;; Make mouse buttons only select window, not move
+              ;; point/start selection.
+              ("<mouse-1>" . mouse-select-window)
+              ("<down-mouse-1>" . mouse-select-window)
+              ("<mouse-3>" . mouse-select-window)
+              ("<down-mouse-3>" . mouse-select-window)
               :map vterm-copy-mode-map
               ;; More ways to quit.
               ("C-c C-c" . vterm-copy-mode-done)
