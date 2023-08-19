@@ -290,5 +290,74 @@ Point should be at the line containing `function'."
         (when (re-search-forward "[a-zA-Z0-9\\_]+" nil t)
           (match-string-no-properties 0))))))
 
+(defun xen-grab-class ()
+  "Grab the PHP namespaced class at point.
+
+Strips any leading backslash."
+  (let (start end class)
+    (skip-chars-backward "\\\\A-Za-z0-9_")
+    (setq start (point))
+    (skip-chars-forward "\\\\A-Za-z0-9_")
+    (setq end (point))
+    (when (> end start)
+      (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
+      ;; Need at least one inline backslash in order to be a
+      ;; namespaced class.
+      (when (string-match-p (regexp-quote "\\") class)
+        class))))
+
+(defun xen-find-use-block ()
+  "Find starting position of PHP use block."
+  (interactive)
+  (beginning-of-buffer)
+  (condition-case nil
+      (progn
+        (re-search-forward "^use ")
+        (beginning-of-line)
+        (point))
+    (error nil)))
+
+(defun xen-jitter-type (string)
+  "Type STRING to buffer."
+  (let ((jitter 5))
+    (dolist (char (string-to-list string))
+      (insert char)
+      (sit-for (/
+                (+
+                 (/ 1.0 (length string))
+                 (/ (- (/ jitter 2.0) (random (+ jitter 1))) 100.0)
+                 )
+                4.0)))))
+
+(defun xen-make-use ()
+  "Add a PHP use statement for the fully-qualified name at point."
+  (interactive)
+  (let (class)
+    (save-excursion
+      (setq class (xen-grab-class))
+      (when class
+        (when-let ((use-block (xen-find-use-block))
+                   (line (concat "use " class ";\n")))
+          (while (and (looking-at "use ")
+                      (string> line
+                               (thing-at-point 'line t)))
+            (forward-line))
+          (insert "\n")
+          (previous-line)
+          (xen-jitter-type (substring line 0 -1)))))
+    (when class
+      (let (start
+            end
+            (bare-class (last (split-string class "\\\\"))))
+        (skip-chars-backward "\\\\A-Za-z0-9_")
+        (setq start (point))
+        (skip-chars-forward "\\\\A-Za-z0-9_")
+        (setq end (point))
+        (delete-region start end)
+        (xen-jitter-type bare-class)
+        )
+      )
+    ))
+
 (provide 'xen-php)
 ;;; xen-php.el ends here
