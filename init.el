@@ -775,9 +775,6 @@ candidates, unless we're in filtering mode."
 
 (use-package expand-region
   :bind ("C-S-SPC" . er/expand-region)
-  :config
-  (with-eval-after-load "php-mode"
-    (add-hook 'php-mode-hook #'xen-php-mode-expansions))
   :custom
   (expand-region-subword-enabled t "Use subword expansion")
   :demand t)
@@ -1541,12 +1538,15 @@ candidates, unless we're in filtering mode."
   (use-package xen-php
     :elpaca nil
     :load-path "xen"
+    :commands xen-php-setup-tools
     :hook
     ;; Use hack-local-variables-hook to run after `.dir-local.el'
     ;; variables has been set.
     (php-mode . (lambda ()
                   (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
     :config
+    (with-eval-after-load "expand-region"
+      (add-hook 'php-mode-hook #'xen-php-mode-expansions))
     (sp-with-modes '(php-mode)
       (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
                                                 ("* |\n[i]" "RET")
