@@ -460,9 +460,14 @@
   ;; hasn't made a selection yet.
   (defun company-preview-common-if-not-tng-frontend (command)
     "`company-preview-frontend', but not when tng is active."
-    (unless (and (eq command 'post-command)
-                 company-selection-changed
-                 (memq 'company-tng-frontend company-frontends))
+    (unless (or (and (eq command 'post-command)
+                     company-selection-changed
+                     (memq 'company-tng-frontend company-frontends))
+                ;; company-preview-common-frontend does not like when
+                ;; company-common is an empty string (rather than nil)
+                ;; in 'post-command.
+                (and (eq command 'post-command)
+                     (equal company-common "")))
       (company-preview-common-frontend command)))
   ;; Variant of `company-pseudo-tooltip-unless-just-one-frontend' that
   ;; still shows a dropdown with only one candidate when filtering.
