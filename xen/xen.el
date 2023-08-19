@@ -374,6 +374,18 @@ Pass ARG and INTERACTIVE to `newline'."
         (insert (make-string num-semis ?\;) " "))
     (default-indent-new-line)))
 
+(defun xen-jitter-type (string)
+  "Type STRING to buffer."
+  (let ((jitter 5))
+    (dolist (char (string-to-list string))
+      (insert char)
+      (sit-for (/
+                (+
+                 (/ 1.0 (length string))
+                 (/ (- (/ jitter 2.0) (random (+ jitter 1))) 100.0)
+                 )
+                4.0)))))
+
 ;; (define-minor-mode autosemi-mode
 ;;   "Toggle automatic semi-colon mode."
 ;;   :lighter " AS"

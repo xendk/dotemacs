@@ -1562,7 +1562,8 @@ candidates, unless we're in filtering mode."
                 ;; self-insert-command, which allows smartparens to do
                 ;; its magic.
                 ("(" . nil)
-                (")" . nil))
+                (")" . nil)
+                ("C-c u" . xen-php-make-use))
     :after (php-mode smartparens))
 
   (use-package xen-projectile

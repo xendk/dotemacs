@@ -12,7 +12,7 @@ use Something
 
 func(\\Namespaced\\Cl|ass);
 "
-     (xen-make-use)
+     (xen-php-make-use)
      (xen-expect-buffer-equals "
 use Namespaced\\Class;
 use Something
@@ -27,7 +27,7 @@ use Something
 
 func(\\Cl|ass);
 "
-     (xen-make-use)
+     (xen-php-make-use)
      (xen-expect-buffer-equals "
 use Something
 
@@ -42,7 +42,7 @@ use Something
 
 func(\\Namespaced\\Cl|ass);
 "
-     (xen-make-use)
+     (xen-php-make-use)
      (xen-expect-buffer-equals "
 use Namespaced\\Class;
 use Something

@@ -26,6 +26,7 @@
 
 (require 'dash)
 (require 'smartparens)
+(require 'xen)
 
 ;; External variables referenced.
 (defvar flycheck-phpcs-standard)
@@ -290,7 +291,7 @@ Point should be at the line containing `function'."
         (when (re-search-forward "[a-zA-Z0-9\\_]+" nil t)
           (match-string-no-properties 0))))))
 
-(defun xen-grab-class ()
+(defun xen-php-grab-class ()
   "Grab the PHP namespaced class at point.
 
 Strips any leading backslash."
@@ -306,7 +307,7 @@ Strips any leading backslash."
       (when (string-match-p (regexp-quote "\\") class)
         class))))
 
-(defun xen-find-use-block ()
+(defun xen-php-find-use-block ()
   "Find starting position of PHP use block."
   (interactive)
   (let ((inhibit-message t))
@@ -319,26 +320,14 @@ Strips any leading backslash."
           (point))
       (error nil))))
 
-(defun xen-jitter-type (string)
-  "Type STRING to buffer."
-  (let ((jitter 5))
-    (dolist (char (string-to-list string))
-      (insert char)
-      (sit-for (/
-                (+
-                 (/ 1.0 (length string))
-                 (/ (- (/ jitter 2.0) (random (+ jitter 1))) 100.0)
-                 )
-                4.0)))))
-
-(defun xen-make-use ()
+(defun xen-php-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
   (interactive)
   (let (class current-line)
     (save-excursion
-      (setq class (xen-grab-class))
+      (setq class (xen-php-grab-class))
       (when class
-        (when-let ((use-block (xen-find-use-block))
+        (when-let ((use-block (xen-php-find-use-block))
                    (line (concat "use " class ";\n")))
           (while (and (looking-at "use ")
                       (setq current-line (thing-at-point 'line t))
