@@ -15,9 +15,10 @@ Feature: js-mode mached pairs deletion
     And I load the following:
       """
       (require 'js)
-      (require 'xen-smartparens)
+      (require 'xen-paired-delete)
       """
     And I turn on js-mode
+    And I quietly turn on xen-paired-delete-mode
     And I quietly turn on smartparens-mode
 
   Scenario: JS Forward deleting start of pair.

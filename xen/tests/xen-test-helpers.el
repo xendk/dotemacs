@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(require 'buttercup)
+
 (defmacro xen-test-with-temp-buffer (initial initform &rest forms)
   "Setup a new buffer, then run FORMS.
 
@@ -103,5 +105,5 @@ should match."
               :to-be (mark)))))
 
 
-  (provide 'xen-test-helpers)
+(provide 'tests/xen-test-helpers)
 ;;; xen-test-helpers.el ends here

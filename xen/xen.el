@@ -4,8 +4,8 @@
 
 ;; Author: Thomas Fini Hansen <xen@claymore>
 ;; Keywords: local
-;; Package-Requires: ((emacs "25"))
-;; Package-Version: 0
+;; Package-Requires: ((emacs "25") dash smartparens php-mode)
+;; Package-Version: 0.0.1
 ;; Url: https://github.com/xendk/dotemacs
 
 ;; This program is free software; you can redistribute it and/or modify

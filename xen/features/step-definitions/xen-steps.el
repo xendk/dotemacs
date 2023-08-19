@@ -5,12 +5,10 @@
 (Then "^the buffer should contain:$"
   "Asserts that the current buffer matches some text."
   (lambda (expected)
-    (let ((actual (buffer-string))
-          (message "Expected '%s' to be equal to '%s', but was not."))
-      (cl-assert (s-equals? expected actual) nil message expected actual))))
+    (should (s-equals? expected (buffer-string)))))
 
 (When "^I quietly turn on \\(.+\\)$"
-      "Turns on some mode."
-      (lambda (mode)
-        (let ((v (vconcat [?\C-u ?\M-x] (string-to-vector mode))))
-          (shut-up (execute-kbd-macro v)))))
+  "Turns on some mode."
+  (lambda (mode)
+    (let ((v (vconcat [?\C-u ?\M-x] (string-to-vector mode))))
+      (shut-up (execute-kbd-macro v)))))

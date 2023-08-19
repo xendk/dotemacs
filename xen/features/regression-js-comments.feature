@@ -1,6 +1,7 @@
 Feature JS comments deletion regression test
   Pair finding code was too eager.
 
+  # TODO this still triggers an "Unmatched expression" when run?
   @regression
   Scenario: Deleting comments.
     Given I am in buffer "test"

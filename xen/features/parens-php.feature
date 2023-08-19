@@ -15,9 +15,10 @@ Feature: Mached pairs deletion
     And I load the following:
       """
       (require 'php-mode)
-      (require 'xen-smartparens)
+      (require 'xen-paired-delete)
       """
     And I turn on php-mode
+    And I quietly turn on xen-paired-delete-mode
     And I quietly turn on smartparens-mode
 
   Scenario: Forward deleting start of pair.

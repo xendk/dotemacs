@@ -2,7 +2,7 @@
 
 (require 'php-mode)
 
-(require 'xen-test-helpers)
+(require 'tests/xen-test-helpers)
 
 (require 'xen-php)
 
