@@ -309,13 +309,15 @@ Strips any leading backslash."
 (defun xen-find-use-block ()
   "Find starting position of PHP use block."
   (interactive)
-  (beginning-of-buffer)
-  (condition-case nil
-      (progn
-        (re-search-forward "^use ")
-        (beginning-of-line)
-        (point))
-    (error nil)))
+  (let ((inhibit-message t))
+    (beginning-of-buffer)
+
+    (condition-case nil
+        (progn
+          (re-search-forward "^use ")
+          (beginning-of-line)
+          (point))
+      (error nil))))
 
 (defun xen-jitter-type (string)
   "Type STRING to buffer."
@@ -332,19 +334,21 @@ Strips any leading backslash."
 (defun xen-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
   (interactive)
-  (let (class)
+  (let (class current-line)
     (save-excursion
       (setq class (xen-grab-class))
       (when class
         (when-let ((use-block (xen-find-use-block))
                    (line (concat "use " class ";\n")))
           (while (and (looking-at "use ")
-                      (string> line
-                               (thing-at-point 'line t)))
+                      (setq current-line (thing-at-point 'line t))
+                      (and (not (equal line current-line))
+                           (string> line current-line)))
             (forward-line))
-          (insert "\n")
-          (previous-line)
-          (xen-jitter-type (substring line 0 -1)))))
+          (unless (equal line current-line)
+            (insert "\n")
+            (previous-line)
+            (xen-jitter-type (substring line 0 -1))))))
     (when class
       (let (start
             end
@@ -354,10 +358,7 @@ Strips any leading backslash."
         (skip-chars-forward "\\\\A-Za-z0-9_")
         (setq end (point))
         (delete-region start end)
-        (xen-jitter-type bare-class)
-        )
-      )
-    ))
+        (xen-jitter-type bare-class)))))
 
 (provide 'xen-php)
 ;;; xen-php.el ends here

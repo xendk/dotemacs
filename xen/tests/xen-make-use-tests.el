@@ -33,4 +33,19 @@ use Something
 
 func(\\Class);
 ")))
-  )
+
+  (it "should not duplicate uses"
+    (xen-test-with-temp-php-buffer
+     "
+use Namespaced\\Class;
+use Something
+
+func(\\Namespaced\\Cl|ass);
+"
+     (xen-make-use)
+     (xen-expect-buffer-equals "
+use Namespaced\\Class;
+use Something
+
+func(Class);
+"))))
