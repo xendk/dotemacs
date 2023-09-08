@@ -852,7 +852,13 @@ candidates, unless we're in filtering mode."
   (flyspell-default-dictionary nil)
   :hook
   ((gfm-mode yaml-mode org-mode) . flyspell-mode)
-  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . flyspell-prog-mode)
+  ((emacs-lisp-mode
+    php-mode
+    css-mode
+    js-mode
+    enh-ruby-mode
+    crystal-mode
+    nxml-mode) . flyspell-prog-mode)
   (git-commit-mode . flyspell-mode)
   :config
   ;; Want to hand these over to embark.
