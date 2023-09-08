@@ -836,6 +836,7 @@ candidates, unless we're in filtering mode."
   :hook (flycheck-mode . flycheck-package-setup))
 
 (use-package flycheck-phpstan
+  :elpaca (flycheck-phpstan :host github :repo "xendk/phpstan.el" :branch "no-files-message")
   :hook
   (php-mode . (lambda ()
                 ;; Use error level from phpstan.neon.
