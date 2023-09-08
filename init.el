@@ -1587,7 +1587,10 @@ candidates, unless we're in filtering mode."
     :after (projectile)
     :bind (:map projectile-command-map
                 ("s" . xen-projectile-switch-to-shell)
-                ("S" . projectile-run-vterm)))
+                ("S" . projectile-run-vterm)
+                ;; Overrides the projectile-run-project command which
+                ;; I never use anyway.
+                ("u" . xen-docker-compose-up)))
 
   (use-package xen-vterm
     :elpaca nil

@@ -386,6 +386,18 @@ Pass ARG and INTERACTIVE to `newline'."
                  )
                 4.0)))))
 
+(defun xen-docker-compose-up ()
+  "Run docker-compose up."
+  (interactive)
+  (let* ((docker-compose-file
+          (or (locate-dominating-file default-directory "docker-compose.yml")
+              (user-error "No docker-compose.yml found.")))
+         (default-directory docker-compose-file)
+         (buffer-name (concat "*docker compose up "
+                              (abbreviate-file-name docker-compose-file) " *")))
+    (let ((vterm-shell "docker compose up"))
+      (vterm))))
+
 ;; (define-minor-mode autosemi-mode
 ;;   "Toggle automatic semi-colon mode."
 ;;   :lighter " AS"
