@@ -183,10 +183,14 @@ Indentation is assumed to be handled by indentinator."
                                                                                    (car it)) " ")))))))
           (when params
             (setq content (append content (list (mapconcat 'identity params ""))))))
-        (let ((return-type (save-excursion
+        (let ((function-name (save-excursion
+                               (forward-line)
+                               (xen-php-get-function-name)))
+              (return-type (save-excursion
                              (forward-line)
                              (xen-php-get-function-return-type))))
-          (when (xen-php-should-insert-type-annotation return-type)
+          (when (and (not (string= function-name "__construct"))
+                     (xen-php-should-insert-type-annotation return-type))
             (setq content (append content (list (format "* @return %s\n" (xen-php-translate-type-annotation return-type))))))))
       (setq jump-to (rx "@" (or "param" "return") " "))
       )
@@ -213,6 +217,17 @@ Indentation is assumed to be handled by indentinator."
   (let ((o (sp--get-active-overlay))
         (inhibit-message t))
     (indent-region (overlay-start o) (overlay-end o))))
+
+(defun xen-php-get-function-name ()
+  "Get the name of the function.
+
+Point should be at the line containing `function'.
+"
+  (beginning-of-line)
+  (search-forward "function ")
+  (let ((start (point)))
+    (search-forward "(")
+    (buffer-substring-no-properties start (- (point) 1))))
 
 (defun xen-php-get-function-args (&optional name types)
   "Return all arguments of php function.

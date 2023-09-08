@@ -234,6 +234,22 @@ function banana(): void {
  */
 function banana(): void {
 }
+")))
+      (it "doesn't add return type for constructor"
+          (xen-test-with-temp-php-buffer
+           "
+|
+function __construct() {
+}
+"
+           (execute-kbd-macro (kbd "/**"))
+           ;; (xen-php-handle-docstring)
+           (xen-expect-buffer-equals "
+/**
+ * |
+ */
+function __construct() {
+}
 ")))))
 
   (describe "xen-php-qualify-type"
