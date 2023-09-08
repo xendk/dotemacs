@@ -1564,7 +1564,7 @@ candidates, unless we're in filtering mode."
       (add-hook 'php-mode-hook #'xen-php-mode-expansions))
     (sp-with-modes '(php-mode)
       (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
-                                                ("* |\n[i]" "RET")
+                                                (" |\n[i]" "RET")
                                                 (xen-php-handle-docstring "*")))
 
       ;; When pressing return as the first thing after inserting
