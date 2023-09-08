@@ -1456,6 +1456,9 @@ candidates, unless we're in filtering mode."
               ("<down-mouse-1>" . mouse-select-window)
               ("<mouse-3>" . mouse-select-window)
               ("<down-mouse-3>" . mouse-select-window)
+              ;; Let F11 be full screen, can't remember a shell
+              ;; command where I use it.
+              ("<f11>" . toggle-frame-fullscreen)
               :map vterm-copy-mode-map
               ;; More ways to quit.
               ("C-c C-c" . vterm-copy-mode-done)
