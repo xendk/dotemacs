@@ -584,7 +584,8 @@ candidates, unless we're in filtering mode."
   ;; it's basically useless. Tell lsp-mode not to use it.
   :hook (crystal-mode . (lambda ()
                           (setq-local lsp-enable-indentation nil)))
-  )
+  :bind (:map crystal-mode-map
+              ("C-c C-t" . crystal-spec-switch)))
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
