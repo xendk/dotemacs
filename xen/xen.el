@@ -396,7 +396,7 @@ Pass ARG and INTERACTIVE to `newline'."
          (buffer-name (concat "*docker compose up "
                               (abbreviate-file-name docker-compose-file) " *")))
     (let ((vterm-shell "docker compose up"))
-      (vterm))))
+      (vterm buffer-name))))
 
 ;; (define-minor-mode autosemi-mode
 ;;   "Toggle automatic semi-colon mode."
