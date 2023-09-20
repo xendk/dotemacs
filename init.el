@@ -404,13 +404,6 @@
 (use-package cask-mode
   :defer t)
 
-(use-package css-mode
-  :elpaca nil
-  :custom
-  (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
-  (css-indent-offset 2 "Set default CSS indent offset")
-  :commands css-mode)
-
 (use-package column-enforce-mode
   :commands column-enforce-mode
   :delight
@@ -586,6 +579,13 @@ candidates, unless we're in filtering mode."
                           (setq-local lsp-enable-indentation nil)))
   :bind (:map crystal-mode-map
               ("C-c C-t" . crystal-spec-switch)))
+
+(use-package css-mode
+  :elpaca nil
+  :custom
+  (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
+  (css-indent-offset 2 "Set default CSS indent offset")
+  :commands css-mode)
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
