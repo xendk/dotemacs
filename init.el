@@ -425,16 +425,16 @@
   :commands global-company-mode
   :delight
   ;; Global mode, can't really be deferred, but delay it until
-  ;; php-extras and xen-company has had a chance to define their
-  ;; completers and functions.
-  :after (php-extras xen-company)
+  ;; xen-company has had a chance to define its completer and
+  ;; functions.
+  :after (xen-company)
   :defines company-semantic-modes
   :custom
   (company-auto-commit nil)
   (company-backends
    (quote
     (company-elisp
-     (:separate company-capf php-extras-company company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
+     (:separate company-capf company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
      company-bbdb company-semantic company-clang company-cmake
      (company-dabbrev-code-xen company-gtags company-etags company-keywords)
      company-oddmuse company-files company-dabbrev)))
@@ -1192,11 +1192,6 @@ candidates, unless we're in filtering mode."
   :config
   (require 'dap-php)
   :hook (php-mode . (lambda () (subword-mode 1))))
-
-(use-package php-extras
-  :custom
-  (php-extras-auto-complete-insert-parenthesis nil)
-  :elpaca (:host github :repo "arnested/php-extras"))
 
 (use-package po-mode
   :defer t)
