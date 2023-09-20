@@ -1385,6 +1385,16 @@ candidates, unless we're in filtering mode."
   :init
   (vertico-mode))
 
+(use-package vertico-multiform
+  :after (vertico jinx)
+  ;; Part of vertico.
+  :elpaca nil
+  :config
+  ;; Show jinx completions in a grid.
+  (add-to-list 'vertico-multiform-categories
+               '(jinx grid))
+  (vertico-multiform-mode 1))
+
 (use-package vertico-prescient
   :init
   ;; todo: is this customs?
