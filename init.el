@@ -846,31 +846,6 @@ candidates, unless we're in filtering mode."
   :custom
   (phpstan-enable-on-no-config-file nil))
 
-(use-package flyspell
-  :elpaca nil
-  :commands flyspell-mode
-  :custom
-  (flyspell-default-dictionary nil)
-  :hook
-  ((gfm-mode yaml-mode org-mode) . flyspell-mode)
-  ((emacs-lisp-mode
-    php-mode
-    css-mode
-    js-mode
-    enh-ruby-mode
-    crystal-mode
-    nxml-mode) . flyspell-prog-mode)
-  (git-commit-mode . flyspell-mode)
-  :config
-  ;; Want to hand these over to embark.
-  (unbind-key "C-." flyspell-mode-map)
-  (unbind-key "C-," flyspell-mode-map)
-  :delight)
-
-(use-package flyspell-correct
-  :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
-
 (use-package forge
   :after magit)
 
@@ -965,6 +940,11 @@ candidates, unless we're in filtering mode."
   :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
+
+(use-package jinx
+  :init (global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
 
 ;; Built in.
 (use-package js-mode
