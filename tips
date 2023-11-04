@@ -25,13 +25,10 @@ visual-regexp:
  C-c r  vr/replace
  C-c q  vr/query-replace
  C-c m  vr/mc-mark
- 
+
  multiple-cursors:
  C-' mc-hide-unmatched-lines-mode
      mc/edit-lines
-
- M-l xen-avy-goto-line
- Also takes a line number like goto-line.
 
  Remove empty lines in region:
  M-x flush-lines RET ^\s-*$ RET
@@ -87,3 +84,9 @@ C-c '    crystal-toggle-string-quotes
 C-c {    crystal-toggle-block
 
 crystal-spec-switch
+
+
+display-buffer-alist controls how buffers is displayed.
+
+Displaying a Buffer in a Suitable Window:
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Displaying-Buffers.html
