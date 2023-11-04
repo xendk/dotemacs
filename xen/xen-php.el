@@ -328,12 +328,10 @@ Strips any leading backslash."
   (let ((inhibit-message t))
     (beginning-of-buffer)
 
-    (condition-case nil
-        (progn
-          (re-search-forward "^use ")
-          (beginning-of-line)
-          (point))
-      (error nil))))
+    (while (looking-at "\\(<?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
+      (forward-line))
+
+    (not (eobp))))
 
 (defun xen-php-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
@@ -344,6 +342,10 @@ Strips any leading backslash."
       (when class
         (when-let ((use-block (xen-php-find-use-block))
                    (line (concat "use " class ";\n")))
+          (unless (looking-at "use ")
+            (previous-line)
+            (unless (looking-at "[[:space:]]*$"))
+            (insert "\n"))
           (while (and (looking-at "use ")
                       (setq current-line (thing-at-point 'line t))
                       (and (not (equal line current-line))
