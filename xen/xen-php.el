@@ -328,7 +328,7 @@ Strips any leading backslash."
   (let ((inhibit-message t))
     (beginning-of-buffer)
 
-    (while (looking-at "\\(<?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
+    (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
       (forward-line))
 
     (not (eobp))))
