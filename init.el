@@ -381,8 +381,8 @@
 
 (use-package avy-zap
   :bind
-  ("M-z" . avy-zap-to-char-dwim)
-  ("M-Z" . avy-zap-up-to-char-dwim))
+  ("M-Z" . avy-zap-to-char-dwim)
+  ("M-z" . avy-zap-up-to-char-dwim))
 
 ;; Built in, used by magit, we'll delight it.
 (use-package autorevert
