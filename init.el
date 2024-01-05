@@ -1073,12 +1073,6 @@ candidates, unless we're in filtering mode."
 (use-package magit-filenotify
   :defer t)
 
-(use-package magithub
-  :commands magithub-feature-autoinject
-  :disabled t
-  :after magit
-  :config (magithub-feature-autoinject t))
-
 (use-package markdown-mode
   :mode
   ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
