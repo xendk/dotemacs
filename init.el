@@ -1434,6 +1434,7 @@ candidates, unless we're in filtering mode."
   :custom
   (vterm-max-scrollback 100000)
   (vterm-buffer-name-string "vterm: %s")
+  (vterm-copy-mode-remove-fake-newlines t "Makes copy/paste work better")
   :bind (:map vterm-mode-map
               ;; Fish understands C-g too.
               ("C-g" . vterm--self-insert)
