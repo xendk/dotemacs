@@ -561,7 +561,11 @@ candidates, unless we're in filtering mode."
           (when-let (project (project-current))
             (car (project-roots project))))))
 
-(use-package consult-flycheck)
+(use-package consult-flycheck
+  :commands consult-flycheck
+  :after (flycheck)
+  :bind (:map flycheck-command-map
+              ("!" . consult-flycheck)))
 
 (use-package cov
   :custom-face
