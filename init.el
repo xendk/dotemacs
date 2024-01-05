@@ -1510,6 +1510,9 @@ candidates, unless we're in filtering mode."
   :commands (xen-region-isearch-forward xen-region-isearch-backward)
   :demand
   ;;:functions xen-coding-common-bindings
+  :config
+  ;; Tell delsel than xen-newline should delete selection.
+  (put 'xen-newline 'delete-selection t)
   :hook
   ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
