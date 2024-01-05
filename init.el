@@ -1067,12 +1067,6 @@ candidates, unless we're in filtering mode."
 ;; Why this isn't handled by dependencies, I don't know.
 (use-package magit-section)
 
-;; Add git flow extension.
-(use-package magit-gitflow
-  :after magit
-  :delight
-  :hook (magit-mode . turn-on-magit-gitflow))
-
 (use-package magit-filenotify
   :defer t)
 
