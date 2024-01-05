@@ -1381,6 +1381,31 @@ candidates, unless we're in filtering mode."
   :after (vertico jinx)
   ;; Part of vertico.
   :elpaca nil
+  :custom
+  (jinx-camel-modes '(java-mode
+                      java-ts-mode
+                      js-mode
+                      js-ts-mode
+                      ruby-mode
+                      ruby-ts-mode
+                      rust-mode
+                      rust-ts-mode
+                      haskell-mode
+                      kotlin-mode
+                      swift-mode
+                      csharp-mode
+                      csharp-ts-mode
+                      objc-mode
+                      typescript-ts-mode
+                      typescript-mode
+                      python-mode
+                      python-ts-mode
+                      dart-mode
+                      go-mode
+                      go-ts-mode
+                      scala-mode
+                      groovy-mode
+                      php-mode) "Add PHP to camelCase modes")
   :config
   ;; Show jinx completions in a grid.
   (add-to-list 'vertico-multiform-categories
