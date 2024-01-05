@@ -1,4 +1,4 @@
-;;; xen-projectile.el --- Projectile helper functions  -*- lexical-binding: t; -*-
+;;; xen-project.el --- Project helper functions  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018  Thomas Fini Hansen
 
@@ -24,15 +24,21 @@
 
 ;;; Code:
 
-(require 'projectile)
+(require 'project)
 (require 'xen-vterm)
 
-(defun xen-projectile-switch-to-shell ()
+(defun xen-project-switch-to-shell ()
   "Switch to shell buffer in project. Use ivy if multiple buffers."
   (interactive)
-  (if (projectile-project-p)
-      (xen-switch-to-shell (projectile-project-buffers))
+  (if (project-current)
+      (xen-switch-to-shell (project-buffers (project-current)))
     (message "No project.")))
 
-(provide 'xen-projectile)
-;;; xen-projectile.el ends here
+(defun xen-project-vterm ()
+  "Start new vterm session in project root."
+  (interactive)
+  (let ((default-directory (project-root (project-current t))))
+    (vterm)))
+
+(provide 'xen-project)
+;;; xen-project.el ends here

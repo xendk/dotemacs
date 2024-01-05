@@ -556,8 +556,11 @@ candidates, unless we're in filtering mode."
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
-  (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root))
+  ;; Use project.el for getting project root.
+  (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project))))))
 
 (use-package consult-flycheck)
 
@@ -626,6 +629,7 @@ candidates, unless we're in filtering mode."
                                       (run-hooks 'dashboard-after-initialize-hook)))
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
+  (dashboard-projects-backend 'project-el "Use project backend")
   :config
   (setq dashboard-startup-banner 'logo)
   (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
@@ -1176,23 +1180,17 @@ candidates, unless we're in filtering mode."
 (use-package po-mode
   :defer t)
 
-(use-package projectile
-  :commands (projectile-mode projectile-project-p)
-  :custom
-  (projectile-cache-file (concat user-emacs-directory ".projectile.cache"))
-  (projectile-known-projects-file (concat user-emacs-directory ".projectile-bookmarks.eld"))
-  (projectile-switch-project-action (quote projectile-vc))
-  :delight ""
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (projectile-mode)
+(use-package project
+  ;; Remap to the old projectile prefix.
+  :bind-keymap ("C-c p" . project-prefix-map)
   :config
-  (projectile-register-project-type 'php-laravel '("composer.json" "app" "vendor")
-                                    :compile "./artisan serve"
-                                    :test "./vendor/bin/phpunit "
-                                    :test-dir "tests"
-                                    :test-suffix "Test"))
+  ;; Use consult-ripgrep instead of project-find-regexp.
+  (advice-add #'project-find-regexp :override #'consult-ripgrep)
+  ;; magit-extras normally sets this, but Magit is lazyloaded.
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
+  :bind (:map project-prefix-map
+              ("m" . magit-project-status))
+  :elpaca nil)
 
 (use-package rainbow-mode
   :defer t
@@ -1567,16 +1565,15 @@ candidates, unless we're in filtering mode."
                 ("C-c u" . xen-php-make-use))
     :after (php-mode smartparens))
 
-  (use-package xen-projectile
+  (use-package xen-project
     :elpaca nil
     :load-path "xen"
-    :after (projectile)
-    :bind (:map projectile-command-map
-                ("s" . xen-projectile-switch-to-shell)
-                ("S" . projectile-run-vterm)
-                ;; Overrides the projectile-run-project command which
-                ;; I never use anyway.
-                ("u" . xen-docker-compose-up)))
+    :after (project)
+    :bind (:map project-prefix-map
+                ("s" . xen-project-switch-to-shell)
+                ("S" . xen-project-vterm)
+                ("u" . xen-docker-compose-up))
+    )
 
   (use-package xen-vterm
     :elpaca nil
