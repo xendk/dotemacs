@@ -505,7 +505,6 @@ candidates, unless we're in filtering mode."
 
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :disabled t
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-mode-map
               ("C-f" . copilot-accept-completion)
