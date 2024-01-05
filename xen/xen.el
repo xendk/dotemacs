@@ -370,7 +370,7 @@ Pass ARG and INTERACTIVE to `newline'."
           (setq comment-start (point))
           (skip-chars-forward ";")
           (setq num-semis (- (point) comment-start)))
-        (newline)
+        (insert "\n")
         (insert (make-string num-semis ?\;) " "))
     (default-indent-new-line)))
 
