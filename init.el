@@ -377,8 +377,7 @@
   :bind*
   ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
   ;; use-package xen.
-  ("M-u" . avy-goto-char-in-line)
-  ("M-U" . avy-goto-char))
+  ("M-u" . avy-goto-char-in-line))
 
 (use-package avy-zap
   :bind
