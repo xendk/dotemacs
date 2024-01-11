@@ -1177,7 +1177,7 @@ candidates, unless we're in filtering mode."
   :bind-keymap ("C-c p" . project-prefix-map)
   :config
   ;; Use consult-ripgrep instead of project-find-regexp.
-  (advice-add #'project-find-regexp :override #'consult-ripgrep)
+  ;;(advice-add #'project-find-regexp :override #'consult-ripgrep)
   ;; magit-extras normally sets this, but Magit is lazyloaded.
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
   :bind (:map project-prefix-map
@@ -1595,8 +1595,18 @@ candidates, unless we're in filtering mode."
     :bind (:map project-prefix-map
                 ("s" . xen-project-switch-to-shell)
                 ("S" . xen-project-vterm)
-                ("u" . xen-docker-compose-up))
-    )
+                ("u" . xen-docker-compose-up)
+                ("g" . consult-ripgrep)
+                ;; Remove obsoleted.
+                ("e" . nil)
+                ("v" . nil))
+    :init
+    (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
+    (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
+    ;; Remove those obsoleted by the above.
+    (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
+    (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
+    (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands)))
 
   (use-package xen-vterm
     :elpaca nil
