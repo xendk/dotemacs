@@ -345,10 +345,10 @@
   (aas-set-snippets 'php-mode
     :cond (lambda ()
             (not (xen-in-comment)))
-    "if " '(tempel "if (" (p "condition") ") {" n> r ";" n> "}")
-    "else " '(tempel "else {" n> r ";" n> "}")
+    "if " '(tempel "if (" (p "condition") ") {" n> r "" n> "}")
+    "else " '(tempel "else {" n> r "" n> "}")
     "try " '(tempel "try {" n> p n> "} catch (" (p "\\Throwable") " $o_O) {" n> r n> "}")
-    "fore " '(tempel "foreach (" (p "array") " as $" (p "value") ") {" n> r ";" n> "}")
+    "fore " '(tempel "foreach (" (p "array") " as $" (p "value") ") {" n> r "" n> "}")
     "$" (lambda () (interactive)
           (if (looking-back "as \\$")
               (tempel-insert '((p "key") " => $" (p "value")))
