@@ -28,6 +28,7 @@
 (require 'vterm)
 
 (defvar vterm-copy-mode)
+(defvar xen-switch-to-shell-buffers)
 
 (defface xen-vterm-copy-mode-face
   '((t :inherit region))
@@ -50,6 +51,23 @@ Used to restore the original mode line face.")
     (setq xen-vterm-copy-mode-cookie nil)
     (hl-line-mode -1)))
 
+(defvar xen-consult--source-vterm-buffer
+  `(:name "VTerm"
+          :narrow   ?v
+          :category buffer
+          :face     consult-buffer
+          :history  buffer-name-history
+          :state    ,#'consult--buffer-state
+          :default t
+          :hidden t
+          :items
+          ,(lambda () (consult--buffer-query :sort 'visibility
+                                             :mode 'vterm-mode
+                                             :as #'buffer-name)))
+  "VTerm buffer candidate source for `consult-buffer'.")
+
+;; Same as the above, but not hidden (doesn't work with
+;; xen-switch-to-shell when it is).
 (defvar xen-consult--source-vterm-buffer2
   `(:name "VTerm"
           :narrow   ?v
@@ -59,30 +77,49 @@ Used to restore the original mode line face.")
           :state    ,#'consult--buffer-state
           :default t
           :items
-          ,(lambda () (consult--buffer-query :sort 'alpha
-                                             :mode 'vterm-mode
-                                             :as #'buffer-name)))
-  "VTerm buffer candidate source for `consult-buffer'.")
+          ,(lambda () xen-switch-to-shell-buffers))
+  "VTerm buffer candidate source for `xen-switch-to-shell'.")
+(add-to-list 'consult-buffer-sources 'xen-consult--source-vterm-buffer)
 
+;; idea: Drop trying to piggyback on consult-buffer and just
+;; vertico/completing-read. Add options to open new buffer in current
+;; dir, or in project root.
 (defun xen-switch-to-shell (&optional buffer-list)
   "Switch to a vterm buffer. Create one or use consult-buffer.
 
 Limit to buffers BUFFER-LIST if supplied."
   (interactive)
   (let* ((buffer-list (or buffer-list (buffer-list)))
+         ;; All vterm buffers.
          (buffers (seq-filter
                    (lambda (buffer) (and
                                      ;; Major mode is vterm-mode.
                                      (eq 'vterm-mode
-                                         (buffer-local-value 'major-mode buffer))
-                                     ;; Buffer is not visible.
-                                     (not (get-buffer-window buffer t))))
-                   buffer-list)))
-
+                                         (buffer-local-value 'major-mode buffer))))
+                   buffer-list))
+         ;; Preferably limit to invisible buffers.
+         (candidates (seq-filter
+                      (lambda (buffer)
+                        ;; Buffer is not visible.
+                        (not (get-buffer-window buffer t)))
+                      buffers)))
     (cond
-     ((not buffers) (call-interactively 'vterm))
-     (t (let ((consult-buffer-sources '(xen-consult--source-vterm-buffer2)))
-          (consult-buffer))))))
+     ;; No vterm buffers, create one.
+     ((not buffers)
+      (message "New shell session")
+      (call-interactively 'vterm))
+     (t
+      (let ((consult-buffer-sources '(xen-consult--source-vterm-buffer2))
+            ;; Use either candidates or buffers, so we won't present
+            ;; an empty list if all are visible.
+            (xen-switch-to-shell-buffers (seq-map
+                                          (lambda (buffer)
+                                            (buffer-name buffer))
+                                          (or candidates buffers))))
+        (if (> (length xen-switch-to-shell-buffers) 1)
+            (consult-buffer)
+          ;; One vterm buffer, switch to it.
+          (switch-to-buffer (car xen-switch-to-shell-buffers))))))))
 
 (provide 'xen-vterm)
 ;;; xen-vterm.el ends here

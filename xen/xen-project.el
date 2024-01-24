@@ -31,7 +31,9 @@
   "Switch to shell buffer in project. Use ivy if multiple buffers."
   (interactive)
   (if (project-current)
-      (xen-switch-to-shell (project-buffers (project-current)))
+      ;; Switch to project root in case we create a new shell buffer.
+      (let ((default-directory (project-root (project-current t))))
+        (xen-switch-to-shell (project-buffers (project-current))))
     (message "No project.")))
 
 (defun xen-project-vterm ()
