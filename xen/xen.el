@@ -393,7 +393,7 @@ Pass ARG and INTERACTIVE to `newline'."
           (or (locate-dominating-file default-directory "docker-compose.yml")
               (user-error "No docker-compose.yml found.")))
          (default-directory docker-compose-file)
-         (buffer-name (concat "*docker compose up "
+         (buffer-name (concat " *docker compose up "
                               (abbreviate-file-name docker-compose-file) " *")))
     (if (get-buffer buffer-name)
         (pop-to-buffer buffer-name '(display-buffer-reuse-window display-buffer-same-window))
