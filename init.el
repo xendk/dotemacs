@@ -1206,7 +1206,6 @@ candidates, unless we're in filtering mode."
   (css-mode . rainbow-mode))
 
 (use-package reaper
-  :load-path "reaper"
   :config
   (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
   ;; Store the autofile function in an uncommitted file.
