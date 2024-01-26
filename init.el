@@ -145,6 +145,8 @@
   :hook (prog-mode . eldoc-mode)
   (prog-mode . (lambda () (setq-local comment-auto-fill-only-comments t)
                  (auto-fill-mode)))
+  ;; Enable colors in compilation buffers.
+  (compilation-filter . ansi-color-compilation-filter)
   ;; Some variables set above is duplicated here to make use-package
   ;; hide them from re-exporting by custom. Alternatively I could
   ;; create a theme like use-package does and use
@@ -593,6 +595,20 @@ candidates, unless we're in filtering mode."
   (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
   (css-indent-offset 2 "Set default CSS indent offset")
   :commands css-mode)
+
+(use-package custode
+  :load-path "custode"
+  :elpaca (:type git :host github :repo "xendk/custode.el")q
+  :init
+  (global-custode-mode)
+  :config
+  ;; Can't use :bind-keymap, as project-prefix-map doesn't exist until
+  ;; project is loaded.
+  (with-eval-after-load "project"
+    (define-key project-prefix-map "u" custode-prefix-map))
+  ;; Add lighter to mode-line (this is how doom-modeline) suggests
+  ;; adding a lighter for a single minor-mode.
+  (add-to-list 'global-mode-string (list t custode-lighter)))
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
@@ -1350,9 +1366,6 @@ candidates, unless we're in filtering mode."
   :custom
   (vcl-indent-level 2 "Set indent level"))
 
-(use-package watch-buffer
-  :commands watch-buffer)
-
 (use-package which-key
   :init
   (which-key-mode)
@@ -1594,7 +1607,7 @@ candidates, unless we're in filtering mode."
     :bind (:map project-prefix-map
                 ("s" . xen-project-switch-to-shell)
                 ("S" . xen-project-vterm)
-                ("u" . xen-docker-compose-up)
+                ("U" . xen-docker-compose-up)
                 ("g" . consult-ripgrep)
                 ;; Remove obsoleted.
                 ("e" . nil)
