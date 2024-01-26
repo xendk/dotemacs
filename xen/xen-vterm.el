@@ -92,10 +92,15 @@ Limit to buffers BUFFER-LIST if supplied."
   (let* ((buffer-list (or buffer-list (buffer-list)))
          ;; All vterm buffers.
          (buffers (seq-filter
-                   (lambda (buffer) (and
-                                     ;; Major mode is vterm-mode.
-                                     (eq 'vterm-mode
-                                         (buffer-local-value 'major-mode buffer))))
+                   (lambda (buffer)
+                     (and
+                      ;; Major mode is vterm-mode.
+                      (eq 'vterm-mode
+                          (buffer-local-value 'major-mode buffer))
+                      ;; And not hidden. Only my docker-compose
+                      ;; buffers hit this, but until I get them to use
+                      ;; compile-mode...
+                      (not (string-match "\\` " (buffer-name buffer)))))
                    buffer-list))
          ;; Preferably limit to invisible buffers.
          (candidates (seq-filter
