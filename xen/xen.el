@@ -237,38 +237,6 @@ See also `cycle-spacing'."
       (push-mark)
       (goto-char (point-min)))))
 
-(defun xen-region-isearch-forward ()
-  "Start an isearh with the content of the region."
-  (interactive)
-  (let ((string (buffer-substring-no-properties
-                 (region-beginning) (region-end))))
-
-    (deactivate-mark)
-    ;; Move point so that the isearch wont start by finding the instance
-    ;; we just deselected.
-    (goto-char (region-end))
-    (isearch-forward nil 1)
-    (isearch-yank-string string)))
-
-(defun xen-region-isearch-backward ()
-  "Start an isearh-backward with the content of the region."
-  (interactive)
-  (let ((string (buffer-substring-no-properties
-                 (region-beginning) (region-end))))
-    (deactivate-mark)
-    ;; Move point so that the isearch wont start by finding the instance
-    ;; we just deselected.
-    (goto-char (region-beginning))
-    ;; And when searching backwards we need to move a char further
-    ;; back. But that would cause an error at the beginning of buffer,
-    ;; so handle that. This means that if the region was at the
-    ;; beginning of the buffer, we'll still find the marked instance,
-    ;; but it's a bug we can live with.
-    (when (> (point) 1)
-      (forward-char -1))
-    (isearch-backward nil 1)
-    (isearch-yank-string string)))
-
 (defvar xen-edit-clipboard-mode-map
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap (kbd "C-c C-c") 'xen-edit-clipboard-save)

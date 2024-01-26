@@ -747,9 +747,7 @@ candidates, unless we're in filtering mode."
    :map embark-region-map
    ("s" . sort-lines)
    ("u" . delete-duplicate-lines)
-   ("/" . xen-google-region)
-   ("C-s" . xen-region-isearch-forward)
-   ("C-r" . xen-region-isearch-backward))
+   ("/" . xen-google-region))
   :custom
   (embark-verbose-indicator-display-action
    '(display-buffer-at-bottom (window-height . fit-window-to-buffer))
@@ -1536,7 +1534,6 @@ targets."
 (use-package xen
   :elpaca nil
   :load-path "xen"
-  :commands (xen-region-isearch-forward xen-region-isearch-backward)
   :demand
   ;;:functions xen-coding-common-bindings
   :config
