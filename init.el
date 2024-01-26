@@ -740,9 +740,7 @@ candidates, unless we're in filtering mode."
 (use-package embark
   :bind
   (("C-." . embark-act)
-   ("C-)" . embark-act)
    ("C-," . embark-dwim)
-   ("C-(" . embark-dwim)
    ("C-h B" . embark-bindings)
    :map embark-region-map
    ("s" . sort-lines)
