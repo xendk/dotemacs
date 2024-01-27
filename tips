@@ -26,10 +26,6 @@ visual-regexp:
  C-c q  vr/query-replace
  C-c m  vr/mc-mark
 
- multiple-cursors:
- C-' mc-hide-unmatched-lines-mode
-     mc/edit-lines
-
  Remove empty lines in region:
  M-x flush-lines RET ^\s-*$ RET
 
@@ -90,3 +86,18 @@ display-buffer-alist controls how buffers is displayed.
 
 Displaying a Buffer in a Suitable Window:
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Displaying-Buffers.html
+
+multiple-cursors:
+C-' mc-hide-unmatched-lines-mode
+    mc/edit-lines
+C-=     mc/mark-all-like-this-dwim
+        Marks thing at point in defun, subsequently in buffer.
+M-x mel mc/edit-lines
+M-x mmp mc/mark-pop
+M-x min mc/insert-numbers
+        Takes prefix arg.
+M-x msr mc/sort-regions
+M-x mva mc/vertical-align (or mc/vertical-align-with-space)
+C-x r y yank-rectangle
+        Yanks all regions copied in mc mode.
+        
