@@ -351,6 +351,8 @@
                                 (doom-modeline-set-modeline 'xen-minimal)))))
 
 (use-package aas
+  ;; Let's try without for a while.
+  :disabled
   :hook (php-mode . aas-activate-for-major-mode)
   :disabled
   :config
