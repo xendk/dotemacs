@@ -592,10 +592,12 @@ candidates, unless we're in filtering mode."
   ;; ECR files can be anything really, but html-mode is what I most
   ;; often use.
   :mode ("\\.ecr\\'" . html-mode)
-  ;; The language server can't figure out how to indent regions, so
-  ;; it's basically useless. Tell lsp-mode not to use it.
-  :hook (crystal-mode . (lambda ()
-                          (setq-local lsp-enable-indentation nil)))
+
+  :init
+  ;; Tell eglot about the crystalline server.
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(crystal-mode . ("crystalline" "--stdio"))))
   :bind (:map crystal-mode-map
               ("C-c C-t" . crystal-spec-switch)))
 
@@ -743,6 +745,20 @@ candidates, unless we're in filtering mode."
 (use-package edit-indirect
   :after markdown-mode)
 
+(use-package eglot
+  :elpaca (:host github :repo "joaotavora/eglot" :branch "master")
+  :config
+  ;; Don't pass Emacs process id to servers. Lang servers running in
+  ;; docker can't see the Emacs process, so they think it died and
+  ;; exits.
+  (setq eglot-withhold-process-id t)
+  ;; eglot uses this Emacs 29 function, backport it.
+  (cl-defgeneric project-name (project)
+    "A human-readable name for the project.
+Nominally unique, but not enforced."
+    (file-name-nondirectory (directory-file-name (project-root project))))
+  )
+
 (use-package eldoc
   :commands eldoc-mode
   :delight)
@@ -877,18 +893,33 @@ targets."
     (set-face-attribute 'flycheck-color-mode-line-success-face nil
                         :background (doom-darken 'success .75))))
 
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  ;;:custom (flycheck-eglot-exclusive nil)
+  :config
+  (global-flycheck-eglot-mode 1)
+  ;; Using flycheck-eglot-exclusive nil doesn't seem to work, but it
+  ;; seems like the php checker doesn't pass control properly to the
+  ;; php-phpcs checker. So add it manually for the moment being.
+  ;; TODO: phpactor seems to be able to run phpstan, and should be
+  ;; able to do the same with phpcs, so look into that.
+  :hook (flycheck-eglot-mode . (lambda ()
+                                 (flycheck-add-next-checker 'eglot-check 'php-phpcs))))
+
 (use-package flycheck-package
   :commands flycheck-package-setup
   :hook (flycheck-mode . flycheck-package-setup))
 
+;; TODO: Might be obsoleted by phpactor (together with the tool
+;; finding code).
 (use-package flycheck-phpstan
   :elpaca (flycheck-phpstan :host github :repo "xendk/phpstan.el" :branch "no-files-message")
   :hook
   (php-mode . (lambda ()
                 ;; Use error level from phpstan.neon.
                 (setq phpstan-level nil)))
-  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'php-phpcs 'phpstan)))
-  :after (flycheck lsp-mode)
+  :after (flycheck)
   :custom
   (phpstan-enable-on-no-config-file nil))
 
@@ -910,10 +941,7 @@ targets."
   :config
   ;; Tell gopls that we're using go modules.
   (setenv "GO111MODULE" "on")
-  :hook ((go-mode . subword-mode)
-         (go-mode . (lambda ()
-                      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                      (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
+  :hook ((go-mode . subword-mode)))
 
 (use-package google-this
   :commands (google-this-mode google-this-region)
@@ -1012,63 +1040,6 @@ targets."
 (use-package literate-calc-mode
   :commands literate-calc-mode
   :defer t)
-
-(use-package lsp-mode
-  :commands lsp lsp-deferred
-  ;; Can't add to company-backends before company has been loaded.
-  :after company
-  :custom
-  (lsp-keymap-prefix "C-c l" "Set the keymap prefix")
-  (lsp-log-max 1000 "Limit log entries to a thousand lines")
-  (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
-  (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
-  (lsp-serenata-server-path "serenata" "Set server path")
-  (lsp-solargraph-use-bundler t "Use the bundler installed Solargraph")
-  (lsp-clients-crystal-executable '("crystalline" "--stdio") "Use crystalline instead of scry")
-  :init
-  ;; Recommended setup.
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-prefer-capf t)
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  (lsp-mode . lsp-enable-which-key-integration)
-  ;; Check lsp-language-id-configuration for supported modes.
-  ((css-mode
-    crystal-mode
-    dockerfile-mode
-    go-mode
-    html-mode
-    js-mode
-    json-mode
-    ;; Doesn't work for gfm-mode. Also, install unified-language-server.
-    ;; markdown-mode
-    nxml-mode
-    php-mode
-    rjsx-mode
-    enh-ruby-mode
-    scss-mode
-    sh-mode
-    sql-mode
-    typescript-mode
-    xml-mode
-    yaml-mode) . lsp-deferred)
-  ;; This is not proper as the lsp checker is global across modes, and
-  ;; this adds php-phpcs in all modes. But until lsp/flycheck deals
-  ;; with this problem, this will work.
-  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'lsp 'php-phpcs)))
-  :config
-  (unbind-key "C-S-SPC" lsp-mode-map))
-
-(use-package lsp-ui
-  :commands (lsp-ui-mode lsp-ui-sideline-mode)
-  :after lsp
-  :custom-face
-  (lsp-ui-sideline-global ((t (:background "#3f444a"))))
-  :config
-  ;; Use sideline mode in all flycheck buffers. Better than displaying
-  ;; in mini-buffer or flycheck-inline.
-  :hook (flycheck-mode . lsp-ui-sideline-mode))
 
 ;; For doom-modeline.
 (use-package nerd-icons)
