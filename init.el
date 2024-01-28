@@ -162,6 +162,7 @@
   (browse-url-generic-program "sensible-browser" "Set a working browser")
   (c-basic-offset 'set-from-style "Use indent from c-style")
   (c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu")) "Set c-styles")
+  (completion-cycle-threshold 3 "Makes Corfu tab-complete on single matches work")
   ;; Lock files mess with watchers, and I don't have much use for it
   ;; on a single-user system.
   (create-lockfiles nil "Don't create lockfiles")
@@ -416,6 +417,14 @@
   :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode)))
 
+(use-package cape
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  :elpaca (:host github :repo "minad/cape"))
+
 (use-package cask-mode
   :defer t)
 
@@ -429,98 +438,10 @@
                         :underline nil
                         :background (doom-darken 'warning .75))))
 
-(use-package company
-  :commands global-company-mode
-  :delight
-  ;; Global mode, can't really be deferred, but delay it until
-  ;; xen-company has had a chance to define its completer and
-  ;; functions.
-  :after (xen-company)
-  :defines company-semantic-modes
-  :custom
-  (company-auto-commit nil)
-  (company-backends
-   (quote
-    (company-elisp
-     (:separate company-capf company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
-     company-bbdb company-semantic company-clang company-cmake
-     (company-dabbrev-code-xen company-gtags company-etags company-keywords)
-     company-oddmuse company-files company-dabbrev)))
-  (company-dabbrev-code-everywhere nil)
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 2)
-  (company-require-match nil)
-  (company-search-regexp-function (quote company-search-words-in-any-order-regexp))
-  (company-show-numbers nil)
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above nil)
-  (company-tooltip-idle-delay 0)
-  (company-tooltip-limit 30)
-  (company-tooltip-minimum 20)
-  (company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
-  :config
-  ;; Use the TAB only frontend. Configure before enabling the mode, so
-  ;; we'll get the tng frontend in before anyone makes
-  ;; company-frontends buffer local.
-  (company-tng-mode)
-
-  ;; Define a frontend that displays a preview, but only when tng
-  ;; hasn't made a selection yet.
-  (defun company-preview-common-if-not-tng-frontend (command)
-    "`company-preview-frontend', but not when tng is active."
-    (unless (or (and (eq command 'post-command)
-                     company-selection-changed
-                     (memq 'company-tng-frontend company-frontends))
-                ;; company-preview-common-frontend does not like when
-                ;; company-common is an empty string (rather than nil)
-                ;; in 'post-command.
-                (and (eq command 'post-command)
-                     (equal company-common "")))
-      (company-preview-common-frontend command)))
-  ;; Variant of `company-pseudo-tooltip-unless-just-one-frontend' that
-  ;; still shows a dropdown with only one candidate when filtering.
-  (defun company-pseudo-tooltip-unless-just-one-frontend-2 (command)
-    "`company-pseudo-tooltip-frontend', but not shown for single
-candidates, unless we're in filtering mode."
-    (unless (and (eq command 'post-command)
-                 (and (company--show-inline-p) (not company-search-filtering)))
-      (company-pseudo-tooltip-frontend command)))
-
-  (setq company-frontends '(company-tng-frontend
-                            company-pseudo-tooltip-unless-just-one-frontend-2
-                            company-preview-common-if-not-tng-frontend
-                            company-echo-metadata-frontend))
-
-  (global-company-mode)
-  ;; Redefine tab to insert common prefix first.
-  (define-key company-active-map [tab] 'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-
-  ;; Don't mess with up and down.
-  (define-key company-active-map (kbd "<down>") nil)
-  (define-key company-active-map (kbd "<up>") nil)
-
-  ;; Use return to select in search mode (muscle memory is too used to
-  ;; telling isearch that I'm done with return).
-  (define-key company-search-map [return] 'company-complete-selection)
-  (define-key company-search-map (kbd "RET") 'company-complete-selection)
-
-  ;; Swap search and filter shortcuts. I prefer filtering the dropdown
-  ;; rather than searching in it.
-  (define-key company-active-map "\C-s" 'company-filter-candidates)
-  (define-key company-active-map "\C-\M-s" 'company-search-candidates))
-
-(use-package company-restclient
-  :after (company restclient))
-
-(use-package company-tabnine
-  :disabled
-  :after company
-  :custom
-  (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary"))
-
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  ;; Disabled while experimenting with eglot.
+  :disabled
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-mode-map
               ("C-f" . copilot-accept-completion)
@@ -581,6 +502,46 @@ candidates, unless we're in filtering mode."
   :after (flycheck)
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
+
+(use-package corfu
+  ;; TAB-and-Go customizations
+  :custom
+  (corfu-auto t "Enable automatic popup")
+  (corfu-auto-prefix 1 "Trigger at one char")
+  (corfu-count 30 "Show more candidates")
+  (corfu-cycle t "Let suggestions wrap around")
+  (corfu-preselect-first nil "Don't select first candidate")
+  ;; (corfu-quit-no-match 'separator "")
+
+  ;; TODO: revisit https://github.com/minad/corfu#tab-and-go-completion
+
+  ;; check extensions: corfu-history, corfu-quick
+  ;; oh, and https://code.bsdgeek.org/adam/corfu-candidate-overlay
+
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  :bind
+  (:map corfu-map
+        ;; ("TAB" . corfu-next)
+        ;; ([tab] . corfu-next)
+        ;; ("S-TAB" . corfu-previous)
+        ;; ([backtab] . corfu-previous)
+        ("RET" . nil))
+
+  :init
+  (global-corfu-mode)
+  (defun dead-corfu--pre-command ()
+    "Insert selected candidate unless command is marked to continue completion."
+    (add-hook 'window-configuration-change-hook #'corfu-quit)
+    (when corfu--preview-ov
+      (delete-overlay corfu--preview-ov)
+      (setq corfu--preview-ov nil))
+    (when (and corfu-commit-predicate
+               (not (corfu--match-symbol-p corfu-continue-commands this-command))
+               (funcall corfu-commit-predicate))
+      (corfu--insert 'finished)))
+
+  ;; Clone from GitHup rather than ELPA.
+  :elpaca (:host github :repo "minad/corfu" :files (:defaults "extensions/*")))
 
 (use-package cov
   :custom-face
@@ -697,7 +658,9 @@ candidates, unless we're in filtering mode."
   :init
   (dimmer-configure-which-key)
   (dimmer-configure-magit)
-  (dimmer-mode t))
+  (dimmer-mode t)
+  (add-to-list
+   'dimmer-exclusion-regexp-list "^ \\*corfu\\*$"))
 
 ;; Built in.
 (use-package display-line-numbers-mode
@@ -1129,6 +1092,12 @@ targets."
 (use-package olivetti
   :defer t)
 
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless partial-completion basic)
+        completion-category-defaults nil
+        completion-category-overrides nil))
+
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
@@ -1548,9 +1517,8 @@ targets."
          ("k" ("kebab-case" . string-inflection-kebab-case))))
 
 (elpaca nil
-  (use-package xen-company
-    :elpaca nil
-    :load-path "xen")
+  ;; (use-package xen-company
+  ;;   :load-path "xen")
 
   (use-package xen-flycheck
     :elpaca nil
