@@ -1190,6 +1190,9 @@ targets."
   ("\\.inc\\'" . php-mode)
   ("\\.module\\'" . php-mode)
   :magic ("<?php" . php-mode-maybe)
+  :bind (:map php-mode-map
+              ;; Override php-mode's binding of C-.
+              ("C-." . embark-act))
   :custom
   (php-mode-coding-style (quote psr2))
   (php-mode-enable-project-coding-style nil)
