@@ -352,6 +352,7 @@
 
 (use-package aas
   :hook (php-mode . aas-activate-for-major-mode)
+  :disabled
   :config
   (aas-set-snippets 'php-mode
     :cond (lambda ()
