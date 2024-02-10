@@ -227,6 +227,15 @@
   ;; Protect scratch buffer against accidental killing.
   (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
+
+  ;; And
+  ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+  ;; explains how to make display-buffer display things like you want.
+  (add-to-list 'display-buffer-alist
+               ;; Make help buffers reuse single window.
+               '("\\*Help\\*"
+                 (display-buffer-reuse-window display-buffer-pop-up-window)
+                 (reusable-frames . visible)))
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
