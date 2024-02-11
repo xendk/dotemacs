@@ -680,8 +680,8 @@
   (display-line-numbers-major-tick 20 "Show major line ever 20 lines")
   (display-line-numbers-minor-tick 5 "Show minor line every 5 lines")
   :custom-face
-  (line-number-major-tick ((t (:foreground "dark gray"))))
-  (line-number-minor-tick ((t (:foreground "dim gray"))))
+  (line-number-major-tick ((t (:foreground "dark gray" :background nil))))
+  (line-number-minor-tick ((t (:foreground "dim gray" :background nil))))
   :hook (prog-mode . (lambda ()
                        "Enable line numbers in file-visiting buffers."
                        (when (buffer-file-name (buffer-base-buffer))
