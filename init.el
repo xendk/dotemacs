@@ -561,6 +561,25 @@
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '(crystal-mode . ("crystalline" "--stdio"))))
+  ;; Crystalines completion is non-existent, so use keyword and
+  ;; dabbrev completion from cape instead.
+  (defalias 'crystal-capf (cape-capf-super
+                           (cape-capf-inside-code
+                            (cape-capf-super #'cape-keyword #'cape-dabbrev))
+                           ;; cape-dict could be handy, if we could
+                           ;; get orderless to only prefix match it.
+                           (cape-capf-inside-comment #'cape-dabbrev)))
+  :hook
+  (crystal-mode . (lambda ()
+                    ;; Eglot sets up completion-at-point-functions in
+                    ;; its minor mode, so use eglot-managed-mode-hook
+                    ;; to override it.
+                    (add-hook 'eglot-managed-mode-hook
+                              (lambda ()
+                                (setq-local
+                                 completion-at-point-functions
+                                 (list #'crystal-capf)))
+                              nil t)))
   :bind (:map crystal-mode-map
               ("C-c C-t" . crystal-spec-switch)))
 
