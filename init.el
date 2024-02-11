@@ -1166,6 +1166,36 @@ targets."
   ("\\.inc\\'" . php-mode)
   ("\\.module\\'" . php-mode)
   :magic ("<?php" . php-mode-maybe)
+  :init
+  ;; A custom company-backend (which cape-company-to-capf will make a
+  ;; proper capf) completes some very common PHP idioms.
+  (defvar xen-php-mode-backend-alist
+    '(("declare(strict_types=1);" . "declare")
+      ("<?php" . "<?ph")
+      (xen-php-mode-backend-prefix . "class ")
+      (xen-php-mode-backend-prefix . "interface ")))
+  (defun xen-php-mode-backend-prefix (prefix)
+    "Return class/interface based on the current file name."
+    (concat prefix (file-name-sans-extension
+                    (file-name-nondirectory (buffer-file-name)))))
+  (defun xen-php-mode-backend (action &optional arg &rest _)
+    (pcase action
+      ('prefix (let ((prefix (save-excursion
+                               (let ((end (point)))
+                                 (beginning-of-line)
+                                 (buffer-substring (point) end)))))
+                 (when (cl-some (lambda (cand)
+                                  (string-prefix-p prefix (cdr cand)))
+                                xen-php-mode-backend-alist)
+                   (cons prefix t))))
+      ('candidates (all-completions
+                    arg
+                    (mapcar
+                     (lambda (cand)
+                       (if (functionp (car cand))
+                           (cons (funcall (car cand) (cdr cand)) (cdr cand))
+                         cand))
+                     xen-php-mode-backend-alist)))))
   :bind (:map php-mode-map
               ;; Override php-mode's binding of C-.
               ("C-." . embark-act))
@@ -1174,7 +1204,13 @@ targets."
   (php-mode-enable-project-coding-style nil)
   :config
   (require 'dap-php)
-  :hook (php-mode . (lambda () (subword-mode 1))))
+  :hook (php-mode . (lambda () (subword-mode 1)))
+  (php-mode . (lambda ()
+                ;; Use -90 to make sure it gets in before
+                ;; eglot-completion-at-point.
+                (add-hook 'completion-at-point-functions
+                          (cape-company-to-capf #'xen-php-mode-backend)
+                          -90 t))))
 
 (use-package po-mode
   :defer t)
