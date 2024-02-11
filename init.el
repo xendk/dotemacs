@@ -510,36 +510,26 @@
   (corfu-auto-prefix 1 "Trigger at one char")
   (corfu-count 30 "Show more candidates")
   (corfu-cycle t "Let suggestions wrap around")
-  (corfu-preselect-first nil "Don't select first candidate")
-  ;; (corfu-quit-no-match 'separator "")
-
-  ;; TODO: revisit https://github.com/minad/corfu#tab-and-go-completion
-
-  ;; check extensions: corfu-history, corfu-quick
-  ;; oh, and https://code.bsdgeek.org/adam/corfu-candidate-overlay
-
+  (corfu-preselect 'prompt "Makes tab-and-go work better")
   ;; Use TAB for cycling, default is `corfu-complete'.
   :bind
   (:map corfu-map
-        ;; ("TAB" . corfu-next)
-        ;; ([tab] . corfu-next)
-        ;; ("S-TAB" . corfu-previous)
-        ;; ([backtab] . corfu-previous)
-        ("RET" . nil))
-
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous)
+        ;; Avy jumping.
+        ("S-SPC" . corfu-quick-complete)
+        ;; Regain control over RET, C-n, C-p, <up>, and <down>.
+        ("RET" . nil)
+        ([remap next-line] . nil)
+        ([remap previous-line] . nil)
+        ("<down>" . nil)
+        ("<up>" . nil))
   :init
   (global-corfu-mode)
-  (defun dead-corfu--pre-command ()
-    "Insert selected candidate unless command is marked to continue completion."
-    (add-hook 'window-configuration-change-hook #'corfu-quit)
-    (when corfu--preview-ov
-      (delete-overlay corfu--preview-ov)
-      (setq corfu--preview-ov nil))
-    (when (and corfu-commit-predicate
-               (not (corfu--match-symbol-p corfu-continue-commands this-command))
-               (funcall corfu-commit-predicate))
-      (corfu--insert 'finished)))
-
+  ;; Doesn't quite work?
+  ;;(corfu-history-mode 1)
   ;; Clone from GitHup rather than ELPA.
   :elpaca (:host github :repo "minad/corfu" :files (:defaults "extensions/*")))
 
@@ -1288,7 +1278,9 @@ targets."
      regexp-search-ring
      last-kbd-macro
      kmacro-ring
-     shell-command-history) "Other interesting things to save")
+     shell-command-history
+     ;; corfu-history
+     ) "Other interesting things to save")
   :init
   (savehist-mode))
 

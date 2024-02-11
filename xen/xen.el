@@ -151,7 +151,7 @@ Actually shrinks the region if the point is at the start of the region."
       (move-to-column col-pos))))
 
 (defun xen-avy-goto-word-1 ()
-  "When in minibuffer or vterm-mode disable `emulation-mode-map-alists'.
+  "When in minibuffer, vterm-mode, or completion-in-region-mode disable `emulation-mode-map-alists'.
 
 Else just call `avy-goto-word-1'.
 
@@ -166,7 +166,8 @@ the minor mode is loaded first."
   (interactive)
   (if (or (window-minibuffer-p)
           (and (eq major-mode 'vterm-mode)
-               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode))))
+               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode)))
+          completion-in-region-mode)
       (let ((emulation-mode-map-alists nil)
             (binding (key-binding (kbd "S-<SPC>") t)))
         (when binding
