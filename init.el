@@ -745,8 +745,11 @@ Nominally unique, but not enforced."
     (file-name-nondirectory (directory-file-name (project-root project))))
   )
 
+;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
-  :commands eldoc-mode
+  :commands (eldoc-mode eldoc)
+  :bind
+  ("C-c ?" . eldoc)
   :delight)
 
 (use-package embark
