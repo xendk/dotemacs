@@ -742,8 +742,7 @@
   (cl-defgeneric project-name (project)
     "A human-readable name for the project.
 Nominally unique, but not enforced."
-    (file-name-nondirectory (directory-file-name (project-root project))))
-  )
+    (file-name-nondirectory (directory-file-name (project-root project)))))
 
 ;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
