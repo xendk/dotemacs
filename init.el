@@ -237,6 +237,20 @@
                '("\\*Help\\*"
                  (display-buffer-reuse-window display-buffer-pop-up-window)
                  (reusable-frames . visible)))
+  ;; `ansi-color-compilation-filter' interprets ANSI codes in the region
+  ;; from `compilation-filter-start' to point. But
+  ;; `compilation-filter' has already handled backspaces and carriage
+  ;; returns, so the start of the newly inserted output might actually
+  ;; be before `compilation-filter-start'. Hack around it by moving
+  ;; `compilation-filter-start' back to the beginning of the line it
+  ;; is within.
+  (define-advice ansi-color-compilation-filter (:around (orig-func) xen-ansi-color-compilation-filter)
+    (let ((compilation-filter-start
+           (save-excursion
+             (goto-char compilation-filter-start)
+             (beginning-of-line)
+             (point))))
+      (funcall orig-func)))
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
