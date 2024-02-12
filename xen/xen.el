@@ -106,14 +106,6 @@ Use prefix argument ARG for more copies."
   (interactive)
   (message (char-to-string (char-syntax (char-after)))))
 
-(defun xen-tab ()
-  "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
-  (interactive "*")
-  (if (or (bolp) ; Beginning of line
-          (region-active-p) ; We have an active region
-          (eq (char-syntax (char-before)) ?\ )) ; Or whitespace
-      (indent-for-tab-command)))
-
 (defun xen-mark-lines ()
   "Mark the current line, or expand the selection to another line.
 
@@ -132,7 +124,6 @@ Actually shrinks the region if the point is at the start of the region."
 (defun xen-coding-common-bindings ()
   "Common bindings and minor-modes for coding."
   (local-set-key (kbd "C-o") 'xen-open)
-  (local-set-key "TAB" 'xen-tab)
   (local-set-key [backtab] 'indent-for-tab-command))
 
 (defun xen-xml-pretty ()
