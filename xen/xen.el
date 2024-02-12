@@ -123,8 +123,7 @@ Actually shrinks the region if the point is at the start of the region."
 
 (defun xen-coding-common-bindings ()
   "Common bindings and minor-modes for coding."
-  (local-set-key (kbd "C-o") 'xen-open)
-  (local-set-key [backtab] 'indent-for-tab-command))
+  (local-set-key (kbd "C-o") 'xen-open))
 
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
