@@ -1539,12 +1539,9 @@ targets."
   :elpaca nil
   :load-path "xen"
   :demand
-  ;;:functions xen-coding-common-bindings
   :config
   ;; Tell delsel than xen-newline should delete selection.
   (put 'xen-newline 'delete-selection t)
-  :hook
-  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("RET" . xen-newline)
          ("M-SPC" . xen-cycle-spacing)
@@ -1557,6 +1554,8 @@ targets."
          ("M-g M-g" . xen-avy-goto-line)
          ("M-c" . xen-casing-map)
          ("C-c y" . xen-edit-clipboard)
+         :map prog-mode-map
+         ("C-o" . 'xen-open)
          :map xen-casing-map
          ("c" ("Capitalize" . capitalize-word))
          ("u" ("UPPERCASE" . upcase-word))

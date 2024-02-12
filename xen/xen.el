@@ -121,10 +121,6 @@ Actually shrinks the region if the point is at the start of the region."
       (end-of-line)
       (forward-char))))
 
-(defun xen-coding-common-bindings ()
-  "Common bindings and minor-modes for coding."
-  (local-set-key (kbd "C-o") 'xen-open))
-
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
   (interactive)
