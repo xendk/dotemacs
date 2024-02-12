@@ -545,7 +545,6 @@
   ;; ECR files can be anything really, but html-mode is what I most
   ;; often use.
   :mode ("\\.ecr\\'" . html-mode)
-
   :init
   ;; Tell eglot about the crystalline server.
   (with-eval-after-load 'eglot
