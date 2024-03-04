@@ -106,14 +106,6 @@ Use prefix argument ARG for more copies."
   (interactive)
   (message (char-to-string (char-syntax (char-after)))))
 
-(defun xen-tab ()
-  "Indent if on whitespace or do nothing (auto-complete/company and yasnippet will attach themselves.)."
-  (interactive "*")
-  (if (or (bolp) ; Beginning of line
-          (region-active-p) ; We have an active region
-          (eq (char-syntax (char-before)) ?\ )) ; Or whitespace
-      (indent-for-tab-command)))
-
 (defun xen-mark-lines ()
   "Mark the current line, or expand the selection to another line.
 
@@ -128,12 +120,6 @@ Actually shrinks the region if the point is at the start of the region."
             (goto-char start)))
       (end-of-line)
       (forward-char))))
-
-(defun xen-coding-common-bindings ()
-  "Common bindings and minor-modes for coding."
-  (local-set-key (kbd "C-o") 'xen-open)
-  (local-set-key [tab] 'xen-tab)
-  (local-set-key [backtab] 'indent-for-tab-command))
 
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
@@ -151,7 +137,7 @@ Actually shrinks the region if the point is at the start of the region."
       (move-to-column col-pos))))
 
 (defun xen-avy-goto-word-1 ()
-  "When in minibuffer or vterm-mode disable `emulation-mode-map-alists'.
+  "When in minibuffer, vterm-mode, or completion-in-region-mode disable `emulation-mode-map-alists'.
 
 Else just call `avy-goto-word-1'.
 
@@ -166,7 +152,8 @@ the minor mode is loaded first."
   (interactive)
   (if (or (window-minibuffer-p)
           (and (eq major-mode 'vterm-mode)
-               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode))))
+               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode)))
+          completion-in-region-mode)
       (let ((emulation-mode-map-alists nil)
             (binding (key-binding (kbd "S-<SPC>") t)))
         (when binding
@@ -177,27 +164,6 @@ the minor mode is loaded first."
 (make-face 'xen-font-awesome-face)
 (set-face-attribute 'xen-font-awesome-face nil
                     :family "FontAwesome")
-
-(defun xen-dashboard-tip (list-size)
-  "Insert a tip into the dashboard.
-
-LIST-SIZE is ignored."
-  (dashboard-insert-heading "Tip of the day" "t")
-  (insert "\n")
-  (let ((tips (with-temp-buffer
-                (insert-file-contents (locate-user-emacs-file "tips"))
-                (split-string (buffer-string) "\f" t))))
-    (insert (elt tips (random (length tips)))))
-  (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
-
-(defun xen-dashboard-todo (list-size)
-  "Insert todo in the dashboard.
-
-LIST-SIZE is ignored."
-  (dashboard-insert-heading "Todo" "o")
-  (insert "\n")
-  (insert-file-contents (locate-user-emacs-file "todo"))
-  (dashboard-insert-shortcut 'todo "o" "Todo"))
 
 ;; misc minor modes
 

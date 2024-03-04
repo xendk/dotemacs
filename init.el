@@ -45,13 +45,13 @@
 
 
 
-(defvar elpaca-installer-version 0.3)
+(defvar elpaca-installer-version 0.7)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
 (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-                              :ref nil
-                              :files (:defaults (:exclude "extensions"))
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca--activate-package)))
 (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
@@ -60,10 +60,13 @@
   (add-to-list 'load-path (if (file-exists-p build) build repo))
   (unless (file-exists-p repo)
     (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
     (condition-case-unless-debug err
         (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                 ((zerop (call-process "git" nil buffer t "clone"
-                                       (plist-get order :repo) repo)))
+                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                 ,@(when-let ((depth (plist-get order :depth)))
+                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                 ,(plist-get order :repo) ,repo))))
                  ((zerop (call-process "git" nil buffer t "checkout"
                                        (or (plist-get order :ref) "--"))))
                  (emacs (concat invocation-directory invocation-name))
@@ -71,7 +74,7 @@
                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
                  ((require 'elpaca))
                  ((elpaca-generate-autoloads "elpaca" repo)))
-            (kill-buffer buffer)
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
           (error "%s" (with-current-buffer buffer (buffer-string))))
       ((error) (warn "%s" err) (delete-directory repo 'recursive))))
   (unless (require 'elpaca-autoloads nil t)
@@ -162,6 +165,9 @@
   (browse-url-generic-program "sensible-browser" "Set a working browser")
   (c-basic-offset 'set-from-style "Use indent from c-style")
   (c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu")) "Set c-styles")
+  ;; We've activated `ansi-color-compilation-filter'.
+  (compilation-environment '("TERM=xterm-256color") "Tell compilation programs colors are OK")
+  (completion-cycle-threshold 3 "Makes Corfu tab-complete on single matches work")
   ;; Lock files mess with watchers, and I don't have much use for it
   ;; on a single-user system.
   (create-lockfiles nil "Don't create lockfiles")
@@ -236,6 +242,20 @@
                '("\\*Help\\*"
                  (display-buffer-reuse-window display-buffer-pop-up-window)
                  (reusable-frames . visible)))
+  ;; `ansi-color-compilation-filter' interprets ANSI codes in the region
+  ;; from `compilation-filter-start' to point. But
+  ;; `compilation-filter' has already handled backspaces and carriage
+  ;; returns, so the start of the newly inserted output might actually
+  ;; be before `compilation-filter-start'. Hack around it by moving
+  ;; `compilation-filter-start' back to the beginning of the line it
+  ;; is within.
+  (define-advice ansi-color-compilation-filter (:around (orig-func) xen-ansi-color-compilation-filter)
+    (let ((compilation-filter-start
+           (save-excursion
+             (goto-char compilation-filter-start)
+             (beginning-of-line)
+             (point))))
+      (funcall orig-func)))
   :config
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
@@ -351,6 +371,8 @@
                                 (doom-modeline-set-modeline 'xen-minimal)))))
 
 (use-package aas
+  ;; Let's try without for a while.
+  :disabled
   :hook (php-mode . aas-activate-for-major-mode)
   :disabled
   :config
@@ -414,6 +436,14 @@
   :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode)))
 
+(use-package cape
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  :elpaca (:host github :repo "minad/cape"))
+
 (use-package cask-mode
   :defer t)
 
@@ -427,98 +457,10 @@
                         :underline nil
                         :background (doom-darken 'warning .75))))
 
-(use-package company
-  :commands global-company-mode
-  :delight
-  ;; Global mode, can't really be deferred, but delay it until
-  ;; xen-company has had a chance to define its completer and
-  ;; functions.
-  :after (xen-company)
-  :defines company-semantic-modes
-  :custom
-  (company-auto-commit nil)
-  (company-backends
-   (quote
-    (company-elisp
-     (:separate company-capf company-dabbrev-code-xen company-gtags company-keywords :with company-yasnippet)
-     company-bbdb company-semantic company-clang company-cmake
-     (company-dabbrev-code-xen company-gtags company-etags company-keywords)
-     company-oddmuse company-files company-dabbrev)))
-  (company-dabbrev-code-everywhere nil)
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 2)
-  (company-require-match nil)
-  (company-search-regexp-function (quote company-search-words-in-any-order-regexp))
-  (company-show-numbers nil)
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above nil)
-  (company-tooltip-idle-delay 0)
-  (company-tooltip-limit 30)
-  (company-tooltip-minimum 20)
-  (company-transformers (quote (company-sort-by-occurrence xen-company-filter)))
-  :config
-  ;; Use the TAB only frontend. Configure before enabling the mode, so
-  ;; we'll get the tng frontend in before anyone makes
-  ;; company-frontends buffer local.
-  (company-tng-mode)
-
-  ;; Define a frontend that displays a preview, but only when tng
-  ;; hasn't made a selection yet.
-  (defun company-preview-common-if-not-tng-frontend (command)
-    "`company-preview-frontend', but not when tng is active."
-    (unless (or (and (eq command 'post-command)
-                     company-selection-changed
-                     (memq 'company-tng-frontend company-frontends))
-                ;; company-preview-common-frontend does not like when
-                ;; company-common is an empty string (rather than nil)
-                ;; in 'post-command.
-                (and (eq command 'post-command)
-                     (equal company-common "")))
-      (company-preview-common-frontend command)))
-  ;; Variant of `company-pseudo-tooltip-unless-just-one-frontend' that
-  ;; still shows a dropdown with only one candidate when filtering.
-  (defun company-pseudo-tooltip-unless-just-one-frontend-2 (command)
-    "`company-pseudo-tooltip-frontend', but not shown for single
-candidates, unless we're in filtering mode."
-    (unless (and (eq command 'post-command)
-                 (and (company--show-inline-p) (not company-search-filtering)))
-      (company-pseudo-tooltip-frontend command)))
-
-  (setq company-frontends '(company-tng-frontend
-                            company-pseudo-tooltip-unless-just-one-frontend-2
-                            company-preview-common-if-not-tng-frontend
-                            company-echo-metadata-frontend))
-
-  (global-company-mode)
-  ;; Redefine tab to insert common prefix first.
-  (define-key company-active-map [tab] 'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-
-  ;; Don't mess with up and down.
-  (define-key company-active-map (kbd "<down>") nil)
-  (define-key company-active-map (kbd "<up>") nil)
-
-  ;; Use return to select in search mode (muscle memory is too used to
-  ;; telling isearch that I'm done with return).
-  (define-key company-search-map [return] 'company-complete-selection)
-  (define-key company-search-map (kbd "RET") 'company-complete-selection)
-
-  ;; Swap search and filter shortcuts. I prefer filtering the dropdown
-  ;; rather than searching in it.
-  (define-key company-active-map "\C-s" 'company-filter-candidates)
-  (define-key company-active-map "\C-\M-s" 'company-search-candidates))
-
-(use-package company-restclient
-  :after (company restclient))
-
-(use-package company-tabnine
-  :disabled
-  :after company
-  :custom
-  (company-tabnine-binaries-folder "~/.config/emacs/tabnine" "Point to binary"))
-
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  ;; Disabled while experimenting with eglot.
+  :disabled
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-mode-map
               ("C-f" . copilot-accept-completion)
@@ -530,6 +472,9 @@ candidates, unless we're in filtering mode."
               ))
 
 (use-package consult
+  ;; xen-vterm requires this, and it's pretty much the first thing to
+  ;; be triggered anyway.
+  :demand t
   ;; Many more examples at https://github.com/minad/consult#use-package-example
   :bind (("C-<tab>" . xen-consult-line)
          ("C-x b" . consult-buffer)
@@ -580,6 +525,36 @@ candidates, unless we're in filtering mode."
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
+(use-package corfu
+  ;; TAB-and-Go customizations
+  :custom
+  (corfu-auto t "Enable automatic popup")
+  (corfu-auto-prefix 1 "Trigger at one char")
+  (corfu-count 30 "Show more candidates")
+  (corfu-cycle t "Let suggestions wrap around")
+  (corfu-preselect 'prompt "Makes tab-and-go work better")
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous)
+        ;; Avy jumping.
+        ("S-SPC" . corfu-quick-complete)
+        ;; Regain control over RET, C-n, C-p, <up>, and <down>.
+        ("RET" . nil)
+        ([remap next-line] . nil)
+        ([remap previous-line] . nil)
+        ("<down>" . nil)
+        ("<up>" . nil))
+  :init
+  (global-corfu-mode)
+  ;; Doesn't quite work?
+  ;;(corfu-history-mode 1)
+  ;; Clone from GitHup rather than ELPA.
+  :elpaca (:host github :repo "minad/corfu" :files (:defaults "extensions/*")))
+
 (use-package cov
   :custom-face
   (cov-heavy-face ((t (:foreground "green"))))
@@ -592,10 +567,30 @@ candidates, unless we're in filtering mode."
   ;; ECR files can be anything really, but html-mode is what I most
   ;; often use.
   :mode ("\\.ecr\\'" . html-mode)
-  ;; The language server can't figure out how to indent regions, so
-  ;; it's basically useless. Tell lsp-mode not to use it.
-  :hook (crystal-mode . (lambda ()
-                          (setq-local lsp-enable-indentation nil)))
+  :init
+  ;; Tell eglot about the crystalline server.
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(crystal-mode . ("crystalline" "--stdio"))))
+  ;; Crystalines completion is non-existent, so use keyword and
+  ;; dabbrev completion from cape instead.
+  (defalias 'crystal-capf (cape-capf-super
+                           (cape-capf-inside-code
+                            (cape-capf-super #'cape-keyword #'cape-dabbrev))
+                           ;; cape-dict could be handy, if we could
+                           ;; get orderless to only prefix match it.
+                           (cape-capf-inside-comment #'cape-dabbrev)))
+  :hook
+  (crystal-mode . (lambda ()
+                    ;; Eglot sets up completion-at-point-functions in
+                    ;; its minor mode, so use eglot-managed-mode-hook
+                    ;; to override it.
+                    (add-hook 'eglot-managed-mode-hook
+                              (lambda ()
+                                (setq-local
+                                 completion-at-point-functions
+                                 (list #'crystal-capf)))
+                              nil t)))
   :bind (:map crystal-mode-map
               ("C-c C-t" . crystal-spec-switch)))
 
@@ -608,7 +603,7 @@ candidates, unless we're in filtering mode."
 
 (use-package custode
   :load-path "custode"
-  :elpaca (:type git :host github :repo "xendk/custode.el")q
+  :elpaca (:type git :host github :repo "xendk/custode.el")
   :init
   (global-custode-mode)
   :config
@@ -657,6 +652,17 @@ candidates, unless we're in filtering mode."
                                       (goto-char (point-min))
                                       (redisplay)
                                       (run-hooks 'dashboard-after-initialize-hook)))
+  (defun xen-dashboard-tip (list-size)
+    "Insert a tip into the dashboard.
+
+LIST-SIZE is ignored."
+    (dashboard-insert-heading "Tip of the day" "t")
+    (insert "\n")
+    (let ((tips (with-temp-buffer
+                  (insert-file-contents (locate-user-emacs-file "tips"))
+                  (split-string (buffer-string) "\f" t))))
+      (insert (elt tips (random (length tips)))))
+    (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
   (dashboard-projects-backend 'project-el "Use project backend")
@@ -693,7 +699,9 @@ candidates, unless we're in filtering mode."
   :init
   (dimmer-configure-which-key)
   (dimmer-configure-magit)
-  (dimmer-mode t))
+  (dimmer-mode t)
+  (add-to-list
+   'dimmer-exclusion-regexp-list "^ \\*corfu\\*$"))
 
 ;; Built in.
 (use-package display-line-numbers-mode
@@ -704,8 +712,8 @@ candidates, unless we're in filtering mode."
   (display-line-numbers-major-tick 20 "Show major line ever 20 lines")
   (display-line-numbers-minor-tick 5 "Show minor line every 5 lines")
   :custom-face
-  (line-number-major-tick ((t (:foreground "dark gray"))))
-  (line-number-minor-tick ((t (:foreground "dim gray"))))
+  (line-number-major-tick ((t (:foreground "dark gray" :background unspecified))))
+  (line-number-minor-tick ((t (:foreground "dim gray" :background unspecified))))
   :hook (prog-mode . (lambda ()
                        "Enable line numbers in file-visiting buffers."
                        (when (buffer-file-name (buffer-base-buffer))
@@ -743,8 +751,23 @@ candidates, unless we're in filtering mode."
 (use-package edit-indirect
   :after markdown-mode)
 
+(use-package eglot
+  :elpaca nil
+  :hook
+  (prog-mode . (lambda ()
+                 (when (eglot--lookup-mode major-mode)
+                   (eglot-ensure))))
+  :config
+  ;; Don't pass Emacs process id to servers. Lang servers running in
+  ;; docker can't see the Emacs process, so they think it died and
+  ;; exits.
+  (setq eglot-withhold-process-id t))
+
+;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
-  :commands eldoc-mode
+  :commands (eldoc-mode eldoc)
+  :bind
+  ("C-c ?" . eldoc)
   :delight)
 
 (use-package embark
@@ -877,18 +900,25 @@ targets."
     (set-face-attribute 'flycheck-color-mode-line-success-face nil
                         :background (doom-darken 'success .75))))
 
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (use-package flycheck-package
   :commands flycheck-package-setup
   :hook (flycheck-mode . flycheck-package-setup))
 
+;; TODO: Might be obsoleted by phpactor (together with the tool
+;; finding code).
 (use-package flycheck-phpstan
   :elpaca (flycheck-phpstan :host github :repo "xendk/phpstan.el" :branch "no-files-message")
   :hook
   (php-mode . (lambda ()
                 ;; Use error level from phpstan.neon.
                 (setq phpstan-level nil)))
-  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'php-phpcs 'phpstan)))
-  :after (flycheck lsp-mode)
+  :after (flycheck)
   :custom
   (phpstan-enable-on-no-config-file nil))
 
@@ -910,10 +940,7 @@ targets."
   :config
   ;; Tell gopls that we're using go modules.
   (setenv "GO111MODULE" "on")
-  :hook ((go-mode . subword-mode)
-         (go-mode . (lambda ()
-                      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                      (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
+  :hook ((go-mode . subword-mode)))
 
 (use-package google-this
   :commands (google-this-mode google-this-region)
@@ -1013,63 +1040,6 @@ targets."
   :commands literate-calc-mode
   :defer t)
 
-(use-package lsp-mode
-  :commands lsp lsp-deferred
-  ;; Can't add to company-backends before company has been loaded.
-  :after company
-  :custom
-  (lsp-keymap-prefix "C-c l" "Set the keymap prefix")
-  (lsp-log-max 1000 "Limit log entries to a thousand lines")
-  (lsp-serenata-file-extensions ["php" "inc" "module" "install" "theme"] "Add Drupal file extensions to scanned files")
-  (lsp-serenata-index-database-uri "/home/xen/.cache/index.sqlite" "Set db path")
-  (lsp-serenata-server-path "serenata" "Set server path")
-  (lsp-solargraph-use-bundler t "Use the bundler installed Solargraph")
-  (lsp-clients-crystal-executable '("crystalline" "--stdio") "Use crystalline instead of scry")
-  :init
-  ;; Recommended setup.
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-prefer-capf t)
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  (lsp-mode . lsp-enable-which-key-integration)
-  ;; Check lsp-language-id-configuration for supported modes.
-  ((css-mode
-    crystal-mode
-    dockerfile-mode
-    go-mode
-    html-mode
-    js-mode
-    json-mode
-    ;; Doesn't work for gfm-mode. Also, install unified-language-server.
-    ;; markdown-mode
-    nxml-mode
-    php-mode
-    rjsx-mode
-    enh-ruby-mode
-    scss-mode
-    sh-mode
-    sql-mode
-    typescript-mode
-    xml-mode
-    yaml-mode) . lsp-deferred)
-  ;; This is not proper as the lsp checker is global across modes, and
-  ;; this adds php-phpcs in all modes. But until lsp/flycheck deals
-  ;; with this problem, this will work.
-  (lsp-diagnostics-mode . (lambda () (flycheck-add-next-checker 'lsp 'php-phpcs)))
-  :config
-  (unbind-key "C-S-SPC" lsp-mode-map))
-
-(use-package lsp-ui
-  :commands (lsp-ui-mode lsp-ui-sideline-mode)
-  :after lsp
-  :custom-face
-  (lsp-ui-sideline-global ((t (:background "#3f444a"))))
-  :config
-  ;; Use sideline mode in all flycheck buffers. Better than displaying
-  ;; in mini-buffer or flycheck-inline.
-  :hook (flycheck-mode . lsp-ui-sideline-mode))
-
 ;; For doom-modeline.
 (use-package nerd-icons)
 
@@ -1091,9 +1061,13 @@ targets."
   ;; creating fixup and squash commits.
   (magit-commit-squash-confirm nil)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind (("C-c g g" ("Status" . magit-status))
-         ("C-c g d" ("Dispatch" . magit-dispatch))
-         ("C-c g f" ("File dispatch" . magit-file-dispatch)))
+  ;; After upgrading to 29, this doesn't work anymore.
+  ;; :bind (("C-c g g" ("Status" . magit-status))
+  ;;        ("C-c g d" ("Dispatch" . magit-dispatch))
+  ;;        ("C-c g f" ("File dispatch" . magit-file-dispatch)))
+  :bind (("C-c g g" . magit-status)
+         ("C-c g d" . magit-dispatch)
+         ("C-c g f" . magit-file-dispatch))
   :hook
   (git-commit-setup . xen-git-commit-setup)
   (git-commit-mode . turn-on-auto-fill)
@@ -1156,6 +1130,12 @@ targets."
 (use-package olivetti
   :defer t)
 
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless partial-completion basic)
+        completion-category-defaults nil
+        completion-category-overrides nil))
+
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
@@ -1200,6 +1180,36 @@ targets."
   ("\\.inc\\'" . php-mode)
   ("\\.module\\'" . php-mode)
   :magic ("<?php" . php-mode-maybe)
+  :init
+  ;; A custom company-backend (which cape-company-to-capf will make a
+  ;; proper capf) completes some very common PHP idioms.
+  (defvar xen-php-mode-backend-alist
+    '(("declare(strict_types=1);" . "declare")
+      ("<?php" . "<?ph")
+      (xen-php-mode-backend-prefix . "class ")
+      (xen-php-mode-backend-prefix . "interface ")))
+  (defun xen-php-mode-backend-prefix (prefix)
+    "Return class/interface based on the current file name."
+    (concat prefix (file-name-sans-extension
+                    (file-name-nondirectory (buffer-file-name)))))
+  (defun xen-php-mode-backend (action &optional arg &rest _)
+    (pcase action
+      ('prefix (let ((prefix (save-excursion
+                               (let ((end (point)))
+                                 (beginning-of-line)
+                                 (buffer-substring (point) end)))))
+                 (when (cl-some (lambda (cand)
+                                  (string-prefix-p prefix (cdr cand)))
+                                xen-php-mode-backend-alist)
+                   (cons prefix t))))
+      ('candidates (all-completions
+                    arg
+                    (mapcar
+                     (lambda (cand)
+                       (if (functionp (car cand))
+                           (cons (funcall (car cand) (cdr cand)) (cdr cand))
+                         cand))
+                     xen-php-mode-backend-alist)))))
   :bind (:map php-mode-map
               ;; Override php-mode's binding of C-.
               ("C-." . embark-act))
@@ -1208,7 +1218,13 @@ targets."
   (php-mode-enable-project-coding-style nil)
   :config
   (require 'dap-php)
-  :hook (php-mode . (lambda () (subword-mode 1))))
+  :hook (php-mode . (lambda () (subword-mode 1)))
+  (php-mode . (lambda ()
+                ;; Use -90 to make sure it gets in before
+                ;; eglot-completion-at-point.
+                (add-hook 'completion-at-point-functions
+                          (cape-company-to-capf #'xen-php-mode-backend)
+                          -90 t))))
 
 (use-package po-mode
   :defer t)
@@ -1287,7 +1303,9 @@ targets."
      regexp-search-ring
      last-kbd-macro
      kmacro-ring
-     shell-command-history) "Other interesting things to save")
+     shell-command-history
+     ;; corfu-history
+     ) "Other interesting things to save")
   :init
   (savehist-mode))
 
@@ -1545,13 +1563,10 @@ targets."
 (use-package xen
   :elpaca nil
   :load-path "xen"
-  :demand
-  ;;:functions xen-coding-common-bindings
+  :demand t
   :config
   ;; Tell delsel than xen-newline should delete selection.
   (put 'xen-newline 'delete-selection t)
-  :hook
-  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . xen-coding-common-bindings)
   :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("RET" . xen-newline)
          ("M-SPC" . xen-cycle-spacing)
@@ -1564,93 +1579,92 @@ targets."
          ("M-g M-g" . xen-avy-goto-line)
          ("M-c" . xen-casing-map)
          ("C-c y" . xen-edit-clipboard)
-         :map xen-casing-map
-         ("c" ("Capitalize" . capitalize-word))
-         ("u" ("UPPERCASE" . upcase-word))
-         ("l" ("downcase" . downcase-word))
-         ("s" ("snake_case" . string-inflection-underscore))
-         ("n" ("UPPER_SNAKE" . string-inflection-upcase))
-         ("a" ("camelCase" . string-inflection-lower-camelcase))
-         ("m" ("CamelCase" . string-inflection-camelcase))
-         ("k" ("kebab-case" . string-inflection-kebab-case))))
+         :map prog-mode-map
+         ("C-o" . 'xen-open)
+         ;; :map xen-casing-map
+         ;; ("c" ("Capitalize" . capitalize-word))
+         ;; ("u" ("UPPERCASE" . upcase-word))
+         ;; ("l" ("downcase" . downcase-word))
+         ;; ("s" ("snake_case" . string-inflection-underscore))
+         ;; ("n" ("UPPER_SNAKE" . string-inflection-upcase))
+         ;; ("a" ("camelCase" . string-inflection-lower-camelcase))
+         ;; ("m" ("CamelCase" . string-inflection-camelcase))
+         ;; ("k" ("kebab-case" . string-inflection-kebab-case))
+         ))
 
-(elpaca nil
-  (use-package xen-company
-    :elpaca nil
-    :load-path "xen")
+(use-package xen-flycheck
+  :elpaca nil
+  :load-path "xen"
+  :functions xen-flycheck-mode-line-status-text
+  :bind (:map flycheck-mode-map
+              ("C-c ! s" . xen-flycheck-insert-suppressor)))
 
-  (use-package xen-flycheck
-    :elpaca nil
-    :load-path "xen"
-    :functions xen-flycheck-mode-line-status-text
-    :bind (:map flycheck-mode-map
-                ("C-c ! s" . xen-flycheck-insert-suppressor)))
+(use-package xen-paired-delete
+  :elpaca nil
+  :load-path "xen"
+  :after (smartparens)
+  :config
+  (global-xen-paired-delete-mode))
 
-  (use-package xen-paired-delete
-    :elpaca nil
-    :load-path "xen"
-    :after (smartparens)
-    :config
-    (global-xen-paired-delete-mode))
+(use-package xen-php
+  :elpaca nil
+  :load-path "xen"
+  :commands xen-php-setup-tools
+  :hook
+  ;; Use hack-local-variables-hook to run after `.dir-local.el'
+  ;; variables has been set.
+  (php-mode . (lambda ()
+                (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
+  :config
+  (with-eval-after-load "expand-region"
+    (add-hook 'php-mode-hook #'xen-php-mode-expansions))
+  (sp-with-modes '(php-mode)
+    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
+                                              (" |\n[i]" "RET")
+                                              (xen-php-handle-docstring "*")))
 
-  (use-package xen-php
-    :elpaca nil
-    :load-path "xen"
-    :commands xen-php-setup-tools
-    :hook
-    ;; Use hack-local-variables-hook to run after `.dir-local.el'
-    ;; variables has been set.
-    (php-mode . (lambda ()
-                  (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
-    :config
-    (with-eval-after-load "expand-region"
-      (add-hook 'php-mode-hook #'xen-php-mode-expansions))
-    (sp-with-modes '(php-mode)
-      (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
-                                                (" |\n[i]" "RET")
-                                                (xen-php-handle-docstring "*")))
+    ;; When pressing return as the first thing after inserting
+    ;; a {, [ or (, add another and indent.
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
+  :bind (:map php-mode-map
+              ;; Unbind c-electric-paren ta fall back to
+              ;; self-insert-command, which allows smartparens to do
+              ;; its magic.
+              ("(" . nil)
+              (")" . nil)
+              ("C-c u" . xen-php-make-use))
+  :after (php-mode smartparens))
 
-      ;; When pressing return as the first thing after inserting
-      ;; a {, [ or (, add another and indent.
-      (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-      (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-      (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
-    :bind (:map php-mode-map
-                ;; Unbind c-electric-paren ta fall back to
-                ;; self-insert-command, which allows smartparens to do
-                ;; its magic.
-                ("(" . nil)
-                (")" . nil)
-                ("C-c u" . xen-php-make-use))
-    :after (php-mode smartparens))
+(use-package xen-project
+  :elpaca nil
+  :load-path "xen"
+  :after (project)
+  :bind (:map project-prefix-map
+              ("s" . xen-project-switch-to-shell)
+              ("S" . xen-project-vterm)
+              ("U" . xen-docker-compose-up)
+              ("g" . consult-ripgrep)
+              ;; Remove obsoleted.
+              ("e" . nil)
+              ("v" . nil))
+  :init
+  (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
+  (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
+  ;; Remove those obsoleted by the above.
+  (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
+  (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
+  (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands))
+  )
 
-  (use-package xen-project
-    :elpaca nil
-    :load-path "xen"
-    :after (project)
-    :bind (:map project-prefix-map
-                ("s" . xen-project-switch-to-shell)
-                ("S" . xen-project-vterm)
-                ("U" . xen-docker-compose-up)
-                ("g" . consult-ripgrep)
-                ;; Remove obsoleted.
-                ("e" . nil)
-                ("v" . nil))
-    :init
-    (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
-    (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
-    ;; Remove those obsoleted by the above.
-    (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
-    (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
-    (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands)))
-
-  (use-package xen-vterm
-    :elpaca nil
-    :load-path "xen"
-    :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
-    :bind
-    ("C-c s" . xen-switch-to-shell)
-    ("C-c S" . vterm)))
+(use-package xen-vterm
+  :elpaca nil
+  :load-path "xen"
+  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
+  :bind
+  ("C-c s" . xen-switch-to-shell)
+  ("C-c S" . vterm))
 
 (use-package yaml-mode
   :mode "\\.(e?ya?ml|neon)\\(.dist\\)$")
