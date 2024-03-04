@@ -165,27 +165,6 @@ the minor mode is loaded first."
 (set-face-attribute 'xen-font-awesome-face nil
                     :family "FontAwesome")
 
-(defun xen-dashboard-tip (list-size)
-  "Insert a tip into the dashboard.
-
-LIST-SIZE is ignored."
-  (dashboard-insert-heading "Tip of the day" "t")
-  (insert "\n")
-  (let ((tips (with-temp-buffer
-                (insert-file-contents (locate-user-emacs-file "tips"))
-                (split-string (buffer-string) "\f" t))))
-    (insert (elt tips (random (length tips)))))
-  (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
-
-(defun xen-dashboard-todo (list-size)
-  "Insert todo in the dashboard.
-
-LIST-SIZE is ignored."
-  (dashboard-insert-heading "Todo" "o")
-  (insert "\n")
-  (insert-file-contents (locate-user-emacs-file "todo"))
-  (dashboard-insert-shortcut 'todo "o" "Todo"))
-
 ;; misc minor modes
 
 (defun xen-fix-minor-mode-order (file)

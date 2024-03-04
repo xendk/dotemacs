@@ -45,13 +45,13 @@
 
 
 
-(defvar elpaca-installer-version 0.3)
+(defvar elpaca-installer-version 0.7)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
 (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-                              :ref nil
-                              :files (:defaults (:exclude "extensions"))
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca--activate-package)))
 (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
@@ -60,10 +60,13 @@
   (add-to-list 'load-path (if (file-exists-p build) build repo))
   (unless (file-exists-p repo)
     (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
     (condition-case-unless-debug err
         (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                 ((zerop (call-process "git" nil buffer t "clone"
-                                       (plist-get order :repo) repo)))
+                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                 ,@(when-let ((depth (plist-get order :depth)))
+                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                 ,(plist-get order :repo) ,repo))))
                  ((zerop (call-process "git" nil buffer t "checkout"
                                        (or (plist-get order :ref) "--"))))
                  (emacs (concat invocation-directory invocation-name))
@@ -71,7 +74,7 @@
                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
                  ((require 'elpaca))
                  ((elpaca-generate-autoloads "elpaca" repo)))
-            (kill-buffer buffer)
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
           (error "%s" (with-current-buffer buffer (buffer-string))))
       ((error) (warn "%s" err) (delete-directory repo 'recursive))))
   (unless (require 'elpaca-autoloads nil t)
@@ -467,6 +470,9 @@
               ))
 
 (use-package consult
+  ;; xen-vterm requires this, and it's pretty much the first thing to
+  ;; be triggered anyway.
+  :demand t
   ;; Many more examples at https://github.com/minad/consult#use-package-example
   :bind (("C-<tab>" . xen-consult-line)
          ("C-x b" . consult-buffer)
@@ -595,7 +601,7 @@
 
 (use-package custode
   :load-path "custode"
-  :elpaca (:type git :host github :repo "xendk/custode.el")q
+  :elpaca (:type git :host github :repo "xendk/custode.el")
   :init
   (global-custode-mode)
   :config
@@ -644,6 +650,17 @@
                                       (goto-char (point-min))
                                       (redisplay)
                                       (run-hooks 'dashboard-after-initialize-hook)))
+  (defun xen-dashboard-tip (list-size)
+    "Insert a tip into the dashboard.
+
+LIST-SIZE is ignored."
+    (dashboard-insert-heading "Tip of the day" "t")
+    (insert "\n")
+    (let ((tips (with-temp-buffer
+                  (insert-file-contents (locate-user-emacs-file "tips"))
+                  (split-string (buffer-string) "\f" t))))
+      (insert (elt tips (random (length tips)))))
+    (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
   (dashboard-projects-backend 'project-el "Use project backend")
@@ -693,8 +710,8 @@
   (display-line-numbers-major-tick 20 "Show major line ever 20 lines")
   (display-line-numbers-minor-tick 5 "Show minor line every 5 lines")
   :custom-face
-  (line-number-major-tick ((t (:foreground "dark gray" :background nil))))
-  (line-number-minor-tick ((t (:foreground "dim gray" :background nil))))
+  (line-number-major-tick ((t (:foreground "dark gray" :background unspecified))))
+  (line-number-minor-tick ((t (:foreground "dim gray" :background unspecified))))
   :hook (prog-mode . (lambda ()
                        "Enable line numbers in file-visiting buffers."
                        (when (buffer-file-name (buffer-base-buffer))
@@ -1055,9 +1072,13 @@ targets."
   ;; creating fixup and squash commits.
   (magit-commit-squash-confirm nil)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind (("C-c g g" ("Status" . magit-status))
-         ("C-c g d" ("Dispatch" . magit-dispatch))
-         ("C-c g f" ("File dispatch" . magit-file-dispatch)))
+  ;; After upgrading to 29, this doesn't work anymore.
+  ;; :bind (("C-c g g" ("Status" . magit-status))
+  ;;        ("C-c g d" ("Dispatch" . magit-dispatch))
+  ;;        ("C-c g f" ("File dispatch" . magit-file-dispatch)))
+  :bind (("C-c g g" . magit-status)
+         ("C-c g d" . magit-dispatch)
+         ("C-c g f" . magit-file-dispatch))
   :hook
   (git-commit-setup . xen-git-commit-setup)
   (git-commit-mode . turn-on-auto-fill)
@@ -1553,7 +1574,7 @@ targets."
 (use-package xen
   :elpaca nil
   :load-path "xen"
-  :demand
+  :demand t
   :config
   ;; Tell delsel than xen-newline should delete selection.
   (put 'xen-newline 'delete-selection t)
@@ -1571,92 +1592,90 @@ targets."
          ("C-c y" . xen-edit-clipboard)
          :map prog-mode-map
          ("C-o" . 'xen-open)
-         :map xen-casing-map
-         ("c" ("Capitalize" . capitalize-word))
-         ("u" ("UPPERCASE" . upcase-word))
-         ("l" ("downcase" . downcase-word))
-         ("s" ("snake_case" . string-inflection-underscore))
-         ("n" ("UPPER_SNAKE" . string-inflection-upcase))
-         ("a" ("camelCase" . string-inflection-lower-camelcase))
-         ("m" ("CamelCase" . string-inflection-camelcase))
-         ("k" ("kebab-case" . string-inflection-kebab-case))))
+         ;; :map xen-casing-map
+         ;; ("c" ("Capitalize" . capitalize-word))
+         ;; ("u" ("UPPERCASE" . upcase-word))
+         ;; ("l" ("downcase" . downcase-word))
+         ;; ("s" ("snake_case" . string-inflection-underscore))
+         ;; ("n" ("UPPER_SNAKE" . string-inflection-upcase))
+         ;; ("a" ("camelCase" . string-inflection-lower-camelcase))
+         ;; ("m" ("CamelCase" . string-inflection-camelcase))
+         ;; ("k" ("kebab-case" . string-inflection-kebab-case))
+         ))
 
-(elpaca nil
-  ;; (use-package xen-company
-  ;;   :load-path "xen")
+(use-package xen-flycheck
+  :elpaca nil
+  :load-path "xen"
+  :functions xen-flycheck-mode-line-status-text
+  :bind (:map flycheck-mode-map
+              ("C-c ! s" . xen-flycheck-insert-suppressor)))
 
-  (use-package xen-flycheck
-    :elpaca nil
-    :load-path "xen"
-    :functions xen-flycheck-mode-line-status-text
-    :bind (:map flycheck-mode-map
-                ("C-c ! s" . xen-flycheck-insert-suppressor)))
+(use-package xen-paired-delete
+  :elpaca nil
+  :load-path "xen"
+  :after (smartparens)
+  :config
+  (global-xen-paired-delete-mode))
 
-  (use-package xen-paired-delete
-    :elpaca nil
-    :load-path "xen"
-    :after (smartparens)
-    :config
-    (global-xen-paired-delete-mode))
+(use-package xen-php
+  :elpaca nil
+  :load-path "xen"
+  :commands xen-php-setup-tools
+  :hook
+  ;; Use hack-local-variables-hook to run after `.dir-local.el'
+  ;; variables has been set.
+  (php-mode . (lambda ()
+                (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
+  :config
+  (with-eval-after-load "expand-region"
+    (add-hook 'php-mode-hook #'xen-php-mode-expansions))
+  (sp-with-modes '(php-mode)
+    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
+                                              (" |\n[i]" "RET")
+                                              (xen-php-handle-docstring "*")))
 
-  (use-package xen-php
-    :elpaca nil
-    :load-path "xen"
-    :commands xen-php-setup-tools
-    :hook
-    ;; Use hack-local-variables-hook to run after `.dir-local.el'
-    ;; variables has been set.
-    (php-mode . (lambda ()
-                  (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
-    :config
-    (with-eval-after-load "expand-region"
-      (add-hook 'php-mode-hook #'xen-php-mode-expansions))
-    (sp-with-modes '(php-mode)
-      (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
-                                                (" |\n[i]" "RET")
-                                                (xen-php-handle-docstring "*")))
+    ;; When pressing return as the first thing after inserting
+    ;; a {, [ or (, add another and indent.
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
+    (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
+  :bind (:map php-mode-map
+              ;; Unbind c-electric-paren ta fall back to
+              ;; self-insert-command, which allows smartparens to do
+              ;; its magic.
+              ("(" . nil)
+              (")" . nil)
+              ("C-c u" . xen-php-make-use))
+  :after (php-mode smartparens))
 
-      ;; When pressing return as the first thing after inserting
-      ;; a {, [ or (, add another and indent.
-      (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-      (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-      (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
-    :bind (:map php-mode-map
-                ;; Unbind c-electric-paren ta fall back to
-                ;; self-insert-command, which allows smartparens to do
-                ;; its magic.
-                ("(" . nil)
-                (")" . nil)
-                ("C-c u" . xen-php-make-use))
-    :after (php-mode smartparens))
+(use-package xen-project
+  :elpaca nil
+  :load-path "xen"
+  :after (project)
+  :bind (:map project-prefix-map
+              ("s" . xen-project-switch-to-shell)
+              ("S" . xen-project-vterm)
+              ("U" . xen-docker-compose-up)
+              ("g" . consult-ripgrep)
+              ;; Remove obsoleted.
+              ("e" . nil)
+              ("v" . nil))
+  :init
+  (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
+  (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
+  ;; Remove those obsoleted by the above.
+  (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
+  (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
+  (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands))
+  )
 
-  (use-package xen-project
-    :elpaca nil
-    :load-path "xen"
-    :after (project)
-    :bind (:map project-prefix-map
-                ("s" . xen-project-switch-to-shell)
-                ("S" . xen-project-vterm)
-                ("U" . xen-docker-compose-up)
-                ("g" . consult-ripgrep)
-                ;; Remove obsoleted.
-                ("e" . nil)
-                ("v" . nil))
-    :init
-    (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
-    (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
-    ;; Remove those obsoleted by the above.
-    (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
-    (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
-    (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands)))
-
-  (use-package xen-vterm
-    :elpaca nil
-    :load-path "xen"
-    :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
-    :bind
-    ("C-c s" . xen-switch-to-shell)
-    ("C-c S" . vterm)))
+(use-package xen-vterm
+  :elpaca nil
+  :load-path "xen"
+  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
+  :bind
+  ("C-c s" . xen-switch-to-shell)
+  ("C-c S" . vterm))
 
 (use-package yaml-mode
   :mode "\\.(e?ya?ml|neon)\\(.dist\\)$")
