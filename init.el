@@ -750,7 +750,7 @@ LIST-SIZE is ignored."
   :after markdown-mode)
 
 (use-package eglot
-  :elpaca (:host github :repo "joaotavora/eglot" :branch "master")
+  :elpaca nil
   :hook
   (prog-mode . (lambda ()
                  (when (eglot--lookup-mode major-mode)
@@ -759,12 +759,7 @@ LIST-SIZE is ignored."
   ;; Don't pass Emacs process id to servers. Lang servers running in
   ;; docker can't see the Emacs process, so they think it died and
   ;; exits.
-  (setq eglot-withhold-process-id t)
-  ;; eglot uses this Emacs 29 function, backport it.
-  (cl-defgeneric project-name (project)
-    "A human-readable name for the project.
-Nominally unique, but not enforced."
-    (file-name-nondirectory (directory-file-name (project-root project)))))
+  (setq eglot-withhold-process-id t))
 
 ;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
@@ -906,16 +901,8 @@ targets."
 (use-package flycheck-eglot
   :ensure t
   :after (flycheck eglot)
-  ;;:custom (flycheck-eglot-exclusive nil)
   :config
-  (global-flycheck-eglot-mode 1)
-  ;; Using flycheck-eglot-exclusive nil doesn't seem to work, but it
-  ;; seems like the php checker doesn't pass control properly to the
-  ;; php-phpcs checker. So add it manually for the moment being.
-  ;; TODO: phpactor seems to be able to run phpstan, and should be
-  ;; able to do the same with phpcs, so look into that.
-  :hook (flycheck-eglot-mode . (lambda ()
-                                 (flycheck-add-next-checker 'eglot-check 'php-phpcs))))
+  (global-flycheck-eglot-mode 1))
 
 (use-package flycheck-package
   :commands flycheck-package-setup
