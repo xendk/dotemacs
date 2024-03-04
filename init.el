@@ -165,6 +165,8 @@
   (browse-url-generic-program "sensible-browser" "Set a working browser")
   (c-basic-offset 'set-from-style "Use indent from c-style")
   (c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu")) "Set c-styles")
+  ;; We've activated `ansi-color-compilation-filter'.
+  (compilation-environment '("TERM=xterm-256color") "Tell compilation programs colors are OK")
   (completion-cycle-threshold 3 "Makes Corfu tab-complete on single matches work")
   ;; Lock files mess with watchers, and I don't have much use for it
   ;; on a single-user system.
