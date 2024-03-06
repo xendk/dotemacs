@@ -305,13 +305,15 @@
   (doom-themes-org-config))
 
 (use-package doom-modeline
-  ;; Load after flycheck-color-mode-line in order for doom-modeline to
-  ;; remaps its mode-line faces.
-  :after (flycheck-color-mode-line)
   :init
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
-  (doom-modeline-mode)
   :config
+  ;; Define an alternative 'main that has `check' after `buffer-info'
+  ;; so it's visible even if the mode-line gets truncated.
+  (doom-modeline-def-modeline 'xen-main
+    '(eldoc bar workspace-name window-number modals matches follow buffer-info check remote-host buffer-position word-count parrot selection-info)
+    '(compilation objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs time))
+
   ;; Define a custom mode-line segment.
   (doom-modeline-def-segment buffer-info-simple-icon
     "As `buffer-info', but without state icon."
@@ -319,10 +321,12 @@
      (doom-modeline-spc)
      (doom-modeline--buffer-mode-icon)
      (doom-modeline--buffer-name)))
+
   ;; As 'minimal, but without buffer state icon.
   (doom-modeline-def-modeline 'xen-minimal
     '(bar matches buffer-info-simple-icon)
     '(media-info major-mode " "))
+
   ;; Set the mode-line of special buffers that existed before
   ;; doom-modeline was loaded.
   (with-eval-after-load "seq"
@@ -334,19 +338,24 @@
       (dolist (buffer buffers)
         (with-current-buffer buffer
           (doom-modeline-set-modeline 'xen-minimal)))))
+  :hook
+  (elpaca-after-init . doom-modeline-mode)
   ;; Use xen-minimal in misc virtual buffers.
-  :hook ((vterm-mode
-          lisp-interaction-mode
-          ;; special-mode covers messages buffer, dashboard, help
-          ;; buffer and more.
-          special-mode) . (lambda ()
-                            ;; dashboard calls its hooks before
-                            ;; doom-modeline is loaded, so guard the
-                            ;; set with boundp. The dashboard buffer
-                            ;; modeline will be fixed by the
-                            ;; with-eval-after-load.
-                            (if (fboundp 'doom-modeline-set-modeline)
-                                (doom-modeline-set-modeline 'xen-minimal)))))
+  ((vterm-mode
+    lisp-interaction-mode
+    ;; special-mode covers messages buffer, dashboard, help
+    ;; buffer and more.
+    special-mode) . (lambda ()
+                      ;; dashboard calls its hooks before
+                      ;; doom-modeline is loaded, so guard the
+                      ;; set with boundp. The dashboard buffer
+                      ;; modeline will be fixed by the
+                      ;; with-eval-after-load.
+                      (if (fboundp 'doom-modeline-set-modeline)
+                          (doom-modeline-set-modeline 'xen-minimal))))
+
+  (doom-modeline-mode . (lambda ()
+                          (doom-modeline-set-modeline 'xen-main 'default))))
 
 (use-package aas
   ;; Let's try without for a while.
@@ -853,30 +862,11 @@ targets."
               ("M-<down>" . flycheck-next-error))
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
-  :hook (after-init . global-flycheck-mode))
+  :hook (elpaca-after-init . global-flycheck-mode))
 
 (use-package flycheck-cask
   :commands flycheck-cask-setup
   :hook (flycheck-mode . flycheck-cask-setup))
-
-(use-package flycheck-color-mode-line
-  :commands flycheck-color-mode-line-mode
-  ;; doom-modeline depends on this, so it can't be deferred, lest we
-  ;; want to see default modelines.
-  :demand t
-  :hook (flycheck-mode . flycheck-color-mode-line-mode)
-  :config
-  (with-eval-after-load "doom-themes"
-    (set-face-attribute 'flycheck-color-mode-line-error-face nil :inherit nil
-                        :background (doom-darken 'error .60))
-    (set-face-attribute 'flycheck-color-mode-line-warning-face nil :inherit nil
-                        :background (doom-darken 'warning .70))
-    (set-face-attribute 'flycheck-color-mode-line-info-face nil :inherit nil
-                        :background (doom-darken 'blue .75))
-    (set-face-attribute 'flycheck-color-mode-line-running-face nil :inherit nil
-                        :background (doom-darken 'cyan .70))
-    (set-face-attribute 'flycheck-color-mode-line-success-face nil
-                        :background (doom-darken 'success .75))))
 
 (use-package flycheck-eglot
   :ensure t
