@@ -10,8 +10,8 @@
 ;; Setup some things that can't wait for customize to load. Set
 ;; foreground and background color to avoid flashing when doom-theme
 ;; gets activated.
-(set-face-foreground 'default "#bbc2cf")
-(set-face-background 'default "#21242b")
+(set-face-foreground 'default "#3B4252")
+(set-face-background 'default "#E5E9F0")
 ;; Set font too. TODO: This should be determined automatically:
 ;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
 (set-face-attribute 'default nil :height 120 :width

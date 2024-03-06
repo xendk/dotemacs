@@ -278,21 +278,18 @@
 ;; default colors in case of error later.
 (use-package doom-themes
   :config
-  ;; Make the comments brighter and loose the background color.
-  (setq doom-one-brighter-comments t)
-
+  ;; Make the comments and modeline brighter.
+  (setq doom-nord-light-brighter-comments t)
+  (setq doom-nord-light-brighter-modeline t)
   ;; Load the theme
-  (load-theme 'doom-one t)
+  (load-theme 'doom-nord-light t)
 
-  ;; Make the background darker.
-  (set-face-background 'default "#21242b")
-
-  ;; Remove background color on comments.
+  ;; Remove background color on comments (why does setting
+  ;; doom-nord-comment-bg to nil not work?).
   (set-face-background 'font-lock-comment-face nil)
 
-  ;; Adjust hl-line color.
-  (with-eval-after-load 'hl-line
-    (set-face-background 'hl-line "#282c34"))
+  ;; White background for inactive mode-line is no-go for me.
+  (set-face-background 'mode-line-inactive (doom-lighten (doom-color 'modeline-bg) .3))
 
   ;; Make symbol highlight and region highlights a darker version of the region.
   (with-eval-after-load 'region-occurrences-highlighter
@@ -436,7 +433,7 @@
   (with-eval-after-load "doom-themes"
     (set-face-attribute 'column-enforce-face nil :inherit nil
                         :underline nil
-                        :background (doom-darken 'warning .75))))
+                        :background (doom-lighten 'warning .75))))
 
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
