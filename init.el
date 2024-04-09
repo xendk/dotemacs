@@ -65,6 +65,15 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
+;; Bit of hackery to update use-package.
+(elpaca use-package
+  (use-package use-package
+    :config
+    ;; Collect statistics for use-package-report.
+    (setq use-package-compute-statistics t)
+    :custom
+    (use-package-verbose t)))
+
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable :elpaca use-package keyword.
@@ -84,13 +93,6 @@
 
 ;; Block until current queue processed.
 (elpaca-wait)
-
-(use-package use-package
-  :config
-  ;; Collect statistics for use-package-report.
-  (setq use-package-compute-statistics t)
-  :custom
-  (use-package-verbose t))
 
 ;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
 (use-package emacs
@@ -1030,12 +1032,9 @@ targets."
   (magit-commit-squash-confirm nil)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   ;; After upgrading to 29, this doesn't work anymore.
-  ;; :bind (("C-c g g" ("Status" . magit-status))
-  ;;        ("C-c g d" ("Dispatch" . magit-dispatch))
-  ;;        ("C-c g f" ("File dispatch" . magit-file-dispatch)))
-  :bind (("C-c g g" . magit-status)
-         ("C-c g d" . magit-dispatch)
-         ("C-c g f" . magit-file-dispatch))
+  :bind (("C-c g g" ("Status" . magit-status))
+         ("C-c g d" ("Dispatch" . magit-dispatch))
+         ("C-c g f" ("File dispatch" . magit-file-dispatch)))
   :hook
   (git-commit-setup . xen-git-commit-setup)
   (git-commit-mode . turn-on-auto-fill)
@@ -1549,16 +1548,15 @@ targets."
          ("C-c y" . xen-edit-clipboard)
          :map prog-mode-map
          ("C-o" . 'xen-open)
-         ;; :map xen-casing-map
-         ;; ("c" ("Capitalize" . capitalize-word))
-         ;; ("u" ("UPPERCASE" . upcase-word))
-         ;; ("l" ("downcase" . downcase-word))
-         ;; ("s" ("snake_case" . string-inflection-underscore))
-         ;; ("n" ("UPPER_SNAKE" . string-inflection-upcase))
-         ;; ("a" ("camelCase" . string-inflection-lower-camelcase))
-         ;; ("m" ("CamelCase" . string-inflection-camelcase))
-         ;; ("k" ("kebab-case" . string-inflection-kebab-case))
-         ))
+         :map xen-casing-map
+         ("c" ("Capitalize" . capitalize-word))
+         ("u" ("UPPERCASE" . upcase-word))
+         ("l" ("downcase" . downcase-word))
+         ("s" ("snake_case" . string-inflection-underscore))
+         ("n" ("UPPER_SNAKE" . string-inflection-upcase))
+         ("a" ("camelCase" . string-inflection-lower-camelcase))
+         ("m" ("CamelCase" . string-inflection-camelcase))
+         ("k" ("kebab-case" . string-inflection-kebab-case))))
 
 (use-package xen-flycheck
   :elpaca nil
