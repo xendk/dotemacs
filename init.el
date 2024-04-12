@@ -854,12 +854,12 @@ targets."
 
 (use-package flycheck
   :custom
-  (flycheck-disabled-checkers (quote (javascript-jshint)))
+  ;; PHP checkers are replaced by eglot and phpactor.
+  (flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
+                              "Disable unwanted checkers")
   (flycheck-eslintrc nil)
   (flycheck-global-modes (quote (not org-mode vterm-mode)))
-  (flycheck-javascript-eslint-executable "/home/xen/.npm-global/bin/eslint")
   (flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
-  (flycheck-phpmd-rulesets (quote ("codesize" "design" "naming")))
   (flycheck-scss-compass t)
   :bind (:map flycheck-mode-map
               ("M-<up>" . flycheck-previous-error)
@@ -881,18 +881,6 @@ targets."
 (use-package flycheck-package
   :commands flycheck-package-setup
   :hook (flycheck-mode . flycheck-package-setup))
-
-;; TODO: Might be obsoleted by phpactor (together with the tool
-;; finding code).
-(use-package flycheck-phpstan
-  :elpaca (flycheck-phpstan :host github :repo "xendk/phpstan.el" :branch "no-files-message")
-  :hook
-  (php-mode . (lambda ()
-                ;; Use error level from phpstan.neon.
-                (setq phpstan-level nil)))
-  :after (flycheck)
-  :custom
-  (phpstan-enable-on-no-config-file nil))
 
 (use-package forge
   :after magit)
@@ -1578,12 +1566,8 @@ targets."
 (use-package xen-php
   :elpaca nil
   :load-path "xen"
-  :commands xen-php-setup-tools
-  :hook
   ;; Use hack-local-variables-hook to run after `.dir-local.el'
   ;; variables has been set.
-  (php-mode . (lambda ()
-                (add-hook 'hack-local-variables-hook #'xen-php-setup-tools nil t)))
   :config
   (with-eval-after-load "expand-region"
     (add-hook 'php-mode-hook #'xen-php-mode-expansions))
