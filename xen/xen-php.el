@@ -329,7 +329,7 @@ Strips any leading backslash."
           (unless (equal line current-line)
             (insert "\n")
             (previous-line)
-            (xen-jitter-type (substring line 0 -1))))))
+            (insert (substring line 0 -1))))))
     (when class
       (let (start
             end
