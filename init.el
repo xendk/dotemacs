@@ -1156,7 +1156,8 @@ targets."
     '(("declare(strict_types=1);" . "declare")
       ("<?php" . "<?ph")
       (xen-php-mode-backend-prefix . "class ")
-      (xen-php-mode-backend-prefix . "interface ")))
+      (xen-php-mode-backend-prefix . "interface ")
+      (xen-php-mode-backend-prefix . "trait ")))
   (defun xen-php-mode-backend-prefix (prefix)
     "Return class/interface based on the current file name."
     (concat prefix (file-name-sans-extension
