@@ -745,9 +745,9 @@ LIST-SIZE is ignored."
 (use-package eglot
   :elpaca nil
   :hook
-  (prog-mode . (lambda ()
-                 (when (eglot--lookup-mode major-mode)
-                   (eglot-ensure))))
+  ((prog-mode yaml-mode) . (lambda ()
+                             (when (eglot--lookup-mode major-mode)
+                               (eglot-ensure))))
   :config
   ;; Don't pass Emacs process id to servers. Lang servers running in
   ;; docker can't see the Emacs process, so they think it died and
