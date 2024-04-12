@@ -185,7 +185,7 @@ Subsequent calls will delete all spaces, or revert to the original spacing.
 
 See also `cycle-spacing'."
     (interactive "*p")
-    (cycle-spacing n nil 'fast))
+    (cycle-spacing n))
 
 (defun xen-git-commit-setup ()
   "Insert Jira issue number in commit message if branch name contain one."
