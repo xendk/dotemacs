@@ -655,6 +655,8 @@ LIST-SIZE is ignored."
   :custom
   (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
   (dashboard-projects-backend 'project-el "Use project backend")
+  (dashboard-projects-switch-function 'project-switch-project
+                                      "Use the project switch project command.")
   :config
   (setq dashboard-startup-banner 'logo)
   (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
