@@ -757,6 +757,8 @@ LIST-SIZE is ignored."
 ;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
   :commands (eldoc-mode eldoc)
+  :custom
+  (eldoc-echo-area-use-multiline-p 5 "Limit maximum number of lines displayed in the echo-area")
   :bind
   ("C-c ?" . eldoc)
   :delight)
