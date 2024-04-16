@@ -100,4 +100,7 @@ M-x msr mc/sort-regions
 M-x mva mc/vertical-align (or mc/vertical-align-with-space)
 C-x r y yank-rectangle
         Yanks all regions copied in mc mode.
-        
+
+Check what macro expands to:
+
+emacs-lisp-macroexpand
