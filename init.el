@@ -1541,6 +1541,7 @@ targets."
 (use-package xen-php
   :elpaca nil
   :load-path "xen"
+  :demand
   ;; Use hack-local-variables-hook to run after `.dir-local.el'
   ;; variables has been set.
   :config
