@@ -93,11 +93,11 @@
 
 ;; Bootstrap setup.
 ;; Update https://www.emacswiki.org/emacs/SetupEl
-(elpaca setup (require 'setup))
+(elpaca setup)
 
 ;; Block until current queue processed.
 (elpaca-wait)
-
+(require 'setup)
 (defun setup-wrap-to-install-package (body _name)
   "Wrap BODY in an `elpaca' block if necessary.
 The body is wrapped in an `elpaca' block if `setup-attributes'
@@ -143,6 +143,7 @@ current mode."
 ;; Also: https://github.com/progfolio/.emacs.d/blob/master/init.org
 ;; Use +notation.
 ;; Heavy: https://github.com/progfolio/.emacs.d/blob/master/init.org#custom-set-variables
+;; Many good things: https://git.acdw.net/emacs/tree/?id=3e78d1f8ca5b100f39577790614433398bc6a422
 ;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
 (setup emacs
   (:hide-mode auto-fill-function)
@@ -294,6 +295,7 @@ current mode."
    ;; Make tabs more visible
    whitespace-style '(face tabs tab-mark))
 
+  ;; TODO: Handle modes like this: https://git.acdw.net/emacs/tree/lisp/+emacs.el?id=3e78d1f8ca5b100f39577790614433398bc6a422#n187
   ;; Disable tool-bar-mode.
   (tool-bar-mode 0)
   ;; Show column number in mode-line.
