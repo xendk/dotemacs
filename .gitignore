@@ -1,6 +1,5 @@
 session.*
 auto-save-list
-semanticdb
 eshell
 .harvest
 saveplaces
@@ -8,29 +7,12 @@ network-security.data
 # Cask
 .cask
 cask
-# Straight package manager.
-straight/repos
-straight/build
-straight/modified
-straight/bootstrap.el
-straight/build-cache.el
-# Magithubs cache.
-magithub
 # Undo tree history
 undo-history
-# Smex
-smex-items
 # Transient stuff
 transient
 # Forge database
 forge-database.sqlite
-# Projectile
-.projectile.cache
-.projectile-bookmarks.eld
-# This one seems a bug, but ignore in for now.
-projectile-bookmarks.eld
-# LSP
-.lsp-session-v1
 # DAP
 .dap-breakpoints
 # Tramp history
@@ -41,8 +23,6 @@ tramp
 keyfreq*
 # Multiple cursors
 .mc-lists.el
-# EDE
-ede-projects.el
 # Game highscores
 games
 # W3 cookies
@@ -59,3 +39,11 @@ reaper-key.el
 xen-reaper.el
 # Passwords
 authinfo.gpg
+# Elpaca fetched repos and built packages.
+elpaca/
+# Devdocs docs (obviously).
+devdocs/
+# project.el projects
+/projects
+# Eldev
+.eldev
