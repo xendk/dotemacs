@@ -19,11 +19,6 @@
 ;;; Configuration.
 ;; Relocate and load customs (so we don't clutter init.el with them).
 (setq custom-file (locate-user-emacs-file "custom.el"))
-
-;;; Aliases and advices
-;; I'm grown up, I can manage using y/n for even destructive commands.
-(defalias 'yes-or-no-p 'y-or-n-p)
-
 
 
 ;; Bit of hackery to update use-package.
@@ -200,6 +195,8 @@
    uniquify-trailing-separator-p t
    ;; Don't require confirmation on cookies
    url-cookie-confirmation 'nil
+   ;; I'm grown up, I can manage using y/n for even destructive commands.
+   use-short-answers t
    ;; Disable (mouse) dialogs, something is confusing emacs making it think some commands were mouse initiated
    use-dialog-box nil
    ;; Set email address
