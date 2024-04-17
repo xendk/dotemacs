@@ -5,57 +5,57 @@ eshell
 .harvest
 saveplaces
 network-security.data
-; Cask
+# Cask
 .cask
 cask
-; Straight package manager.
+# Straight package manager.
 straight/repos
 straight/build
 straight/modified
 straight/bootstrap.el
 straight/build-cache.el
-; Magithubs cache.
+# Magithubs cache.
 magithub
-; Undo tree history
+# Undo tree history
 undo-history
-; Smex
+# Smex
 smex-items
-; Transient stuff
+# Transient stuff
 transient
-; Forge database
+# Forge database
 forge-database.sqlite
-; Projectile
+# Projectile
 .projectile.cache
 .projectile-bookmarks.eld
-; This one seems a bug, but ignore in for now.
+# This one seems a bug, but ignore in for now.
 projectile-bookmarks.eld
-; LSP
+# LSP
 .lsp-session-v1
-; DAP
+# DAP
 .dap-breakpoints
-; Tramp history
+# Tramp history
 tramp
-; Yasnippet
+# Yasnippet
 **/.yas-compiled-snippets.el
-; Keyfreq
+# Keyfreq
 keyfreq*
-; Multiple cursors
+# Multiple cursors
 .mc-lists.el
-; EDE
+# EDE
 ede-projects.el
-; Game highscores
+# Game highscores
 games
-; W3 cookies
+# W3 cookies
 url
-; Speed-type data
+# Speed-type data
 speed-type
-; save-hist
+# save-hist
 history
-; emacs-emojify
+# emacs-emojify
 emojis
-; Reaper key
+# Reaper key
 reaper-key.el
-; Reaper autofile function
+# Reaper autofile function
 xen-reaper.el
-; Passwords
+# Passwords
 authinfo.gpg
