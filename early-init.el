@@ -15,7 +15,9 @@
  ;; Disable the mode-line in the "initial buffer" which is shown while
  ;; initializing. This prevents ugly old-school mode-line showing up
  ;; before doom-modeline has done its thing.
- mode-line-format nil)
+ mode-line-format nil
+ ;; Relocate customs file so we don't clutter init.el with them.
+ custom-file (locate-user-emacs-file "custom.el") )
 
 ;; Let's go with without window titlebar. (At least while Gnome thinks
 ;; it should make them huuuge)

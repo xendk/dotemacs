@@ -16,10 +16,6 @@
   ;; most likely used for testing something, so debug on error.
   (toggle-debug-on-error))
 
-;;; Configuration.
-;; Relocate and load customs (so we don't clutter init.el with them).
-(setq custom-file (locate-user-emacs-file "custom.el"))
-
 
 ;; Bit of hackery to update use-package.
 (elpaca use-package
