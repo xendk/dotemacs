@@ -26,45 +26,6 @@
 
 
 
-(defvar elpaca-installer-version 0.7)
-(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-                              :ref nil :depth 1
-                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
-                              :build (:not elpaca--activate-package)))
-(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-       (build (expand-file-name "elpaca/" elpaca-builds-directory))
-       (order (cdr elpaca-order))
-       (default-directory repo))
-  (add-to-list 'load-path (if (file-exists-p build) build repo))
-  (unless (file-exists-p repo)
-    (make-directory repo t)
-    (when (< emacs-major-version 28) (require 'subr-x))
-    (condition-case-unless-debug err
-        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
-                                                 ,@(when-let ((depth (plist-get order :depth)))
-                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
-                                                 ,(plist-get order :repo) ,repo))))
-                 ((zerop (call-process "git" nil buffer t "checkout"
-                                       (or (plist-get order :ref) "--"))))
-                 (emacs (concat invocation-directory invocation-name))
-                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-                 ((require 'elpaca))
-                 ((elpaca-generate-autoloads "elpaca" repo)))
-            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-          (error "%s" (with-current-buffer buffer (buffer-string))))
-      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
-  (unless (require 'elpaca-autoloads nil t)
-    (require 'elpaca)
-    (elpaca-generate-autoloads "elpaca" repo)
-    (load "./elpaca-autoloads")))
-(add-hook 'after-init-hook #'elpaca-process-queues)
-(elpaca `(,@elpaca-order))
-
 ;; Bit of hackery to update use-package.
 (elpaca use-package
   (use-package use-package
@@ -91,53 +52,8 @@
 
 ;; (elpaca-queue (elpaca nil (add-to-list 'elpaca-menu-functions #'elpaca-menu-xen)))
 
-;; Bootstrap setup.
-;; Update https://www.emacswiki.org/emacs/SetupEl
-(elpaca setup)
-
 ;; Block until current queue processed.
 (elpaca-wait)
-(require 'setup)
-(defun setup-wrap-to-install-package (body _name)
-  "Wrap BODY in an `elpaca' block if necessary.
-The body is wrapped in an `elpaca' block if `setup-attributes'
-contains an alist with the key `elpaca'."
-  (if (assq 'elpaca setup-attributes)
-      `(elpaca ,(cdr (assq 'elpaca setup-attributes)) ,@(macroexp-unprogn body))
-    body))
-
-;; Add the wrapper function
-(add-to-list 'setup-modifier-list #'setup-wrap-to-install-package)
-
-(setup-define :elpaca
-  (lambda (order &rest recipe)
-    (push (cond
-           ((eq order t) `(elpaca . ,(setup-get 'feature)))
-           ((eq order nil) '(elpaca . nil))
-           (`(elpaca . (,order ,@recipe))))
-          setup-attributes)
-    ;; If the macro wouldn't return nil, it would try to insert the result of
-    ;; `push' which is the new value of the modified list. As this value usually
-    ;; cannot be evaluated, it is better to return nil which the byte compiler
-    ;; would optimize away anyway.
-    nil)
-  :documentation "Install ORDER with `elpaca'.
-The ORDER can be used to deduce the feature context."
-  :shorthand #'cadr)
-
-(setup-define :hide-mode
-  (lambda (&optional mode)
-    (let* ((mode (or mode (setup-get 'mode)))
-           (mode (if (string-match-p "-mode\\'" (symbol-name mode))
-                     mode
-                   (intern (format "%s-mode" mode)))))
-      `(setq minor-mode-alist
-             (delq (assq ',mode minor-mode-alist)
-                   minor-mode-alist))))
-  :documentation "Hide the mode-line lighter of the current mode.
-Alternatively, MODE can be specified manually, and override the
-current mode."
-  :after-loaded t)
 
 ;; https://git.sr.ht/~pkal/emacs-init/tree/master/item/init.el
 ;; Also: https://github.com/progfolio/.emacs.d/blob/master/init.org
