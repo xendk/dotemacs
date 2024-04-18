@@ -270,6 +270,38 @@
 
 
 
+;;; Appearance
+
+(setup doom-themes
+  (:elpaca t)
+  (:option
+   ;; Make the comments and modeline brighter.
+   doom-nord-light-brighter-comments t
+   doom-nord-light-brighter-modeline t)
+
+  ;; Load the theme
+  (load-theme 'doom-nord-light t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+
+  (:face
+   ;; Remove background color on comments (why does setting
+   ;; doom-nord-comment-bg to nil not work?).
+   'font-lock-comment-face '((t (:background nil)))
+   ;; White background for inactive mode-line is no-go for me.
+   'mode-line-inactive `((t (:background ,(doom-lighten (doom-color 'modeline-bg) .3))))
+   ;; Make symbol highlight and region highlights a lighter version of the region.
+   'region-occurrences-highlighter-face
+   `((t ( :inverse-video nil
+          :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
+   'highlight-symbol-face
+   `((t (:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))))
+
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -279,36 +311,6 @@
 ;; go-mode
 ;; list-processes+
 ;; multi-line
-
-;; Load doom-themes and doom-modeline first so we wont end up in
-;; default colors in case of error later.
-(use-package doom-themes
-  :config
-  ;; Make the comments and modeline brighter.
-  (setq doom-nord-light-brighter-comments t)
-  (setq doom-nord-light-brighter-modeline t)
-  ;; Load the theme
-  (load-theme 'doom-nord-light t)
-
-  ;; Remove background color on comments (why does setting
-  ;; doom-nord-comment-bg to nil not work?).
-  (set-face-background 'font-lock-comment-face nil)
-
-  ;; White background for inactive mode-line is no-go for me.
-  (set-face-background 'mode-line-inactive (doom-lighten (doom-color 'modeline-bg) .3))
-
-  ;; Make symbol highlight and region highlights a darker version of the region.
-  (with-eval-after-load 'region-occurrences-highlighter
-    (set-face-inverse-video 'region-occurrences-highlighter-face nil)
-    (set-face-background 'region-occurrences-highlighter-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
-  (with-eval-after-load 'highlight-symbol
-    (set-face-background 'highlight-symbol-face (doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
 
 (use-package doom-modeline
   :init

@@ -13,7 +13,6 @@
 ;; Block until elpaca has installed it.
 (elpaca-wait)
 
-
 (defun +setup-wrap-to-install-package (body _name)
   "Wrap BODY in an `elpaca' block if necessary.
 The body is wrapped in an `elpaca' block if `setup-attributes'
@@ -55,6 +54,11 @@ Alternatively, MODE can be specified manually, and override the
 current mode."
   :after-loaded t)
 
+(setup-define :face
+  (lambda (face spec)
+    `(custom-set-faces (list ,face ,spec 'now "Customized by `setup'.")))
+  :documentation "Customize FACE with SPEC using `custom-set-faces'."
+  :repeatable t)
 
 (provide '+setup)
 ;;; +setup.el ends here
