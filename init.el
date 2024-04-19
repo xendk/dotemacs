@@ -365,6 +365,23 @@
                          (eq major-mode 'vterm-mode))
                (hl-line-mode))))))
 
+(setup display-line-numbers-mode
+  (:option
+   ;; Only grow room for line numbers
+   display-line-numbers-grow-only t
+   ;; Show major line ever 20 lines
+   display-line-numbers-major-tick 20
+   ;; Show minor line every 5 lines
+   display-line-numbers-minor-tick 5)
+  (:face
+   'line-number-major-tick '(:foreground "dark gray" :background unspecified)
+   'line-number-minor-tick '(:foreground "dim gray" :background unspecified))
+  (:with-hook prog-mode-hook
+    (:hook (lambda ()
+             "Enable line numbers in file-visiting buffers."
+             (when (buffer-file-name (buffer-base-buffer))
+               (display-line-numbers-mode 1))))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -684,25 +701,10 @@ LIST-SIZE is ignored."
   :init
   (dimmer-configure-which-key)
   (dimmer-configure-magit)
+  (dimmer-configure-org)
   (dimmer-mode t)
   (add-to-list
    'dimmer-exclusion-regexp-list "^ \\*corfu\\*$"))
-
-;; Built in.
-(use-package display-line-numbers-mode
-  :elpaca nil
-  :commands display-line-numbers-mode
-  :custom
-  (display-line-numbers-grow-only t "Only grow room for line numbers")
-  (display-line-numbers-major-tick 20 "Show major line ever 20 lines")
-  (display-line-numbers-minor-tick 5 "Show minor line every 5 lines")
-  :custom-face
-  (line-number-major-tick ((t (:foreground "dark gray" :background unspecified))))
-  (line-number-minor-tick ((t (:foreground "dim gray" :background unspecified))))
-  :hook (prog-mode . (lambda ()
-                       "Enable line numbers in file-visiting buffers."
-                       (when (buffer-file-name (buffer-base-buffer))
-                         (display-line-numbers-mode 1)))))
 
 (use-package dockerfile-mode
   :defer t)
