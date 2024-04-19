@@ -355,6 +355,16 @@
 (setup nerd-icons
   (:elpaca t))
 
+(setup hl-line
+  (:with-hook after-change-major-mode-hook
+    (:hook (lambda ()
+             "Enable hl-line-mode unless in minibuffer or vterm-mode"
+             (unless (or (minibufferp)
+                         ;; Let xen-vterm handle hl-line-mode toggling
+                         ;; in vterm buffers.
+                         (eq major-mode 'vterm-mode))
+               (hl-line-mode))))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -914,16 +924,6 @@ targets."
   (add-hook 'deactivate-mark-hook (lambda () (when (bound-and-true-p highlight-symbol-mode-suspend)
                                                (kill-local-variable highlight-symbol-mode-suspend)
                                                (highlight-symbol-mode 1)))))
-
-(use-package hl-line
-  :elpaca nil
-  ;; Let xen-vterm handle hl-line-mode toggling in vterm buffers.
-  :hook
-  (after-change-major-mode . (lambda ()
-                               "Enable hl-line-mode unless in minibuffer or vterm-mode"
-                               (unless (or (minibufferp)
-                                           (eq major-mode 'vterm-mode))
-                                 (hl-line-mode)))))
 
 (use-package hungry-delete
   :delight
