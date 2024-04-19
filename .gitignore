@@ -47,3 +47,5 @@ devdocs/
 /projects
 # Eldev
 .eldev
+# Native compilation cache
+/eln-cache
