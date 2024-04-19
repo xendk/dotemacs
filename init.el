@@ -352,6 +352,9 @@
         (with-current-buffer buffer
           (doom-modeline-set-modeline 'xen-minimal))))))
 
+(setup nerd-icons
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -983,15 +986,13 @@ targets."
   :commands literate-calc-mode
   :defer t)
 
-;; For doom-modeline.
-(use-package nerd-icons)
-
 (use-package nginx-mode
   :commands nginx-mode)
 
 (use-package magit
   :defines magit-last-seen-setup-instructions
   :custom
+  ;; https://git.sr.ht/~pkal/emacs-init/tree/master/item/init.el#L288
   (magit-define-global-key-bindings nil "Don't bind global keys, we have our own")
   (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
   (magit-fetch-arguments (quote ("--prune")))
