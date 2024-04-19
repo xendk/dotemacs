@@ -301,6 +301,8 @@
    'highlight-symbol-face
    `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
 
+;; TODO: Needs update, but new version changes the `check' segment,
+;; and I liked the old one better. Forward port it.
 (setup doom-modeline
   (:elpaca t)
   (:option
@@ -857,6 +859,7 @@ targets."
                               "Disable unwanted checkers")
   (flycheck-eslintrc nil)
   (flycheck-global-modes (quote (not org-mode vterm-mode)))
+  ;; this has long been overwritten by doom-modelines `check' segment.
   (flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
   (flycheck-scss-compass t)
   :bind (:map flycheck-mode-map
