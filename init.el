@@ -301,6 +301,56 @@
    'highlight-symbol-face
    `((t (:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))))
 
+(setup doom-modeline
+  (:elpaca t)
+  (:option
+   doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (:hook-into elpaca-after-init)
+  (:hook (lambda ()
+           (doom-modeline-set-modeline 'xen-main 'default)))
+  (:when-loaded
+    (:with-hook (vterm-mode-hook
+                 lisp-interaction-mode-hook
+                 ;; special-mode covers messages buffer, dashboard, help
+                 ;; buffer and more.
+                 special-mode-hook)
+      (:hook (lambda ()
+               (doom-modeline-set-modeline 'xen-minimal))))
+
+    ;; Define an alternative 'main that has `check' after `buffer-info'
+    ;; so it's visible even if the mode-line gets truncated.
+    (doom-modeline-def-modeline 'xen-main
+      '( eldoc bar workspace-name window-number modals matches
+         follow buffer-info check remote-host buffer-position word-count
+         parrot selection-info )
+      '( compilation objed-state misc-info persp-name battery grip
+         irc mu4e gnus github debug repl lsp minor-modes input-method
+         indent-info buffer-encoding major-mode process vcs time ))
+
+    ;; Define a custom mode-line segment.
+    (doom-modeline-def-segment buffer-info-simple-icon
+      "As `buffer-info', but without state icon."
+      (concat
+       (doom-modeline-spc)
+       (doom-modeline--buffer-mode-icon)
+       (doom-modeline--buffer-name)))
+
+    ;; As 'minimal, but without buffer state icon.
+    (doom-modeline-def-modeline 'xen-minimal
+      '(bar matches buffer-info-simple-icon)
+      '(media-info major-mode " "))
+
+    ;; Set the mode-line of special buffers that existed before
+    ;; doom-modeline was loaded.
+    (require 'seq)
+    (let ((buffers (seq-filter
+                    (lambda (buffer)
+                      (with-current-buffer buffer
+                        (derived-mode-p 'special-mode)))
+                    (buffer-list))))
+      (dolist (buffer buffers)
+        (with-current-buffer buffer
+          (doom-modeline-set-modeline 'xen-minimal))))))
 
 ;;; Packages.
 
@@ -311,59 +361,6 @@
 ;; go-mode
 ;; list-processes+
 ;; multi-line
-
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
-  :config
-  ;; Define an alternative 'main that has `check' after `buffer-info'
-  ;; so it's visible even if the mode-line gets truncated.
-  (doom-modeline-def-modeline 'xen-main
-    '(eldoc bar workspace-name window-number modals matches follow buffer-info check remote-host buffer-position word-count parrot selection-info)
-    '(compilation objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs time))
-
-  ;; Define a custom mode-line segment.
-  (doom-modeline-def-segment buffer-info-simple-icon
-    "As `buffer-info', but without state icon."
-    (concat
-     (doom-modeline-spc)
-     (doom-modeline--buffer-mode-icon)
-     (doom-modeline--buffer-name)))
-
-  ;; As 'minimal, but without buffer state icon.
-  (doom-modeline-def-modeline 'xen-minimal
-    '(bar matches buffer-info-simple-icon)
-    '(media-info major-mode " "))
-
-  ;; Set the mode-line of special buffers that existed before
-  ;; doom-modeline was loaded.
-  (with-eval-after-load "seq"
-    (let ((buffers (seq-filter
-                    (lambda (buffer)
-                      (with-current-buffer buffer
-                        (derived-mode-p 'special-mode)))
-                    (buffer-list))))
-      (dolist (buffer buffers)
-        (with-current-buffer buffer
-          (doom-modeline-set-modeline 'xen-minimal)))))
-  :hook
-  (elpaca-after-init . doom-modeline-mode)
-  ;; Use xen-minimal in misc virtual buffers.
-  ((vterm-mode
-    lisp-interaction-mode
-    ;; special-mode covers messages buffer, dashboard, help
-    ;; buffer and more.
-    special-mode) . (lambda ()
-                      ;; dashboard calls its hooks before
-                      ;; doom-modeline is loaded, so guard the
-                      ;; set with boundp. The dashboard buffer
-                      ;; modeline will be fixed by the
-                      ;; with-eval-after-load.
-                      (if (fboundp 'doom-modeline-set-modeline)
-                          (doom-modeline-set-modeline 'xen-minimal))))
-
-  (doom-modeline-mode . (lambda ()
-                          (doom-modeline-set-modeline 'xen-main 'default))))
 
 (use-package all-the-icons
   :config
