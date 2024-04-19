@@ -291,15 +291,15 @@
   (:face
    ;; Remove background color on comments (why does setting
    ;; doom-nord-comment-bg to nil not work?).
-   'font-lock-comment-face '((t (:background nil)))
+   'font-lock-comment-face '(:background unspecified)
    ;; White background for inactive mode-line is no-go for me.
-   'mode-line-inactive `((t (:background ,(doom-lighten (doom-color 'modeline-bg) .3))))
+   'mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
    ;; Make symbol highlight and region highlights a lighter version of the region.
    'region-occurrences-highlighter-face
-   `((t ( :inverse-video nil
-          :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
+   `( :inverse-video unspecified
+      :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))
    'highlight-symbol-face
-   `((t (:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))))
+   `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
 
 (setup doom-modeline
   (:elpaca t)

@@ -56,7 +56,7 @@ current mode."
 
 (setup-define :face
   (lambda (face spec)
-    `(custom-set-faces (list ,face ,spec 'now "Customized by `setup'.")))
+    `(custom-set-faces (list ,face (list (list t ,spec)) 'now "Customized by `setup'.")))
   :documentation "Customize FACE with SPEC using `custom-set-faces'."
   :repeatable t)
 
