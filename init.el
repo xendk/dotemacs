@@ -418,6 +418,10 @@
   (advice-add #'rainbow-turn-off :after #'+rainbow-clear-overlays)
   (:hook-into css-mode))
 
+(setup diff-hl
+  (:elpaca t)
+  (global-diff-hl-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -728,10 +732,6 @@ LIST-SIZE is ignored."
                     (setq-local devdocs-current-docs '("crystal"))))
   (php-mode . (lambda ()
                 (setq-local devdocs-current-docs '("php")))))
-
-(use-package diff-hl
-  :commands global-diff-hl-mode
-  :init (global-diff-hl-mode))
 
 (use-package dimmer
   :init
