@@ -402,6 +402,15 @@
   (:elpaca t)
   (:hide-mode)
   (:hook-into emacs-lisp-mode))
+
+(setup region-occurrences-highlighter
+  (:elpaca t)
+  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode)
+  (:with-map region-occurrences-highlighter-nav-mode-map
+    (:bind
+     "M-<up>" region-occurrences-highlighter-prev
+     "M-<down>" region-occurrences-highlighter-next)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1212,12 +1221,6 @@ targets."
   :init
   (add-hook 'reaper-autofile-functions 'xen-reaper-autofile-function)
   :bind ("C-c h" . reaper))
-
-(use-package region-occurrences-highlighter
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . region-occurrences-highlighter-mode)
-  :bind (:map region-occurrences-highlighter-nav-mode-map
-              ("M-<up>" . region-occurrences-highlighter-prev)
-              ("M-<down>" . region-occurrences-highlighter-next)))
 
 (use-package restclient
   :defer t
