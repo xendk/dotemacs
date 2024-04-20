@@ -398,6 +398,10 @@
   (add-hook 'activate-mark-hook '+highlight-symbol-mode-deactivate)
   (add-hook 'deactivate-mark-hook '+highlight-symbol-mode-reactivate))
 
+(setup page-break-lines
+  (:elpaca t)
+  (:hide-mode)
+  (:hook-into emacs-lisp-mode))
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1106,12 +1110,6 @@ targets."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package page-break-lines
-  :delight
-  ;; We need it before after-init-hook is triggered as dashboard depends on it.
-  :demand
-  :hook (emacs-lisp-mode . page-break-lines-mode))
 
 (use-package php-boris
   :commands php-boris)
