@@ -422,6 +422,13 @@
   (:elpaca t)
   (global-diff-hl-mode))
 
+(setup column-enforce-mode
+  (:elpaca t)
+  (:hook-into drupal-mode)
+  (with-eval-after-load 'doom-themes
+    (:face 'column-enforce-face `( :inherit nil :underline nil
+                                   :background ,(doom-lighten 'warning .75)))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -486,16 +493,6 @@
 
 (use-package cask-mode
   :defer t)
-
-(use-package column-enforce-mode
-  :commands column-enforce-mode
-  :delight
-  :hook drupal-mode
-  :config
-  (with-eval-after-load "doom-themes"
-    (set-face-attribute 'column-enforce-face nil :inherit nil
-                        :underline nil
-                        :background (doom-lighten 'warning .75))))
 
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
