@@ -438,7 +438,45 @@
   (dimmer-configure-org)
   (add-to-list
    'dimmer-buffer-exclusion-regexps "^ \\*corfu\\*$")
+  ;; TODO: How to detect active vertico, so buffers don't get dimmed
+  ;; while it's active? Something to add to
+  ;; dimmer-prevent-dimming-predicates.
   (dimmer-mode))
+
+(setup dashboard
+  (:elpaca t)
+  (:require dashboard page-break-lines)
+  (:option
+   ;; Use page-break-lines-mode
+   dashboard-page-separator "\n\f\n"
+   ;; Use project backend
+   dashboard-projects-backend 'project-el
+   ;; Use the project switch project command.
+   dashboard-projects-switch-function 'project-switch-project
+   dashboard-startup-banner 'logo
+   dashboard-items '((projects . 10) (xen-tip))
+   dashboard-set-heading-icons t
+   dashboard-set-file-icons t
+   (append dashboard-item-generators) '(xen-tip . xen-dashboard-tip))
+  (defun xen-dashboard-tip (list-size)
+    "Insert a tip into the dashboard.
+
+LIST-SIZE is ignored."
+    (dashboard-insert-heading "Tip of the day" "t")
+    (insert "\n")
+    (let ((tips (with-temp-buffer
+                  (insert-file-contents (locate-user-emacs-file "tips"))
+                  (split-string (buffer-string) "\f" t))))
+      (insert (elt tips (random (length tips)))))
+    (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
+
+  (when (< (length command-line-args) 2)
+    (dashboard-insert-startupify-lists)
+    (add-hook 'elpaca-after-init-hook (lambda ()
+                                        (switch-to-buffer dashboard-buffer-name)
+                                        (goto-char (point-min))
+                                        (redisplay)
+                                        (run-hooks 'dashboard-after-initialize-hook)))))
 
 ;;; Packages.
 
@@ -682,46 +720,6 @@
 ;;         :stopOnEntry t
 ;;         :pathMappings (ht ("/var/www/web/" "/home/xen/sites/ding2/web/"))
 ;;         :sourceMaps t))
-
-(use-package dashboard
-  :commands dashboard-setup-startup-hook
-  :demand
-  ;; Need page-break-lines for pretty separators.
-  :after page-break-lines
-  :defines (dashboard-startup-banner dashboard-item-generators dashboard-items)
-  :init
-  ;; Elpaca triggers in after-init-hook, so dashboard gets in too
-  ;; late. Copy it's hooks to elpacas hook.
-  (add-hook 'elpaca-after-init-hook (lambda ()
-                                      ;; Display useful lists of items
-                                      (dashboard-insert-startupify-lists)))
-  (add-hook 'elpaca-after-init-hook (lambda ()
-                                      (switch-to-buffer dashboard-buffer-name)
-                                      (goto-char (point-min))
-                                      (redisplay)
-                                      (run-hooks 'dashboard-after-initialize-hook)))
-  (defun xen-dashboard-tip (list-size)
-    "Insert a tip into the dashboard.
-
-LIST-SIZE is ignored."
-    (dashboard-insert-heading "Tip of the day" "t")
-    (insert "\n")
-    (let ((tips (with-temp-buffer
-                  (insert-file-contents (locate-user-emacs-file "tips"))
-                  (split-string (buffer-string) "\f" t))))
-      (insert (elt tips (random (length tips)))))
-    (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
-  :custom
-  (dashboard-page-separator "\n\f\n" "Use page-break-lines-mode")
-  (dashboard-projects-backend 'project-el "Use project backend")
-  (dashboard-projects-switch-function 'project-switch-project
-                                      "Use the project switch project command.")
-  :config
-  (setq dashboard-startup-banner 'logo)
-  (add-to-list 'dashboard-item-generators '(xen-tip . xen-dashboard-tip))
-  (setq dashboard-items '((projects . 10) (xen-tip)))
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t))
 
 ;; Built in.
 (use-package delsel
