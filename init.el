@@ -355,16 +355,12 @@
   (:elpaca t))
 
 (setup hl-line
-  (:with-hook after-change-major-mode-hook
-    (:hook (lambda ()
-             "Enable hl-line-mode unless in minibuffer or vterm-mode"
-             (unless (or (minibufferp)
-                         ;; Let xen-vterm handle hl-line-mode toggling
-                         ;; in vterm buffers.
-                         (eq major-mode 'vterm-mode))
-               (hl-line-mode))))))
+  (:require +hl-line)
+  (:with-function +hl-line-mode
+    (:hook-into after-change-major-mode)))
 
 (setup display-line-numbers-mode
+  (:require +display-line-numbers-mode)
   (:option
    ;; Only grow room for line numbers
    display-line-numbers-grow-only t
@@ -375,11 +371,8 @@
   (:face
    'line-number-major-tick '(:foreground "dark gray" :background unspecified)
    'line-number-minor-tick '(:foreground "dim gray" :background unspecified))
-  (:with-hook prog-mode-hook
-    (:hook (lambda ()
-             "Enable line numbers in file-visiting buffers."
-             (when (buffer-file-name (buffer-base-buffer))
-               (display-line-numbers-mode 1))))))
+  (:with-function +display-line-numbers-mode
+    (:hook-into prog-mode)))
 
 (setup highlight-symbol
   (:also-load +highlight-symbol)
