@@ -128,38 +128,6 @@ Actually shrinks the region if the point is at the start of the region."
                          (region-beginning) (region-end)
                          "xmllint -format -" nil t)))
 
-(defun xen-avy-goto-line (&optional arg)
-  "A variant on avy-goto-line that remembers column position.  ARG is passed along."
-  (interactive "p")
-  (let ((col-pos (current-column)))
-    (progn
-      (call-interactively 'avy-goto-line arg)
-      (move-to-column col-pos))))
-
-(defun xen-avy-goto-word-1 ()
-  "When in minibuffer, vterm-mode, or completion-in-region-mode disable `emulation-mode-map-alists'.
-
-Else just call `avy-goto-word-1'.
-
-This hackery is needed to disable avy in minibuffer and terminal.
-The :bind* stanza for use-package makes it use an
-emulation-mode-map in order to override all major and minor mode
-bindings. Which makes it tricky to override in the one case where
-we want to.
-
-An alternative might be a globalized minor mode map, and ensuring
-the minor mode is loaded first."
-  (interactive)
-  (if (or (window-minibuffer-p)
-          (and (eq major-mode 'vterm-mode)
-               (when (fboundp 'vterm-copy-mode) (not vterm-copy-mode)))
-          completion-in-region-mode)
-      (let ((emulation-mode-map-alists nil)
-            (binding (key-binding (kbd "S-<SPC>") t)))
-        (when binding
-          (call-interactively binding)))
-    (call-interactively 'avy-goto-char-timer)))
-
 ;; Define a FontAwesome face.
 (make-face 'xen-font-awesome-face)
 (set-face-attribute 'xen-font-awesome-face nil

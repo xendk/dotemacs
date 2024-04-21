@@ -478,6 +478,25 @@ LIST-SIZE is ignored."
                                         (redisplay)
                                         (run-hooks 'dashboard-after-initialize-hook)))))
 
+;;; Navigation
+
+(setup avy
+  (:elpaca t)
+  (:require +avy)
+  (:option
+   avy-background t
+   avy-keys '(?a ?e ?u ?i ?d ?h ?t ?s)
+   avy-style 'de-bruijn)
+  (:global
+   ;; Try with a more available key than S-SPC. If this is not
+   ;; acceptable, we'll have to look into the emulation-mode-map
+   ;; hackery of bind-key. See (the misnamed) xen-avy-goto-word-1 as
+   ;; to where this leads in terms of workarounds.
+   "C-\'" avy-goto-char-timer
+   "M-g g" +avy-goto-line
+   "M-g M-g" +avy-goto-line
+   "M-u" avy-goto-char-in-line))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -499,17 +518,6 @@ LIST-SIZE is ignored."
 (use-package apib-mode
   :defer t
   :mode "\\.apib$")
-
-(use-package avy
-  :custom
-  (avy-background t)
-  (avy-keys '(97 101 117 105 100 104 116 115))
-  (avy-style 'de-bruijn)
-  ;; Override minor mode binding for these.
-  :bind*
-  ;; Binding xen-avy-goto-word-1 and xen-avy-goto-line on
-  ;; use-package xen.
-  ("M-u" . avy-goto-char-in-line))
 
 (use-package avy-zap
   :bind
@@ -1490,16 +1498,13 @@ targets."
   :config
   ;; Tell delsel than xen-newline should delete selection.
   (put 'xen-newline 'delete-selection t)
-  :bind* ("S-SPC" . xen-avy-goto-word-1)
   :bind (("RET" . xen-newline)
          ("M-SPC" . xen-cycle-spacing)
-         ("M-l" . xen-avy-goto-line)
+         ;; ("M-l" . xen-avy-goto-line)
          ("<f12>" . olivetti-mode)
          ("C-S-d" . xen-duplicate-current-line)
          ("C-S-l" . xen-mark-lines)
          ("C-c x" . xen-map)
-         ("M-g g" . xen-avy-goto-line)
-         ("M-g M-g" . xen-avy-goto-line)
          ("M-c" . xen-casing-map)
          ("C-c y" . xen-edit-clipboard)
          :map prog-mode-map
