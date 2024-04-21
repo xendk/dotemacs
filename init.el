@@ -429,6 +429,17 @@
     (:face 'column-enforce-face `( :inherit nil :underline nil
                                    :background ,(doom-lighten 'warning .75)))))
 
+(setup dimmer
+  (:elpaca t)
+  (:option
+   dimmer-fraction 0.30)
+  (dimmer-configure-which-key)
+  (dimmer-configure-magit)
+  (dimmer-configure-org)
+  (add-to-list
+   'dimmer-buffer-exclusion-regexps "^ \\*corfu\\*$")
+  (dimmer-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -729,15 +740,6 @@ LIST-SIZE is ignored."
                     (setq-local devdocs-current-docs '("crystal"))))
   (php-mode . (lambda ()
                 (setq-local devdocs-current-docs '("php")))))
-
-(use-package dimmer
-  :init
-  (dimmer-configure-which-key)
-  (dimmer-configure-magit)
-  (dimmer-configure-org)
-  (dimmer-mode t)
-  (add-to-list
-   'dimmer-exclusion-regexp-list "^ \\*corfu\\*$"))
 
 (use-package dockerfile-mode
   :defer t)
