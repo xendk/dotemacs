@@ -305,19 +305,16 @@
 ;; and I liked the old one better. Forward port it.
 (setup doom-modeline
   (:elpaca t)
-  (:option
-   doom-modeline-buffer-file-name-style 'truncate-except-project)
   (:hook-into elpaca-after-init)
   (:hook (lambda ()
            (doom-modeline-set-modeline 'xen-main 'default)))
   (:when-loaded
-    (:with-hook (vterm-mode-hook
-                 lisp-interaction-mode-hook
-                 ;; special-mode covers messages buffer, dashboard, help
-                 ;; buffer and more.
-                 special-mode-hook)
-      (:hook (lambda ()
-               (doom-modeline-set-modeline 'xen-minimal))))
+    (:option
+     doom-modeline-buffer-file-name-style 'truncate-except-project
+     (prepend* doom-modeline-mode-alist) '((vterm-mode . xen-minimal)
+                                           (lisp-interaction-mode . xen-minimal)
+                                           (dashboard-mode . xen-minimal)
+                                           (help-mode . xen-minimal)))
 
     ;; Define an alternative 'main that has `check' after `buffer-info'
     ;; so it's visible even if the mode-line gets truncated.
