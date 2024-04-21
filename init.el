@@ -79,14 +79,11 @@
    "S-C-<right>" enlarge-window-horizontally
    "S-C-<down>" shrink-window
    "S-C-<up>" enlarge-window
-   ;; Quickly open URLs. Really obsoleted by embark, but for my muscle
-   ;; memory.
-   "C-c b" browse-url-at-point
    ;; Alternatives: electric-buffer-list or bs-show.
    "C-x C-b" ibuffer)
 
   (:with-mode prog-mode
-    (:hook eldoc-mode)
+    (:hook eldoc-mode) ; TODO: move to eldoc.
     (:hook (lambda () (setq-local comment-auto-fill-only-comments t)
              (auto-fill-mode))))
 
