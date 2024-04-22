@@ -484,6 +484,13 @@ LIST-SIZE is ignored."
    "M-g M-g" +avy-goto-line
    "M-u" avy-goto-char-in-line))
 
+;; http://www.emacswiki.org/emacs/FrameMove
+(setup framemove
+  ;; Elpaca doesn't have a menu for emacsmirror yet.
+  (:elpaca framemove :host github :repo "emacsmirror/framemove")
+  (:require framemove)
+  (setq framemove-hook-into-windmove t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -911,12 +918,6 @@ targets."
 
 (use-package forge
   :after magit)
-
-;; http://www.emacswiki.org/emacs/FrameMove
-(use-package framemove
-  ;; Elpaca doesn't have a menu for emacsmirror yet.
-  :elpaca (framemove :host github :repo "emacsmirror/framemove")
-  :config (setq framemove-hook-into-windmove t))
 
 (use-package git-attr
   :elpaca (:host github :repo "arnested/emacs-git-attr"))
