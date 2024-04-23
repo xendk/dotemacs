@@ -60,6 +60,21 @@ current mode."
   :documentation "Customize FACE with SPEC using `custom-set-faces'."
   :repeatable t)
 
+(setup-define :load-from
+  (lambda (path)
+    `(let ((path* (expand-file-name ,path)))
+       (if (file-exists-p path*)
+           (add-to-list 'load-path path*)
+         ,(setup-quit))))
+  :documentation "Add PATH to load path.
+This macro can be used as NAME, and it will replace itself with
+the nondirectory part of PATH.
+If PATH does not exist, abort the evaluation."
+  :shorthand (lambda (args)
+               (intern
+                (file-name-nondirectory
+                 (directory-file-name (cadr args))))))
+
 (provide '+setup)
 ;;; +setup.el ends here
 

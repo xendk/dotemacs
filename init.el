@@ -565,6 +565,12 @@ LIST-SIZE is ignored."
     ;; (require 'smartparens-html)
     ))
 
+(setup xen-paired-delete
+  (:load-from (concat user-emacs-directory "xen"))
+  (with-eval-after-load 'smartparens
+    (:require xen-paired-delete)
+    (global-xen-paired-delete-mode)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1511,13 +1517,6 @@ targets."
   :functions xen-flycheck-mode-line-status-text
   :bind (:map flycheck-mode-map
               ("C-c ! s" . xen-flycheck-insert-suppressor)))
-
-(use-package xen-paired-delete
-  :elpaca nil
-  :load-path "xen"
-  :after (smartparens)
-  :config
-  (global-xen-paired-delete-mode))
 
 (use-package xen-php
   :elpaca nil
