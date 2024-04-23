@@ -638,6 +638,16 @@ LIST-SIZE is ignored."
    ;; Center text when using this mode
    visual-fill-column-center-text t))
 
+(setup jinx
+  (:elpaca t)
+  (:when-loaded
+    (:option
+     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string)))
+  (:global
+   "M-$" jinx-correct
+   "C-M-$" jinx-languages)
+  (global-jinx-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1101,11 +1111,6 @@ targets."
   :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
-
-(use-package jinx
-  :init (global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages)))
 
 ;; Built in.
 (use-package js-mode
