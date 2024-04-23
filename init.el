@@ -632,6 +632,12 @@ LIST-SIZE is ignored."
    which-key-sort-order 'which-key-key-order)
   (which-key-mode))
 
+(setup visual-fill-column
+  (:elpaca t)
+  (:option
+   ;; Center text when using this mode
+   visual-fill-column-center-text t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1431,11 +1437,6 @@ targets."
         prescient-sort-full-matches-first t)
   (vertico-prescient-mode 1)
   (prescient-persist-mode 1))
-
-(use-package visual-fill-column
-  :commands visual-fill-column-mode
-  :custom
-  (visual-fill-column-center-text t "Center text when using this mode"))
 
 (use-package visual-regexp
   :bind
