@@ -579,6 +579,16 @@ LIST-SIZE is ignored."
   (:global
    "C-S-SPC" er/expand-region))
 
+(setup multiple-cursors
+  (:elpaca t)
+  (:global
+   "C-<" mc/mark-previous-like-this
+   "C->" mc/mark-next-like-this
+   "C-M-m" mc/mark-more-like-this-extended
+   "C-*" mc/mark-all-like-this
+   "C-%" mc/mark-all-in-region
+   "C-=" mc/mark-all-like-this-dwim))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1136,15 +1146,6 @@ targets."
   :commands multi-mode)
 ;; Example:
 ;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
-
-(use-package multiple-cursors
-  :bind
-  ("C-<" . mc/mark-previous-like-this)
-  ("C->" . mc/mark-next-like-this)
-  ("C-M-m" . mc/mark-more-like-this-extended)
-  ("C-*" . mc/mark-all-like-this)
-  ("C-%" . mc/mark-all-in-region)
-  ("C-=" . mc/mark-all-like-this-dwim))
 
 (use-package olivetti
   :defer t)
