@@ -525,6 +525,10 @@ LIST-SIZE is ignored."
 (setup delsel
   (delete-selection-mode))
 
+(setup hungry-delete
+  (:elpaca t)
+  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -967,10 +971,6 @@ targets."
 
 (use-package github-review
   :after forge)
-
-(use-package hungry-delete
-  :delight
-  :hook ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode) . hungry-delete-mode))
 
 (use-package ibuffer-vc
   :hook
