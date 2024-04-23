@@ -600,6 +600,27 @@ LIST-SIZE is ignored."
   (:hide-mode)
   (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode))
 
+(setup undo-tree
+  ;; Pull package directly from maintainer, the elpa package is behind.
+  (:elpaca undo-tree :type git :host gitlab :repo "tsc25/undo-tree")
+  (:hide-mode)
+  (:option
+   undo-tree-auto-save-history t
+   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo-history")))
+   undo-tree-visualizer-diff nil
+   undo-tree-visualizer-relative-timestamps t
+   undo-tree-visualizer-timestamps t
+   ;; Don't use undo-tree in special-mode buffers
+   undo-tree-incompatible-major-modes '(term-mode special-mode))
+  (:with-map undo-tree-visualizer-mode-map
+    (:bind
+     ;; Make return accept currently selected revision and q
+     ;; (and C-g) abort. The defaults are weird.
+     "<return>" undo-tree-visualizer-quit
+     "C-g" undo-tree-visualizer-abort
+     "q" undo-tree-visualizer-abort))
+  (global-undo-tree-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1334,29 +1355,12 @@ targets."
 (use-package systemd
   :defer t)
 
+;; (use-package tempel
+;;   :bind (:map tempel-map
+;;               ("<tab>" . tempel-next)))
+;;
 (use-package twig-mode
   :defer t)
-
-(use-package undo-tree
-  :commands global-undo-tree-mode
-  :custom
-  (undo-tree-auto-save-history t)
-  (undo-tree-history-directory-alist (list (cons "." (concat user-emacs-directory "undo-history"))))
-  (undo-tree-visualizer-diff nil)
-  (undo-tree-visualizer-relative-timestamps t)
-  (undo-tree-visualizer-timestamps t)
-  (undo-tree-incompatible-major-modes '(term-mode special-mode) "Don't use undo-tree in special-mode buffers")
-  :demand
-  :delight
-  :init (global-undo-tree-mode)
-  :bind (:map undo-tree-visualizer-mode-map
-              ;; Make return accept currently selected revision and q
-              ;; (and C-g) abort. The defaults are weird.
-              ("<return>" . undo-tree-visualizer-quit)
-              ("C-g" . undo-tree-visualizer-abort)
-              ("q" . undo-tree-visualizer-abort))
-  ;; Pull package directly from maintainer, the elpa package is behind.
-  :elpaca (:type git :host gitlab :repo "tsc25/undo-tree"))
 
 (use-package vcl-mode
   :commands vcl-mode
