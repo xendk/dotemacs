@@ -686,6 +686,22 @@ LIST-SIZE is ignored."
 (setup auto-revert
   (:hide-mode))
 
+;; Built in.
+(setup savehist
+  (:option
+   ;; Save mini-buffer history
+   savehist-save-minibuffer-history t
+   ;; Other interesting things to save
+   savehist-additional-variables '(kill-ring
+                                   search-ring
+                                   regexp-search-ring
+                                   last-kbd-macro
+                                   kmacro-ring
+                                   shell-command-history
+                                   ;; corfu-history
+                                   ))
+  (savehist-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1355,23 +1371,6 @@ targets."
 
 (use-package s
   :commands s-truncate)
-
-;; Built in.
-(use-package savehist
-  :elpaca nil
-  :custom
-  (savehist-save-minibuffer-history t "Save mini-buffer history")
-  (savehist-additional-variables
-   '(kill-ring
-     search-ring
-     regexp-search-ring
-     last-kbd-macro
-     kmacro-ring
-     shell-command-history
-     ;; corfu-history
-     ) "Other interesting things to save")
-  :init
-  (savehist-mode))
 
 ;; Built in, but we need to activate it.
 (use-package saveplace
