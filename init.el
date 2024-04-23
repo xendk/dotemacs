@@ -648,6 +648,16 @@ LIST-SIZE is ignored."
    "C-M-$" jinx-languages)
   (global-jinx-mode))
 
+(setup visual-regexp
+  (:elpaca t)
+  (:option
+   ;; Show preview
+   vr/default-replace-preview t)
+  (:global
+   "C-c r" vr/replace
+   "C-c q" vr/query-replace
+   "C-c m" vr/mc-mark))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1442,14 +1452,6 @@ targets."
         prescient-sort-full-matches-first t)
   (vertico-prescient-mode 1)
   (prescient-persist-mode 1))
-
-(use-package visual-regexp
-  :bind
-  ("C-c r" . vr/replace)
-  ("C-c q" . vr/query-replace)
-  ("C-c m" . vr/mc-mark)
-  :custom
-  (vr/default-replace-preview t "Show preview"))
 
 (use-package vterm
   :custom
