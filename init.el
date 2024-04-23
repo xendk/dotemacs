@@ -680,6 +680,12 @@ LIST-SIZE is ignored."
                 enh-ruby-mode git-commit-mode))
   (yas-reload-all))
 
+;;; Files
+
+;; Built in, used by magit.
+(setup auto-revert
+  (:hide-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -701,12 +707,6 @@ LIST-SIZE is ignored."
 (use-package apib-mode
   :defer t
   :mode "\\.apib$")
-
-;; Built in, used by magit, we'll delight it.
-(use-package autorevert
-  :elpaca nil
-  :commands auto-revert-mode
-  :delight auto-revert-mode)
 
 (use-package bug-hunter
   :commands (bug-hunter-init-file bug-hunter-file))
