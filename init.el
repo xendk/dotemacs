@@ -504,6 +504,12 @@ LIST-SIZE is ignored."
   (:require framemove)
   (setq framemove-hook-into-windmove t))
 
+(setup mwim
+  (:elpaca t)
+  (:global
+   "C-a" mwim-beginning
+   "C-e" mwim-end))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1070,11 +1076,6 @@ targets."
   :bind
   ("C-M-<up>" . move-text-up)
   ("C-M-<down>" . move-text-down))
-
-(use-package mwim
-  :bind
-  ("C-a" . mwim-beginning)
-  ("C-e" . mwim-end))
 
 (use-package multi-line
   :bind
