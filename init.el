@@ -515,6 +515,12 @@ LIST-SIZE is ignored."
 (setup winner-mode
   (winner-mode))
 
+;;; Editing
+
+;; Standard Emacs package. Dead keys work when this is loaded.
+(setup iso-transl
+  (:require iso-transl))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -987,10 +993,6 @@ targets."
   :custom
   (indentinator-idle-time 0.005 "Speed up indentinator")
   :elpaca (:host github :repo "xendk/indentinator"))
-
-;; Standard Emacs package. Dead keys work when this is loaded.
-(use-package iso-transl
-  :elpaca nil)
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
