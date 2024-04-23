@@ -658,6 +658,12 @@ LIST-SIZE is ignored."
    "C-c q" vr/query-replace
    "C-c m" vr/mc-mark))
 
+(setup avy-zap
+  (:elpaca t)
+  (:global
+   "M-Z" avy-zap-to-char-dwim
+   "M-z" avy-zap-up-to-char-dwim))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -679,11 +685,6 @@ LIST-SIZE is ignored."
 (use-package apib-mode
   :defer t
   :mode "\\.apib$")
-
-(use-package avy-zap
-  :bind
-  ("M-Z" . avy-zap-to-char-dwim)
-  ("M-z" . avy-zap-up-to-char-dwim))
 
 ;; Built in, used by magit, we'll delight it.
 (use-package autorevert
