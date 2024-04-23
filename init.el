@@ -621,6 +621,17 @@ LIST-SIZE is ignored."
      "q" undo-tree-visualizer-abort))
   (global-undo-tree-mode))
 
+(setup which-key
+  (:elpaca t)
+  (:option
+   which-key-idle-secondary-delay 0.1
+   which-key-mode t
+   which-key-popup-type 'side-window
+   which-key-show-early-on-C-h t
+   which-key-side-window-max-height 0.5
+   which-key-sort-order 'which-key-key-order)
+  (which-key-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1367,17 +1378,6 @@ targets."
   :mode "\\.vcl\\'"
   :custom
   (vcl-indent-level 2 "Set indent level"))
-
-(use-package which-key
-  :init
-  (which-key-mode)
-  :custom
-  (which-key-idle-secondary-delay 0.1)
-  (which-key-mode t)
-  (which-key-popup-type (quote side-window))
-  (which-key-show-early-on-C-h t)
-  (which-key-side-window-max-height 0.5)
-  (which-key-sort-order (quote which-key-key-order)))
 
 (use-package vertico
   :elpaca (:files (:defaults "extensions/*"))
