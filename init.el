@@ -484,6 +484,19 @@ LIST-SIZE is ignored."
    "M-g M-g" +avy-goto-line
    "M-u" avy-goto-char-in-line))
 
+;; http://www.emacswiki.org/emacs/WindMove
+;; Built in.
+(setup windmove
+  ;; Shift is default.
+  (windmove-default-keybindings)
+  (windmove-swap-states-default-keybindings '(shift meta))
+  ;; Make windmove work in org-mode:
+  (with-eval-after-load 'org
+    (add-to-list 'org-shiftup-final-hook 'windmove-up)
+    (add-to-list 'org-shiftleft-final-hook 'windmove-left)
+    (add-to-list 'org-shiftdown-final-hook 'windmove-down)
+    (add-to-list 'org-shiftright-final-hook 'windmove-right)))
+
 ;; http://www.emacswiki.org/emacs/FrameMove
 (setup framemove
   ;; Elpaca doesn't have a menu for emacsmirror yet.
@@ -1450,23 +1463,6 @@ targets."
 ;; Writable grep buffer.
 ;; (use-package wgrep
 ;;   )
-
-;; http://www.emacswiki.org/emacs/WindMove
-;; Built in.
-(use-package windmove
-  :elpaca nil
-  :init
-  ;; Shift is default.
-  (windmove-default-keybindings)
-  (windmove-swap-states-default-keybindings '(shift meta))
-  ;; Let's try this on for size.
-  (windmove-display-default-keybindings '(shift meta ctrl))
-  ;; Make windmove work in org-mode:
-  :hook
-  (org-shiftup-final  . windmove-up)
-  (org-shiftleft-final  . windmove-left)
-  (org-shiftdown-final  . windmove-down)
-  (org-shiftright-final  . windmove-right))
 
 ;; http://www.emacswiki.org/emacs/WinnerMode
 ;; Built in.
