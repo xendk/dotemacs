@@ -521,6 +521,10 @@ LIST-SIZE is ignored."
 (setup iso-transl
   (:require iso-transl))
 
+;; Built in.
+(setup delsel
+  (delete-selection-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -752,12 +756,6 @@ LIST-SIZE is ignored."
 ;;         :stopOnEntry t
 ;;         :pathMappings (ht ("/var/www/web/" "/home/xen/sites/ding2/web/"))
 ;;         :sourceMaps t))
-
-;; Built in.
-(use-package delsel
-  :elpaca nil
-  :init
-  (delete-selection-mode))
 
 (use-package devdocs
   :bind (("C-c i" . (lambda ()
