@@ -510,6 +510,11 @@ LIST-SIZE is ignored."
    "C-a" mwim-beginning
    "C-e" mwim-end))
 
+;; http://www.emacswiki.org/emacs/WinnerMode
+;; Built in.
+(setup winner-mode
+  (winner-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1464,12 +1469,6 @@ targets."
 ;; Writable grep buffer.
 ;; (use-package wgrep
 ;;   )
-
-;; http://www.emacswiki.org/emacs/WinnerMode
-;; Built in.
-(use-package winner
-  :elpaca nil
-  :config (winner-mode))
 
 (use-package ws-butler
   :commands ws-butler-mode
