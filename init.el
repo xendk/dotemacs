@@ -664,6 +664,22 @@ LIST-SIZE is ignored."
    "M-Z" avy-zap-to-char-dwim
    "M-z" avy-zap-up-to-char-dwim))
 
+(setup yasnippet
+  (:elpaca t)
+  (:require yasnippet)
+  (:hide-mode yas-minor-mode)
+  (:option
+   yas-choose-keys-first nil
+   yas-choose-tables-first t
+   yas-fallback-behavior 'call-other-command
+   yas-prompt-functions '(yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)
+   yas-triggers-in-field t
+   yas-wrap-around-region nil)
+  (:with-mode yas-minor-mode
+    (:hook-into emacs-lisp-mode php-mode css-mode js-mode
+                enh-ruby-mode git-commit-mode))
+  (yas-reload-all))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1594,23 +1610,6 @@ targets."
 
 (use-package yaml-mode
   :mode "\\.(e?ya?ml|neon)\\(.dist\\)$")
-
-(use-package yasnippet
-  :commands yas-reload-all
-  :custom
-  (yas-choose-keys-first nil)
-  (yas-choose-tables-first t)
-  (yas-fallback-behavior (quote call-other-command))
-  (yas-prompt-functions
-   (quote
-    (yas-dropdown-prompt yas-completing-prompt yas-ido-prompt yas-no-prompt)))
-  (yas-triggers-in-field t)
-  (yas-wrap-around-region nil)
-  :delight yas-minor-mode
-  :hook
-  ((emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode) . yas-minor-mode)
-  (git-commit-mode . yas-minor-mode)
-  :config (yas-reload-all))
 
 
 
