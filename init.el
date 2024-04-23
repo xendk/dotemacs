@@ -595,6 +595,11 @@ LIST-SIZE is ignored."
    "C-M-<up>" move-text-up
    "C-M-<down>" move-text-down))
 
+(setup ws-butler
+  (:elpaca t)
+  (:hide-mode)
+  (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1481,11 +1486,6 @@ targets."
 ;; Writable grep buffer.
 ;; (use-package wgrep
 ;;   )
-
-(use-package ws-butler
-  :commands ws-butler-mode
-  :delight
-  :hook ((emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode) . ws-butler-mode))
 
 (use-package xen
   :elpaca nil
