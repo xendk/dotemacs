@@ -589,6 +589,12 @@ LIST-SIZE is ignored."
    "C-%" mc/mark-all-in-region
    "C-=" mc/mark-all-like-this-dwim))
 
+(setup move-text
+  (:elpaca t)
+  (:global
+   "C-M-<up>" move-text-up
+   "C-M-<down>" move-text-down))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1130,11 +1136,6 @@ targets."
               ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
-
-(use-package move-text
-  :bind
-  ("C-M-<up>" . move-text-up)
-  ("C-M-<down>" . move-text-down))
 
 (use-package multi-line
   :bind
