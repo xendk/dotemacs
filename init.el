@@ -571,6 +571,14 @@ LIST-SIZE is ignored."
     (:require xen-paired-delete)
     (global-xen-paired-delete-mode)))
 
+(setup expand-region
+  (:elpaca t)
+  (:option
+   ;; Use subword expansion
+   expand-region-subword-enabled t)
+  (:global
+   "C-S-SPC" er/expand-region))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -945,12 +953,6 @@ targets."
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
-
-(use-package expand-region
-  :bind ("C-S-SPC" . er/expand-region)
-  :custom
-  (expand-region-subword-enabled t "Use subword expansion")
-  :demand t)
 
 (use-package feature-mode
   ;; See readme for how to set up jump to step.
