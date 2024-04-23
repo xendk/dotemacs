@@ -529,6 +529,42 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode))
 
+(setup smartparens
+  (:elpaca t)
+  (:require smartparens)
+  (:hide-mode)
+  (:option
+   ;; Let xen-paired-delete-mode handle deletion.
+   sp-autodelete-closing-pair nil
+   sp-autodelete-opening-pair nil
+   sp-autodelete-pair nil
+   ;; Only skip typed closing pair when we're at it.
+   sp-autoskip-closing-pair 'always-end
+   sp-show-pair-from-inside t)
+  (:when-loaded
+    (require 'smartparens-config)
+    (smartparens-global-mode 1)
+    (show-smartparens-global-mode 1)
+    ;; Don't autopair ' when after a word (makes the first word of this
+    ;; sentence difficult to type).
+    (sp-pair "'" nil :unless '(sp-point-after-word-p))
+
+    (sp-local-pair 'js-mode "/*" "*/" :actions '(wrap insert)
+                   :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
+
+    (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert)
+                   :post-handlers '(("* ||\n[i]" "RET")))
+
+    (sp-local-pair 'twig-mode "{" nil :actions nil)
+    (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
+    (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
+    (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
+    ;; Hmm, no workie.
+    ;; (with-eval-after-load "twig-mode"      (require 'smartparens-html))
+    ;; (with-eval-after-load "smartparens" (sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
+    ;; (require 'smartparens-html)
+    ))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1259,40 +1295,6 @@ targets."
   (save-place-file (concat user-emacs-directory "saveplaces"))
   :init
   (save-place-mode))
-
-(use-package smartparens
-  :commands (smartparens-mode smartparens-global-mode show-smartparens-global-mode sp-pair sp-local-pair sp-with-modes)
-  :custom
-  (sp-autodelete-closing-pair nil)
-  (sp-autodelete-opening-pair nil)
-  (sp-autodelete-pair nil)
-  (sp-autoskip-closing-pair (quote always-end) "Only skip typed closing pair when we're at it")
-  (sp-show-pair-from-inside t)
-  :demand
-  :delight
-  :config
-  (require 'smartparens-config)
-  (smartparens-global-mode 1)
-  (show-smartparens-global-mode 1)
-  ;; Don't autopair ' when after a word (makes the first word of this
-  ;; sentence difficult to type).
-  (sp-pair "'" nil :unless '(sp-point-after-word-p))
-
-  (sp-local-pair 'js-mode "/*" "*/" :actions '(wrap insert)
-                 :post-handlers '(("* ||\n[i]" "RET") ("\n[i]* ||\n[i]" "*")))
-
-  (sp-local-pair 'css-mode "/*" "*/" :actions '(wrap insert)
-                 :post-handlers '(("* ||\n[i]" "RET")))
-
-  (sp-local-pair 'twig-mode "{" nil :actions nil)
-  (sp-local-pair 'twig-mode "{{" "}}" :actions '(wrap insert))
-  (sp-local-pair 'twig-mode "{%" "%}" :actions '(wrap insert))
-  (sp-local-pair 'twig-mode "{#" "#}" :actions '(wrap insert))
-  ;; Hmm, no workie.
-  ;; (with-eval-after-load "twig-mode"      (require 'smartparens-html))
-  ;; (with-eval-after-load "smartparens" (sp-local-tag  'twig-mode "<" "<_>" "</_>" :transform 'sp-match-sgml-tags :post-handlers '(sp-html-post-handler)))
-  ;; (require 'smartparens-html)
-  )
 
 (use-package smex
   :custom
