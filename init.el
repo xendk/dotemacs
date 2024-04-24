@@ -467,6 +467,10 @@ LIST-SIZE is ignored."
 
 ;;; Navigation
 
+;; Needed for avy binding.
+(setup +global-override-map
+  (:require +global-override-map))
+
 (setup avy
   (:elpaca t)
   (:require +avy)
@@ -474,12 +478,9 @@ LIST-SIZE is ignored."
    avy-background t
    avy-keys '(?a ?e ?u ?i ?d ?h ?t ?s)
    avy-style 'de-bruijn)
+  (:global-override
+   "S-SPC" +avy-goto-char-timer)
   (:global
-   ;; Try with a more available key than S-SPC. If this is not
-   ;; acceptable, we'll have to look into the emulation-mode-map
-   ;; hackery of bind-key. See (the misnamed) xen-avy-goto-word-1 as
-   ;; to where this leads in terms of workarounds.
-   "C-\'" avy-goto-char-timer
    "M-g g" +avy-goto-line
    "M-g M-g" +avy-goto-line
    "M-u" avy-goto-char-in-line))
