@@ -703,6 +703,12 @@ LIST-SIZE is ignored."
                                    ))
   (savehist-mode))
 
+;; Built in, but we need to activate it.
+(setup save-place
+  (:option
+   save-place-file (concat user-emacs-directory "saveplaces"))
+  (save-place-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1372,14 +1378,6 @@ targets."
 
 (use-package s
   :commands s-truncate)
-
-;; Built in, but we need to activate it.
-(use-package saveplace
-  :elpaca nil
-  :custom
-  (save-place-file (concat user-emacs-directory "saveplaces"))
-  :init
-  (save-place-mode))
 
 (use-package smex
   :custom
