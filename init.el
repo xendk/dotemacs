@@ -709,6 +709,19 @@ LIST-SIZE is ignored."
    save-place-file (concat user-emacs-directory "saveplaces"))
   (save-place-mode))
 
+;;; Completion
+
+(setup vertico
+  (:elpaca vertico :files (:defaults "extensions/*"))
+  (:option
+   ;; Same keys as avy.
+   vertico-quick1 "ueoa"
+   vertico-quick2 "htns")
+  (:with-map vertico-map
+    (:bind
+     "S-SPC" vertico-quick-exit))
+  (vertico-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1414,16 +1427,6 @@ targets."
   :mode "\\.vcl\\'"
   :custom
   (vcl-indent-level 2 "Set indent level"))
-
-(use-package vertico
-  :elpaca (:files (:defaults "extensions/*"))
-  :bind (:map vertico-map
-              ("S-SPC" . vertico-quick-exit))
-  :custom
-  (vertico-quick1 "aoeu" "Set quick navigation keys")
-  (vertico-quick2 "dhtn" "Ditto")
-  :init
-  (vertico-mode))
 
 (use-package vertico-multiform
   :after (vertico jinx)
