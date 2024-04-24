@@ -643,11 +643,18 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:when-loaded
     (:option
-     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string)))
+     ;; Add strings to faces spell-checked by jinx
+     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string))
+    ;; Add PHP to camelCase modes
+    (append jinx-camel-modes) 'php-mode)
   (:global
    "M-$" jinx-correct
    "C-M-$" jinx-languages)
-  (global-jinx-mode))
+  (global-jinx-mode)
+  (with-eval-after-load 'vertico-multiform
+    ;; Show jinx completions in a grid
+    (add-to-list 'vertico-multiform-categories
+                 '(jinx grid))))
 
 (setup visual-regexp
   (:elpaca t)
@@ -720,7 +727,8 @@ LIST-SIZE is ignored."
   (:with-map vertico-map
     (:bind
      "S-SPC" vertico-quick-exit))
-  (vertico-mode))
+  (vertico-mode)
+  (vertico-multiform-mode 1))
 
 ;;; Packages.
 
@@ -1427,41 +1435,6 @@ targets."
   :mode "\\.vcl\\'"
   :custom
   (vcl-indent-level 2 "Set indent level"))
-
-(use-package vertico-multiform
-  :after (vertico jinx)
-  ;; Part of vertico.
-  :elpaca nil
-  :custom
-  (jinx-camel-modes '(java-mode
-                      java-ts-mode
-                      js-mode
-                      js-ts-mode
-                      ruby-mode
-                      ruby-ts-mode
-                      rust-mode
-                      rust-ts-mode
-                      haskell-mode
-                      kotlin-mode
-                      swift-mode
-                      csharp-mode
-                      csharp-ts-mode
-                      objc-mode
-                      typescript-ts-mode
-                      typescript-mode
-                      python-mode
-                      python-ts-mode
-                      dart-mode
-                      go-mode
-                      go-ts-mode
-                      scala-mode
-                      groovy-mode
-                      php-mode) "Add PHP to camelCase modes")
-  :config
-  ;; Show jinx completions in a grid.
-  (add-to-list 'vertico-multiform-categories
-               '(jinx grid))
-  (vertico-multiform-mode 1))
 
 (use-package vertico-prescient
   :init
