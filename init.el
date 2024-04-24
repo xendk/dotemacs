@@ -730,6 +730,14 @@ LIST-SIZE is ignored."
   (vertico-mode)
   (vertico-multiform-mode 1))
 
+(setup vertico-prescient
+  (:elpaca t)
+  (:option
+   prescient-filter-method '(literal initialism prefix regexp)
+   prescient-sort-full-matches-first t)
+  (vertico-prescient-mode 1)
+  (prescient-persist-mode 1))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1435,14 +1443,6 @@ targets."
   :mode "\\.vcl\\'"
   :custom
   (vcl-indent-level 2 "Set indent level"))
-
-(use-package vertico-prescient
-  :init
-  ;; todo: is this customs?
-  (setq prescient-filter-method '(literal initialism prefix regexp)
-        prescient-sort-full-matches-first t)
-  (vertico-prescient-mode 1)
-  (prescient-persist-mode 1))
 
 (use-package vterm
   :custom
