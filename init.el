@@ -476,7 +476,7 @@ LIST-SIZE is ignored."
   (:require +avy)
   (:option
    avy-background t
-   avy-keys '(?a ?e ?u ?i ?d ?h ?t ?s)
+   avy-keys '(?u ?e ?o ?a ?h ?t ?n ?s)
    avy-style 'de-bruijn)
   (:global-override
    "S-SPC" +avy-goto-char-timer)
