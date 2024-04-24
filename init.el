@@ -738,6 +738,39 @@ LIST-SIZE is ignored."
   (vertico-prescient-mode 1)
   (prescient-persist-mode 1))
 
+(setup corfu
+  (:elpaca corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
+  (:option
+   ;; Enable automatic popup
+   corfu-auto t
+   ;; Trigger at one char
+   corfu-auto-prefix 1
+   ;; Show more candidates
+   corfu-count 30
+   ;; Let suggestions wrap around
+   corfu-cycle t
+   ;; Makes tab-and-go work better
+   corfu-preselect 'prompt
+   ;; Same quick keys as avy
+   corfu-quick1 "ueoahtns"
+   corfu-quick2 "ueoahtns")
+  (:with-map corfu-map
+    (:bind
+     "TAB" corfu-next
+     [tab]  corfu-next
+     "S-TAB" corfu-previous
+     [backtab] corfu-previous
+     ;; Avy jumping.
+     "S-SPC" corfu-quick-complete
+     ;; Regain control over RET, C-n, C-p, <up>, and <down>.
+     "RET" nil
+     [remap next-line] nil
+     [remap previous-line] nil
+     "<down>" nil
+     "<up>" nil))
+  ;; Doesn't quite work?
+  ;;(corfu-history-mode 1)
+  (global-corfu-mode))
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -848,36 +881,6 @@ LIST-SIZE is ignored."
   :after (flycheck)
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
-
-(use-package corfu
-  ;; TAB-and-Go customizations
-  :custom
-  (corfu-auto t "Enable automatic popup")
-  (corfu-auto-prefix 1 "Trigger at one char")
-  (corfu-count 30 "Show more candidates")
-  (corfu-cycle t "Let suggestions wrap around")
-  (corfu-preselect 'prompt "Makes tab-and-go work better")
-  ;; Use TAB for cycling, default is `corfu-complete'.
-  :bind
-  (:map corfu-map
-        ("TAB" . corfu-next)
-        ([tab] . corfu-next)
-        ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous)
-        ;; Avy jumping.
-        ("S-SPC" . corfu-quick-complete)
-        ;; Regain control over RET, C-n, C-p, <up>, and <down>.
-        ("RET" . nil)
-        ([remap next-line] . nil)
-        ([remap previous-line] . nil)
-        ("<down>" . nil)
-        ("<up>" . nil))
-  :init
-  (global-corfu-mode)
-  ;; Doesn't quite work?
-  ;;(corfu-history-mode 1)
-  ;; Clone from GitHup rather than ELPA.
-  :elpaca (:host github :repo "minad/corfu" :files (:defaults "extensions/*")))
 
 (use-package cov
   :custom-face
