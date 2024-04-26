@@ -501,7 +501,7 @@ LIST-SIZE is ignored."
 ;; http://www.emacswiki.org/emacs/FrameMove
 (setup framemove
   ;; Elpaca doesn't have a menu for emacsmirror yet.
-  (:elpaca framemove :host github :repo "emacsmirror/framemove")
+  (:elpaca :host github :repo "emacsmirror/framemove")
   (:require framemove)
   (setq framemove-hook-into-windmove t))
 
@@ -603,7 +603,7 @@ LIST-SIZE is ignored."
 
 (setup undo-tree
   ;; Pull package directly from maintainer, the elpa package is behind.
-  (:elpaca undo-tree :type git :host gitlab :repo "tsc25/undo-tree")
+  (:elpaca :type git :host gitlab :repo "tsc25/undo-tree")
   (:hide-mode)
   (:option
    undo-tree-auto-save-history t
@@ -719,7 +719,7 @@ LIST-SIZE is ignored."
 ;;; Completion
 
 (setup vertico
-  (:elpaca vertico :files (:defaults "extensions/*"))
+  (:elpaca :files (:defaults "extensions/*"))
   (:option
    ;; Same keys as avy.
    vertico-quick1 "ueoa"
@@ -739,7 +739,7 @@ LIST-SIZE is ignored."
   (prescient-persist-mode 1))
 
 (setup corfu
-  (:elpaca corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
+  (:elpaca :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   (:option
    ;; Enable automatic popup
    corfu-auto t

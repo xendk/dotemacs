@@ -29,7 +29,7 @@ contains an alist with the key `elpaca'."
     (push (cond
            ((eq order t) `(elpaca . ,(setup-get 'feature)))
            ((eq order nil) '(elpaca . nil))
-           (`(elpaca . (,order ,@recipe))))
+           (`(elpaca . (,(setup-get 'feature) ,order ,@recipe))))
           setup-attributes)
     ;; If the macro wouldn't return nil, it would try to insert the result of
     ;; `push' which is the new value of the modified list. As this value usually
