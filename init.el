@@ -828,7 +828,10 @@ LIST-SIZE is ignored."
     (:bind
      "s" sort-lines
      "u" delete-duplicate-lines
-     "/" +embark-google-region)))
+     "/" +embark-google-region))
+  ;; Consult previews in collect buffers.
+  (:with-hook embark-collect-mode
+    (:hook consult-preview-at-point-mode)))
 
 ;;; Packages.
 
@@ -1029,14 +1032,6 @@ LIST-SIZE is ignored."
   :bind
   ("C-c ?" . eldoc)
   :delight)
-
-(use-package embark-consult
-  :after (embark consult)
-  :demand t ; only necessary if you have the hook below
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package enh-ruby-mode
   :mode "\\.rb\\'")
