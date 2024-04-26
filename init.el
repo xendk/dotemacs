@@ -840,6 +840,11 @@ LIST-SIZE is ignored."
      "M-A" marginalia-cycle))
   (marginalia-mode))
 
+(setup orderless
+  (:elpaca t)
+  (:option completion-styles '(orderless partial-completion basic))
+  (setq completion-category-defaults nil))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1215,12 +1220,6 @@ LIST-SIZE is ignored."
 
 (use-package olivetti
   :defer t)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless partial-completion basic)
-        completion-category-defaults nil
-        completion-category-overrides nil))
 
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
