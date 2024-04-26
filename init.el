@@ -771,6 +771,31 @@ LIST-SIZE is ignored."
   ;; Doesn't quite work?
   ;;(corfu-history-mode 1)
   (global-corfu-mode))
+
+(setup consult
+  (:elpaca t)
+  ;; Not worth bothering to lazy-load, it's the first thing that gets
+  ;; invoked anyway.
+  (:require consult)
+  (:also-load +consult)
+  (:option
+   ;; Limit the max fontification size to avoid sluggishness
+   consult-fontify-max-size 102400
+   consult-narrow-key "<"
+   ;; Use Consult to select xref locations with preview.
+   xref-show-xrefs-function #'consult-xref
+   xref-show-definitions-function #'consult-xref)
+  (:global
+   "C-<tab>" +consult-line
+   "C-x b" consult-buffer
+   "M-y" consult-yank-pop
+   "M-g m" consult-mark
+   "M-g k" consult-global-mark)
+  (:with-map isearch-mode-map
+    (:bind
+     "M-e" consult-isearch-history
+     "C-<tab>" consult-line)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -827,54 +852,6 @@ LIST-SIZE is ignored."
               ;; ("C-S-<tab>" . copilot-previous-completion)
               ;; ("C-g" . copilot-clear-overlay)
               ))
-
-(use-package consult
-  ;; xen-vterm requires this, and it's pretty much the first thing to
-  ;; be triggered anyway.
-  :demand t
-  ;; Many more examples at https://github.com/minad/consult#use-package-example
-  :bind (("C-<tab>" . xen-consult-line)
-         ("C-x b" . consult-buffer)
-         ("M-y" . consult-yank-pop)
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)
-         ("C-<tab>" . consult-line))
-  :custom
-  (consult-fontify-max-size 102400 "Limit the max fontification size to avoid sluggishness")
-  :init
-  ;; Use Consult to select xref locations with preview.
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  :config
-  (defun xen-consult-line ()
-    "Call consult-line, using region as inital input, if active."
-    (interactive)
-    (if (use-region-p)
-        (progn
-          (deactivate-mark)
-          (consult-line (buffer-substring-no-properties (region-beginning) (region-end))))
-      (consult-line)))
-  (defun xen-consult-ripgrep ()
-    "Call consult-repgrep, using region as inital input, if active."
-    (interactive)
-    (if (use-region-p)
-        (progn
-          (deactivate-mark)
-          (consult-ripgrep nil (buffer-substring-no-properties (region-beginning) (region-end))))
-      (consult-ripgrep)))
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
-
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-
-  ;; Use project.el for getting project root.
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (car (project-roots project))))))
 
 (use-package consult-flycheck
   :commands consult-flycheck
