@@ -833,6 +833,13 @@ LIST-SIZE is ignored."
   (:with-hook embark-collect-mode
     (:hook consult-preview-at-point-mode)))
 
+(setup marginalia
+  (:elpaca t)
+  (:with-map minibuffer-local-map
+    (:bind
+     "M-A" marginalia-cycle))
+  (marginalia-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1194,14 +1201,6 @@ LIST-SIZE is ignored."
   ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
   ("\\.md$" . gfm-mode)
   :hook (gfm-mode . auto-fill-mode))
-
-(use-package marginalia
-  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
-  :bind (;("M-A" . marginalia-cycle)
-         :map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
 
 (use-package multi-line
   :bind
