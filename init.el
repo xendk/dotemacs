@@ -803,6 +803,33 @@ LIST-SIZE is ignored."
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword))
 
+(setup embark
+  (:elpaca t)
+  (:also-load +embark)
+  (:option
+   ;; Make embark-verbose-indicator shrink to content
+   embark-verbose-indicator-display-action
+   '(display-buffer-at-bottom (window-height . fit-window-to-buffer))
+   ;; Use which-key to display options.
+   embark-indicators '(+embark-which-key-indicator
+                       embark-highlight-indicator
+                       embark-isearch-highlight-indicator)
+   ;; Hide the mode line of the Embark live/completions buffers
+   (append display-buffer-alist) '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                                   nil
+                                   (window-parameters (mode-line-format . none))))
+  (:global
+   "C-." embark-act
+   "C-," embark-dwim
+   "C-h B" embark-bindings)
+  ;; TODO: Move these to the packages that define the function.
+  ;; (:embark region "s" sort-lines) would be nice.
+  (:with-map embark-region-map
+    (:bind
+     "s" sort-lines
+     "u" delete-duplicate-lines
+     "/" +embark-google-region)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1002,68 +1029,6 @@ LIST-SIZE is ignored."
   :bind
   ("C-c ?" . eldoc)
   :delight)
-
-(use-package embark
-  :bind
-  (("C-." . embark-act)
-   ("C-," . embark-dwim)
-   ("C-h B" . embark-bindings)
-   :map embark-region-map
-   ("s" . sort-lines)
-   ("u" . delete-duplicate-lines)
-   ("/" . xen-google-region))
-  :custom
-  (embark-verbose-indicator-display-action
-   '(display-buffer-at-bottom (window-height . fit-window-to-buffer))
-   "Make embark-verbose-indicator shrink to content")
-  :config
-  ;; Use which-key as indicator, rather than the minimal default or
-  (defun embark-which-key-indicator ()
-    "An embark indicator that displays keymaps using which-key.
-The which-key help message will show the type and value of the
-current target followed by an ellipsis if there are further
-targets."
-  (lambda (&optional keymap targets prefix)
-    (if (null keymap)
-        (which-key--hide-popup-ignore-command)
-      (which-key--show-keymap
-       (if (eq (plist-get (car targets) :type) 'embark-become)
-           "Become"
-         (format "Act on %s '%s'%s"
-                 (plist-get (car targets) :type)
-                 (embark--truncate-target (plist-get (car targets) :target))
-                 (if (cdr targets) "…" "")))
-       (if prefix
-           (pcase (lookup-key keymap prefix 'accept-default)
-             ((and (pred keymapp) km) km)
-             (_ (key-binding prefix 'accept-default)))
-         keymap)
-       nil nil t (lambda (binding)
-                   (not (string-suffix-p "-argument" (cdr binding))))))))
-
-  (setq embark-indicators
-        '(embark-which-key-indicator
-          embark-highlight-indicator
-          embark-isearch-highlight-indicator))
-
-  (defun embark-hide-which-key-indicator (fn &rest args)
-    "Hide the which-key indicator immediately when using the completing-read prompter."
-    (which-key--hide-popup-ignore-command)
-    (let ((embark-indicators
-           (remq #'embark-which-key-indicator embark-indicators)))
-      (apply fn args)))
-
-  (advice-add #'embark-completing-read-prompter
-              :around #'embark-hide-which-key-indicator)  ;; the completing-read one.
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none))))
-  (defun xen-google-region ()
-    "Google current region."
-    (interactive)
-    (google-this-region nil t)))
 
 (use-package embark-consult
   :after (embark consult)
