@@ -796,6 +796,13 @@ LIST-SIZE is ignored."
      "M-e" consult-isearch-history
      "C-<tab>" consult-line)))
 
+(setup cape
+  (:elpaca :host github :repo "minad/cape")
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -827,14 +834,6 @@ LIST-SIZE is ignored."
 (use-package caddyfile-mode
   :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode)))
-
-(use-package cape
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  :elpaca (:host github :repo "minad/cape"))
 
 (use-package cask-mode
   :defer t)
