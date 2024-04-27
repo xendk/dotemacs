@@ -959,6 +959,18 @@ LIST-SIZE is ignored."
   (with-eval-after-load 'magit
     (require 'forge)))
 
+(setup project
+  (:require project)
+  ;; (:global
+  ;;  "C-c p" project-prefix-map)
+  (with-eval-after-load 'magit
+    (define-key project-prefix-map "m" 'magit-project-status))
+  ;; Remap to the old projectile prefix. :global does not support
+  ;; keymaps. Add :global-map?
+  (keymap-global-set "C-c p" project-prefix-map)
+  ;; magit-extras normally sets this, but Magit is lazyloaded.
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1259,18 +1271,6 @@ LIST-SIZE is ignored."
 
 (use-package po-mode
   :defer t)
-
-(use-package project
-  ;; Remap to the old projectile prefix.
-  :bind-keymap ("C-c p" . project-prefix-map)
-  :config
-  ;; Use consult-ripgrep instead of project-find-regexp.
-  ;;(advice-add #'project-find-regexp :override #'consult-ripgrep)
-  ;; magit-extras normally sets this, but Magit is lazyloaded.
-  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
-  :bind (:map project-prefix-map
-              ("m" . magit-project-status))
-  :elpaca nil)
 
 (use-package reaper
   :config
