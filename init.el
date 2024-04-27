@@ -1016,30 +1016,20 @@ LIST-SIZE is ignored."
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
 
-(use-package dap-mode
-  :commands (dap-mode dap-ui-mode)
-  :custom
-  (dap-php-debug-program
-   (quote
-    ("node" (concat user-emacs-directory "vscode-php-debug/out/phpDebug.js")))))
-
-;; To use dap, the container running xdebug needs something like:
-;; export XDEBUG_CONFIG="remote_host=172.17.0.1 remote_connect_back=Off remote_autostart=On"
-;; And dap needs something like this:
-;; (dap-register-debug-template "My Php Debug"
-;;   (list :type "php"
-;;         :cwd nil
-;;         :request "launch"
-;;         :name "Php Debug"
-;;         :args '("--server=4711")
-;;         :stopOnEntry t
-;;         :pathMappings (ht ("/var/www/web/" "/home/xen/sites/ding2/web/"))
-;;         :sourceMaps t))
-
 (use-package devdocs
   :bind (("C-c i" . (lambda ()
                       (interactive)
                       (devdocs-lookup nil (thing-at-point 'symbol t)))))
+  :init
+  (defun xen-crystal-tag-a (dom)
+    (let ((class (dom-attr dom 'class)))
+      (when (string= class "view-source")
+        (insert " ["))
+      (shr-tag-a dom)
+      (when (string= class "view-source")
+        (insert "]"))))
+  :custom
+  (devdocs-extra-rendering-functions '((crystal (a . xen-crystal-tag-a))))
   :hook
   (emacs-lisp-mode . (lambda ()
                        (setq-local devdocs-current-docs '("elisp"))))
@@ -1289,7 +1279,6 @@ LIST-SIZE is ignored."
   (php-mode-coding-style (quote psr2))
   (php-mode-enable-project-coding-style nil)
   :config
-  (require 'dap-php)
   :hook (php-mode . (lambda () (subword-mode 1)))
   (php-mode . (lambda ()
                 ;; Use -90 to make sure it gets in before
