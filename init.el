@@ -845,6 +845,13 @@ LIST-SIZE is ignored."
   (:option completion-styles '(orderless partial-completion basic))
   (setq completion-category-defaults nil))
 
+;;; Development
+
+;;;; Emacs
+(setup bug-hunter
+  (:elpaca t))
+
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -866,9 +873,6 @@ LIST-SIZE is ignored."
 (use-package apib-mode
   :defer t
   :mode "\\.apib$")
-
-(use-package bug-hunter
-  :commands (bug-hunter-init-file bug-hunter-file))
 
 (use-package buttercup
   :defer t)
