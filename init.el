@@ -1251,9 +1251,6 @@ LIST-SIZE is ignored."
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
 
-(use-package php-boris
-  :commands php-boris)
-
 (use-package php-mode
   :commands php-mode
   :mode
