@@ -1066,10 +1066,6 @@ LIST-SIZE is ignored."
   :elpaca nil
   :after drupal-mode)
 
-;; For editing code blocks in Markdown mode.
-(use-package edit-indirect
-  :after markdown-mode)
-
 (use-package enh-ruby-mode
   :mode "\\.rb\\'")
 
