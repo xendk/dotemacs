@@ -1057,10 +1057,6 @@ LIST-SIZE is ignored."
 (use-package fish-mode
   :defer t)
 
-(use-package flycheck-package
-  :commands flycheck-package-setup
-  :hook (flycheck-mode . flycheck-package-setup))
-
 (use-package forge
   :after magit)
 
