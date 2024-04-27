@@ -952,6 +952,11 @@ LIST-SIZE is ignored."
     ;; History in commit buffers
     (:hook git-commit-save-message)))
 
+(setup forge
+  (:elpaca t)
+  (with-eval-after-load 'magit
+    (require 'forge)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1095,9 +1100,6 @@ LIST-SIZE is ignored."
 
 (use-package fish-mode
   :defer t)
-
-(use-package forge
-  :after magit)
 
 (use-package git-attr
   :elpaca (:host github :repo "arnested/emacs-git-attr"))
@@ -1303,9 +1305,6 @@ LIST-SIZE is ignored."
 
 (use-package speed-type
   :commands (speed-type-text speed-type-region speed-type-buffer))
-
-;; Suggested by forge.
-(use-package sqlite3)
 
 (use-package string-inflection
   ;; autoload when needed.
