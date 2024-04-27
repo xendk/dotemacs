@@ -1159,9 +1159,6 @@ LIST-SIZE is ignored."
 (use-package nginx-mode
   :commands nginx-mode)
 
-(use-package magit-filenotify
-  :defer t)
-
 (use-package markdown-mode
   :mode
   ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
