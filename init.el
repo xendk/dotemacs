@@ -1344,12 +1344,6 @@ LIST-SIZE is ignored."
 (use-package s
   :commands s-truncate)
 
-(use-package smex
-  :custom
-  (smex-save-file (concat user-emacs-directory "smex-items"))
-  ;; autoload when needed.
-  :defer t)
-
 (use-package speed-type
   :commands (speed-type-text speed-type-region speed-type-buffer))
 
