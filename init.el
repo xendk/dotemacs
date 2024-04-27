@@ -942,20 +942,6 @@ LIST-SIZE is ignored."
 (use-package cask-mode
   :defer t)
 
-(use-package copilot
-  :elpaca (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  ;; Disabled while experimenting with eglot.
-  :disabled
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-mode-map
-              ("C-f" . copilot-accept-completion)
-              ("C-S-f" . copilot-accept-completion-by-line)
-              ("M-f" . copilot-accept-completion-by-word)
-              ;; ("C-<tab>" . copilot-next-completion)
-              ;; ("C-S-<tab>" . copilot-previous-completion)
-              ;; ("C-g" . copilot-clear-overlay)
-              ))
-
 (use-package cov
   :custom-face
   (cov-heavy-face ((t (:foreground "green"))))
