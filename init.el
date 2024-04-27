@@ -851,6 +851,8 @@ LIST-SIZE is ignored."
 (setup bug-hunter
   (:elpaca t))
 
+(setup buttercup
+  (:elpaca t))
 
 ;;; Packages.
 
@@ -873,9 +875,6 @@ LIST-SIZE is ignored."
 (use-package apib-mode
   :defer t
   :mode "\\.apib$")
-
-(use-package buttercup
-  :defer t)
 
 (use-package caddyfile-mode
   :mode (("Caddyfile\\'" . caddyfile-mode)
