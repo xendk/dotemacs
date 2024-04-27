@@ -906,6 +906,13 @@ LIST-SIZE is ignored."
     (with-eval-after-load 'flycheck
       (global-flycheck-eglot-mode 1))))
 
+(setup consult-flycheck
+  (:elpaca t)
+  (with-eval-after-load 'flycheck
+    ;; TODO: :bind-in, as :bind-into with a maps is deprecated, and
+    ;; :bind is first effectuated when the feature is loaded.
+    (define-key flycheck-command-map "!" 'consult-flycheck)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -948,12 +955,6 @@ LIST-SIZE is ignored."
               ;; ("C-S-<tab>" . copilot-previous-completion)
               ;; ("C-g" . copilot-clear-overlay)
               ))
-
-(use-package consult-flycheck
-  :commands consult-flycheck
-  :after (flycheck)
-  :bind (:map flycheck-command-map
-              ("!" . consult-flycheck)))
 
 (use-package cov
   :custom-face
