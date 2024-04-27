@@ -886,6 +886,20 @@ LIST-SIZE is ignored."
    editorconfig-exclude-modes '(makefile-gmake-mode))
   (editorconfig-mode 1))
 
+(setup flycheck
+  (:elpaca t)
+  (:option
+   ;; PHP checkers are replaced by eglot and phpactor.
+   flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
+   flycheck-global-modes (quote (not org-mode vterm-mode)))
+  (:bind
+   "M-<up>" flycheck-previous-error
+   "M-<down>" flycheck-next-error)
+  ;; Enable flycheck globally, doing it this way delays the setup to
+  ;; after everything is loaded. TODO: :after-init macro.
+  (:with-function global-flycheck-mode
+    (:hook-into elpaca-after-init)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1063,23 +1077,6 @@ LIST-SIZE is ignored."
 
 (use-package fish-mode
   :defer t)
-
-(use-package flycheck
-  :custom
-  ;; PHP checkers are replaced by eglot and phpactor.
-  (flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
-                              "Disable unwanted checkers")
-  (flycheck-eslintrc nil)
-  (flycheck-global-modes (quote (not org-mode vterm-mode)))
-  ;; this has long been overwritten by doom-modelines `check' segment.
-  (flycheck-mode-line (quote (:eval (xen-flycheck-mode-line-status-text))))
-  (flycheck-scss-compass t)
-  :bind (:map flycheck-mode-map
-              ("M-<up>" . flycheck-previous-error)
-              ("M-<down>" . flycheck-next-error))
-  ;; Enable flycheck globally, doing it this way delays the setup to
-  ;; after everything is loaded.
-  :hook (elpaca-after-init . global-flycheck-mode))
 
 (use-package flycheck-cask
   :commands flycheck-cask-setup
