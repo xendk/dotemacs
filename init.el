@@ -1057,10 +1057,6 @@ LIST-SIZE is ignored."
 (use-package fish-mode
   :defer t)
 
-(use-package flycheck-cask
-  :commands flycheck-cask-setup
-  :hook (flycheck-mode . flycheck-cask-setup))
-
 (use-package flycheck-package
   :commands flycheck-package-setup
   :hook (flycheck-mode . flycheck-package-setup))
