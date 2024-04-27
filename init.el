@@ -870,6 +870,15 @@ LIST-SIZE is ignored."
   ;; exits.
   (setq eglot-withhold-process-id t))
 
+(setup eldoc
+  (:hide-mode)
+  (:option
+   ;; Limit maximum number of lines displayed in the echo-area
+   eldoc-echo-area-use-multiline-p 5)
+  (:global
+   "C-c ?" eldoc)
+  (global-eldoc-mode 1))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1039,15 +1048,6 @@ LIST-SIZE is ignored."
 ;; For editing code blocks in Markdown mode.
 (use-package edit-indirect
   :after markdown-mode)
-
-;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
-(use-package eldoc
-  :commands (eldoc-mode eldoc)
-  :custom
-  (eldoc-echo-area-use-multiline-p 5 "Limit maximum number of lines displayed in the echo-area")
-  :bind
-  ("C-c ?" . eldoc)
-  :delight)
 
 (use-package enh-ruby-mode
   :mode "\\.rb\\'")
