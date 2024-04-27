@@ -913,6 +913,19 @@ LIST-SIZE is ignored."
     ;; :bind is first effectuated when the feature is loaded.
     (define-key flycheck-command-map "!" 'consult-flycheck)))
 
+(setup indentinator
+  (:elpaca :host github :repo "xendk/indentinator")
+  (:option
+   ;; Speed up reindentation
+   indentinator-idle-time 0.005)
+  (:hook-into emacs-lisp-mode
+              php-mode
+              css-mode
+              js-mode
+              enh-ruby-mode
+              twig-mode
+              crystal-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1087,19 +1100,6 @@ LIST-SIZE is ignored."
                (ibuffer-vc-set-filter-groups-by-vc-root)
                (unless (eq ibuffer-sorting-mode 'alphabetic)
                  (ibuffer-do-sort-by-alphabetic)))))
-
-(use-package indentinator
-  :hook ((emacs-lisp-mode
-          cask-mode
-          php-mode
-          css-mode
-          js-mode
-          enh-ruby-mode
-          twig-mode
-          crystal-mode) . indentinator-mode)
-  :custom
-  (indentinator-idle-time 0.005 "Speed up indentinator")
-  :elpaca (:host github :repo "xendk/indentinator"))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
