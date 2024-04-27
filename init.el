@@ -1160,9 +1160,6 @@ LIST-SIZE is ignored."
 (use-package nginx-mode
   :commands nginx-mode)
 
-;; Why this isn't handled by dependencies, I don't know.
-(use-package magit-section)
-
 (use-package magit-filenotify
   :defer t)
 
