@@ -952,6 +952,8 @@ LIST-SIZE is ignored."
     ;; History in commit buffers
     (:hook git-commit-save-message)))
 
+;; Try out https://github.com/doomelpa/code-review now that
+;; github-review doesn't work anymore.
 (setup forge
   (:elpaca t)
   (with-eval-after-load 'magit
@@ -1118,9 +1120,6 @@ LIST-SIZE is ignored."
   ;; Why does this use use-package-autoload-keymap?
   :bind-keymap ("C-c /" . google-this-mode-submap)
   :config (google-this-mode))
-
-(use-package github-review
-  :after forge)
 
 (use-package ibuffer-vc
   :hook
