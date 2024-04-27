@@ -1407,13 +1407,6 @@ LIST-SIZE is ignored."
          ("m" ("CamelCase" . string-inflection-camelcase))
          ("k" ("kebab-case" . string-inflection-kebab-case))))
 
-(use-package xen-flycheck
-  :elpaca nil
-  :load-path "xen"
-  :functions xen-flycheck-mode-line-status-text
-  :bind (:map flycheck-mode-map
-              ("C-c ! s" . xen-flycheck-insert-suppressor)))
-
 (use-package xen-php
   :elpaca nil
   :load-path "xen"
