@@ -155,22 +155,6 @@ See also `cycle-spacing'."
     (interactive "*p")
     (cycle-spacing n))
 
-(defun xen-git-commit-setup ()
-  "Insert Jira issue number in commit message if branch name contain one."
-  (let ((ISSUEKEY "[[:alpha:][:digit:]]\\{2,\\}-[[:digit:]]+"))
-    (when (and (magit-get-current-branch)
-               (string-match-p ISSUEKEY (magit-get-current-branch))
-               (looking-at-p "\n\n#"))
-      (insert
-       (concat
-        "\n\nRef "
-        (upcase (replace-regexp-in-string
-                 (concat ".*?\\(" ISSUEKEY "\\).*")
-                 "\\1"
-                 (magit-get-current-branch)))))
-      (push-mark)
-      (goto-char (point-min)))))
-
 (defvar xen-edit-clipboard-mode-map
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap (kbd "C-c C-c") 'xen-edit-clipboard-save)

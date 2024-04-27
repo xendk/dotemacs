@@ -926,6 +926,32 @@ LIST-SIZE is ignored."
               twig-mode
               crystal-mode))
 
+(setup magit
+  (:elpaca t)
+  (:also-load +magit)
+  (:option
+   ;; Don't bind global keys, we have our own
+   magit-define-global-key-bindings nil
+   ;; Full window status buffer
+   magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1)
+   ;; Prune branches when remote is removed
+   magit-fetch-arguments (quote ("--prune"))
+   ;; Save buffers when opening the status buffer
+   magit-save-repository-buffers (quote dontask)
+   ;; Don't require selecting a commit if point is already on one when
+   ;; creating fixup and squash commits.
+   magit-commit-squash-confirm nil)
+  (:global
+   "C-c g g" '("Status" . magit-status)
+   "C-c g d" '("Dispatch" . magit-dispatch)
+   "C-c g f" '("File dispatch" . magit-file-dispatch))
+  (:with-hook git-commit-setup-hook
+    (:hook +magit-commit-setup-jira))
+  (:with-hook git-commit-mode-hook
+    (:hook turn-on-auto-fill)
+    ;; History in commit buffers
+    (:hook git-commit-save-message)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1131,35 +1157,6 @@ LIST-SIZE is ignored."
 
 (use-package nginx-mode
   :commands nginx-mode)
-
-(use-package magit
-  :defines magit-last-seen-setup-instructions
-  :custom
-  ;; https://git.sr.ht/~pkal/emacs-init/tree/master/item/init.el#L288
-  (magit-define-global-key-bindings nil "Don't bind global keys, we have our own")
-  (magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
-  (magit-fetch-arguments (quote ("--prune")))
-  (magit-push-always-verify nil)
-  (magit-revert-buffers t t)
-  (magit-save-repository-buffers (quote dontask))
-  (magit-status-buffer-switch-function (quote switch-to-buffer))
-  (magit-use-sticky-arguments (quote current))
-  ;; Don't require selecting a commit if point is already on one when
-  ;; creating fixup and squash commits.
-  (magit-commit-squash-confirm nil)
-  :init (setq magit-last-seen-setup-instructions "1.4.0")
-  ;; After upgrading to 29, this doesn't work anymore.
-  :bind (("C-c g g" ("Status" . magit-status))
-         ("C-c g d" ("Dispatch" . magit-dispatch))
-         ("C-c g f" ("File dispatch" . magit-file-dispatch)))
-  :hook
-  (git-commit-setup . xen-git-commit-setup)
-  (git-commit-mode . turn-on-auto-fill)
-  (git-commit-mode . git-commit-save-message)
-  :config
-  (delight 'magit-status-mode
-           (propertize (concat " " [#xF1D3])
-                       'face '(:family "FontAwesome")) :major))
 
 ;; Why this isn't handled by dependencies, I don't know.
 (use-package magit-section)
