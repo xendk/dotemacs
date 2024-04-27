@@ -857,6 +857,19 @@ LIST-SIZE is ignored."
 (setup ecukes
   (:elpaca t))
 
+;;;; General
+
+(setup eglot
+  (:require +eglot)
+  (:with-function +eglot
+    (:hook-into prog-mode)
+    (with-eval-after-load 'yaml-mode
+      (:hook-into yaml-mode)))
+  ;; Don't pass Emacs process id to servers. Lang servers running in
+  ;; docker can't see the Emacs process, so they think it died and
+  ;; exits.
+  (setq eglot-withhold-process-id t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1026,18 +1039,6 @@ LIST-SIZE is ignored."
 ;; For editing code blocks in Markdown mode.
 (use-package edit-indirect
   :after markdown-mode)
-
-(use-package eglot
-  :elpaca nil
-  :hook
-  ((prog-mode yaml-mode) . (lambda ()
-                             (when (eglot--lookup-mode major-mode)
-                               (eglot-ensure))))
-  :config
-  ;; Don't pass Emacs process id to servers. Lang servers running in
-  ;; docker can't see the Emacs process, so they think it died and
-  ;; exits.
-  (setq eglot-withhold-process-id t))
 
 ;; TODO: Use global-eldoc-mode instead of enabling in prog-mode?
 (use-package eldoc
