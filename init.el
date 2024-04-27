@@ -900,6 +900,12 @@ LIST-SIZE is ignored."
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init)))
 
+(setup flycheck-eglot
+  (:elpaca t)
+  (with-eval-after-load 'eglot
+    (with-eval-after-load 'flycheck
+      (global-flycheck-eglot-mode 1))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1081,12 +1087,6 @@ LIST-SIZE is ignored."
 (use-package flycheck-cask
   :commands flycheck-cask-setup
   :hook (flycheck-mode . flycheck-cask-setup))
-
-(use-package flycheck-eglot
-  :ensure t
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
 
 (use-package flycheck-package
   :commands flycheck-package-setup
