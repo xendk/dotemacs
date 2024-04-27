@@ -879,6 +879,13 @@ LIST-SIZE is ignored."
    "C-c ?" eldoc)
   (global-eldoc-mode 1))
 
+(setup editorconfig
+  (:elpaca t)
+  (:option
+   ;; Makefiles always use tabs. So exclude them.
+   editorconfig-exclude-modes '(makefile-gmake-mode))
+  (editorconfig-mode 1))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1037,13 +1044,6 @@ LIST-SIZE is ignored."
 (use-package drush-make-mode
   :elpaca nil
   :after drupal-mode)
-
-(use-package editorconfig
-  :custom
-  ;; Makefiles always use tabs. So exclude them.
-  (editorconfig-exclude-modes '(makefile-gmake-mode))
-  :config
-  (editorconfig-mode 1))
 
 ;; For editing code blocks in Markdown mode.
 (use-package edit-indirect
