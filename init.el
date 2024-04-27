@@ -854,6 +854,9 @@ LIST-SIZE is ignored."
 (setup buttercup
   (:elpaca t))
 
+(setup ecukes
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1012,9 +1015,6 @@ LIST-SIZE is ignored."
 (use-package drush-make-mode
   :elpaca nil
   :after drupal-mode)
-
-(use-package ecukes
-  :commands ecukes)
 
 (use-package editorconfig
   :custom
