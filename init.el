@@ -1131,6 +1131,9 @@ LIST-SIZE is ignored."
   (add-to-list 'magic-mode-alist
                '("<?php" . php-mode-maybe)))
 
+(setup po-mode
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1223,9 +1226,6 @@ LIST-SIZE is ignored."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package po-mode
-  :defer t)
 
 (use-package reaper
   :config
