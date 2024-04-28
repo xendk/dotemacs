@@ -1060,6 +1060,13 @@ LIST-SIZE is ignored."
 (setup dockerfile-mode
   (:elpaca t))
 
+(setup drupal-mode
+  (:elpaca :host github :repo "arnested/drupal-mode" :branch "develop")
+  (:option
+   drupal-ignore-paths-regexp "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)"
+   ;; Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard
+   drupal/phpcs-standard nil))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1093,16 +1100,6 @@ LIST-SIZE is ignored."
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
-
-(use-package drupal-mode
-  :defer t
-  :custom
-  (drupal-ignore-paths-regexp
-   "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)")
-  (drupal/phpcs-standard nil "Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard")
-  :delight drupal-mode '(:eval (list " " (propertize (concat [#xF1A9])
-                                                     'face '(:family "FontAwesome"))))
-  :elpaca (:host github :repo "arnested/drupal-mode" :branch "develop"))
 
 ;; Part of drupal-mode.
 (use-package drush-make-mode
