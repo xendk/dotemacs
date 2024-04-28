@@ -1142,6 +1142,9 @@ LIST-SIZE is ignored."
   (add-to-list 'magic-mode-alist
                '("import.*react" . rjsx-mode)))
 
+(setup systemd
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1261,9 +1264,6 @@ LIST-SIZE is ignored."
              string-inflection-lower-camelcase
              string-inflection-camelcase
              string-inflection-kebab-case))
-
-(use-package systemd
-  :defer t)
 
 ;; (use-package tempel
 ;;   :bind (:map tempel-map
