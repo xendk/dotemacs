@@ -1086,6 +1086,9 @@ LIST-SIZE is ignored."
     (setenv "GO111MODULE" "on"))
   (:hook subword-mode))
 
+(setup js-mode
+  (:files "*.ts"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1148,12 +1151,6 @@ LIST-SIZE is ignored."
   :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
-
-;; Built in.
-(use-package js-mode
-  :elpaca nil
-  :commands js-mode
-  :mode "\\.ts$")
 
 (use-package keyfreq
   :if xen-primary
