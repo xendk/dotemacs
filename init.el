@@ -1012,6 +1012,12 @@ LIST-SIZE is ignored."
    'cov-none-face '(:foreground "red"))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
+;;; File Modes
+
+(setup apib-mode
+  (:elpaca t)
+  (:files "*.apib"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1022,17 +1028,15 @@ LIST-SIZE is ignored."
 ;; list-processes+
 ;; multi-line
 
+;; no
 (use-package all-the-icons
   :config
   (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0)))
 
+;; no
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package apib-mode
-  :defer t
-  :mode "\\.apib$")
 
 (use-package caddyfile-mode
   :mode (("Caddyfile\\'" . caddyfile-mode)
