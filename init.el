@@ -1022,6 +1022,34 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:files "caddy.conf"))
 
+(setup crystal-mode
+  (:elpaca t)
+  (:bind
+   "C-c C-t" crystal-spec-switch)
+  (:with-mode html-mode
+    (:files "*.ecr"))
+  ;; Tell eglot about the crystalline server.
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(crystal-mode . ("crystalline" "--stdio"))))
+  (with-eval-after-load 'cape
+    (defalias 'crystal-capf (cape-capf-super
+                             (cape-capf-inside-code
+                              (cape-capf-super #'cape-keyword #'cape-dabbrev))
+                             ;; cape-dict could be handy, if we could
+                             ;; get orderless to only prefix match it.
+                             (cape-capf-inside-comment #'cape-dabbrev)))
+    (:hook (lambda ()
+             ;; Eglot sets up completion-at-point-functions in
+             ;; its minor mode, so use eglot-managed-mode-hook
+             ;; to override it.
+             (add-hook 'eglot-managed-mode-hook
+                       (lambda ()
+                         (setq-local
+                          completion-at-point-functions
+                          (list #'crystal-capf)))
+                       nil t)))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1041,37 +1069,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package crystal-mode
-  ;; ECR files can be anything really, but html-mode is what I most
-  ;; often use.
-  :mode ("\\.ecr\\'" . html-mode)
-  :init
-  ;; Tell eglot about the crystalline server.
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '(crystal-mode . ("crystalline" "--stdio"))))
-  ;; Crystalines completion is non-existent, so use keyword and
-  ;; dabbrev completion from cape instead.
-  (defalias 'crystal-capf (cape-capf-super
-                           (cape-capf-inside-code
-                            (cape-capf-super #'cape-keyword #'cape-dabbrev))
-                           ;; cape-dict could be handy, if we could
-                           ;; get orderless to only prefix match it.
-                           (cape-capf-inside-comment #'cape-dabbrev)))
-  :hook
-  (crystal-mode . (lambda ()
-                    ;; Eglot sets up completion-at-point-functions in
-                    ;; its minor mode, so use eglot-managed-mode-hook
-                    ;; to override it.
-                    (add-hook 'eglot-managed-mode-hook
-                              (lambda ()
-                                (setq-local
-                                 completion-at-point-functions
-                                 (list #'crystal-capf)))
-                              nil t)))
-  :bind (:map crystal-mode-map
-              ("C-c C-t" . crystal-spec-switch)))
 
 (use-package css-mode
   :elpaca nil
