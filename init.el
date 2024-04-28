@@ -1134,6 +1134,14 @@ LIST-SIZE is ignored."
 (setup po-mode
   (:elpaca t))
 
+(setup rjsx-mode
+  (:option
+   ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
+   ;; Don't require semi-colons if not needed
+   js2-strict-missing-semi-warning nil)
+  (add-to-list 'magic-mode-alist
+               '("import.*react" . rjsx-mode)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1239,14 +1247,6 @@ LIST-SIZE is ignored."
 (use-package restclient
   :defer t
   :mode (("\\.http$" . restclient-mode)))
-
-(use-package rjsx-mode
-  :commands rjsx-mode
-  :mode "components\\/.*\\.js\\'"
-  :magic ("import.*react" . rjsx-mode)
-  :custom
-  ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
-  (js2-strict-missing-semi-warning nil "Don't require semi-colons if not needed"))
 
 (use-package s
   :commands s-truncate)
