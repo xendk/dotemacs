@@ -58,6 +58,7 @@ Alternatively, MODE can be specified manually, and override the
 current mode."
   :after-loaded t)
 
+;; TODO: should not require quoted face/spec.
 (setup-define :face
   (lambda (face spec)
     `(custom-set-faces (list ,face (list (list t ,spec)) 'now "Customized by `setup'.")))
