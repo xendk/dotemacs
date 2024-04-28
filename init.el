@@ -987,6 +987,23 @@ LIST-SIZE is ignored."
   ;; keymaps. Add :global-map?
   (keymap-global-set "C-c p" project-prefix-map))
 
+(setup devdocs
+  (:elpaca t)
+  (:also-load +devdocs)
+  (:global
+   "C-c i" (lambda ()
+             (interactive)
+             (devdocs-lookup nil (thing-at-point 'symbol t))))
+  ;; TODO: set these in the packages setup form?
+  (:with-hook emacs-lisp-mode-hook
+    (:local-set devdocs-current-docs '("elisp")))
+  (:with-hook crystal-mode-hook
+    (:local-set devdocs-current-docs '("crystal")))
+  (:with-hook php-mode-hook
+    (:local-set devdocs-current-docs '("php")))
+  (:when-loaded
+    (push '(a . +crystal-tag-a) (alist-get 'crystal devdocs-extra-rendering-functions))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1075,28 +1092,6 @@ LIST-SIZE is ignored."
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
-
-(use-package devdocs
-  :bind (("C-c i" . (lambda ()
-                      (interactive)
-                      (devdocs-lookup nil (thing-at-point 'symbol t)))))
-  :init
-  (defun xen-crystal-tag-a (dom)
-    (let ((class (dom-attr dom 'class)))
-      (when (string= class "view-source")
-        (insert " ["))
-      (shr-tag-a dom)
-      (when (string= class "view-source")
-        (insert "]"))))
-  :custom
-  (devdocs-extra-rendering-functions '((crystal (a . xen-crystal-tag-a))))
-  :hook
-  (emacs-lisp-mode . (lambda ()
-                       (setq-local devdocs-current-docs '("elisp"))))
-  (crystal-mode . (lambda ()
-                    (setq-local devdocs-current-docs '("crystal"))))
-  (php-mode . (lambda ()
-                (setq-local devdocs-current-docs '("php")))))
 
 (use-package dockerfile-mode
   :defer t)
@@ -1242,6 +1237,7 @@ LIST-SIZE is ignored."
   :init
   ;; A custom company-backend (which cape-company-to-capf will make a
   ;; proper capf) completes some very common PHP idioms.
+  ;; TODO: Maybe this is better done with tempel?
   (defvar xen-php-mode-backend-alist
     '(("declare(strict_types=1);" . "declare")
       ("<?php" . "<?ph")
