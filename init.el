@@ -1101,11 +1101,6 @@ LIST-SIZE is ignored."
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
 
-;; Part of drupal-mode.
-(use-package drush-make-mode
-  :elpaca nil
-  :after drupal-mode)
-
 (use-package enh-ruby-mode
   :mode "\\.rb\\'")
 
