@@ -1071,6 +1071,11 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:files "*.rb"))
 
+(setup feature-mode
+  (:elpaca t)
+  ;; See readme for how to set up jump to step.
+  )
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1109,10 +1114,6 @@ LIST-SIZE is ignored."
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
-
-(use-package feature-mode
-  ;; See readme for how to set up jump to step.
-  :defer t)
 
 (use-package fish-mode
   :defer t)
