@@ -1079,6 +1079,13 @@ LIST-SIZE is ignored."
 (setup fish-mode
   (:elpaca t))
 
+(setup go-mode
+  (:elpaca t)
+  (:when-loaded
+    ;; Tell gopls that we're using go modules.
+    (setenv "GO111MODULE" "on"))
+  (:hook subword-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1120,14 +1127,6 @@ LIST-SIZE is ignored."
 
 (use-package git-attr
   :elpaca (:host github :repo "arnested/emacs-git-attr"))
-
-(use-package go-mode
-  :mode "\\.go\\'"
-  :defer t
-  :config
-  ;; Tell gopls that we're using go modules.
-  (setenv "GO111MODULE" "on")
-  :hook ((go-mode . subword-mode)))
 
 (use-package google-this
   :commands (google-this-mode google-this-region)
