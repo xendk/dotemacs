@@ -961,15 +961,31 @@ LIST-SIZE is ignored."
 
 (setup project
   (:require project)
-  ;; (:global
-  ;;  "C-c p" project-prefix-map)
+  (:require +project)
+  (:option
+   ;; magit-extras normally sets this, but Magit is lazyloaded.
+   (append project-switch-commands) '(magit-project-status "Magit")
+   (append project-switch-commands) '(+project-vterm "vTerm" ?s)
+   (append project-switch-commands) '(consult-ripgrep "Find regexp")
+   ;; Remove those obsoleted by the above.
+   (remove project-switch-commands) '(project-find-regexp "Find regexp")
+   (remove project-switch-commands) '(project-eshell "Eshell")
+   (remove project-switch-commands) '(project-vc-dir "VC-Dir")
+   )
+  (:with-map project-prefix-map
+    (:bind
+     "s" +project-switch-to-shell
+     "S" +project-vterm
+     ;; TODO: possibly move to new package
+     "U" xen-docker-compose-up
+     "g" consult-ripgrep)
+    ;; Remove obsoleted.
+    (:unbind "e" "v"))
   (with-eval-after-load 'magit
     (define-key project-prefix-map "m" 'magit-project-status))
   ;; Remap to the old projectile prefix. :global does not support
   ;; keymaps. Add :global-map?
-  (keymap-global-set "C-c p" project-prefix-map)
-  ;; magit-extras normally sets this, but Magit is lazyloaded.
-  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
+  (keymap-global-set "C-c p" project-prefix-map))
 
 ;;; Packages.
 
@@ -1423,27 +1439,6 @@ LIST-SIZE is ignored."
               (")" . nil)
               ("C-c u" . xen-php-make-use))
   :after (php-mode smartparens))
-
-(use-package xen-project
-  :elpaca nil
-  :load-path "xen"
-  :after (project)
-  :bind (:map project-prefix-map
-              ("s" . xen-project-switch-to-shell)
-              ("S" . xen-project-vterm)
-              ("U" . xen-docker-compose-up)
-              ("g" . consult-ripgrep)
-              ;; Remove obsoleted.
-              ("e" . nil)
-              ("v" . nil))
-  :init
-  (add-to-list 'project-switch-commands '(xen-project-vterm "vTerm" ?s) t)
-  (add-to-list 'project-switch-commands '(consult-ripgrep "Find regexp") t)
-  ;; Remove those obsoleted by the above.
-  (setq project-switch-commands (delete '(project-find-regexp "Find regexp") project-switch-commands))
-  (setq project-switch-commands (delete '(project-eshell "Eshell") project-switch-commands))
-  (setq project-switch-commands (delete '(project-vc-dir "VC-Dir") project-switch-commands))
-  )
 
 (use-package xen-vterm
   :elpaca nil
