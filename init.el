@@ -1042,9 +1042,6 @@ LIST-SIZE is ignored."
 (use-package delight
   :commands delight)
 
-(use-package cask-mode
-  :defer t)
-
 (use-package crystal-mode
   ;; ECR files can be anything really, but html-mode is what I most
   ;; often use.
