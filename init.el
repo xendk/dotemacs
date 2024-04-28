@@ -1004,6 +1004,14 @@ LIST-SIZE is ignored."
   (:when-loaded
     (push '(a . +crystal-tag-a) (alist-get 'crystal devdocs-extra-rendering-functions))))
 
+(setup cov
+  (:elpaca t)
+  (:face
+   'cov-heavy-face '(:foreground "green")
+   'cov-light-face '(:foreground "orange")
+   'cov-none-face '(:foreground "red"))
+  (:hook-into emacs-lisp-mode php-mode js-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1032,14 +1040,6 @@ LIST-SIZE is ignored."
 
 (use-package cask-mode
   :defer t)
-
-(use-package cov
-  :custom-face
-  (cov-heavy-face ((t (:foreground "green"))))
-  (cov-light-face ((t (:foreground "orange"))))
-  (cov-none-face ((t (:foreground "red"))))
-  :hook
-  ((emacs-lisp-mode php-mode js-mode) . cov-mode))
 
 (use-package crystal-mode
   ;; ECR files can be anything really, but html-mode is what I most
