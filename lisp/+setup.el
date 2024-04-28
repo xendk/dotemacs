@@ -40,6 +40,10 @@ contains an alist with the key `elpaca'."
 The ORDER can be used to deduce the feature context."
   :shorthand #'cadr)
 
+;; This is really obsoleted by doom-modeline, which doesn't show minor
+;; modes per default (see `doom-modeline-minor-modes'). TODO: Nuke it
+;; and remove usage. Optionally add a macro for adding lighters the
+;; doom-modeline way.
 (setup-define :hide-mode
   (lambda (&optional mode)
     (let* ((mode (or mode (setup-get 'mode)))
