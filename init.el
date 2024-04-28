@@ -1067,6 +1067,10 @@ LIST-SIZE is ignored."
    ;; Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard
    drupal/phpcs-standard nil))
 
+(setup enh-ruby-mode
+  (:elpaca t)
+  (:files "*.rb"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1100,9 +1104,6 @@ LIST-SIZE is ignored."
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
-
-(use-package enh-ruby-mode
-  :mode "\\.rb\\'")
 
 (use-package exec-path-from-shell
   :init
