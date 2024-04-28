@@ -1050,6 +1050,13 @@ LIST-SIZE is ignored."
                           (list #'crystal-capf)))
                        nil t)))))
 
+(setup css-mode
+  (:option
+   ;; Use rainbow-mode hacked to use overlays so it works nicely with hl-line
+   css-fontify-colors nil
+   ;; Set default CSS indent offset
+   css-indent-offset 2))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1069,13 +1076,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package css-mode
-  :elpaca nil
-  :custom
-  (css-fontify-colors nil "Use rainbow-mode hacked to use overlays so it works nicely with hl-line")
-  (css-indent-offset 2 "Set default CSS indent offset")
-  :commands css-mode)
 
 (use-package custode
   :load-path "custode"
