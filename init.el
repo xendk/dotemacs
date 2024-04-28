@@ -1145,6 +1145,9 @@ LIST-SIZE is ignored."
 (setup systemd
   (:elpaca t))
 
+(setup twig-mode
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1269,8 +1272,6 @@ LIST-SIZE is ignored."
 ;;   :bind (:map tempel-map
 ;;               ("<tab>" . tempel-next)))
 ;;
-(use-package twig-mode
-  :defer t)
 
 (use-package vcl-mode
   :commands vcl-mode
