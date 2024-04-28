@@ -1089,6 +1089,14 @@ LIST-SIZE is ignored."
 (setup js-mode
   (:files "*.ts"))
 
+(setup markdown-mode
+  (:elpaca t)
+  ;; Use gfm-mode in md files per default.
+  (:with-function gfm-mode
+    (:files ".md"))
+  (:with-hook gfm-mode-hook
+    (:hook auto-fill-mode)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1169,12 +1177,6 @@ LIST-SIZE is ignored."
 
 (use-package nginx-mode
   :commands nginx-mode)
-
-(use-package markdown-mode
-  :mode
-  ("\\.\\(m\\(ark\\)?down\\)$" . markdown-mode)
-  ("\\.md$" . gfm-mode)
-  :hook (gfm-mode . auto-fill-mode))
 
 (use-package multi-line
   :bind
