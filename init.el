@@ -1057,6 +1057,9 @@ LIST-SIZE is ignored."
    ;; Set default CSS indent offset
    css-indent-offset 2))
 
+(setup dockerfile-mode
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1090,9 +1093,6 @@ LIST-SIZE is ignored."
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
-
-(use-package dockerfile-mode
-  :defer t)
 
 (use-package drupal-mode
   :defer t
