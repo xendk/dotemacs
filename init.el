@@ -1153,6 +1153,11 @@ LIST-SIZE is ignored."
   (:option
    vcl-indent-level 2))
 
+(setup yaml-mode
+  (:elpaca t)
+  ;; Extend with neon and dist.
+  (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)$"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1386,9 +1391,6 @@ LIST-SIZE is ignored."
   :bind
   ("C-c s" . xen-switch-to-shell)
   ("C-c S" . vterm))
-
-(use-package yaml-mode
-  :mode "\\.(e?ya?ml|neon)\\(.dist\\)$")
 
 
 
