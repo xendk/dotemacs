@@ -1097,6 +1097,9 @@ LIST-SIZE is ignored."
   (:with-hook gfm-mode-hook
     (:hook auto-fill-mode)))
 
+(setup nginx-mode
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1174,9 +1177,6 @@ LIST-SIZE is ignored."
 (use-package literate-calc-mode
   :commands literate-calc-mode
   :defer t)
-
-(use-package nginx-mode
-  :commands nginx-mode)
 
 (use-package multi-line
   :bind
