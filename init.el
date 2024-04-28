@@ -1076,6 +1076,9 @@ LIST-SIZE is ignored."
   ;; See readme for how to set up jump to step.
   )
 
+(setup fish-mode
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1114,9 +1117,6 @@ LIST-SIZE is ignored."
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
-
-(use-package fish-mode
-  :defer t)
 
 (use-package git-attr
   :elpaca (:host github :repo "arnested/emacs-git-attr"))
