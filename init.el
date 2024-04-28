@@ -1018,6 +1018,10 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:files "*.apib"))
 
+(setup caddyfile-mode
+  (:elpaca t)
+  (:files "caddy.conf"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1037,10 +1041,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package caddyfile-mode
-  :mode (("Caddyfile\\'" . caddyfile-mode)
-         ("caddy\\.conf\\'" . caddyfile-mode)))
 
 (use-package cask-mode
   :defer t)
