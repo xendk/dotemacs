@@ -1192,13 +1192,6 @@ LIST-SIZE is ignored."
   :bind
   ("C-c d" . multi-line))
 
-;; From http://www.gerd-neugebauer.de/software/emacs/multi-mode/multi-mode.el
-(use-package multi-mode
-  :load-path "lib/"
-  :commands multi-mode)
-;; Example:
-;; (multi-mode 1 'html-mode '("<?php" php-mode) '("?>" html-mode))
-
 ;; We're using the built in version of org. Upgrading it requires some hackery:
 ;; https://github.com/raxod502/radian/blob/ee92ea6cb0473bf7d20c6d381753011312ef4a52/radian-emacs/radian-org.el#L46-L112
 ;; And as we're quite content with it, we're sticking with the built in version.
