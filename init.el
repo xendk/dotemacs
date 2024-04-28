@@ -1148,6 +1148,11 @@ LIST-SIZE is ignored."
 (setup twig-mode
   (:elpaca t))
 
+(setup vcl-mode
+  (:elpaca t)
+  (:option
+   vcl-indent-level 2))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1272,12 +1277,6 @@ LIST-SIZE is ignored."
 ;;   :bind (:map tempel-map
 ;;               ("<tab>" . tempel-next)))
 ;;
-
-(use-package vcl-mode
-  :commands vcl-mode
-  :mode "\\.vcl\\'"
-  :custom
-  (vcl-indent-level 2 "Set indent level"))
 
 (use-package vterm
   :custom
