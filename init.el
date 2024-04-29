@@ -1208,6 +1208,9 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:files "*.http"))
 
+(setup speed-type
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1289,9 +1292,6 @@ LIST-SIZE is ignored."
 
 (use-package s
   :commands s-truncate)
-
-(use-package speed-type
-  :commands (speed-type-text speed-type-region speed-type-buffer))
 
 (use-package string-inflection
   ;; autoload when needed.
