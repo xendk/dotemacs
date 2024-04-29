@@ -1211,6 +1211,52 @@ LIST-SIZE is ignored."
 (setup speed-type
   (:elpaca t))
 
+(setup vterm
+  (:elpaca t)
+  (:option
+   vterm-max-scrollback 100000
+   vterm-buffer-name-string "vterm: %s"
+   ;; Makes copy/paste work better
+   vterm-copy-mode-remove-fake-newlines t
+   ;; Same bold color handling as most terminals
+   vterm-set-bold-hightbright t)
+  (:bind
+   ;; Fish understands C-g too.
+   "C-g" vterm--self-insert
+   "C-q" vterm-send-next-key
+   ;; Rebind M/C-cursors so they'll get sent to the process.
+   "M-<up>" vterm--self-insert
+   "M-<down>" vterm--self-insert
+   "M-<right>" vterm--self-insert
+   "M-<left>" vterm--self-insert
+   "C-<up>" vterm--self-insert
+   "C-<down>" vterm--self-insert
+   "C-<right>" vterm--self-insert
+   "C-<left>" vterm--self-insert
+   "<delete>" vterm--self-insert
+   "C-<backspace>" vterm--self-insert
+   ;; Doesn't work anymore?
+   "<mouse-4>" (lambda () (interactive) (vterm-send-key "<up>"))
+   "<mouse-5>" (lambda () (interactive) (vterm-send-key "<down>"))
+   ;; Make mouse buttons only select window, not move
+   ;; point/start selection.
+   "<mouse-1>" mouse-select-window
+   "<down-mouse-1>" mouse-select-window
+   "<mouse-3>" mouse-select-window
+   "<down-mouse-3>" mouse-select-window
+   ;; Let F11 be full screen, can't remember a shell
+   ;; command where I use it.
+   "<f11>" toggle-frame-fullscreen)
+  (:with-map vterm-copy-mode-map
+    (:bind
+     ;; More ways to quit.
+     "C-c C-c" vterm-copy-mode-done
+     "C-d" vterm-copy-mode-done))
+  ;; Disable string highlighting.
+  (:hook (lambda ()
+           ;; Don't fontify stings.
+           (setq font-lock-defaults '('() t)))))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1305,48 +1351,6 @@ LIST-SIZE is ignored."
 ;;   :bind (:map tempel-map
 ;;               ("<tab>" . tempel-next)))
 ;;
-
-(use-package vterm
-  :custom
-  (vterm-max-scrollback 100000)
-  (vterm-buffer-name-string "vterm: %s")
-  (vterm-copy-mode-remove-fake-newlines t "Makes copy/paste work better")
-  (vterm-set-bold-hightbright t "Same bold color handling as most terminals")
-  :bind (:map vterm-mode-map
-              ;; Fish understands C-g too.
-              ("C-g" . vterm--self-insert)
-              ("C-q" . vterm-send-next-key)
-              ;; Rebind M/C-cursors so they'll get sent to the process.
-              ("M-<up>" . vterm--self-insert)
-              ("M-<down>" . vterm--self-insert)
-              ("M-<right>" . vterm--self-insert)
-              ("M-<left>" . vterm--self-insert)
-              ("C-<up>" . vterm--self-insert)
-              ("C-<down>" . vterm--self-insert)
-              ("C-<right>" . vterm--self-insert)
-              ("C-<left>" . vterm--self-insert)
-              ("<delete>" . vterm--self-insert)
-              ("C-<backspace>" . vterm--self-insert)
-              ("<mouse-4>" . (lambda () (interactive) (vterm-send-key "<up>")))
-              ("<mouse-5>" . (lambda () (interactive) (vterm-send-key "<down>")))
-              ;; Make mouse buttons only select window, not move
-              ;; point/start selection.
-              ("<mouse-1>" . mouse-select-window)
-              ("<down-mouse-1>" . mouse-select-window)
-              ("<mouse-3>" . mouse-select-window)
-              ("<down-mouse-3>" . mouse-select-window)
-              ;; Let F11 be full screen, can't remember a shell
-              ;; command where I use it.
-              ("<f11>" . toggle-frame-fullscreen)
-              :map vterm-copy-mode-map
-              ;; More ways to quit.
-              ("C-c C-c" . vterm-copy-mode-done)
-              ("C-d" . vterm-copy-mode-done))
-  :hook
-  ;; Disable string highlighting.
-  (vterm-mode . (lambda ()
-                  ;; Don't fontify stings.
-                  (setq font-lock-defaults '('() t)))))
 
 ;; Writable grep buffer.
 ;; (use-package wgrep
