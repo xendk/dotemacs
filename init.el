@@ -15,36 +15,8 @@
   ;; If it's running, this is the second instance of Emacs, which is
   ;; most likely used for testing something, so debug on error.
   (toggle-debug-on-error))
+
 
-
-;; Bit of hackery to update use-package.
-(elpaca use-package
-  (use-package use-package
-    :config
-    ;; Collect statistics for use-package-report.
-    (setq use-package-compute-statistics t)
-    :custom
-    (use-package-verbose t)))
-
-;; Install use-package support
-(elpaca elpaca-use-package
-  ;; Enable :elpaca use-package keyword.
-  (elpaca-use-package-mode)
-  ;; Assume :elpaca t unless otherwise specified.
-  (setq elpaca-use-package-by-default t)
-  (setq use-package-compute-statistics t)
-  (setq use-package-verbose t))
-
-;; TODO: Figure out how to make a menu.
-;; (defun elpaca-menu-xen (request_)
-;;   "A minimal menu example.
-;; Ignore REQUEST, as this is a static, curated list of packages."
-;;   '((framemove :source "Xens stuff" :recipe (framemove :host github :repo "emacsmirror/framemove"))))
-
-;; (elpaca-queue (elpaca nil (add-to-list 'elpaca-menu-functions #'elpaca-menu-xen)))
-
-;; Block until current queue processed.
-(elpaca-wait)
 
 ;; https://git.sr.ht/~pkal/emacs-init/tree/master/item/init.el
 ;; Also: https://github.com/progfolio/.emacs.d/blob/master/init.org
