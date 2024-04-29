@@ -1180,6 +1180,18 @@ LIST-SIZE is ignored."
   ;; Extend with neon and dist.
   (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)$"))
 
+;;; Tools
+
+(setup reaper
+  (:elpaca t)
+  (:with-hook reaper-autofile-functions
+    (:hook xen-reaper-autofile-function))
+  (:global
+   "C-c h" reaper)
+  (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
+  ;; Store the autofile function in an uncommitted file.
+  (load (locate-user-emacs-file "xen-reaper.el") :noerror :nomessage))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1272,15 +1284,6 @@ LIST-SIZE is ignored."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package reaper
-  :config
-  (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
-  ;; Store the autofile function in an uncommitted file.
-  (load (locate-user-emacs-file "xen-reaper.el") :noerror :nomessage)
-  :init
-  (add-hook 'reaper-autofile-functions 'xen-reaper-autofile-function)
-  :bind ("C-c h" . reaper))
 
 (use-package restclient
   :defer t
