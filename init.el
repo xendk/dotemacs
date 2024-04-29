@@ -25,9 +25,6 @@
 ;; Many good things: https://git.acdw.net/emacs/tree/?id=3e78d1f8ca5b100f39577790614433398bc6a422
 ;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
 (setup emacs
-  (:hide-mode auto-fill-function)
-  (:hide-mode abbrev-mode)
-
   (:global
    ;; Used to M-DEL deleting a word.
    "M-<delete>" kill-word
@@ -352,7 +349,6 @@
   (:elpaca t)
   (:option
    highlight-symbol-idle-delay 0.5)
-  (:hide-mode)
   (:global
    "M-<left>" highlight-symbol-prev
    "M-<right>" highlight-symbol-next)
@@ -363,7 +359,6 @@
 
 (setup page-break-lines
   (:elpaca t)
-  (:hide-mode)
   (:hook-into emacs-lisp-mode))
 
 (setup region-occurrences-highlighter
@@ -509,7 +504,6 @@ LIST-SIZE is ignored."
 (setup smartparens
   (:elpaca t)
   (:require smartparens)
-  (:hide-mode)
   (:option
    ;; Let xen-paired-delete-mode handle deletion.
    sp-autodelete-closing-pair nil
@@ -579,13 +573,11 @@ LIST-SIZE is ignored."
 
 (setup ws-butler
   (:elpaca t)
-  (:hide-mode)
   (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode))
 
 (setup undo-tree
   ;; Pull package directly from maintainer, the elpa package is behind.
   (:elpaca :type git :host gitlab :repo "tsc25/undo-tree")
-  (:hide-mode)
   (:option
    undo-tree-auto-save-history t
    undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo-history")))
@@ -656,7 +648,6 @@ LIST-SIZE is ignored."
 (setup yasnippet
   (:elpaca t)
   (:require yasnippet)
-  (:hide-mode yas-minor-mode)
   (:option
    yas-choose-keys-first nil
    yas-choose-tables-first t
@@ -670,11 +661,7 @@ LIST-SIZE is ignored."
   (yas-reload-all))
 
 ;;; Files
-
-;; Built in, used by magit.
-(setup auto-revert
-  (:hide-mode))
-
+;;;
 ;; Built in.
 (setup savehist
   (:option
@@ -852,7 +839,6 @@ LIST-SIZE is ignored."
   (setq eglot-withhold-process-id t))
 
 (setup eldoc
-  (:hide-mode)
   (:option
    ;; Limit maximum number of lines displayed in the echo-area
    eldoc-echo-area-use-multiline-p 5)

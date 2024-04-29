@@ -40,24 +40,6 @@ contains an alist with the key `elpaca'."
 The ORDER can be used to deduce the feature context."
   :shorthand #'cadr)
 
-;; This is really obsoleted by doom-modeline, which doesn't show minor
-;; modes per default (see `doom-modeline-minor-modes'). TODO: Nuke it
-;; and remove usage. Optionally add a macro for adding lighters the
-;; doom-modeline way.
-(setup-define :hide-mode
-  (lambda (&optional mode)
-    (let* ((mode (or mode (setup-get 'mode)))
-           (mode (if (string-match-p "-mode\\'" (symbol-name mode))
-                     mode
-                   (intern (format "%s-mode" mode)))))
-      `(setq minor-mode-alist
-             (delq (assq ',mode minor-mode-alist)
-                   minor-mode-alist))))
-  :documentation "Hide the mode-line lighter of the current mode.
-Alternatively, MODE can be specified manually, and override the
-current mode."
-  :after-loaded t)
-
 ;; TODO: should not require quoted face/spec.
 (setup-define :face
   (lambda (face spec)
