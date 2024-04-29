@@ -1316,13 +1316,6 @@ LIST-SIZE is ignored."
 (use-package delight
   :commands delight)
 
-;; Properly handle annotations in java-mode.
-(use-package java-mode-indent-annotations
-  :elpaca nil
-  :load-path "lib/"
-  :commands java-mode-indent-annotations-setup
-  :hook (java-mode . java-mode-indent-annotations-setup))
-
 (use-package multi-line
   :bind
   ("C-c d" . multi-line))
