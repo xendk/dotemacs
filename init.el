@@ -1295,6 +1295,9 @@ LIST-SIZE is ignored."
 (setup s
   (:elpaca t))
 
+(setup string-inflection
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1343,14 +1346,6 @@ LIST-SIZE is ignored."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package string-inflection
-  ;; autoload when needed.
-  :commands (string-inflection-underscore
-             string-inflection-upcase
-             string-inflection-lower-camelcase
-             string-inflection-camelcase
-             string-inflection-kebab-case))
 
 ;; (use-package tempel
 ;;   :bind (:map tempel-map
