@@ -1341,30 +1341,6 @@ LIST-SIZE is ignored."
   (put 'upcase-region 'disabled nil)
   (put 'scroll-left 'disabled nil))
 
-;;; Packages.
-
-;; Reinstall these when the need arise:
-;; cask-mode
-;; git-link
-;; geben
-;; go-mode
-;; list-processes+
-;; multi-line
-
-;; no
-;; Make sure that delight is available as soon as any package triggers it.
-;; (use-package delight
-;;   :commands delight)
-
-;; (use-package tempel
-;;   :bind (:map tempel-map
-;;               ("<tab>" . tempel-next)))
-;;
-
-;; Writable grep buffer.
-;; (use-package wgrep
-;;   )
-
 
 
 (load custom-file)
