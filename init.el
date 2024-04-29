@@ -594,6 +594,11 @@ LIST-SIZE is ignored."
    "C-M-<up>" move-text-up
    "C-M-<down>" move-text-down))
 
+(setup multi-line
+  (:elpaca t)
+  (:global
+   "C-c d" multi-line))
+
 (setup ws-butler
   (:elpaca t)
   (:hide-mode)
@@ -1315,10 +1320,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package multi-line
-  :bind
-  ("C-c d" . multi-line))
 
 ;; (use-package tempel
 ;;   :bind (:map tempel-map
