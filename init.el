@@ -1119,7 +1119,13 @@ LIST-SIZE is ignored."
    php-mode-enable-project-coding-style nil)
   (:bind
    ;; Override php-mode's binding of C-.
-   "C-." embark-act)
+   "C-." embark-act
+   "C-c u" +php-make-use)
+  (:unbind
+   ;; Unbind c-electric-paren to fall back to
+   ;; self-insert-command, which allows smartparens to do
+   ;; its magic.
+   "(" ")")
   (:hook subword-mode)
   (:hook (lambda ()
            ;; Use -90 to make sure it gets in before
@@ -1129,7 +1135,23 @@ LIST-SIZE is ignored."
                      -90 t)))
   ;; TODO: New setup macro?
   (add-to-list 'magic-mode-alist
-               '("<?php" . php-mode-maybe)))
+               '("<?php" . php-mode-maybe))
+  (with-eval-after-load 'expand-region
+    (:hook +php-mode-expansions))
+  (with-eval-after-load 'smartparens
+    (sp-with-modes '(php-mode)
+      (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
+                                                (" |\n[i]" "RET")
+                                                (+php-handle-docstring "*")))
+
+      ;; When pressing return as the first thing after inserting
+      ;; a {, [ or (, add another and indent.
+      (sp-local-pair "{" nil :post-handlers
+                     '(("||\n[i]" "RET") +php-wrap-handler))
+      (sp-local-pair "(" nil :post-handlers
+                     '(("||\n[i]" "RET") +php-wrap-handler))
+      (sp-local-pair "[" nil :post-handlers
+                     '(("||\n[i]" "RET") +php-wrap-handler)))))
 
 (setup po-mode
   (:elpaca t))
@@ -1355,34 +1377,6 @@ LIST-SIZE is ignored."
          ("a" ("camelCase" . string-inflection-lower-camelcase))
          ("m" ("CamelCase" . string-inflection-camelcase))
          ("k" ("kebab-case" . string-inflection-kebab-case))))
-
-(use-package xen-php
-  :elpaca nil
-  :load-path "xen"
-  :demand
-  ;; Use hack-local-variables-hook to run after `.dir-local.el'
-  ;; variables has been set.
-  :config
-  (with-eval-after-load "expand-region"
-    (add-hook 'php-mode-hook #'xen-php-mode-expansions))
-  (sp-with-modes '(php-mode)
-    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC")
-                                              (" |\n[i]" "RET")
-                                              (xen-php-handle-docstring "*")))
-
-    ;; When pressing return as the first thing after inserting
-    ;; a {, [ or (, add another and indent.
-    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-    (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler))
-    (sp-local-pair "[" nil :post-handlers '(("||\n[i]" "RET") xen-php-wrap-handler)))
-  :bind (:map php-mode-map
-              ;; Unbind c-electric-paren ta fall back to
-              ;; self-insert-command, which allows smartparens to do
-              ;; its magic.
-              ("(" . nil)
-              (")" . nil)
-              ("C-c u" . xen-php-make-use))
-  :after (php-mode smartparens))
 
 (use-package xen-vterm
   :elpaca nil

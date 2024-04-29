@@ -1,42 +1,65 @@
-;;; xen-php.el --- Helper functions for PHP.         -*- lexical-binding: t; -*-
-
-;; Copyright (C) 2019  Thomas Fini Hansen
-
-;; Author: Thomas Fini Hansen <xen@xen.dk>
-;; Keywords: local
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;;; +php-mode.el --- php-mode additions              -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
-;;
-
 ;;; Code:
 
-(require 'dash)
-(require 'smartparens)
-(require 'xen)
+(require 'php-mode)
 
-;; External variables referenced.
-(defvar flycheck-phpcs-standard)
-(defvar flycheck-php-phpcs-executable)
-(defvar er/try-expand-list)
-(defvar sp-last-wrapped-region)
-(defvar symbol-regexp)
+;; A custom company-backend (which cape-company-to-capf will make a
+;; proper capf) completes some very common PHP idioms.
+;; TODO: Maybe this is better done with tempel?
+(defvar +php-mode-backend-alist
+  '(("declare(strict_types=1);" . "declare")
+    ("<?php" . "<?ph")
+    (+php-mode-backend-prefix . "class ")
+    (+php-mode-backend-prefix . "interface ")
+    (+php-mode-backend-prefix . "trait ")))
 
-;; expand-region stuff.
-(defun xen-php-mark-next-accessor ()
+(defun +php-mode-backend-prefix (prefix)
+  "Return class/interface based on the current file name.
+
+PREFIX is the current completion prefix."
+  (concat prefix (file-name-sans-extension
+                  (file-name-nondirectory (buffer-file-name)))))
+
+(defun +php-mode-backend (action &optional arg &rest _)
+  (pcase action
+    ('prefix (let ((prefix (save-excursion
+                             (let ((end (point)))
+                               (beginning-of-line)
+                               (buffer-substring (point) end)))))
+               (when (cl-some (lambda (cand)
+                                (string-prefix-p prefix (cdr cand)))
+                              +php-mode-backend-alist)
+                 (cons prefix t))))
+    ('candidates (all-completions
+                  arg
+                  (mapcar
+                   (lambda (cand)
+                     (if (functionp (car cand))
+                         (cons (funcall (car cand) (cdr cand)) (cdr cand))
+                       cand))
+                   +php-mode-backend-alist)))))
+
+;; Expand region
+(defun +php-mode-expansions ()
+  "My expand-region setup for php-mode."
+  (make-local-variable 'er/try-expand-list)
+  (setq er/try-expand-list '(er/mark-subword
+                             er/mark-word
+                             er/mark-symbol
+                             er/mark-symbol-with-prefix
+                             +php-mark-next-accessor
+                             +php-mark-method-call-or-array
+                             er/mark-comment
+                             er/mark-comment-block
+                             er/mark-inside-quotes
+                             er/mark-outside-quotes
+                             er/mark-inside-pairs
+                             er/mark-outside-pairs)))
+
+(defun +php-mark-next-accessor ()
   "Presuming that current symbol is already marked, skip over one arrow and mark the next symbol."
   (interactive)
     (when (use-region-p)
@@ -48,7 +71,7 @@
           (skip-syntax-forward "_w")
           (exchange-point-and-mark)))))
 
-(defun xen-php-mark-method-call-or-array ()
+(defun +php-mark-method-call-or-array ()
   "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
   (interactive)
   (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
@@ -62,35 +85,78 @@
           (forward-list))
       (exchange-point-and-mark))))
 
-(defun xen-php-mode-expansions ()
-  "My expand-region setup for php-mode."
-  (make-local-variable 'er/try-expand-list)
-  (setq er/try-expand-list '(er/mark-subword
-                             er/mark-word
-                             er/mark-symbol
-                             er/mark-symbol-with-prefix
-                             xen-php-mark-next-accessor
-                             xen-php-mark-method-call-or-array
-                             er/mark-comment
-                             er/mark-comment-block
-                             er/mark-inside-quotes
-                             er/mark-outside-quotes
-                             er/mark-inside-pairs
-                             er/mark-outside-pairs)))
 
-;; Geben hackery.
-;; (defun xen-geben-open ()
-;;   "Open the current buffer in geben."
-;;   (interactive)
-;;   (progn
-;;     (let ((geben-current-session (car geben-sessions)))
-;;       (geben-open-file (geben-source-fileuri geben-current-session (buffer-file-name))))))
+;; Helper for turning fully qualified class name into a use statement.
+;; TODO: should return start and end to make it easier to replace.
+(defun +php-grab-class ()
+  "Grab the PHP namespaced class at point.
 
-;; These was originally copied from the smartparens' authors personal
+Strips any leading backslash."
+  (let (start end class)
+    ;; TODO: Use thing-at-point, see `define-thing-chars'.
+    (skip-chars-backward "\\\\A-Za-z0-9_")
+    (setq start (point))
+    (skip-chars-forward "\\\\A-Za-z0-9_")
+    (setq end (point))
+    (when (> end start)
+      (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
+      ;; Need at least one inline backslash in order to be a
+      ;; namespaced class.
+      (when (string-match-p (regexp-quote "\\") class)
+        class))))
+
+(defun +php-find-use-block ()
+  "Find starting position of PHP use block."
+  (interactive)
+  (let ((inhibit-message t))
+    (beginning-of-buffer)
+
+    (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
+      (forward-line))
+
+    (not (eobp))))
+
+(defun +php-make-use ()
+  "Add a PHP use statement for the fully-qualified name at point."
+  (interactive)
+  (let (class current-line)
+    (save-excursion
+      (setq class (+php-grab-class))
+      (when class
+        (when-let ((use-block (+php-find-use-block))
+                   (line (concat "use " class ";\n")))
+          (unless (looking-at "use ")
+            (previous-line)
+            ;; TODO: Eh, this is a noop.
+            (unless (looking-at "[[:space:]]*$"))
+            (insert "\n"))
+          (while (and (looking-at "use ")
+                      (setq current-line (thing-at-point 'line t))
+                      (and (not (equal line current-line))
+                           (string> line current-line)))
+            (forward-line))
+          (unless (equal line current-line)
+            (insert "\n")
+            (previous-line)
+            ;; TODO: Try if pulse.el works for us.
+            (insert (substring line 0 -1))))))
+    (when class
+      (let (start
+            end
+            (bare-class (car (last (split-string class "\\\\")))))
+        (skip-chars-backward "\\\\A-Za-z0-9_")
+        (setq start (point))
+        (skip-chars-forward "\\\\A-Za-z0-9_")
+        (setq end (point))
+        (delete-region start end)
+        (insert bare-class)))))
+
+;; These (+php-wrap-handler, +php-handle-docstring and helpers) was
+;; originally copied from the smartparens' authors personal
 ;; configuration at
 ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
 ;; Some modifications has been made.
-(defun xen-php-wrap-handler (_id action _context)
+(defun +php-wrap-handler (_id action _context)
   "Wrap block properly.
 Inserts newline in after the start brace and before the end
 brace, if needed.
@@ -116,7 +182,8 @@ Indentation is assumed to be handled by indentinator."
             (goto-char :end-in)
             (newline)))))))
 
-(defun xen-php-handle-docstring (&rest _ignored)
+;; Docstring prepopulation.
+(defun +php-handle-docstring (&rest _ignored)
   "Handle doc-strings for smartparens."
   (let ((line (save-excursion
                 (forward-line)
@@ -136,10 +203,10 @@ Indentation is assumed to be handled by indentinator."
       (let ((var-name (match-string 1 line))
             (type ""))
         ;; try to guess the type from the constructor
-        (-when-let (constructor-args (xen-php-get-function-args "__construct" t))
+        (-when-let (constructor-args (+php-get-function-args "__construct" t))
           (setq type (or (cdr (assoc var-name constructor-args)) "")))
         (when type
-          (setq type (xen-php-qualify-type type))
+          (setq type (+php-qualify-type type))
           )
         (setq content (list (concat "* @var " type "\n")))
         (setq jump-to (rx "@var "))
@@ -149,24 +216,24 @@ Indentation is assumed to be handled by indentinator."
       (save-excursion
         (let ((args (save-excursion
                       (forward-line)
-                      (xen-php-get-function-args nil t)))
+                      (+php-get-function-args nil t)))
               (params '()))
           (--each args
-            (when (xen-php-should-insert-type-annotation (cdr it))
+            (when (+php-should-insert-type-annotation (cdr it))
               (setq params (append params (list (format "* @param %s\n"
-                                                        (mapconcat 'identity (list (xen-php-translate-type-annotation (cdr it))
+                                                        (mapconcat 'identity (list (+php-translate-type-annotation (cdr it))
                                                                                    (car it)) " ")))))))
           (when params
             (setq content (append content (list (mapconcat 'identity params ""))))))
         (let ((function-name (save-excursion
                                (forward-line)
-                               (xen-php-get-function-name)))
+                               (+php-get-function-name)))
               (return-type (save-excursion
                              (forward-line)
-                             (xen-php-get-function-return-type))))
+                             (+php-get-function-return-type))))
           (when (and (not (string= function-name "__construct"))
-                     (xen-php-should-insert-type-annotation return-type))
-            (setq content (append content (list (format "* @return %s\n" (xen-php-translate-type-annotation return-type))))))))
+                     (+php-should-insert-type-annotation return-type))
+            (setq content (append content (list (format "* @return %s\n" (+php-translate-type-annotation return-type))))))))
       (setq jump-to (rx "@" (or "param" "return") " "))
       )
      ;; class/interface
@@ -193,18 +260,7 @@ Indentation is assumed to be handled by indentinator."
         (inhibit-message t))
     (indent-region (overlay-start o) (overlay-end o))))
 
-(defun xen-php-get-function-name ()
-  "Get the name of the function.
-
-Point should be at the line containing `function'.
-"
-  (beginning-of-line)
-  (search-forward "function ")
-  (let ((start (point)))
-    (search-forward "(")
-    (buffer-substring-no-properties start (- (point) 1))))
-
-(defun xen-php-get-function-args (&optional name types)
+(defun +php-get-function-args (&optional name types)
   "Return all arguments of php function.
 
 Point should be at the line containing `function'.
@@ -231,7 +287,7 @@ name in car and the type in cdr."
                     (push (match-string 1) args)))))
             (nreverse args)))))
 
-(defun xen-php-qualify-type (type)
+(defun +php-qualify-type (type)
   "Get fully qualified name of TYPE.
 
 Looks at use statements to determine FQN."
@@ -249,14 +305,14 @@ Looks at use statements to determine FQN."
                                           (match-string 2)))
         type))))
 
-(defun xen-php-should-insert-type-annotation (type)
+(defun +php-should-insert-type-annotation (type)
   "Test if we should insert a TYPE annotation.
 
 Only insert an docstring annotation if the TYPE and translated
 type differ."
-  (not (equal type (xen-php-translate-type-annotation type))))
+  (not (equal type (+php-translate-type-annotation type))))
 
-(defun xen-php-translate-type-annotation (type)
+(defun +php-translate-type-annotation (type)
   "Translate TYPE into string for annotation.
 
 If the TYPE is array, return mixed[].  If the type is an object,
@@ -266,7 +322,18 @@ return as it is.  If type is nil, return an empty string."
        ((stringp type) type)
        ((null type) "")))
 
-(defun xen-php-get-function-return-type (&optional name)
+(defun +php-get-function-name ()
+  "Get the name of the function.
+
+Point should be at the line containing `function'.
+"
+  (beginning-of-line)
+  (search-forward "function ")
+  (let ((start (point)))
+    (search-forward "(")
+    (buffer-substring-no-properties start (- (point) 1))))
+
+(defun +php-get-function-return-type (&optional name)
   "Return the return type of the function.
 
 Point should be at the line containing `function'."
@@ -281,65 +348,5 @@ Point should be at the line containing `function'."
         (when (re-search-forward "[a-zA-Z0-9\\_]+" nil t)
           (match-string-no-properties 0))))))
 
-(defun xen-php-grab-class ()
-  "Grab the PHP namespaced class at point.
-
-Strips any leading backslash."
-  (let (start end class)
-    (skip-chars-backward "\\\\A-Za-z0-9_")
-    (setq start (point))
-    (skip-chars-forward "\\\\A-Za-z0-9_")
-    (setq end (point))
-    (when (> end start)
-      (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
-      ;; Need at least one inline backslash in order to be a
-      ;; namespaced class.
-      (when (string-match-p (regexp-quote "\\") class)
-        class))))
-
-(defun xen-php-find-use-block ()
-  "Find starting position of PHP use block."
-  (interactive)
-  (let ((inhibit-message t))
-    (beginning-of-buffer)
-
-    (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
-      (forward-line))
-
-    (not (eobp))))
-
-(defun xen-php-make-use ()
-  "Add a PHP use statement for the fully-qualified name at point."
-  (interactive)
-  (let (class current-line)
-    (save-excursion
-      (setq class (xen-php-grab-class))
-      (when class
-        (when-let ((use-block (xen-php-find-use-block))
-                   (line (concat "use " class ";\n")))
-          (unless (looking-at "use ")
-            (previous-line)
-            (unless (looking-at "[[:space:]]*$"))
-            (insert "\n"))
-          (while (and (looking-at "use ")
-                      (setq current-line (thing-at-point 'line t))
-                      (and (not (equal line current-line))
-                           (string> line current-line)))
-            (forward-line))
-          (unless (equal line current-line)
-            (insert "\n")
-            (previous-line)
-            (insert (substring line 0 -1))))))
-    (when class
-      (let (start
-            end
-            (bare-class (last (split-string class "\\\\"))))
-        (skip-chars-backward "\\\\A-Za-z0-9_")
-        (setq start (point))
-        (skip-chars-forward "\\\\A-Za-z0-9_")
-        (setq end (point))
-        (delete-region start end)
-        (xen-jitter-type bare-class)))))
-
-(provide 'xen-php)
-;;; xen-php.el ends here
+(provide '+php-mode)
+;;; +php-mode.el ends here
