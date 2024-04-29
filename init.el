@@ -78,9 +78,7 @@
    "S-C-<left>" shrink-window-horizontally
    "S-C-<right>" enlarge-window-horizontally
    "S-C-<down>" shrink-window
-   "S-C-<up>" enlarge-window
-   ;; Alternatives: electric-buffer-list or bs-show.
-   "C-x C-b" ibuffer)
+   "S-C-<up>" enlarge-window)
 
   (:with-mode prog-mode
     (:hook eldoc-mode) ; TODO: move to eldoc.
@@ -1317,13 +1315,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package ibuffer-vc
-  :hook
-  (ibuffer . (lambda ()
-               (ibuffer-vc-set-filter-groups-by-vc-root)
-               (unless (eq ibuffer-sorting-mode 'alphabetic)
-                 (ibuffer-do-sort-by-alphabetic)))))
 
 ;; Properly handle annotations in java-mode.
 (use-package java-mode-indent-annotations
