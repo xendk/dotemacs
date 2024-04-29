@@ -1320,17 +1320,6 @@ LIST-SIZE is ignored."
   :bind
   ("C-c d" . multi-line))
 
-;; package-lint requires package for its package database. So we defer
-;; it and use :config to initialize it when someone requires it.
-(use-package package
-  :elpaca nil
-  :commands package-initialize
-  :defer t
-  :config
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (package-initialize))
-
 ;; (use-package tempel
 ;;   :bind (:map tempel-map
 ;;               ("<tab>" . tempel-next)))
