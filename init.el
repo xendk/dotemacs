@@ -349,6 +349,12 @@
 (setup nerd-icons
   (:elpaca t))
 
+;; Remove when we update dashboard
+(setup all-the-icons
+  (:elpaca t)
+  (:when-loaded
+    (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0))))
+
 (setup hl-line
   (:require +hl-line)
   (:with-function +hl-line-mode
@@ -1346,14 +1352,9 @@ LIST-SIZE is ignored."
 ;; multi-line
 
 ;; no
-(use-package all-the-icons
-  :config
-  (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0)))
-
-;; no
 ;; Make sure that delight is available as soon as any package triggers it.
-(use-package delight
-  :commands delight)
+;; (use-package delight
+;;   :commands delight)
 
 ;; (use-package tempel
 ;;   :bind (:map tempel-map
