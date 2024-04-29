@@ -1292,6 +1292,9 @@ LIST-SIZE is ignored."
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1)))
 
+(setup s
+  (:elpaca t))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1340,9 +1343,6 @@ LIST-SIZE is ignored."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package s
-  :commands s-truncate)
 
 (use-package string-inflection
   ;; autoload when needed.
