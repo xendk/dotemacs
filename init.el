@@ -1265,6 +1265,13 @@ LIST-SIZE is ignored."
   (:with-hook vterm-copy-mode-hook
     (:hook +vterm-copy-mode-hook)))
 
+;;; Utils
+
+(setup exec-path-from-shell
+  (:elpaca t)
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1284,11 +1291,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package exec-path-from-shell
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
 
 (use-package git-attr
   :elpaca (:host github :repo "arnested/emacs-git-attr"))
