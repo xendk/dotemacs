@@ -1325,10 +1325,6 @@ LIST-SIZE is ignored."
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
-(use-package literate-calc-mode
-  :commands literate-calc-mode
-  :defer t)
-
 (use-package multi-line
   :bind
   ("C-c d" . multi-line))
