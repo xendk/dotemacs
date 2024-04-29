@@ -1275,6 +1275,12 @@ LIST-SIZE is ignored."
 (setup git-attr
   (:elpaca :host github :repo "arnested/emacs-git-attr"))
 
+(setup google-this
+  (:elpaca t)
+  ;; TODO: maybe reimplement :bind-keymap as :autoload-keymap to lazy
+  ;; load this.
+  (google-this-mode))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1294,13 +1300,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package google-this
-  :commands (google-this-mode google-this-region)
-  :delight
-  ;; Why does this use use-package-autoload-keymap?
-  :bind-keymap ("C-c /" . google-this-mode-submap)
-  :config (google-this-mode))
 
 (use-package ibuffer-vc
   :hook
