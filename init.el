@@ -1272,6 +1272,9 @@ LIST-SIZE is ignored."
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+(setup git-attr
+  (:elpaca :host github :repo "arnested/emacs-git-attr"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1291,9 +1294,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package git-attr
-  :elpaca (:host github :repo "arnested/emacs-git-attr"))
 
 (use-package google-this
   :commands (google-this-mode google-this-region)
