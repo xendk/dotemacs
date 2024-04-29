@@ -1281,6 +1281,17 @@ LIST-SIZE is ignored."
   ;; load this.
   (google-this-mode))
 
+(setup keyfreq
+  (:elpaca t)
+  (:option
+   keyfreq-autosave-mode t
+   keyfreq-file (concat user-emacs-directory "keyfreq")
+   keyfreq-file-lock (concat user-emacs-directory "keyfreq.lock"))
+  ;; Couldn't figure out :only-if
+  (when xen-primary
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1)))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1314,17 +1325,6 @@ LIST-SIZE is ignored."
   :load-path "lib/"
   :commands java-mode-indent-annotations-setup
   :hook (java-mode . java-mode-indent-annotations-setup))
-
-(use-package keyfreq
-  :if xen-primary
-  :commands (keyfreq-mode keyfreq-autosave-mode)
-  :custom
-  (keyfreq-autosave-mode t)
-  (keyfreq-file (concat user-emacs-directory "keyfreq"))
-  (keyfreq-file-lock (concat user-emacs-directory "keyfreq.lock"))
-  :init
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
 
 (use-package multi-line
   :bind
