@@ -1301,6 +1301,40 @@ LIST-SIZE is ignored."
 (setup string-inflection
   (:elpaca t))
 
+;;; My own stuff.
+;; TODO: some of this should be moved to +files.
+(setup xen
+  (:load-from (concat user-emacs-directory "xen"))
+  (:require xen)
+  (:global
+   "RET" xen-newline
+   "M-SPC" xen-cycle-spacing
+   "C-S-d" xen-duplicate-current-line
+   "C-S-l" xen-mark-lines
+   "C-c x" xen-map
+   "M-c" xen-casing-map
+   "C-c y" xen-edit-clipboard)
+  (:with-map prog-mode-map
+    (:bind
+     "C-o" xen-open))
+  (:with-map xen-casing-map
+    (:bind
+     "c" '("Capitalize" . capitalize-word)
+     "u" '("UPPERCASE" . upcase-word)
+     "l" '("downcase" . downcase-word)
+     "s" '("snake_case" . string-inflection-underscore)
+     "n" '("UPPER_SNAKE" . string-inflection-upcase)
+     "a" '("camelCase" . string-inflection-lower-camelcase)
+     "m" '("CamelCase" . string-inflection-camelcase)
+     "k" '("kebab-case" . string-inflection-kebab-case)))
+  ;; Tell delsel than xen-newline should delete selection.
+  (put 'xen-newline 'delete-selection t)
+  ;; Enable some disabled commands.
+  (put 'narrow-to-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'scroll-left 'disabled nil))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1330,42 +1364,9 @@ LIST-SIZE is ignored."
 ;; (use-package wgrep
 ;;   )
 
-(use-package xen
-  :elpaca nil
-  :load-path "xen"
-  :demand t
-  :config
-  ;; Tell delsel than xen-newline should delete selection.
-  (put 'xen-newline 'delete-selection t)
-  :bind (("RET" . xen-newline)
-         ("M-SPC" . xen-cycle-spacing)
-         ;; ("M-l" . xen-avy-goto-line)
-         ("C-S-d" . xen-duplicate-current-line)
-         ("C-S-l" . xen-mark-lines)
-         ("C-c x" . xen-map)
-         ("M-c" . xen-casing-map)
-         ("C-c y" . xen-edit-clipboard)
-         :map prog-mode-map
-         ("C-o" . 'xen-open)
-         :map xen-casing-map
-         ("c" ("Capitalize" . capitalize-word))
-         ("u" ("UPPERCASE" . upcase-word))
-         ("l" ("downcase" . downcase-word))
-         ("s" ("snake_case" . string-inflection-underscore))
-         ("n" ("UPPER_SNAKE" . string-inflection-upcase))
-         ("a" ("camelCase" . string-inflection-lower-camelcase))
-         ("m" ("CamelCase" . string-inflection-camelcase))
-         ("k" ("kebab-case" . string-inflection-kebab-case))))
-
 
 
 (load custom-file)
-
-;; Enable some disabled commands.
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
 
 ;;; Some places for inspiration
 
