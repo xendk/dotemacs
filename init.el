@@ -1182,6 +1182,18 @@ LIST-SIZE is ignored."
 
 ;;; Tools
 
+(setup custode
+  (:elpaca :type git :host github :repo "xendk/custode.el")
+  ;; Can't use :bind-keymap, as project-prefix-map doesn't exist until
+  ;; project is loaded.
+  (:when-loaded
+    (with-eval-after-load 'project
+      (define-key project-prefix-map "u" custode-prefix-map)))
+  (global-custode-mode)
+  ;; Add lighter to mode-line (this is how doom-modeline) suggests
+  ;; adding a lighter for a single minor-mode.
+  (add-to-list 'global-mode-string (list t custode-lighter)))
+
 (setup reaper
   (:elpaca t)
   (:with-hook reaper-autofile-functions
@@ -1211,20 +1223,6 @@ LIST-SIZE is ignored."
 ;; Make sure that delight is available as soon as any package triggers it.
 (use-package delight
   :commands delight)
-
-(use-package custode
-  :load-path "custode"
-  :elpaca (:type git :host github :repo "xendk/custode.el")
-  :init
-  (global-custode-mode)
-  :config
-  ;; Can't use :bind-keymap, as project-prefix-map doesn't exist until
-  ;; project is loaded.
-  (with-eval-after-load "project"
-    (define-key project-prefix-map "u" custode-prefix-map))
-  ;; Add lighter to mode-line (this is how doom-modeline) suggests
-  ;; adding a lighter for a single minor-mode.
-  (add-to-list 'global-mode-string (list t custode-lighter)))
 
 (use-package exec-path-from-shell
   :init
