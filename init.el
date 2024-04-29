@@ -1213,6 +1213,7 @@ LIST-SIZE is ignored."
 
 (setup vterm
   (:elpaca t)
+  (:require +vterm)
   (:option
    vterm-max-scrollback 100000
    vterm-buffer-name-string "vterm: %s"
@@ -1220,6 +1221,11 @@ LIST-SIZE is ignored."
    vterm-copy-mode-remove-fake-newlines t
    ;; Same bold color handling as most terminals
    vterm-set-bold-hightbright t)
+  ;; Would seem like a catch 22, but we always load consult.
+  (with-eval-after-load 'consult
+    (:global
+     "C-c s" +vterm-switch-to-shell
+     "C-c S" vterm))
   (:bind
    ;; Fish understands C-g too.
    "C-g" vterm--self-insert
@@ -1255,7 +1261,9 @@ LIST-SIZE is ignored."
   ;; Disable string highlighting.
   (:hook (lambda ()
            ;; Don't fontify stings.
-           (setq font-lock-defaults '('() t)))))
+           (setq font-lock-defaults '('() t))))
+  (:with-hook vterm-copy-mode-hook
+    (:hook +vterm-copy-mode-hook)))
 
 ;;; Packages.
 
@@ -1382,14 +1390,6 @@ LIST-SIZE is ignored."
          ("a" ("camelCase" . string-inflection-lower-camelcase))
          ("m" ("CamelCase" . string-inflection-camelcase))
          ("k" ("kebab-case" . string-inflection-kebab-case))))
-
-(use-package xen-vterm
-  :elpaca nil
-  :load-path "xen"
-  :hook (vterm-copy-mode . xen-vterm-copy-mode-hook)
-  :bind
-  ("C-c s" . xen-switch-to-shell)
-  ("C-c S" . vterm))
 
 
 
