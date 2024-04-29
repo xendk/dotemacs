@@ -1204,6 +1204,10 @@ LIST-SIZE is ignored."
   ;; Store the autofile function in an uncommitted file.
   (load (locate-user-emacs-file "xen-reaper.el") :noerror :nomessage))
 
+(setup restclient
+  (:elpaca t)
+  (:files "*.http"))
+
 ;;; Packages.
 
 ;; Reinstall these when the need arise:
@@ -1282,10 +1286,6 @@ LIST-SIZE is ignored."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
-
-(use-package restclient
-  :defer t
-  :mode (("\\.http$" . restclient-mode)))
 
 (use-package s
   :commands s-truncate)
