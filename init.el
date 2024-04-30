@@ -241,7 +241,9 @@
   (:option
    ;; Make the comments and modeline brighter.
    doom-nord-light-brighter-comments t
-   doom-nord-light-brighter-modeline t)
+   doom-nord-light-brighter-modeline t
+   ;; Remove background color on comments
+   doom-nord-comment-bg nil)
 
   ;; Load the theme
   (load-theme 'doom-nord-light t)
@@ -253,9 +255,6 @@
   (doom-themes-org-config)
 
   (:face
-   ;; Remove background color on comments (why does setting
-   ;; doom-nord-comment-bg to nil not work?).
-   'font-lock-comment-face '(:background unspecified)
    ;; White background for inactive mode-line is no-go for me.
    'mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
    ;; Make symbol highlight and region highlights a lighter version of the region.
