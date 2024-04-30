@@ -258,9 +258,6 @@
    ;; White background for inactive mode-line is no-go for me.
    mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
    ;; Make symbol highlight and region highlights a lighter version of the region.
-   region-occurrences-highlighter-face
-   `( :inverse-video unspecified
-      :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))
    highlight-symbol-face
    `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
 
@@ -366,7 +363,12 @@
   (:with-map region-occurrences-highlighter-nav-mode-map
     (:bind
      "M-<up>" region-occurrences-highlighter-prev
-     "M-<down>" region-occurrences-highlighter-next)))
+     "M-<down>" region-occurrences-highlighter-next))
+  (with-eval-after-load 'doom-themes
+    (:face
+     region-occurrences-highlighter-face
+     `( :inverse-video unspecified
+        :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))))
 
 (setup rainbow-mode
   (:elpaca t)
