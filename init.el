@@ -755,6 +755,8 @@ LIST-SIZE is ignored."
   (:global
    "C-<tab>" +consult-line
    "C-x b" consult-buffer
+   ;; IDEA: a consult-yank-pop that always show the completion, even
+   ;; after yank.
    "M-y" consult-yank-pop
    "M-g m" consult-mark
    "M-g k" consult-global-mark)
