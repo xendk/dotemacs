@@ -756,7 +756,7 @@ LIST-SIZE is ignored."
    xref-show-definitions-function #'consult-xref)
   (:global
    "C-<tab>" +consult-line
-   "C-x b" consult-buffer
+   "C-x b" +consult-buffer-by-project
    ;; IDEA: a consult-yank-pop that always show the completion, even
    ;; after yank.
    "M-y" consult-yank-pop
