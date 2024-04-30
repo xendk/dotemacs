@@ -40,10 +40,9 @@ contains an alist with the key `elpaca'."
 The ORDER can be used to deduce the feature context."
   :shorthand #'cadr)
 
-;; TODO: should not require quoted face/spec.
 (setup-define :face
   (lambda (face spec)
-    `(custom-set-faces (list ,face (list (list t ,spec)) 'now "Customized by `setup'.")))
+    `(custom-set-faces (list ',face (list (list t ,spec)) 'now "Customized by `setup'.")))
   :documentation "Customize FACE with SPEC using `custom-set-faces'."
   :repeatable t)
 

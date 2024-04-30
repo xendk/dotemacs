@@ -256,12 +256,12 @@
 
   (:face
    ;; White background for inactive mode-line is no-go for me.
-   'mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
+   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
    ;; Make symbol highlight and region highlights a lighter version of the region.
-   'region-occurrences-highlighter-face
+   region-occurrences-highlighter-face
    `( :inverse-video unspecified
       :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))
-   'highlight-symbol-face
+   highlight-symbol-face
    `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
 
 ;; TODO: Needs update, but new version changes the `check' segment,
@@ -338,8 +338,8 @@
    ;; Show minor line every 5 lines
    display-line-numbers-minor-tick 5)
   (:face
-   'line-number-major-tick '(:foreground "dark gray" :background unspecified)
-   'line-number-minor-tick '(:foreground "dim gray" :background unspecified))
+   line-number-major-tick '(:foreground "dark gray" :background unspecified)
+   line-number-minor-tick '(:foreground "dim gray" :background unspecified))
   (:with-function +display-line-numbers-mode
     (:hook-into prog-mode)))
 
@@ -383,8 +383,8 @@
   (:elpaca t)
   (:hook-into drupal-mode)
   (with-eval-after-load 'doom-themes
-    (:face 'column-enforce-face `( :inherit nil :underline nil
-                                   :background ,(doom-lighten 'warning .75)))))
+    (:face column-enforce-face `( :inherit nil :underline nil
+                                  :background ,(doom-lighten 'warning .75)))))
 
 (setup dimmer
   (:elpaca t)
@@ -973,9 +973,9 @@ LIST-SIZE is ignored."
 (setup cov
   (:elpaca t)
   (:face
-   'cov-heavy-face '(:foreground "green")
-   'cov-light-face '(:foreground "orange")
-   'cov-none-face '(:foreground "red"))
+   cov-heavy-face '(:foreground "green")
+   cov-light-face '(:foreground "orange")
+   cov-none-face '(:foreground "red"))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
 ;;; File Modes
