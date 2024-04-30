@@ -790,8 +790,8 @@ LIST-SIZE is ignored."
                                    nil
                                    (window-parameters (mode-line-format . none))))
   (:global
-   "C-." embark-act
-   "C-," embark-dwim
+   "C-," embark-act
+   "C-." embark-dwim
    "C-h B" embark-bindings)
   ;; TODO: Move these to the packages that define the function.
   ;; (:embark region "s" sort-lines) would be nice.
@@ -1089,7 +1089,7 @@ LIST-SIZE is ignored."
    php-mode-enable-project-coding-style nil)
   (:bind
    ;; Override php-mode's binding of C-.
-   "C-." embark-act
+   "C-." embark-dwim
    "C-c u" +php-make-use)
   (:unbind
    ;; Unbind c-electric-paren to fall back to
