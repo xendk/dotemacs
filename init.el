@@ -844,8 +844,7 @@ LIST-SIZE is ignored."
   (:option
    ;; Limit maximum number of lines displayed in the echo-area
    eldoc-echo-area-use-multiline-p 5)
-  (:global
-   "C-c ?" eldoc)
+  ;; No binding, eglot ensures it's available on C-h . and C-c ! H.
   (global-eldoc-mode 1))
 
 (setup editorconfig
@@ -960,7 +959,7 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:also-load +devdocs)
   (:global
-   "C-c i" (lambda ()
+   "C-h ," (lambda ()
              (interactive)
              (devdocs-lookup nil (thing-at-point 'symbol t))))
   ;; TODO: set these in the packages setup form?
