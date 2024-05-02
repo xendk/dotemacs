@@ -841,6 +841,7 @@ LIST-SIZE is ignored."
   (setq eglot-withhold-process-id t))
 
 (setup eldoc
+  (:also-load +eldoc)
   (:option
    ;; Limit maximum number of lines displayed in the echo-area
    eldoc-echo-area-use-multiline-p 5)
@@ -958,6 +959,9 @@ LIST-SIZE is ignored."
 (setup devdocs
   (:elpaca t)
   (:also-load +devdocs)
+  (:option
+   ;; Always select the window.
+   devdocs-window-select t)
   (:global
    "C-h ," (lambda ()
              (interactive)
