@@ -50,7 +50,6 @@
    "S-C-<up>" enlarge-window)
 
   (:with-mode prog-mode
-    (:hook eldoc-mode) ; TODO: move to eldoc.
     (:hook (lambda () (setq-local comment-auto-fill-only-comments t)
              (auto-fill-mode))))
 
