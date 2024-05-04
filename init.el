@@ -18,195 +18,89 @@
 
 
 
+;;; Emacs
+
 ;; https://git.sr.ht/~pkal/emacs-init/tree/master/item/init.el
 ;; Also: https://github.com/progfolio/.emacs.d/blob/master/init.org
 ;; Use +notation.
 ;; Heavy: https://github.com/progfolio/.emacs.d/blob/master/init.org#custom-set-variables
 ;; Many good things: https://git.acdw.net/emacs/tree/?id=3e78d1f8ca5b100f39577790614433398bc6a422
 ;; Core emacs stuff. Some parts was nicked from https://github.com/grettke/lolsmacs
-(setup emacs
-  (:global
-   ;; Used to M-DEL deleting a word.
-   "M-<delete>" kill-word
-   ;; Don't iconify on C-z.
-   "C-z" nil
-   ;; Scrolling on C-v confuses me when my muscle memory tries to use it as paste.
-   "C-v" nil
-   ;; Take out it's mate for consistency.
-   "M-v" nil
-   ;; Quickly delete the current buffer.
-   "C-x C-k" kill-current-buffer
-   ;; And often I want to kill the window too.
-   "C-x K" kill-buffer-and-window
-   ;; Horizontal scrolling on trackpad produces these, which makes Emacs
-   ;; print warnings about undefined keys. I don't want to do anything on
-   ;; horizontal scroll.
-   "<mouse-6>" ignore
-   "<mouse-7>" ignore
-   ;; Window resizing.
-   "S-C-<left>" shrink-window-horizontally
-   "S-C-<right>" enlarge-window-horizontally
-   "S-C-<down>" shrink-window
-   "S-C-<up>" enlarge-window)
 
-  (:with-mode prog-mode
-    (:hook (lambda () (setq-local comment-auto-fill-only-comments t)
-             (auto-fill-mode))))
-
-  (:with-hook compilation-filter-hook
-    (:hook ansi-color-compilation-filter))
-
-  ;; Some variables set above is duplicated here, should be cleaned up.
+;; Real core emacs stuff, most of this shows up as being in "C source code".
+(setup core
   (:option
-   ;; Better ANSI colors
-   ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
-   ;; Move auth-sources to XDG_CONFIG
-   auth-sources '("~/.config/emacs/authinfo.gpg")
    ;; Only scroll current line
    auto-hscroll-mode 'current-line
-   ;; Don't place backups next to the original file, but move them to
-   ;; <user-emacs-directory>/backups
-   backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
-   ;; Also delete newlines on backward-delete-char-untabify
-   backward-delete-char-untabify-method 'all
-   ;; Use browse-url-generic-program
-   browse-url-browser-function 'browse-url-generic
-   ;; Set a working browser
-   browse-url-generic-program "sensible-browser"
-   ;; Use indent from c-style
-   c-basic-offset 'set-from-style
-   ;; Set c-styles
-   c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu"))
-   ;; We've activated `ansi-color-compilation-filter', so tell
-   ;; compilation programs colors are OK
-   compilation-environment '("TERM=xterm-256color")
-   ;; Makes Corfu tab-complete on single matches work
-   completion-cycle-threshold 3
    ;; Lock files mess with watchers, and I don't have much use for it
    ;; on a single-user system.
    create-lockfiles nil
    ;; Echo keystrokes quickly
    echo-keystrokes 0.02
-   ediff-split-window-function 'split-window-horizontally
-   ;; Use a single frame for all ediff windows
-   ediff-window-setup-function 'ediff-setup-windows-plain
    enable-recursive-minibuffers t
-   ;; Print everything when eval'ing
-   eval-expression-print-level nil
-   ;; Makes it easier to dismiss them with q
-   help-window-select t
    history-delete-duplicates t
    ;; Increase margin for horizontal scroll
    hscroll-margin 15
-   ;; Don't use tabs for indentation
-   indent-tabs-mode nil
-   inhibit-startup-screen t
-   ;; Show counts in isearch
-   isearch-lazy-count t
-   ;; Seconds idle before starting to fontify in the background
-   jit-lock-stealth-time 10
-   js-indent-level 2
-   ;; Counts before the search string messes with readability...
-   lazy-count-prefix-format nil
-   ;; ...so show them as suffix.
-   lazy-count-suffix-format " [%s of %s]"
-   ;; Don't move by visual lines
-   line-move-visual nil
-   menu-bar-mode nil
-   ;; Make scrollwheel behave more like in other apps
-   mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control)))
-   ;; Yank at point, not pointer position when mouse-yanking
-   mouse-yank-at-point t
    ;; Prefer newer .el file over .elc
    load-prefer-newer t
    ;; Give mini-buffers a bit more room
    max-mini-window-height 0.33
-   ;; Cache passwords a bit longer
-   password-cache-expiry 3600
-   ;; Highlight matches when query-replacing
-   query-replace-highlight t
-   ;; Save more items in recent files
-   recentf-max-saved-items 500
-   ;; Allow inherit for flycheck-emacs-lisp-load-path for my init.el
-   safe-local-variable-values '((flycheck-emacs-lisp-load-path . inherit))
-   ;; Don't lose clips from other programs
-   save-interprogram-paste-before-kill t
-   scroll-bar-mode nil
    ;; Scroll linewise rather than jumping
    scroll-conservatively 2
    ;; Keep a margin to top/bottom of window
    scroll-margin 5
    ;; Don't jump around when scrolling
    scroll-preserve-screen-position t
-   ;; Don't require double space after period to consider it a sentence
-   sentence-end-double-space nil
+   ;; I'm grown up, I can manage using y/n for even destructive commands.
+   use-short-answers t
+   ;; Disable (mouse) dialogs, something is confusing emacs making it think some commands were mouse initiated
+   use-dialog-box nil)
+  (:bind
+   ;; Horizontal scrolling on trackpad produces these, which makes Emacs
+   ;; print warnings about undefined keys. I don't want to do anything on
+   ;; horizontal scroll.
+   "<mouse-6>" ignore
+   "<mouse-7>" ignore))
+
+(setup warnings
+  (:option
+   ;; Only show warnings buffer on errors
+   warning-minimum-level :error))
+
+(setup startup
+  (:option
+   ;; Don't need the startup screen anymore.
+   inhibit-startup-screen t
+   ;; Set email address
+   user-mail-address "xen@xen.dk"))
+
+(setup simple
+  (:option
+   ;; Also delete newlines on backward-delete-char-untabify
+   backward-delete-char-untabify-method 'all
+   ;; Print everything when eval'ing
+   eval-expression-print-level nil
+   ;; Don't use tabs for indentation
+   indent-tabs-mode nil
+   ;; Don't move by visual lines
+   line-move-visual nil
+   ;; Don't lose clips from other programs
+   save-interprogram-paste-before-kill t
    ;; Allow for repeatedly popping the mark using C-SPC
    set-mark-command-repeat-pop t
    ;; Don't use shift + cursors to mark regions
    shift-select-mode nil
    ;; Want to stick to end of line
-   track-eol t
-   ;; Re-uniquify buffers after killing some
-   uniquify-after-kill-buffer-p t
-   ;; Use appended brackets for file path
-   uniquify-buffer-name-style 'post-forward-angle-brackets
-   ;; Add a slash to directory buffers
-   uniquify-trailing-separator-p t
-   ;; Don't require confirmation on cookies
-   url-cookie-confirmation 'nil
-   ;; I'm grown up, I can manage using y/n for even destructive commands.
-   use-short-answers t
-   ;; Disable (mouse) dialogs, something is confusing emacs making it think some commands were mouse initiated
-   use-dialog-box nil
-   ;; Set email address
-   user-mail-address "xen@xen.dk"
-   ;; Only show warnings buffer on errors
-   warning-minimum-level :error
-   ;; Allow C-x C-q to change permissions too
-   wdired-allow-to-change-permissions t
-   ;; Make tabs more visible
-   whitespace-style '(face tabs tab-mark))
+   track-eol t)
+  (:global
+   ;; Used to M-DEL deleting a word.
+   "M-<delete>" kill-word
+   ;; Quickly delete the current buffer.
+   "C-x C-k" kill-current-buffer)
 
-  ;; TODO: Handle modes like this: https://git.acdw.net/emacs/tree/lisp/+emacs.el?id=3e78d1f8ca5b100f39577790614433398bc6a422#n187
-  ;; Disable tool-bar-mode.
-  (tool-bar-mode 0)
   ;; Show column number in mode-line.
   (column-number-mode)
-  ;; Offer to automatically populate some new files.
-  (auto-insert-mode)
-  ;; Enable whitespace mode globally.
-  (global-whitespace-mode)
-  ;; Show minibuffer depth when using recursive minibuffers.
-  (minibuffer-depth-indicate-mode)
-  ;; Display tabs with a more specific character.
-  (defvar whitespace-display-mappings)
-  (setf
-   (cdr (assoc 'tab-mark whitespace-display-mappings))
-   '(?\t [?↹ ?\t] [?\t]))
-  ;; Protect scratch buffer against accidental killing.
-  (with-current-buffer "*scratch*"
-    (emacs-lock-mode 'kill))
-  ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
-  ;; explains how to make display-buffer display things like you want.
-  (add-to-list 'display-buffer-alist
-               ;; Make help buffers reuse single window.
-               '("\\*Help\\*"
-                 (display-buffer-reuse-window display-buffer-pop-up-window)
-                 (reusable-frames . visible)))
-  ;; `ansi-color-compilation-filter' interprets ANSI codes in the region
-  ;; from `compilation-filter-start' to point. But
-  ;; `compilation-filter' has already handled backspaces and carriage
-  ;; returns, so the start of the newly inserted output might actually
-  ;; be before `compilation-filter-start'. Hack around it by moving
-  ;; `compilation-filter-start' back to the beginning of the line it
-  ;; is within.
-  (define-advice ansi-color-compilation-filter (:around (orig-func) xen-ansi-color-compilation-filter)
-    (let ((compilation-filter-start
-           (save-excursion
-             (goto-char compilation-filter-start)
-             (beginning-of-line)
-             (point))))
-      (funcall orig-func)))
+
   ;; Emacs 24 changed the region highlight from a hackery face thingy
   ;; to a proper overlay. Which is fine apart from giving it a nil
   ;; priority which puts it below pretty much everything else. So we
@@ -230,6 +124,202 @@
                          (eq (overlay-end rol) end))
               (move-overlay rol start end (current-buffer)))
             rol))))
+
+(setup files
+  (:option
+   ;; Don't place backups next to the original file, but move them to
+   ;; <user-emacs-directory>/backups
+   backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+   ;; Allow inherit for flycheck-emacs-lisp-load-path for my init.el
+   safe-local-variable-values '((flycheck-emacs-lisp-load-path . inherit))))
+
+(setup ansi-color
+  (:option
+   ;; Better ANSI colors
+   ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold])
+  ;; `ansi-color-compilation-filter' interprets ANSI codes in the region
+  ;; from `compilation-filter-start' to point. But
+  ;; `compilation-filter' has already handled backspaces and carriage
+  ;; returns, so the start of the newly inserted output might actually
+  ;; be before `compilation-filter-start'. Hack around it by moving
+  ;; `compilation-filter-start' back to the beginning of the line it
+  ;; is within.
+  (define-advice ansi-color-compilation-filter (:around (orig-func) +ansi-color-compilation-filter)
+    (let ((compilation-filter-start
+           (save-excursion
+             (goto-char compilation-filter-start)
+             (beginning-of-line)
+             (point))))
+      (funcall orig-func))))
+
+(setup auth-source
+  (:option
+   ;; Move auth-sources to XDG_CONFIG
+   auth-sources '("~/.config/emacs/authinfo.gpg")))
+
+(setup autoinsert
+  ;; Offer to automatically populate some new files.
+  (auto-insert-mode))
+
+(setup browse-url
+  (:option
+   ;; Use browse-url-generic-program
+   browse-url-browser-function 'browse-url-generic
+   ;; Set a working browser
+   browse-url-generic-program "sensible-browser"))
+
+(setup cc-vars
+  (:option
+   ;; Use indent from c-style
+   c-basic-offset 'set-from-style
+   ;; Set c-styles
+   c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu"))))
+
+(setup compile
+  (:option
+   ;; We've activated `ansi-color-compilation-filter', so tell
+   ;; compilation programs colors are OK
+   compilation-environment '("TERM=xterm-256color"))
+  (:with-hook compilation-filter-hook
+    (:hook ansi-color-compilation-filter)))
+
+(setup minibuffer
+  (:option
+   ;; Makes Corfu tab-complete on single matches work
+   completion-cycle-threshold 3))
+
+(setup ediff-wind
+  (:option
+   ediff-split-window-function 'split-window-horizontally
+   ;; Use a single frame for all ediff windows
+   ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(setup emacs-lock
+  ;; Protect scratch buffer against accidental killing.
+  (with-current-buffer "*scratch*"
+    (emacs-lock-mode 'kill)))
+(setup frame
+  (:global
+   ;; Don't iconify on C-z.
+   "C-z" nil))
+
+(setup help
+  (:option
+   ;; Makes it easier to dismiss them with q
+   help-window-select t))
+
+(setup isearch
+  (:option
+   ;; Show counts in isearch
+   isearch-lazy-count t
+   ;; Counts before the search string messes with readability...
+   lazy-count-prefix-format nil
+   ;; ...so show them as suffix.
+   lazy-count-suffix-format " [%s of %s]"))
+
+(setup jit-lock
+  (:option
+   ;; Seconds idle before starting to fontify in the background
+   jit-lock-stealth-time 10))
+
+(setup js
+  (:option
+   js-indent-level 2))
+
+(setup mb-depth
+  ;; Show minibuffer depth when using recursive minibuffers.
+  (minibuffer-depth-indicate-mode))
+
+(setup mouse
+  (:option
+   ;; Yank at point, not pointer position when mouse-yanking
+   mouse-yank-at-point t))
+
+(setup mwheel
+  (:option
+   ;; Make scrollwheel behave more like in other apps
+   mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control)))))
+
+(setup password-cache
+  (:option
+   ;; Cache passwords a bit longer
+   password-cache-expiry 3600))
+
+(setup prog-mode
+  (:hook (lambda ()
+           (setq-local comment-auto-fill-only-comments t)
+           (auto-fill-mode))))
+
+(setup replace
+  (:option
+   ;; Highlight matches when query-replacing
+   query-replace-highlight t))
+
+(setup recentf
+  (:option
+   ;; Save more items in recent files
+   recentf-max-saved-items 500))
+
+(setup paragraphs
+  (:option
+   ;; Don't require double space after period to consider it a sentence
+   sentence-end-double-space nil))
+
+(setup uniquify
+  (:option
+   ;; Re-uniquify buffers after killing some
+   uniquify-after-kill-buffer-p t
+   ;; Use appended brackets for file path
+   uniquify-buffer-name-style 'post-forward-angle-brackets
+   ;; Add a slash to directory buffers
+   uniquify-trailing-separator-p t))
+
+(setup url-cookie
+  (:option
+   ;; Don't require confirmation on cookies
+   url-cookie-confirmation 'nil))
+
+(setup wdired
+  (:option
+   ;; Allow C-x C-q to change permissions too
+   wdired-allow-to-change-permissions t))
+
+(setup whitespace
+  (:require whitespace)
+  (:option
+   ;; Make tabs more visible
+   whitespace-style '(face tabs tab-mark))
+
+  ;; Display tabs with a more specific character.
+  (defvar whitespace-display-mappings)
+  (setf
+   (cdr (assoc 'tab-mark whitespace-display-mappings))
+   '(?\t [?↹ ?\t] [?\t]))
+
+  ;; Enable whitespace mode globally.
+  (global-whitespace-mode))
+
+(setup window
+  (:global
+   ;; Scrolling on C-v confuses me when my muscle memory tries to use it as paste.
+   "C-v" nil
+   ;; Take out it's mate for consistency.
+   "M-v" nil
+   ;; Often I want to kill the window too.
+   "C-x K" kill-buffer-and-window
+   ;; Window resizing.
+   "S-C-<left>" shrink-window-horizontally
+   "S-C-<right>" enlarge-window-horizontally
+   "S-C-<down>" shrink-window
+   "S-C-<up>" enlarge-window)
+
+  ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+  ;; explains how to make display-buffer display things like you want.
+  (add-to-list 'display-buffer-alist
+                ;; Make help buffers reuse single window.
+                '("\\*Help\\*"
+                  (display-buffer-reuse-window display-buffer-pop-up-window)
+                  (reusable-frames . visible))))
 
 
 
@@ -436,6 +526,8 @@ LIST-SIZE is ignored."
                                         (redisplay)
                                         (run-hooks 'dashboard-after-initialize-hook)))))
 
+
+
 ;;; Navigation
 
 ;; Needed for avy binding.
@@ -486,6 +578,8 @@ LIST-SIZE is ignored."
 ;; Built in.
 (setup winner-mode
   (winner-mode))
+
+
 
 ;;; Editing
 
@@ -660,8 +754,10 @@ LIST-SIZE is ignored."
                 enh-ruby-mode git-commit-mode))
   (yas-reload-all))
 
+
+
 ;;; Files
-;;;
+
 ;; Built in.
 (setup savehist
   (:option
@@ -683,6 +779,8 @@ LIST-SIZE is ignored."
   (:option
    save-place-file (concat user-emacs-directory "saveplaces"))
   (save-place-mode))
+
+
 
 ;;; Completion
 
@@ -814,6 +912,8 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:option completion-styles '(orderless partial-completion basic))
   (setq completion-category-defaults nil))
+
+
 
 ;;; Development
 
@@ -984,6 +1084,8 @@ LIST-SIZE is ignored."
    cov-none-face '(:foreground "red"))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
+
+
 ;;; File Modes
 
 (setup apib-mode
@@ -1152,6 +1254,8 @@ LIST-SIZE is ignored."
   ;; Extend with neon and dist.
   (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)$"))
 
+
+
 ;;; Tools
 
 (setup custode
@@ -1237,6 +1341,8 @@ LIST-SIZE is ignored."
   (:with-hook vterm-copy-mode-hook
     (:hook +vterm-copy-mode-hook)))
 
+
+
 ;;; Utils
 
 (setup exec-path-from-shell
@@ -1269,6 +1375,8 @@ LIST-SIZE is ignored."
 
 (setup string-inflection
   (:elpaca t))
+
+
 
 ;;; My own stuff.
 ;; TODO: some of this should be moved to +files.
