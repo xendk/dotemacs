@@ -486,9 +486,6 @@
   (dimmer-configure-which-key)
   (dimmer-configure-magit)
   (dimmer-configure-org)
-  ;; TODO: How to detect active vertico, so buffers don't get dimmed
-  ;; while it's active? Something to add to
-  ;; dimmer-prevent-dimming-predicates.
   (dimmer-mode))
 
 (setup dashboard
