@@ -971,10 +971,10 @@ LIST-SIZE is ignored."
 
 (setup consult-flycheck
   (:elpaca t)
-  (with-eval-after-load 'flycheck
-    ;; TODO: :bind-in, as :bind-into with a maps is deprecated, and
-    ;; :bind is first effectuated when the feature is loaded.
-    (define-key flycheck-command-map "!" 'consult-flycheck)))
+  (:with-feature flycheck
+    (:with-map flycheck-command-map
+      (:bind
+       "!" 'consult-flycheck))))
 
 (setup indentinator
   (:elpaca :host github :repo "xendk/indentinator")
@@ -1008,6 +1008,9 @@ LIST-SIZE is ignored."
    "C-c g g" '("Status" . magit-status)
    "C-c g d" '("Dispatch" . magit-dispatch)
    "C-c g f" '("File dispatch" . magit-file-dispatch))
+  (:with-feature project
+    (:with-map project-prefix-map
+      (:bind "m" magit-project-status)))
   (:with-hook git-commit-setup-hook
     (:hook +magit-commit-setup-jira))
   (:with-hook git-commit-mode-hook
@@ -1044,8 +1047,6 @@ LIST-SIZE is ignored."
      "g" consult-ripgrep)
     ;; Remove obsoleted.
     (:unbind "e" "v"))
-  (with-eval-after-load 'magit
-    (define-key project-prefix-map "m" 'magit-project-status))
   ;; Remap to the old projectile prefix. :global does not support
   ;; keymaps. Add :global-map?
   (keymap-global-set "C-c p" project-prefix-map))
@@ -1254,12 +1255,11 @@ LIST-SIZE is ignored."
 
 (setup custode
   (:elpaca :type git :host github :repo "xendk/custode.el")
-  ;; Can't use :bind-keymap, as project-prefix-map doesn't exist until
-  ;; project is loaded.
-  (:when-loaded
-    (with-eval-after-load 'project
-      (define-key project-prefix-map "u" custode-prefix-map)))
   (global-custode-mode)
+  (:with-feature project
+    (:with-map project-prefix-map
+      (:bind-prefix
+       "u" custode-prefix-map)))
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))

@@ -69,6 +69,15 @@ If PATH does not exist, abort the evaluation."
   :debug '(form)
   :repeatable t)
 
+(setup-define :bind-prefix
+  (lambda (key prefix)
+    `(define-key ,(setup-get 'map) ,key ,prefix))
+  :documentation "Bind KEY to PREFIX in current map."
+  :after-loaded t
+  :debug '(form sexp)
+  :ensure '(kbd nil)
+  :repeatable t)
+
 (provide '+setup)
 ;;; +setup.el ends here
 
