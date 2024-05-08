@@ -62,6 +62,12 @@
    "<mouse-6>" ignore
    "<mouse-7>" ignore))
 
+(setup novice
+  (:option
+   ;; Disable the disabled command feature. At 27+ years of Emacs
+   ;; usage, I think I can handle it.
+   disabled-command-function nil))
+
 (setup warnings
   (:option
    ;; Only show warnings buffer on errors
@@ -1399,12 +1405,7 @@ LIST-SIZE is ignored."
      "m" '("CamelCase" . string-inflection-camelcase)
      "k" '("kebab-case" . string-inflection-kebab-case)))
   ;; Tell delsel than xen-newline should delete selection.
-  (put 'xen-newline 'delete-selection t)
-  ;; Enable some disabled commands.
-  (put 'narrow-to-region 'disabled nil)
-  (put 'downcase-region 'disabled nil)
-  (put 'upcase-region 'disabled nil)
-  (put 'scroll-left 'disabled nil))
+  (put 'xen-newline 'delete-selection t))
 
 
 
