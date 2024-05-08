@@ -347,8 +347,6 @@
    ;; White background for inactive mode-line is no-go for me.
    mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))))
 
-;; TODO: Needs update, but new version changes the `check' segment,
-;; and I liked the old one better. Forward port it.
 (setup doom-modeline
   (:elpaca t)
   (:hook-into elpaca-after-init)
@@ -356,6 +354,8 @@
            (doom-modeline-set-modeline 'xen-main 'default)))
   (:when-loaded
     (:option
+     ;; Get the old simpler format for the `check' segment.
+     doom-modeline-check-simple-format t
      doom-modeline-buffer-file-name-style 'truncate-except-project
      (prepend* doom-modeline-mode-alist) '((vterm-mode . xen-minimal)
                                            (lisp-interaction-mode . xen-minimal)
