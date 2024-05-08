@@ -400,12 +400,6 @@
 (setup nerd-icons
   (:elpaca t))
 
-;; Remove when we update dashboard
-(setup all-the-icons
-  (:elpaca t)
-  (:when-loaded
-    (add-to-list 'all-the-icons-mode-icon-alist '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2 :height 1.0))))
-
 (setup hl-line
   (:require +hl-line)
   (:with-function +hl-line-mode
