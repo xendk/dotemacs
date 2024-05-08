@@ -345,10 +345,7 @@
 
   (:face
    ;; White background for inactive mode-line is no-go for me.
-   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
-   ;; Make symbol highlight and region highlights a lighter version of the region.
-   highlight-symbol-face
-   `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
+   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))))
 
 ;; TODO: Needs update, but new version changes the `check' segment,
 ;; and I liked the old one better. Forward port it.
@@ -438,6 +435,11 @@
    "M-<left>" highlight-symbol-prev
    "M-<right>" highlight-symbol-next)
   (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode)
+  (with-eval-after-load 'doom-themes
+    (:face
+     ;; Make symbol highlight a lighter version of the region.
+     highlight-symbol-face
+     `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
 
   (add-hook 'activate-mark-hook '+highlight-symbol-mode-deactivate)
   (add-hook 'deactivate-mark-hook '+highlight-symbol-mode-reactivate))
@@ -455,6 +457,7 @@
      "M-<down>" region-occurrences-highlighter-next))
   (with-eval-after-load 'doom-themes
     (:face
+     ;; Make region highlights a lighter version of the region.
      region-occurrences-highlighter-face
      `( :inverse-video unspecified
         :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))))
