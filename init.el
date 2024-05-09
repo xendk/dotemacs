@@ -1059,7 +1059,6 @@ LIST-SIZE is ignored."
 
 (setup devdocs
   (:elpaca t)
-  (:also-load +devdocs)
   (:option
    ;; Always select the window.
    devdocs-window-select t)
@@ -1067,13 +1066,6 @@ LIST-SIZE is ignored."
    "C-h ," (lambda ()
              (interactive)
              (devdocs-lookup nil (thing-at-point 'symbol t))))
-  ;; TODO: set these in the packages setup form?
-  (:with-hook emacs-lisp-mode-hook
-    (:local-set devdocs-current-docs '("elisp")))
-  (:with-hook crystal-mode-hook
-    (:local-set devdocs-current-docs '("crystal")))
-  (:with-hook php-mode-hook
-    (:local-set devdocs-current-docs '("php")))
   (:when-loaded
     (push '(a . +crystal-tag-a) (alist-get 'crystal devdocs-extra-rendering-functions))))
 
@@ -1099,6 +1091,10 @@ LIST-SIZE is ignored."
 
 (setup crystal-mode
   (:elpaca t)
+  (:also-load +crystal-mode)
+  (:devdoc "crystal")
+  (:devdoc-tag-render crystal
+                      (a . +crystal-mode-tag-a))
   (:bind
    "C-c C-t" crystal-spec-switch)
   (:with-mode html-mode
@@ -1141,6 +1137,9 @@ LIST-SIZE is ignored."
    drupal-ignore-paths-regexp "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)"
    ;; Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard
    drupal/phpcs-standard nil))
+
+(setup elisp-mode
+  (:devdoc "elisp"))
 
 (setup enh-ruby-mode
   (:elpaca t)
@@ -1189,6 +1188,7 @@ LIST-SIZE is ignored."
   (:elpaca t)
   (:also-load +php-mode)
   (:files "*.module")
+  (:devdoc "php")
   (:option
    php-mode-coding-style 'psr2
    php-mode-enable-project-coding-style nil)

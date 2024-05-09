@@ -78,6 +78,22 @@ If PATH does not exist, abort the evaluation."
   :ensure '(kbd nil)
   :repeatable t)
 
+(setup-define :devdoc
+  (lambda (doc &rest docs)
+    `(:local-set devdocs-current-docs ',(cons doc docs)))
+  :documentation "Set DOC for current mode."
+  :debug '(form)
+  :after-loaded t)
+
+(setup-define :devdoc-tag-render
+  (lambda (doc &rest renders)
+    `(with-eval-after-load 'devdocs
+       (dolist (renderer ',renders)
+         (push renderer (alist-get ',doc devdocs-extra-rendering-functions)))))
+  :documentation "Add element renders for DOC to RENDERS.
+RENDERS is a list of (tag . function) cons."
+  :debug '(form))
+
 (provide '+setup)
 ;;; +setup.el ends here
 
