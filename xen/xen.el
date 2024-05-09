@@ -31,8 +31,6 @@
 ;; External variables referenced.
 (defvar vterm-copy-mode)
 
-(declare-function magit-get-current-branch "magit-git.el")
-
 (defgroup xen nil
   "Personal configuration"
   :group 'emacs)
