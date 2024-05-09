@@ -965,7 +965,7 @@ LIST-SIZE is ignored."
    "M-<up>" flycheck-previous-error
    "M-<down>" flycheck-next-error)
   ;; Enable flycheck globally, doing it this way delays the setup to
-  ;; after everything is loaded. TODO: :after-init macro.
+  ;; after everything is loaded.
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init)))
 
