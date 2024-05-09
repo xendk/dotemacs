@@ -276,49 +276,5 @@ Pass ARG and INTERACTIVE to `newline'."
       (let ((vterm-shell "docker compose up"))
         (vterm buffer-name)))))
 
-;; (define-minor-mode autosemi-mode
-;;   "Toggle automatic semi-colon mode."
-;;   :lighter " AS"
-;;   (if autosemi-mode
-;;       (progn
-;;         (add-hook 'pre-command-hook 'autosemi-pre-command nil t)
-;;         (add-hook 'post-command-hook 'autosemi-post-command nil t)
-;;         )
-;;     (remove-hook 'pre-command-hook 'autosemi-pre-command t)
-;;     (remove-hook 'post-command-hook 'autosemi-post-command t)))
-
-;; (defvar autosemi-candidate nil
-;;   "Whether the current command is candidate for automatic semi-colon insertion.")
-
-;; (defvar autosemi-supressors '(?\; ?{ ?\[ ?\())
-
-;; (defun autosemi-pre-command ()
-;;   ;; (when (eq 'self-insert-command this-command)
-;;   ;;   (save-excursion
-;;   ;;     (skip-syntax-backward " ")
-;;   ;;     (if (member (char-before) autosemi-supressors)
-;;   ;;         (message "supressed")
-;;   ;;       (message "candidate")
-;;   ;;       )
-;;   ;;     ;;(message "%S" (char-before))
-;;   ;;     )
-;;   ;;   ;;(message "hit")
-;;   ;;   )
-;;   )
-
-;; (defun autosemi-post-command ()
-;;   (when (eq this-command 'self-insert-command)
-;;     (if (not (eq (char-after) ?\;))
-;;         (save-excursion
-;;           (message "ing")
-;;           (insert ";")))
-;;     ))
-
-;; (defun xen-autotype ()
-;;   (interactive)
-;;   (dolist (char (string-to-list "exa -l\n"))
-;;     (execute-kbd-macro (string char))
-;;     (sit-for 0.1)))
-
 (provide 'xen)
 ;;; xen.el ends here
