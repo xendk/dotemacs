@@ -135,16 +135,6 @@ Actually shrinks the region if the point is at the start of the region."
 
 ;; misc minor modes
 
-(defun xen-fix-minor-mode-order (file)
-  "For `after-load-functions'. Prioritizes some minor-modes.
-FILE is ignored."
-  (when (assq 'drupal-mode minor-mode-map-alist)
-    (when (not (eq (car (car minor-mode-map-alist)) 'drupal-mode))
-      (let ((mode (assq 'drupal-mode minor-mode-map-alist)))
-        (assq-delete-all 'drupal-mode minor-mode-map-alist)
-        (add-to-list 'minor-mode-map-alist mode)))))
-(add-hook 'after-load-functions 'xen-fix-minor-mode-order)
-
 (defun xen-cycle-spacing (&optional n)
   "Delete all spaces and tabs around point, leaving one space (or N spaces).
 If N is negative, delete newlines as well, leaving -N spaces.
