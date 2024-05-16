@@ -53,7 +53,6 @@ PREFIX is the current completion prefix."
                              +php-mark-next-accessor
                              +php-mark-method-call-or-array
                              er/mark-comment
-                             er/mark-comment-block
                              er/mark-inside-quotes
                              er/mark-outside-quotes
                              er/mark-inside-pairs
