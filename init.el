@@ -636,6 +636,8 @@ LIST-SIZE is ignored."
     (:require xen-paired-delete)
     (global-xen-paired-delete-mode)))
 
+;; https://github.com/casouri/expreg might be an interesting
+;; alternative when we get tree-sitter.
 (setup expand-region
   (:elpaca t)
   (:option
@@ -1379,7 +1381,8 @@ LIST-SIZE is ignored."
 
 
 ;;; My own stuff.
-;; TODO: some of this should be moved to +files.
+;; TODO: most of this should be moved to +editing. Clipboard editing
+;; to +edit-clipboard.
 (setup xen
   (:load-from (concat user-emacs-directory "xen"))
   (:require xen)
