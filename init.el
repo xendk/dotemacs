@@ -904,6 +904,9 @@ LIST-SIZE is ignored."
   (:with-hook embark-collect-mode
     (:hook consult-preview-at-point-mode)))
 
+(setup embark-consult
+  (:elpaca t))
+
 (setup marginalia
   (:elpaca t)
   (:with-map minibuffer-local-map
