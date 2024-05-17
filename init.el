@@ -897,6 +897,7 @@ LIST-SIZE is ignored."
   (:with-map embark-region-map
     (:bind
      "s" sort-lines
+     "S" +embark-sort-lines-caseless
      "u" delete-duplicate-lines
      "/" +embark-google-region))
   ;; Consult previews in collect buffers.

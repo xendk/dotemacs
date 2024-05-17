@@ -43,5 +43,12 @@ targets."
   (interactive)
   (google-this-region nil t))
 
+(defvar sort-fold-case)
+(defun +embark-sort-lines-caseless ()
+  "Sort selected lines caselessly."
+  (interactive)
+  (let ((sort-fold-case t))
+    (call-interactively 'sort-lines)))
+
 (provide '+embark)
 ;;; +embark.el ends here
