@@ -60,38 +60,6 @@
       (interactive)
       (find-file (locate-user-emacs-file "todo"))))
 
-;; Originally duplicate-current-line from
-;; http://emacswiki.org/emacs/CopyingWholeLines, but that have
-;; problems at the end of buffer. This version adapted from:
-;; https://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs
-(defun xen-duplicate-current-line (&optional arg)
-  "Duplicate current line, make more than 1 copy given a numeric argument.
-
-Use prefix argument ARG for more copies."
-  (interactive "*p")
-  ;; Save the point for undo.
-  (setq buffer-undo-list (cons (point) buffer-undo-list))
-
-  ;; Local variables for start and end of line.
-  (save-excursion
-    (let ((bol (progn (beginning-of-line) (point)))
-          ;; Don't use forward-line for this, because you would have
-          ;; to check whether you are at the end of the buffer.
-          (eol (progn (end-of-line) (point))))
-      ;; Store the line and disable the recording of undo information.
-      (let ((line (buffer-substring bol eol))
-            ;; Undo history is not recorded while it's t.
-            (buffer-undo-list t)
-            (count arg))
-        ;; Insert the line arg times.
-        (while (> count 0)
-          (newline)         ;; Because there is no newline in 'line'.
-          (insert line)
-          (setq count (1- count))))
-
-      ;; Mark the inserted region as one insert and add it to the undo list.
-      (setq buffer-undo-list (cons (cons eol (point)) buffer-undo-list)))))
-
 (defun xen-open ()
   "Open new line, with proper indentation."
   (interactive)

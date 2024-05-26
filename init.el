@@ -236,6 +236,10 @@
   ;; Show minibuffer depth when using recursive minibuffers.
   (minibuffer-depth-indicate-mode))
 
+(setup misc
+  (:global
+   "C-S-d" duplicate-dwim))
+
 (setup mouse
   (:option
    ;; Yank at point, not pointer position when mouse-yanking
@@ -1393,7 +1397,6 @@ LIST-SIZE is ignored."
   (:global
    "RET" xen-newline
    "M-SPC" xen-cycle-spacing
-   "C-S-d" xen-duplicate-current-line
    "C-S-l" xen-mark-lines
    "C-c x" xen-map
    "M-c" xen-casing-map
