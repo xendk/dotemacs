@@ -20,5 +20,14 @@
       (push-mark)
       (goto-char (point-min)))))
 
+;; If there's an untouched CHANGELOG.md in the repo, ask for
+;; confirmation. Could check if any changes to the file is actually
+;; staged, but this covers the most common case of "forgot to update
+;; the changelog".
+(define-advice magit-commit-create
+    (:before-until (orig-fun &rest args) +magit-commit-changelog-check)
+  (unless (magit-file-status "CHANGELOG.md")
+    (not (y-or-n-p "Changelog not updated, continue?"))))
+
 (provide '+magit)
 ;;; +magit.el ends here
