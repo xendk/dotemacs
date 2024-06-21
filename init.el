@@ -438,7 +438,7 @@
   (:global
    "M-<left>" highlight-symbol-prev
    "M-<right>" highlight-symbol-next)
-  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode)
+  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode)
   (with-eval-after-load 'doom-themes
     (:face
      ;; Make symbol highlight a lighter version of the region.
@@ -454,7 +454,7 @@
 
 (setup region-occurrences-highlighter
   (:elpaca t)
-  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode)
+  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode)
   (:with-map region-occurrences-highlighter-nav-mode-map
     (:bind
      "M-<up>" region-occurrences-highlighter-prev
@@ -673,7 +673,8 @@ LIST-SIZE is ignored."
 
 (setup ws-butler
   (:elpaca t)
-  (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode js-mode feature-mode))
+  (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode
+              js-mode feature-mode crystal-mode))
 
 (setup undo-tree
   ;; Pull package directly from maintainer, the elpa package is behind.
