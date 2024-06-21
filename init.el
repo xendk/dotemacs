@@ -1186,6 +1186,9 @@ LIST-SIZE is ignored."
   (:with-hook gfm-mode-hook
     (:hook auto-fill-mode)))
 
+(setup markdown-changelog
+  (:elpaca t))
+
 (setup nginx-mode
   (:elpaca t))
 
