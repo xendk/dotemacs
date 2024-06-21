@@ -1257,6 +1257,9 @@ LIST-SIZE is ignored."
   (add-to-list 'magic-mode-alist
                '("import.*react" . rjsx-mode)))
 
+(setup slim-mode
+  (:elpaca t))
+
 (setup systemd
   (:elpaca t))
 
