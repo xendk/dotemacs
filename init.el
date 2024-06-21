@@ -438,7 +438,7 @@
   (:global
    "M-<left>" highlight-symbol-prev
    "M-<right>" highlight-symbol-next)
-  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode)
+  (:hook-into prog-mode)
   (with-eval-after-load 'doom-themes
     (:face
      ;; Make symbol highlight a lighter version of the region.
@@ -454,7 +454,7 @@
 
 (setup region-occurrences-highlighter
   (:elpaca t)
-  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode)
+  (:hook-into prog-mode)
   (:with-map region-occurrences-highlighter-nav-mode-map
     (:bind
      "M-<up>" region-occurrences-highlighter-prev
@@ -597,7 +597,7 @@ LIST-SIZE is ignored."
 
 (setup hungry-delete
   (:elpaca t)
-  (:hook-into emacs-lisp-mode php-mode css-mode js-mode enh-ruby-mode crystal-mode))
+  (:hook-into prog-mode))
 
 (setup smartparens
   (:elpaca t)
@@ -673,8 +673,7 @@ LIST-SIZE is ignored."
 
 (setup ws-butler
   (:elpaca t)
-  (:hook-into emacs-lisp-mode php-mode enh-ruby-mode css-mode
-              js-mode feature-mode crystal-mode))
+  (:hook-into prog-mode feature-mode))
 
 (setup undo-tree
   ;; Pull package directly from maintainer, the elpa package is behind.
@@ -1002,13 +1001,8 @@ LIST-SIZE is ignored."
   (:option
    ;; Speed up reindentation
    indentinator-idle-time 0.005)
-  (:hook-into emacs-lisp-mode
-              php-mode
-              css-mode
-              js-mode
-              enh-ruby-mode
-              twig-mode
-              crystal-mode))
+  (:hook-into prog-mode
+              twig-mode))
 
 (setup magit
   (:elpaca t)
