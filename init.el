@@ -718,9 +718,13 @@ LIST-SIZE is ignored."
   (:when-loaded
     (:option
      ;; Add strings to faces spell-checked by jinx
-     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string))
-    ;; Add PHP to camelCase modes
-    (append jinx-camel-modes) 'php-mode)
+     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string)
+     ;; Add PHP to camelCase modes
+     (append jinx-camel-modes) 'php-mode)
+    (:with-map jinx-overlay-map
+      ;; Unbind mouse button on overlays. I keep activating correction
+      ;; when clicking to activate window.
+      (:unbind "<mouse-1>")))
   (:global
    "M-$" jinx-correct
    "C-M-$" jinx-languages)
