@@ -1268,7 +1268,10 @@ LIST-SIZE is ignored."
 (setup yaml-mode
   (:elpaca t)
   ;; Extend with neon and dist.
-  (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)$"))
+  (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)$")
+  ;; Tell delsel than yaml-electric-backspace should simply delete
+  ;; selection, and not call yaml-electric-backspace when doing so.
+  (put 'yaml-electric-backspace 'delete-selection 'supersede))
 
 
 
