@@ -26,8 +26,9 @@
 ;; the changelog".
 (define-advice magit-commit-create
     (:before-until (orig-fun &rest args) +magit-commit-changelog-check)
-  (unless (magit-file-status "CHANGELOG.md")
-    (not (y-or-n-p "Changelog not updated, continue?"))))
+  (if (file-exists-p "CHANGELOG.md")
+      (unless (magit-file-status "CHANGELOG.md")
+        (not (y-or-n-p "Changelog not updated, continue?")))))
 
 (provide '+magit)
 ;;; +magit.el ends here
