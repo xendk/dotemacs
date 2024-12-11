@@ -1244,6 +1244,7 @@ LIST-SIZE is ignored."
   (:elpaca t))
 
 (setup rjsx-mode
+  (:elpaca t)
   (:option
    ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
    ;; Don't require semi-colons if not needed
