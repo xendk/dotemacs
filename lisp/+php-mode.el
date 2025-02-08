@@ -13,6 +13,7 @@
   '(("declare(strict_types=1);" . "declare")
     ("<?php" . "<?ph")
     (+php-mode-backend-prefix . "class ")
+    (+php-mode-backend-prefix . "enum ")
     (+php-mode-backend-prefix . "interface ")
     (+php-mode-backend-prefix . "trait ")))
 
