@@ -1346,9 +1346,8 @@ LIST-SIZE is ignored."
    "C-<left>" vterm--self-insert
    "<delete>" vterm--self-insert
    "C-<backspace>" vterm--self-insert
-   ;; Doesn't work anymore?
-   "<mouse-4>" (lambda () (interactive) (vterm-send-key "<up>"))
-   "<mouse-5>" (lambda () (interactive) (vterm-send-key "<down>"))
+   "<wheel-up>" (lambda () (interactive) (vterm-send-key "<up>"))
+   "<wheel-down>" (lambda () (interactive) (vterm-send-key "<down>"))
    ;; Make mouse buttons only select window, not move
    ;; point/start selection.
    "<mouse-1>" mouse-select-window
