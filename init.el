@@ -209,6 +209,7 @@
   ;; Protect scratch buffer against accidental killing.
   (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill)))
+
 (setup frame
   (:global
    ;; Don't iconify on C-z.
@@ -255,6 +256,11 @@
    ;; Make scrollwheel behave more like in other apps
    mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control)))))
 
+(setup paragraphs
+  (:option
+   ;; Don't require double space after period to consider it a sentence
+   sentence-end-double-space nil))
+
 (setup password-cache
   (:option
    ;; Cache passwords a bit longer
@@ -275,10 +281,25 @@
    ;; Save more items in recent files
    recentf-max-saved-items 500))
 
-(setup paragraphs
+(setup savehist
   (:option
-   ;; Don't require double space after period to consider it a sentence
-   sentence-end-double-space nil))
+   ;; Save mini-buffer history
+   savehist-save-minibuffer-history t
+   ;; Other interesting things to save
+   savehist-additional-variables '(kill-ring
+                                   search-ring
+                                   regexp-search-ring
+                                   last-kbd-macro
+                                   kmacro-ring
+                                   shell-command-history
+                                   ;; corfu-history
+                                   ))
+  (savehist-mode))
+
+(setup save-place
+  (:option
+   save-place-file (concat user-emacs-directory "saveplaces"))
+  (save-place-mode))
 
 (setup uniquify
   (:option
@@ -766,32 +787,6 @@ LIST-SIZE is ignored."
     (:hook-into emacs-lisp-mode php-mode css-mode js-mode
                 enh-ruby-mode git-commit-mode))
   (yas-reload-all))
-
-
-
-;;; Files
-
-;; Built in.
-(setup savehist
-  (:option
-   ;; Save mini-buffer history
-   savehist-save-minibuffer-history t
-   ;; Other interesting things to save
-   savehist-additional-variables '(kill-ring
-                                   search-ring
-                                   regexp-search-ring
-                                   last-kbd-macro
-                                   kmacro-ring
-                                   shell-command-history
-                                   ;; corfu-history
-                                   ))
-  (savehist-mode))
-
-;; Built in, but we need to activate it.
-(setup save-place
-  (:option
-   save-place-file (concat user-emacs-directory "saveplaces"))
-  (save-place-mode))
 
 
 
