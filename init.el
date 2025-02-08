@@ -1001,8 +1001,14 @@ LIST-SIZE is ignored."
   (:option
    ;; Speed up reindentation
    indentinator-idle-time 0.005)
-  (:hook-into prog-mode
-              twig-mode))
+  ;; Doesn't play nice with Makefiles, which is a prog-mode.
+  (:hook-into emacs-lisp-mode
+              php-mode
+              css-mode
+              js-mode
+              enh-ruby-mode
+              twig-mode
+              crystal-mode))
 
 (setup magit
   (:elpaca t)
