@@ -336,6 +336,9 @@
                   (display-buffer-reuse-window display-buffer-pop-up-window)
                   (reusable-frames . visible))))
 
+(setup winner-mode
+  (winner-mode))
+
 
 
 ;;; Appearance
@@ -582,11 +585,6 @@ LIST-SIZE is ignored."
   (:global
    "C-a" mwim-beginning
    "C-e" mwim-end))
-
-;; http://www.emacswiki.org/emacs/WinnerMode
-;; Built in.
-(setup winner-mode
-  (winner-mode))
 
 
 
