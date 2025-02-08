@@ -1175,6 +1175,9 @@ LIST-SIZE is ignored."
     (setenv "GO111MODULE" "on"))
   (:hook subword-mode))
 
+(setup graphql-mode
+  (:elpaca t))
+
 (setup js-mode
   (:files "*.ts"))
 
@@ -1245,6 +1248,10 @@ LIST-SIZE is ignored."
                      '(("||\n[i]" "RET") +php-wrap-handler)))))
 
 (setup po-mode
+  (:elpaca t))
+
+;; For graphql-mode, but might be interesting for reaper.
+(setup request
   (:elpaca t))
 
 (setup rjsx-mode
