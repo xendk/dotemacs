@@ -1348,10 +1348,11 @@ LIST-SIZE is ignored."
    "C-<backspace>" vterm--self-insert
    "<wheel-up>" (lambda () (interactive) (vterm-send-key "<up>"))
    "<wheel-down>" (lambda () (interactive) (vterm-send-key "<down>"))
-   ;; Make mouse buttons only select window, not move
-   ;; point/start selection.
+   ;; Make mouse buttons only select window, not move point/start
+   ;; selection.
    "<mouse-1>" mouse-select-window
    "<down-mouse-1>" mouse-select-window
+   "<drag-mouse-1>" mouse-select-window
    "<mouse-3>" mouse-select-window
    "<down-mouse-3>" mouse-select-window
    ;; Let F11 be full screen, can't remember a shell
