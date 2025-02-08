@@ -53,7 +53,8 @@
    scroll-preserve-screen-position t
    ;; I'm grown up, I can manage using y/n for even destructive commands.
    use-short-answers t
-   ;; Disable (mouse) dialogs, something is confusing emacs making it think some commands were mouse initiated
+   ;; Disable (mouse) dialogs, something is confusing Emacs making it
+   ;; think some commands were mouse initiated
    use-dialog-box nil)
   (:bind
    ;; Horizontal scrolling on trackpad produces these, which makes Emacs
