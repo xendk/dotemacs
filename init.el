@@ -1220,9 +1220,7 @@ LIST-SIZE is ignored."
            (add-hook 'completion-at-point-functions
                      (cape-company-to-capf #'+php-mode-backend)
                      -90 t)))
-  ;; TODO: New setup macro?
-  (add-to-list 'magic-mode-alist
-               '("<?php" . php-mode-maybe))
+  (:magic "<\\?php" php-mode-maybe)
   (with-eval-after-load 'expand-region
     (:hook +php-mode-expansions))
   (with-eval-after-load 'smartparens
@@ -1249,8 +1247,7 @@ LIST-SIZE is ignored."
    ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
    ;; Don't require semi-colons if not needed
    js2-strict-missing-semi-warning nil)
-  (add-to-list 'magic-mode-alist
-               '("import.*react" . rjsx-mode)))
+  (:magic "import.*react"))
 
 (setup slim-mode
   (:elpaca t))

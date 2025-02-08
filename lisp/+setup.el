@@ -94,6 +94,13 @@ If PATH does not exist, abort the evaluation."
 RENDERS is a list of (tag . function) cons."
   :debug '(form))
 
+(setup-define :magic
+  (lambda (magic &optional mode)
+    `(add-to-list 'magic-mode-alist
+                  '(,magic . ,(or mode (setup-get 'mode)))))
+  :documentation "Use current (or provided) mode for files containing MAGIC."
+  :debug '(form))
+
 (provide '+setup)
 ;;; +setup.el ends here
 
