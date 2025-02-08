@@ -45,6 +45,10 @@
    load-prefer-newer t
    ;; Give mini-buffers a bit more room
    max-mini-window-height 0.33
+   ;; Allow for dragging the region.
+   mouse-drag-and-drop-region t
+   ;; Drag to other programs (not sure this works).
+   mouse-drag-and-drop-region-cross-program t
    ;; Scroll linewise rather than jumping
    scroll-conservatively 2
    ;; Keep a margin to top/bottom of window
