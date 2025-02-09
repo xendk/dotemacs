@@ -103,7 +103,3 @@ RENDERS is a list of (tag . function) cons."
 
 (provide '+setup)
 ;;; +setup.el ends here
-
-;; Local Variables:
-;; flycheck-emacs-lisp-load-path: 'inherit
-;; End:
