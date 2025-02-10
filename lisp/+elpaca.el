@@ -46,7 +46,11 @@
     (elpaca-generate-autoloads "elpaca" repo)
     (load "./elpaca-autoloads")))
 (add-hook 'after-init-hook #'elpaca-process-queues)
-(elpaca `(,@elpaca-order));; End of installer.
+(elpaca `(,@elpaca-order))
+;; End of installer.
+
+;; Tell Elpaca to use the versions in the lock file.
+(concat user-emacs-directory "elpaca.lock")
 
 (provide '+elpaca)
 ;;; +elpaca.el ends here
