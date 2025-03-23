@@ -320,6 +320,16 @@
    ;; Allow C-x C-q to change permissions too
    wdired-allow-to-change-permissions t))
 
+(setup which-key
+  (:option
+   which-key-idle-secondary-delay 0.1
+   which-key-mode t
+   which-key-popup-type 'side-window
+   which-key-show-early-on-C-h t
+   which-key-side-window-max-height 0.5
+   which-key-sort-order 'which-key-key-order)
+  (which-key-mode))
+
 (setup whitespace
   (:require whitespace)
   (:option
@@ -718,17 +728,6 @@ LIST-SIZE is ignored."
      "C-g" undo-tree-visualizer-abort
      "q" undo-tree-visualizer-abort))
   (global-undo-tree-mode))
-
-(setup which-key
-  (:elpaca t)
-  (:option
-   which-key-idle-secondary-delay 0.1
-   which-key-mode t
-   which-key-popup-type 'side-window
-   which-key-show-early-on-C-h t
-   which-key-side-window-max-height 0.5
-   which-key-sort-order 'which-key-key-order)
-  (which-key-mode))
 
 (setup visual-fill-column
   (:elpaca t)
