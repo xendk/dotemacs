@@ -205,6 +205,12 @@
    ;; Use a single frame for all ediff windows
    ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(setup editorconfig
+  (:option
+   ;; Makefiles always use tabs. So exclude them.
+   editorconfig-exclude-modes '(makefile-gmake-mode))
+  (editorconfig-mode 1))
+
 (setup emacs-lock
   ;; Protect scratch buffer against accidental killing.
   (with-current-buffer "*scratch*"
@@ -958,13 +964,6 @@ LIST-SIZE is ignored."
    eldoc-echo-area-use-multiline-p 5)
   ;; No binding, eglot ensures it's available on C-h . and C-c ! H.
   (global-eldoc-mode 1))
-
-(setup editorconfig
-  (:elpaca t)
-  (:option
-   ;; Makefiles always use tabs. So exclude them.
-   editorconfig-exclude-modes '(makefile-gmake-mode))
-  (editorconfig-mode 1))
 
 (setup flycheck
   (:elpaca t)
