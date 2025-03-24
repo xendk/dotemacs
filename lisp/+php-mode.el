@@ -6,6 +6,11 @@
 
 (require 'php-mode)
 
+(declare-function sp-get "smartparens" (struct &rest forms))
+(declare-function sp--get-active-overlay "smartparens" (&optional type))
+(declare-function sp-down-sexp "smartparens" (&optional arg))
+(defvar sp-last-wrapped-region)
+
 ;; A custom company-backend (which cape-company-to-capf will make a
 ;; proper capf) completes some very common PHP idioms.
 ;; TODO: Maybe this is better done with tempel?
@@ -25,6 +30,10 @@ PREFIX is the current completion prefix."
                   (file-name-nondirectory (buffer-file-name)))))
 
 (defun +php-mode-backend (action &optional arg &rest _)
+  "My custom Company backend for PHP mode.
+
+Adds a few often used completions. ACTION is either prefix' or
+`candidates', ARG the relevant argument."
   (pcase action
     ('prefix (let ((prefix (save-excursion
                              (let ((end (point)))
@@ -60,19 +69,24 @@ PREFIX is the current completion prefix."
                              er/mark-outside-pairs)))
 
 (defun +php-mark-next-accessor ()
-  "Presuming that current symbol is already marked, skip over one arrow and mark the next symbol."
+  "Mark next accessor.
+
+Presuming that current symbol is already marked, skip over one arrow and
+mark the next symbol."
   (interactive)
-    (when (use-region-p)
-      (when (< (point) (mark))
-        (exchange-point-and-mark))
-      (let ((symbol-regexp "\\s_\\|\\sw"))
-        (when (looking-at "->")
-          (forward-char 2)
-          (skip-syntax-forward "_w")
-          (exchange-point-and-mark)))))
+  (when (use-region-p)
+    (when (< (point) (mark))
+      (exchange-point-and-mark))
+    (when (looking-at "->")
+      (forward-char 2)
+      (skip-syntax-forward "_w")
+      (exchange-point-and-mark))))
 
 (defun +php-mark-method-call-or-array ()
-  "Mark the current symbol (including arrow) and then paren/brace to closing paren/brace."
+  "Mark method call or array.
+
+Mark the current symbol (including arrow) and then paren/brace to
+closing paren/brace."
   (interactive)
   (let ((symbol-regexp "\\s_\\|\\sw\\|->\\|>"))
     (when (or (looking-at symbol-regexp)
@@ -109,11 +123,9 @@ Strips any leading backslash."
   "Find starting position of PHP use block."
   (interactive)
   (let ((inhibit-message t))
-    (beginning-of-buffer)
-
+    (goto-char (point-min))
     (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
       (forward-line))
-
     (not (eobp))))
 
 (defun +php-make-use ()
@@ -126,9 +138,7 @@ Strips any leading backslash."
         (when-let ((use-block (+php-find-use-block))
                    (line (concat "use " class ";\n")))
           (unless (looking-at "use ")
-            (previous-line)
-            ;; TODO: Eh, this is a noop.
-            (unless (looking-at "[[:space:]]*$"))
+            (forward-line -1)
             (insert "\n"))
           (while (and (looking-at "use ")
                       (setq current-line (thing-at-point 'line t))
@@ -137,7 +147,7 @@ Strips any leading backslash."
             (forward-line))
           (unless (equal line current-line)
             (insert "\n")
-            (previous-line)
+            (forward-line -1)
             ;; TODO: Try if pulse.el works for us.
             (insert (substring line 0 -1))))))
     (when class
@@ -203,7 +213,7 @@ Indentation is assumed to be handled by indentinator."
       (let ((var-name (match-string 1 line))
             (type ""))
         ;; try to guess the type from the constructor
-        (-when-let (constructor-args (+php-get-function-args "__construct" t))
+        (when-let ((constructor-args (+php-get-function-args "__construct" t)))
           (setq type (or (cdr (assoc var-name constructor-args)) "")))
         (when type
           (setq type (+php-qualify-type type))
@@ -218,7 +228,7 @@ Indentation is assumed to be handled by indentinator."
                       (forward-line)
                       (+php-get-function-args nil t)))
               (params '()))
-          (--each args
+          (dolist (it args)
             (when (+php-should-insert-type-annotation (cdr it))
               (setq params (append params (list (format "* @param %s\n"
                                                         (mapconcat 'identity (list (+php-translate-type-annotation (cdr it))
@@ -263,7 +273,8 @@ Indentation is assumed to be handled by indentinator."
 (defun +php-get-function-args (&optional name types)
   "Return all arguments of php function.
 
-Point should be at the line containing `function'.
+Point should be at the line containing `function', or NAME should name
+the function in the current file.
 
 If TYPES is non-nil, return a list of pairs with the variable
 name in car and the type in cdr."
@@ -325,8 +336,7 @@ return as it is.  If type is nil, return an empty string."
 (defun +php-get-function-name ()
   "Get the name of the function.
 
-Point should be at the line containing `function'.
-"
+Point should be at the line containing `function'."
   (beginning-of-line)
   (search-forward "function ")
   (let ((start (point)))
@@ -336,7 +346,8 @@ Point should be at the line containing `function'.
 (defun +php-get-function-return-type (&optional name)
   "Return the return type of the function.
 
-Point should be at the line containing `function'."
+Point should be at the line containing `function' or NAME should name
+the function."
   (cl-block exit
     (save-excursion
       (when name
