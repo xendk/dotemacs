@@ -133,7 +133,7 @@ Strips any leading backslash."
           (while (and (looking-at "use ")
                       (setq current-line (thing-at-point 'line t))
                       (and (not (equal line current-line))
-                           (string> line current-line)))
+                           (string> (downcase line) (downcase current-line))))
             (forward-line))
           (unless (equal line current-line)
             (insert "\n")
