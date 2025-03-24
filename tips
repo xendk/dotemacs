@@ -104,3 +104,6 @@ C-x r y yank-rectangle
 Check what macro expands to:
 
 emacs-lisp-macroexpand
+
+
+C-x * e  calc-embedded-mode
