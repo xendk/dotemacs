@@ -1,4 +1,4 @@
-;;; xen.el --- Assorted functions for my init.el
+;;; xen.el --- Assorted functions for my init.el              -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Thomas Fini Hansen
 
@@ -30,9 +30,13 @@
 
 ;; External variables referenced.
 (defvar vterm-copy-mode)
+(defvar vterm-shell)
+
+;; External functions.
+(declare-function vterm "vterm" (&optional arg))
 
 (defgroup xen nil
-  "Personal configuration"
+  "Personal configuration."
   :group 'emacs)
 
 ;; My own prefix command. Bound in init.el.
@@ -137,7 +141,9 @@ See also `cycle-spacing'."
     (switch-to-buffer buffer)))
 
 (defun xen-newline (&optional arg interactive)
-  "Insert a newline, using `default-indent-new-line' in comments and `newline' otherwise.
+  "Insert a newline, handling comments.
+
+Uses `default-indent-new-line' in comments and `newline' otherwise.
 
 After two empty line comments, it'll delete both.
 
@@ -157,14 +163,16 @@ Pass ARG and INTERACTIVE to `newline'."
     (newline arg interactive)))
 
 (defun xen-empty-comment-start ()
-  "Return start of empty comment block if we're on the second empty single line comment."
+  "Return start of empty comment block.
+
+If we're on the second empty single line comment."
   (if comment-start
       (ignore-errors
         (if (xen-comment-is-empty)
             (let ((this-start (xen-in-comment))
                   (trimmed-comment-start (string-trim-right comment-start)))
               (save-excursion
-                (previous-line)
+                (forward-line -1)
                 (if (xen-in-comment)
                     (let ((start-of-comment (xen-in-comment)))
                       (if (xen-comment-is-empty)
@@ -183,6 +191,7 @@ Pass ARG and INTERACTIVE to `newline'."
                         this-start)))))))))
 
 (defun xen-comment-is-empty ()
+  "Determine if comment is empty."
   (let ((in-comment (xen-in-comment)))
     (if in-comment
         (save-excursion
@@ -198,13 +207,13 @@ Pass ARG and INTERACTIVE to `newline'."
             (or (eobp) (eq (char-syntax (char-after)) ?>)))))))
 
 (defun xen-in-comment ()
-  "Returns start of comment, or nil if not inside comment."
+  "Return start of comment, or nil if not inside comment."
   (let ((syn (syntax-ppss)))
     (and (nth 4 syn)
          (nth 8 syn))))
 
 (defun xen-default-indent-new-line ()
-  "Calls `default-indent-new-line', or handles emacs-lisp-mode specifically."
+  "Call `default-indent-new-line', or handles `emacs-lisp-mode' specifically."
   (if (eq major-mode 'emacs-lisp-mode)
       (let (comment-start num-semis)
         (save-excursion
@@ -233,7 +242,7 @@ Pass ARG and INTERACTIVE to `newline'."
   (interactive)
   (let* ((docker-compose-file
           (or (locate-dominating-file default-directory "docker-compose.yml")
-              (user-error "No docker-compose.yml found.")))
+              (user-error "No docker-compose.yml found")))
          (default-directory docker-compose-file)
          (buffer-name (concat " *docker compose up "
                               (abbreviate-file-name docker-compose-file) " *")))
