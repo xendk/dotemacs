@@ -107,3 +107,21 @@ emacs-lisp-macroexpand
 
 
 C-x * e  calc-embedded-mode
+
+
+Progfolios update rutine:
+
+1.  elpaca-fetch-all
+
+2. In the *elpaca-log* buffer, enable elpaca-log-update-mode. This
+   will automatically show the diff for the commit at point in another
+   window.
+
+3. Read each commit message and use scroll-other-window commands to
+   review the changes without leaving the log buffer. If I'm satisfied
+   with the changes, I mark the package for merging by pressing 'm' in
+   the log buffer and move on to the next one. If not, I just skip to
+   the next package.
+
+5. Once all packages are complete, I hit 'x' in the log buffer to
+   execute the merges and have the packages rebuilt.
