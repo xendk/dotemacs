@@ -979,6 +979,23 @@ LIST-SIZE is ignored."
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init)))
 
+(setup flycheck-overlay
+  (:elpaca :host github :repo "konrad1977/flycheck-overlay")
+  (:option
+   flycheck-overlay-info-icon "🛈"
+   flycheck-overlay-warning-icon "⚠"
+   flycheck-overlay-error-icon "✘"
+   flycheck-overlay-hide-checker-name nil)
+  (:with-feature flycheck
+    (:with-map flycheck-command-map
+      (:bind
+       "o" '+flycheck-overlay-toggle)))
+  (:hook-into flycheck-mode)
+  (defun +flycheck-overlay-toggle ()
+    (interactive)
+    "Toggle `flycheck-overlay-mode'"
+    (flycheck-overlay-mode 'toggle)))
+
 (setup flycheck-eglot
   (:elpaca t)
   (with-eval-after-load 'eglot
