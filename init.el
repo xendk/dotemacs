@@ -825,7 +825,7 @@ LIST-SIZE is ignored."
    ;; Trigger at one char
    corfu-auto-prefix 1
    ;; Show more candidates
-   corfu-count 30
+   corfu-count 20
    ;; Let suggestions wrap around
    corfu-cycle t
    ;; Makes tab-and-go work better
