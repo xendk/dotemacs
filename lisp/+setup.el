@@ -89,7 +89,7 @@ If PATH does not exist, abort the evaluation."
   (lambda (doc &rest renders)
     `(with-eval-after-load 'devdocs
        (dolist (renderer ',renders)
-         (push renderer (alist-get ',doc devdocs-extra-rendering-functions)))))
+         (push renderer (alist-get ',doc devdocs--rendering-functions)))))
   :documentation "Add element renders for DOC to RENDERS.
 RENDERS is a list of (tag . function) cons."
   :debug '(form))

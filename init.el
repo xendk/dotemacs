@@ -1099,9 +1099,7 @@ LIST-SIZE is ignored."
   (:global
    "C-h ," (lambda ()
              (interactive)
-             (devdocs-lookup nil (thing-at-point 'symbol t))))
-  (:when-loaded
-    (push '(a . +crystal-tag-a) (alist-get 'crystal devdocs-extra-rendering-functions))))
+             (devdocs-lookup nil (thing-at-point 'symbol t)))))
 
 (setup cov
   (:elpaca t)
@@ -1125,7 +1123,7 @@ LIST-SIZE is ignored."
 
 (setup crystal-mode
   (:elpaca t)
-  (:also-load +crystal-mode)
+  (:require +crystal-mode)
   (:devdoc "crystal")
   (:devdoc-tag-render crystal
                       (a . +crystal-mode-tag-a))
