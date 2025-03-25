@@ -1320,6 +1320,12 @@ LIST-SIZE is ignored."
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
 
+(setup ellama
+  (:elpaca t)
+  (:global
+   "C-c e" ellama-transient-main-menu)
+  (:option ellama-auto-scroll t))
+
 (setup reaper
   (:elpaca t)
   (:with-hook reaper-autofile-functions
