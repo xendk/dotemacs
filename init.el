@@ -1189,7 +1189,9 @@ LIST-SIZE is ignored."
   (:hook subword-mode))
 
 (setup graphql-mode
-  (:elpaca t))
+  (:elpaca t)
+  ;; Also use for schema files.
+  (:files "*.graphqls"))
 
 (setup js-mode
   (:files "*.ts"))
