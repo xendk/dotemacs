@@ -1059,6 +1059,12 @@ LIST-SIZE is ignored."
   (with-eval-after-load 'magit
     (require 'forge)))
 
+(setup code-review
+  (:elpaca :host github :repo "phelrine/code-review" :branch "fix/closql-update")
+  (:option
+   code-review-auth-login-marker 'forge)
+  (:hook emojify-mode))
+
 (setup project
   (:require project)
   (:require +project)
