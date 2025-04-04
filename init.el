@@ -529,16 +529,8 @@
     (:face column-enforce-face `( :inherit nil :underline nil
                                   :background ,(doom-lighten 'warning .75)))))
 
-(setup dimmer
-  (:elpaca t)
-  (:when-loaded
-    (:option
-     dimmer-fraction 0.30
-     (append dimmer-buffer-exclusion-regexps) "^ \\*corfu\\*$"))
-  (dimmer-configure-which-key)
-  (dimmer-configure-magit)
-  (dimmer-configure-org)
-  (dimmer-mode))
+;; Dropped dimmer, annoyances kept creeping up. auto-dim-other-buffers
+;; is a simpler alternative, but taking a break for the time being.
 
 (setup dashboard
   (:elpaca t)
@@ -1022,6 +1014,11 @@ LIST-SIZE is ignored."
               enh-ruby-mode
               twig-mode
               crystal-mode))
+
+;; Magit needs a newer version of transient than the one shipped with
+;; emacs.
+(setup transient
+  (:elpaca t))
 
 (setup magit
   (:elpaca t)
