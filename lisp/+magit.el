@@ -24,6 +24,7 @@
 ;; confirmation. Could check if any changes to the file is actually
 ;; staged, but this covers the most common case of "forgot to update
 ;; the changelog".
+;; TODO: y/n/e to quickly edit it (recursive edit?).
 (define-advice magit-commit-create
     (:before-until (orig-fun &rest args) +magit-commit-changelog-check)
   (if (file-exists-p "CHANGELOG.md")

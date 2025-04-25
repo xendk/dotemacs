@@ -29,6 +29,7 @@ PREFIX is the current completion prefix."
   (concat prefix (file-name-sans-extension
                   (file-name-nondirectory (buffer-file-name)))))
 
+;; TODO: "function (drupal-module-name)" in drupal-mode would be nice.
 (defun +php-mode-backend (action &optional arg &rest _)
   "My custom Company backend for PHP mode.
 
@@ -53,6 +54,7 @@ Adds a few often used completions. ACTION is either prefix' or
                    +php-mode-backend-alist)))))
 
 ;; Expand region
+;; TODO expander that'll mark the whole class/namespace in a use statement.
 (defun +php-mode-expansions ()
   "My expand-region setup for php-mode."
   (make-local-variable 'er/try-expand-list)

@@ -40,6 +40,7 @@
    ;; Recursive buffers can be a bit of a mindfuck at times, but a
    ;; godsend at others.
    enable-recursive-minibuffers t
+   ;; TODO: exchange-point-and-mark-highlight-region in Emacs 31?
    history-delete-duplicates t
    ;; Increase margin for horizontal scroll
    hscroll-margin 15
@@ -319,6 +320,7 @@
    url-cookie-confirmation 'nil))
 
 (setup wdired
+  ;; TODO: Make enter execute changes like C-c C-c does.
   (:option
    ;; Allow C-x C-q to change permissions too
    wdired-allow-to-change-permissions t))
@@ -536,6 +538,7 @@
 ;; Dropped dimmer, annoyances kept creeping up. auto-dim-other-buffers
 ;; is a simpler alternative, but taking a break for the time being.
 
+;; IDEA A section that collects TODOs/FIXMEs/IDEAs from this file.
 (setup dashboard
   (:elpaca t)
   (:require dashboard page-break-lines)
@@ -684,6 +687,7 @@ LIST-SIZE is ignored."
    ;; Use subword expansion
    expand-region-subword-enabled t)
   (:global
+   ;; TODO figure out a good place for er/contract-region.
    "C-S-SPC" er/expand-region))
 
 (setup multiple-cursors
@@ -813,6 +817,7 @@ LIST-SIZE is ignored."
   (vertico-prescient-mode 1)
   (prescient-persist-mode 1))
 
+;; TODO: candidate-preview-mode or corfu-candidate-overlay?
 (setup corfu
   (:elpaca :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   (:option
@@ -1307,7 +1312,8 @@ LIST-SIZE is ignored."
 (setup po-mode
   (:elpaca t))
 
-;; For graphql-mode, but might be interesting for reaper.
+;; For graphql-mode, but might be interesting for reaper. Nah, plz,
+;; nee, https://github.com/lorniu/pdd.el
 (setup request
   (:elpaca t))
 
@@ -1361,6 +1367,8 @@ LIST-SIZE is ignored."
   (:global
    "C-c e" ellama-transient-main-menu)
   (:option ellama-auto-scroll t))
+
+;; TODO https://github.com/unmonoqueteclea/jira.el
 
 (setup reaper
   (:elpaca t)
@@ -1467,6 +1475,8 @@ LIST-SIZE is ignored."
 
 (setup string-inflection
   (:elpaca t))
+
+;; TODO https://www.jamescherti.com/emacs-highlight-keywords-like-todo-fixme-note/
 
 
 
