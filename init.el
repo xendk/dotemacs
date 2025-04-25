@@ -194,11 +194,6 @@
   (:with-hook compilation-filter-hook
     (:hook ansi-color-compilation-filter)))
 
-(setup minibuffer
-  (:option
-   ;; Makes Corfu tab-complete on single matches work
-   completion-cycle-threshold 3))
-
 (setup ediff-wind
   (:option
    ediff-split-window-function 'split-window-horizontally
@@ -812,16 +807,11 @@ LIST-SIZE is ignored."
 (setup corfu
   (:elpaca :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   (:option
-   ;; Enable automatic popup
-   corfu-auto t
-   ;; Trigger at one char
-   corfu-auto-prefix 1
    ;; Show more candidates
    corfu-count 20
    ;; Let suggestions wrap around
    corfu-cycle t
-   ;; Makes tab-and-go work better
-   corfu-preselect 'prompt
+   corfu-preselect 'first
    ;; Same quick keys as avy
    corfu-quick1 "ueoahtns"
    corfu-quick2 "ueoahtns")
@@ -838,10 +828,52 @@ LIST-SIZE is ignored."
      [remap next-line] nil
      [remap previous-line] nil
      "<down>" nil
-     "<up>" nil))
+     "<up>" nil
+     "M-SPC" +corfu-move-to-minibuffer))
   ;; Doesn't quite work?
   ;;(corfu-history-mode 1)
-  (global-corfu-mode))
+
+  (defun +corfu--preview-current-p ()
+    "Return t if the selected candidate is previewed, not skipping the first candidate."
+    (and corfu-preview-current (>= corfu--index 0)))
+
+  (advice-add 'corfu--preview-current-p :override #'+corfu--preview-current-p)
+
+  (defun +corfu-move-to-minibuffer ()
+    "Move completion from corfu to vertico."
+    (interactive)
+    (pcase completion-in-region--data
+      (`(,beg ,end ,table ,pred ,extras)
+       (let ((completion-extra-properties extras)
+             completion-cycle-threshold completion-cycling)
+         (consult-completion-in-region beg end table pred)))))
+
+  (global-corfu-mode)
+  (add-to-list 'corfu-continue-commands #'+corfu-move-to-minibuffer))
+
+;; TODO https://kristofferbalintona.me/posts/202504050923/#bonus-integration-with-completion-preview-mode
+(setup completion-preview
+  (:with-map completion-preview-active-mode-map
+    (:option
+     completion-preview-minimum-symbol-length nil)
+    (:bind
+     "TAB" completion-preview-complete
+     "M-n" completion-preview-next-candidate
+     "M-p" completion-preview-prev-candidate))
+
+  (defun +completion-preview-before-corfu--in-region (&rest args)
+    "Disable completion-preview before corfu is triggered."
+    (when completion-preview--overlay
+      (overlay-put completion-preview--overlay 'after-string "")
+      ;; Disable preview.
+      (completion-preview-active-mode -1)
+      ;; We need to inhibit update, else it will redisplay together
+      ;; with the corfu popup.
+      (completion-preview--inhibit-update)))
+
+  (advice-add 'corfu--in-region :before #'+completion-preview-before-corfu--in-region)
+
+  (global-completion-preview-mode))
 
 (setup consult
   (:elpaca t)
