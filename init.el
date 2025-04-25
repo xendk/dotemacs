@@ -395,7 +395,10 @@
 
   (:face
    ;; White background for inactive mode-line is no-go for me.
-   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))))
+   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
+   ;; Don't know why doom-themes sets the internal-border to a color,
+   ;; but reset it for spacious-padding-mode.
+   internal-border `(:foreground nil :background nil :inherit default)))
 
 (setup doom-modeline
   (:elpaca t)
@@ -446,6 +449,10 @@
       (dolist (buffer buffers)
         (with-current-buffer buffer
           (doom-modeline-set-modeline 'xen-minimal))))))
+
+(setup spacious-padding
+  (:elpaca t)
+  (spacious-padding-mode 1))
 
 (setup nerd-icons
   (:elpaca t))
