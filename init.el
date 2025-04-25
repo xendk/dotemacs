@@ -476,7 +476,7 @@
     (:hook-into prog-mode)))
 
 (setup highlight-symbol
-  (:also-load +highlight-symbol)
+  (:require +highlight-symbol)
   (:elpaca t)
   (:option
    highlight-symbol-idle-delay 0.5)
