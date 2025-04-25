@@ -50,7 +50,7 @@
 ;; End of installer.
 
 ;; Tell Elpaca to use the versions in the lock file.
-(setq elpaca-lock-file (concat user-emacs-directory "elpaca.lock"))
+;; (setq elpaca-lock-file (concat user-emacs-directory "elpaca.lock"))
 
 (provide '+elpaca)
 ;;; +elpaca.el ends here
