@@ -574,6 +574,9 @@ LIST-SIZE is ignored."
                                         (redisplay)
                                         (run-hooks 'dashboard-after-initialize-hook)))))
 
+;; IDEA use `posn-at-point' and `pulse' or `nav-flash' and a
+;; `post-command-hook' to highlight cursor or larger moves.
+
 
 
 ;;; Navigation
