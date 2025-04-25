@@ -6,6 +6,11 @@
 
 (require 'face-remap)
 
+(declare-function consult--buffer-state "consult")
+(declare-function consult--buffer-query "consult")
+(declare-function consult-buffer "consult")
+
+(defvar consult-buffer-sources)
 (defvar vterm-copy-mode)
 
 (defface +vterm-copy-mode-face
