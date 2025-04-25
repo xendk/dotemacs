@@ -37,6 +37,8 @@
    create-lockfiles nil
    ;; Echo keystrokes quickly
    echo-keystrokes 0.02
+   ;; Recursive buffers can be a bit of a mindfuck at times, but a
+   ;; godsend at others.
    enable-recursive-minibuffers t
    history-delete-duplicates t
    ;; Increase margin for horizontal scroll
