@@ -388,8 +388,14 @@
    ;; Remove background color on comments
    doom-nord-comment-bg nil)
 
-  ;; Load the theme
+  ;; Preload the dark theme.
+  (load-theme 'doom-nord-aurora t t)
+  ;; Load and enable the light theme
   (load-theme 'doom-nord-light t)
+  ;; Examples of customizing themes:
+  ;; https://emacsredux.com/blog/2025/02/13/customizing-color-themes/
+  ;; https://github.com/alphapapa/unpackaged.el?tab=readme-ov-file#customize-theme-faces
+  ;; https://gist.github.com/hlissner/1ace77658c772cf150a43dc9396fa2ed
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -397,12 +403,15 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
-  (:face
-   ;; White background for inactive mode-line is no-go for me.
-   mode-line-inactive `(:background ,(doom-lighten (doom-color 'modeline-bg) .3))
-   ;; Don't know why doom-themes sets the internal-border to a color,
-   ;; but reset it for spacious-padding-mode.
-   internal-border `(:foreground nil :background nil :inherit default)))
+  (:theme-face doom-nord-light
+               ;; White background for inactive mode-line is no-go for
+               ;; me.
+               mode-line-inactive (:background "#c9d5e5")
+               ;; Don't know why doom-nord-light sets the
+               ;; internal-border to a color, but reset it for
+               ;; spacious-padding-mode.
+               internal-border (:foreground unspecified :background unspecified :inherit default)
+               ))
 
 (setup doom-modeline
   (:elpaca t)
@@ -475,9 +484,14 @@
    display-line-numbers-major-tick 20
    ;; Show minor line every 5 lines
    display-line-numbers-minor-tick 5)
-  (:face
-   line-number-major-tick '(:foreground "dark gray" :background unspecified)
-   line-number-minor-tick '(:foreground "dim gray" :background unspecified))
+  (:theme-face doom-nord-light
+               line-number (:foreground "#bec7d8" :background unspecified)
+               line-number-minor-tick (:foreground "#989fac" :background unspecified)
+               line-number-major-tick (:foreground "#727781" :background unspecified))
+  (:theme-face doom-nord-aurora
+               line-number (:foreground "#585f6c" :background unspecified)
+               line-number-minor-tick (:foreground "#797e89" :background unspecified)
+               line-number-major-tick (:foreground "#9a9fa6" :background unspecified))
   (:with-function +display-line-numbers-mode
     (:hook-into prog-mode)))
 
@@ -490,12 +504,10 @@
    "M-<left>" highlight-symbol-prev
    "M-<right>" highlight-symbol-next)
   (:hook-into prog-mode)
-  (with-eval-after-load 'doom-themes
-    (:face
-     ;; Make symbol highlight a lighter version of the region.
-     highlight-symbol-face
-     `(:background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50))))
-
+  (:theme-face doom-nord-light
+               highlight-symbol-face (:background "#ced7e5"))
+  (:theme-face doom-nord-aurora
+               highlight-symbol-face (:background "#38404f"))
   (add-hook 'activate-mark-hook '+highlight-symbol-mode-deactivate)
   (add-hook 'deactivate-mark-hook '+highlight-symbol-mode-reactivate))
 
@@ -510,12 +522,10 @@
     (:bind
      "M-<up>" region-occurrences-highlighter-prev
      "M-<down>" region-occurrences-highlighter-next))
-  (with-eval-after-load 'doom-themes
-    (:face
-     ;; Make region highlights a lighter version of the region.
-     region-occurrences-highlighter-face
-     `( :inverse-video unspecified
-        :background ,(doom-blend (doom-color 'region) (doom-color 'bg) 0.50)))))
+  (:theme-face doom-nord-light
+               region-occurrences-highlighter-face (:background "#ced7e5"))
+  (:theme-face doom-nord-aurora
+               region-occurrences-highlighter-face (:background "#38404f")))
 
 (setup rainbow-mode
   (:elpaca t)

@@ -55,6 +55,34 @@ The ORDER can be used to deduce the feature context."
   :documentation "Customize FACE with SPEC using `custom-set-faces'."
   :repeatable t)
 
+(defvar +theme-faces (make-hash-table :test 'equal :size 5)
+  "Face definitions per theme.")
+
+(defun +add-theme-face (theme face spec)
+  "Add FACE SPECS to THEME."
+  (push (list face spec) (gethash theme +theme-faces (list))))
+
+(defun +add-theme-faces-hook (theme)
+  "Add :theme-face defined faces to THEME when enabled."
+  (let ((custom--inhibit-theme-enable nil))
+    (when-let ((specs (gethash theme +theme-faces)))
+      (cl-loop for (face spec) in specs do
+               (custom-theme-set-faces theme `(,face ((t ,spec)) t "Theme customized by `setup'."))))))
+
+(add-hook 'enable-theme-functions '+add-theme-faces-hook)
+
+(setup-define :theme-face
+  (lambda (theme face spec)
+    ;; We're calling +add-theme-face directly to ensure that the face
+    ;; is saved when the theme is enabled. Else elpaca would defer it
+    ;; until the package has been made available.
+    (+add-theme-face theme face spec)
+    ;; Don't return anything as it would be inserted in place of the
+    ;; macro.
+    nil)
+  :documentation "Customize FACE with SPEC in THEME  using `custom-theme-set-faces'."
+  :repeatable '(1 . 2))
+
 (setup-define :load-from
   (lambda (path)
     `(let ((path* (expand-file-name ,path)))

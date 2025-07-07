@@ -30,12 +30,14 @@
 ;; TODO: This could be determined automatically:
 ;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
 (custom-set-faces '(default
-                    ((t ( :foreground "#3B4252"
-                          :background "#E5E9F0"
-                          :height 120
-                          :width semi-condensed
-                          :foundry "FBI "
-                          :family "Input")))
+                    ;; Colors disabled for the moment as they override
+                    ;; the latter themes.
+                    ((t ( ;; :foreground "#3B4252"
+                         ;; :background "#E5E9F0"
+                         :height 120
+                         :width semi-condensed
+                         :foundry "FBI "
+                         :family "Input")))
                     'now "Customized in early-init.el"))
 
 ;; Disable tool-bar, scroll-bars and menu-bar.
