@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(declare-function magit-get-current-branch "magit")
+
 (defun +magit-commit-setup-jira ()
   "Insert Jira issue number in commit message if branch name contain one."
   (let ((ISSUEKEY "[[:alpha:][:digit:]]\\{2,\\}-[[:digit:]]+"))

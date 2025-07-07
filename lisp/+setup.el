@@ -7,6 +7,15 @@
 ;;; Code:
 
 (declare-function elpaca "elpaca")
+(declare-function elpaca-wait "elpaca")
+(declare-function setup-define "setup")
+(declare-function setup-get "setup")
+(declare-function setup-quit "setup")
+
+(defvar setup)
+(defvar setup-attributes)
+(defvar setup-modifier-list)
+
 (elpaca setup
   (require 'setup))
 
