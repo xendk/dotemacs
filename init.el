@@ -467,6 +467,12 @@
   (:elpaca t)
   (spacious-padding-mode 1))
 
+(setup auto-dark
+  (:elpaca t)
+  (:option
+   auto-dark-themes '((doom-nord-aurora) (doom-nord-light)))
+  (auto-dark-mode))
+
 (setup nerd-icons
   (:elpaca t))
 
