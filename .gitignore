@@ -1,63 +1,63 @@
-session.*
-auto-save-list
-eshell
-.harvest
-saveplaces
-network-security.data
+/session.*
+/auto-save-list
+/eshell
+/.harvest
+/saveplaces
+/network-security.data
 # Cask
-.cask
-cask
+/.cask
+/cask
 # Undo tree history
-undo-history
+/undo-history
 # Transient stuff
-transient
+/transient
 # Forge database
-forge-database.sqlite
+/forge-database.sqlite
 # DAP
-.dap-breakpoints
+/.dap-breakpoints
 # Tramp history
-tramp
+/tramp
 # Yasnippet
-**/.yas-compiled-snippets.el
+/**/.yas-compiled-snippets.el
 # Keyfreq
-keyfreq*
+/keyfreq*
 # Multiple cursors
-.mc-lists.el
+/.mc-lists.el
 # Game highscores
-games
+/games
 # W3 cookies
-url
+/url
 # Speed-type data
-speed-type
+/speed-type
 # save-hist
-history
+/history
 # emacs-emojify
-emojis
+/emojis
 # Reaper key
-reaper-key.el
+/reaper-key.el
 # Reaper autofile function
-xen-reaper.el
+/xen-reaper.el
 # Passwords
-authinfo.gpg
+/authinfo.gpg
 # Elpaca fetched repos and built packages.
-elpaca/
+/elpaca/
 # Devdocs docs (obviously).
-devdocs/
+/devdocs/
 # project.el projects
 /projects
 # Eldev
-.eldev
+/.eldev
 # Native compilation cache
 /eln-cache
 # Data file for code-review
-code-review-db-file.sqlite
+/code-review-db-file.sqlite
 # ellama storage
-ellama-sessions
+/ellama-sessions
 # ELPA cache, seems to keep cropping up.
-elpa
+/elpa
 # request cookiejar
-request
+/request
 # Treesitter compiled language libraries
-tree-sitter
+/tree-sitter
 # Various storage for well-behaved (or just configured) packages 
-var
+/var
