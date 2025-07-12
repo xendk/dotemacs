@@ -305,6 +305,16 @@
    save-place-file (concat user-emacs-directory "saveplaces"))
   (save-place-mode))
 
+;; For more treesitter setup, look at
+;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
+(setup treesit
+  (setq treesit-language-source-alist
+        '(
+          ;; (cpp . "https://github.com/tree-sitter/tree-sitter-cpp")
+          ;; (c . "https://github.com/tree-sitter/tree-sitter-c")
+          (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
+          (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src")))))
+
 (setup uniquify
   (:option
    ;; Re-uniquify buffers after killing some
