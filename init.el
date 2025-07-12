@@ -983,8 +983,7 @@ LIST-SIZE is ignored."
     (:bind
      "s" sort-lines
      "S" +embark-sort-lines-caseless
-     "u" delete-duplicate-lines
-     "/" +embark-google-region))
+     "u" delete-duplicate-lines))
   ;; Consult previews in collect buffers.
   (:with-hook embark-collect-mode
     (:hook consult-preview-at-point-mode)))
@@ -1488,12 +1487,6 @@ LIST-SIZE is ignored."
 
 (setup git-attr
   (:elpaca :host github :repo "arnested/emacs-git-attr"))
-
-(setup google-this
-  (:elpaca t)
-  ;; TODO: maybe reimplement :bind-keymap as :autoload-keymap to lazy
-  ;; load this.
-  (google-this-mode))
 
 (setup keyfreq
   (:elpaca t)

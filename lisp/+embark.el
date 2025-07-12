@@ -37,12 +37,6 @@ targets."
 (advice-add #'embark-completing-read-prompter
             :around #'+embark-hide-which-key-indicator)
 
-;; TODO: Should be moved to google-this.
-(defun +embark-google-region ()
-  "Google current region."
-  (interactive)
-  (google-this-region nil t))
-
 (defvar sort-fold-case)
 (defun +embark-sort-lines-caseless ()
   "Sort selected lines caselessly."
