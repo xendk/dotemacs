@@ -558,10 +558,7 @@
 
 (setup column-enforce-mode
   (:elpaca t)
-  (:hook-into drupal-mode)
-  (with-eval-after-load 'doom-themes
-    (:face column-enforce-face `( :inherit nil :underline nil
-                                  :background ,(doom-lighten 'warning .75)))))
+  (:hook-into drupal-mode))
 
 ;; Dropped dimmer, annoyances kept creeping up. auto-dim-other-buffers
 ;; is a simpler alternative, but taking a break for the time being.
