@@ -351,21 +351,6 @@
                     :source "MELPA" :protocol https :inherit t :depth
                     treeless :ref
                     "c6955162307f37c2ac631d9daf118781009f8dda"))
- (google-this :source #1# :recipe
-              (:package "google-this" :repo
-                        "Malabarba/emacs-google-this" :fetcher github
-                        :files
-                        ("*.el" "*.el.in" "dir" "*.info" "*.texi"
-                         "*.texinfo" "doc/dir" "doc/*.info"
-                         "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
-                         "docs/dir" "docs/*.info" "docs/*.texi"
-                         "docs/*.texinfo"
-                         (:exclude ".dir-locals.el" "test.el"
-                                   "tests.el" "*-test.el" "*-tests.el"
-                                   "LICENSE" "README*" "*-pkg.el"))
-                        :source "MELPA" :protocol https :inherit t
-                        :depth treeless :ref
-                        "8a2e3ca5da6a8c89bfe99a21486c6c7db125dc84"))
  (git-attr :source #1# :recipe
            (:package "git-attr" :fetcher github :repo
                      "arnested/emacs-git-attr" :files
@@ -1226,6 +1211,30 @@
                        :files (:defaults "data") :source "MELPA"
                        :protocol https :inherit t :depth treeless :ref
                        "14f7278dd7eb5eca762a6ff32467c72c661c0aae"))
+ (auto-dark :source #1# :recipe
+            (:package "auto-dark" :repo "LionyxML/auto-dark-emacs"
+                      :fetcher github :files
+                      ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+                       "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+                       "doc/*.texinfo" "lisp/*.el" "docs/dir"
+                       "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+                       (:exclude ".dir-locals.el" "test.el" "tests.el"
+                                 "*-test.el" "*-tests.el" "LICENSE"
+                                 "README*" "*-pkg.el"))
+                      :source "MELPA" :protocol https :inherit t
+                      :depth treeless :ref
+                      "1b6c1841c5b15388ee78cb03a4139fd14f42783b"))
+ (spacious-padding :source #1# :recipe
+                   (:package "spacious-padding" :repo
+                             ("https://github.com/protesilaos/spacious-padding"
+                              . "spacious-padding")
+                             :files
+                             ("*"
+                              (:exclude ".git" "COPYING"
+                                        "doclicense.texi"))
+                             :source "GNU ELPA" :protocol https
+                             :inherit t :depth treeless :ref
+                             "2bfcb8da5f7f08e39c52c889231f2b6f93f10e78"))
  (doom-modeline :source #1# :recipe
                 (:package "doom-modeline" :repo
                           "seagle0128/doom-modeline" :fetcher github
@@ -1241,7 +1250,7 @@
                                      "*-pkg.el"))
                           :source "MELPA" :protocol https :inherit t
                           :depth treeless :ref
-                          "05fec1d4866b1dd5c7c264bc4671dbfd4b96c556"))
+                          "a85cb28da8bcb29be232e21879f0f5a1e8551b8c"))
  (doom-themes :source #1# :recipe
               (:package "doom-themes" :fetcher github :repo
                         "doomemacs/themes" :files
@@ -1249,7 +1258,7 @@
                                    "extensions/*.el")
                         :source "MELPA" :protocol https :inherit t
                         :depth treeless :ref
-                        "88126db5e63d816533d0372cb99246b842cac74e"))
+                        "1c239826dac4be0a3142180cb8155282896a9af2"))
  (setup :source
    #1# :recipe
    (:package "setup" :repo
