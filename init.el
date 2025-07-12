@@ -709,6 +709,8 @@ LIST-SIZE is ignored."
 
 ;; https://github.com/casouri/expreg might be an interesting
 ;; alternative when we get tree-sitter.
+;; https://github.com/mickeynp/combobulate also implements this, with
+;; much more.
 (setup expand-region
   (:elpaca t)
   (:option
