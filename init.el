@@ -394,9 +394,12 @@
   (:option
    ;; Make the comments and modeline brighter.
    doom-nord-light-brighter-comments t
+   doom-nord-aurora-brighter-comments t
    doom-nord-light-brighter-modeline t
+   doom-nord-aurora-brighter-modeline t
    ;; Remove background color on comments
-   doom-nord-comment-bg nil)
+   doom-nord-comment-bg nil
+   doom-nord-aurora-comment-bg nil)
 
   ;; Preload the dark theme.
   (load-theme 'doom-nord-aurora t t)
@@ -420,8 +423,7 @@
                ;; Don't know why doom-nord-light sets the
                ;; internal-border to a color, but reset it for
                ;; spacious-padding-mode.
-               internal-border (:foreground unspecified :background unspecified :inherit default)
-               ))
+               internal-border (:foreground unspecified :background unspecified :inherit default)))
 
 (setup doom-modeline
   (:elpaca t)
