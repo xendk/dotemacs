@@ -423,7 +423,13 @@
                ;; Don't know why doom-nord-light sets the
                ;; internal-border to a color, but reset it for
                ;; spacious-padding-mode.
-               internal-border (:foreground unspecified :background unspecified :inherit default)))
+               internal-border (:foreground unspecified :background unspecified :inherit default))
+  (:theme-face doom-nord-aurora
+               ;; Shadow is almost unreadable to me, and it's used as
+               ;; base for a lot of thing. Set it to a fifty-fifty mix
+               ;; of auroras base5 and base6 colors (the latter is too
+               ;; light).
+               shadow (:foreground "#6e778a")))
 
 (setup doom-modeline
   (:elpaca t)
