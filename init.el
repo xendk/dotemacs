@@ -855,7 +855,6 @@ LIST-SIZE is ignored."
   (vertico-prescient-mode 1)
   (prescient-persist-mode 1))
 
-;; TODO: candidate-preview-mode or corfu-candidate-overlay?
 (setup corfu
   (:elpaca :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   (:option
@@ -903,7 +902,6 @@ LIST-SIZE is ignored."
   (global-corfu-mode)
   (add-to-list 'corfu-continue-commands #'+corfu-move-to-minibuffer))
 
-;; TODO https://kristofferbalintona.me/posts/202504050923/#bonus-integration-with-completion-preview-mode
 (setup completion-preview
   (:with-map completion-preview-active-mode-map
     (:option
@@ -912,6 +910,24 @@ LIST-SIZE is ignored."
      "TAB" completion-preview-complete
      "M-n" completion-preview-next-candidate
      "M-p" completion-preview-prev-candidate))
+
+  ;; This should keep corfu and completion-preview on the same page as
+  ;; to the order of completions. See
+  ;; https://kristofferbalintona.me/posts/202504050923/#bonus-integration-with-completion-preview-mode
+  (add-variable-watcher 'corfu-sort-function
+                        (lambda (_symbol newval operation where)
+                          "Match the value of `completion-preview-sort-function' to `corfu-sort-function'.
+If `corfu-sort-function' is set buffer-locally, also set
+`completion-preview-sort-function' buffer-locally.  Otherwise, change
+the default value of `completion-preview-sort-function' accordingly.
+
+This action only applies when the value of `corfu-sort-function' is
+set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
+                        (when (equal operation 'set)
+                          (if where
+                              (with-current-buffer where
+                                (setq-local completion-preview-sort-function newval))
+                            (setopt completion-preview-sort-function newval)))))
 
   (defun +completion-preview-before-corfu--in-region (&rest args)
     "Disable completion-preview before corfu is triggered."
