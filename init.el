@@ -330,10 +330,12 @@
    url-cookie-confirmation 'nil))
 
 (setup wdired
-  ;; TODO: Make enter execute changes like C-c C-c does.
   (:option
    ;; Allow C-x C-q to change permissions too
-   wdired-allow-to-change-permissions t))
+   wdired-allow-to-change-permissions t)
+  (:bind
+   ;; Allow <return> to finish.
+   "<return>" wdired-finish-edit))
 
 (setup which-key
   (:option
