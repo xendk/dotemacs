@@ -49,3 +49,15 @@ devdocs/
 .eldev
 # Native compilation cache
 /eln-cache
+# Data file for code-review
+code-review-db-file.sqlite
+# ellama storage
+ellama-sessions
+# ELPA cache, seems to keep cropping up.
+elpa
+# request cookiejar
+request
+# Treesitter compiled language libraries
+tree-sitter
+# Various storage for well-behaved (or just configured) packages 
+var
