@@ -1,9 +1,6 @@
 /session.*
 /auto-save-list
-/eshell
-/.harvest
 /saveplaces
-/network-security.data
 # Cask
 /.cask
 /cask
