@@ -193,31 +193,6 @@
                   ("llama.el" ".dir-locals.el") :source "MELPA"
                   :protocol https :inherit t :depth treeless :ref
                   "48e5bc4919a4a29665362832d59ade8e248b0c3e"))
- (epl :source #1# :recipe
-      (:package "epl" :repo "cask/epl" :fetcher github :files
-                ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
-                 "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
-                 "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
-                 "docs/*.texinfo"
-                 (:exclude ".dir-locals.el" "test.el" "tests.el"
-                           "*-test.el" "*-tests.el" "LICENSE"
-                           "README*" "*-pkg.el"))
-                :source "MELPA" :protocol https :inherit t :depth
-                treeless :ref
-                "78ab7a85c08222cd15582a298a364774e3282ce6"))
- (pkg-info :source #1# :recipe
-           (:package "pkg-info" :repo "emacsorphanage/pkg-info"
-                     :fetcher github :files
-                     ("*.el" "*.el.in" "dir" "*.info" "*.texi"
-                      "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
-                      "doc/*.texinfo" "lisp/*.el" "docs/dir"
-                      "docs/*.info" "docs/*.texi" "docs/*.texinfo"
-                      (:exclude ".dir-locals.el" "test.el" "tests.el"
-                                "*-test.el" "*-tests.el" "LICENSE"
-                                "README*" "*-pkg.el"))
-                     :source "MELPA" :protocol https :inherit t :depth
-                     treeless :ref
-                     "76ba7415480687d05a4353b27fea2ae02b8d9d61"))
  (ansi :source #1# :recipe
        (:package "ansi" :repo "rejeep/ansi.el" :fetcher github :files
                  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -552,23 +527,6 @@
                        :source "MELPA" :protocol https :inherit t
                        :depth treeless :ref
                        "c4ac5de975d65c84893a130a470af32a48b0b66c"))
- (markdown-changelog :source #1# :recipe
-                     (:package "markdown-changelog" :fetcher github
-                               :repo "plandes/markdown-changelog"
-                               :files
-                               ("*.el" "*.el.in" "dir" "*.info"
-                                "*.texi" "*.texinfo" "doc/dir"
-                                "doc/*.info" "doc/*.texi"
-                                "doc/*.texinfo" "lisp/*.el" "docs/dir"
-                                "docs/*.info" "docs/*.texi"
-                                "docs/*.texinfo"
-                                (:exclude ".dir-locals.el" "test.el"
-                                          "tests.el" "*-test.el"
-                                          "*-tests.el" "LICENSE"
-                                          "README*" "*-pkg.el"))
-                               :source "MELPA" :protocol https
-                               :inherit t :depth treeless :ref
-                               "81d7c1c03722089daa3749bfb031d7f849772572"))
  (markdown-mode :source #1# :recipe
                 (:package "markdown-mode" :fetcher github :repo
                           "jrblevin/markdown-mode" :files
@@ -810,7 +768,7 @@
                                 "README*" "*-pkg.el"))
                      :source "MELPA" :protocol https :inherit t :depth
                      treeless :ref
-                     "74848a2342d60d42fa6954c0b9aa43cef1a47d14"))
+                     "a4d782e7af12e20037c0cecf0d4386cd2676c085"))
  (ecukes :source #1# :recipe
          (:package "ecukes" :fetcher github :repo "ecukes/ecukes"
                    :files ("ecukes*" "templates" "bin" "reporters")
