@@ -1068,7 +1068,19 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Enable flycheck globally, doing it this way delays the setup to
   ;; after everything is loaded.
   (:with-function global-flycheck-mode
-    (:hook-into elpaca-after-init)))
+    (:hook-into elpaca-after-init))
+  (:when-loaded
+    ;; Don't enable checkdoc in test files. This is a bit heavy
+    ;; handed, but the original is buggy anyway (it's missing a
+    ;; `file-name-nondirectory').
+    (defun flycheck--emacs-lisp-checkdoc-enabled-p ()
+      "Check whether to enable Emacs Lisp Checkdoc in the current buffer."
+      (and (flycheck--emacs-lisp-enabled-p)
+           ;; Skip files in `tests' directories.
+           (not (member (f-filename (f-parent (buffer-file-name))) '("tests")))))))
+
+(setup flycheck-eldev
+  (:elpaca t))
 
 (setup flyover
   (:elpaca :host github :repo "konrad1977/flyover")

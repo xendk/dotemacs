@@ -756,6 +756,22 @@
                    :host github :repo "konrad1977/flyover" :package
                    "flyover" :ref
                    "dbbc13f67c427ca771137937105c256fa5989c64"))
+ (flycheck-eldev :source #1# :recipe
+                 (:package "flycheck-eldev" :repo
+                           "flycheck/flycheck-eldev" :fetcher github
+                           :files
+                           ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+                            "*.texinfo" "doc/dir" "doc/*.info"
+                            "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
+                            "docs/dir" "docs/*.info" "docs/*.texi"
+                            "docs/*.texinfo"
+                            (:exclude ".dir-locals.el" "test.el"
+                                      "tests.el" "*-test.el"
+                                      "*-tests.el" "LICENSE" "README*"
+                                      "*-pkg.el"))
+                           :source "MELPA" :protocol https :inherit t
+                           :depth treeless :ref
+                           "e3d5cdaf8183bd9d1cf66857d21bf86052b1d703"))
  (flycheck :source #1# :recipe
            (:package "flycheck" :repo "flycheck/flycheck" :fetcher
                      github :files
