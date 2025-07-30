@@ -440,7 +440,7 @@
           (:source nil :protocol https :inherit t :depth treeless
                    :type git :host github :repo "xendk/custode.el"
                    :package "custode" :ref
-                   "c46d4590c1715f9cefe1b2a846c86493b0018d54"))
+                   "b5cf54f53c5dc3cb3f0261e13764a8d8faf8d021"))
  (yaml-mode :source #1# :recipe
             (:package "yaml-mode" :repo "yoshiki/yaml-mode" :fetcher
                       github :files
@@ -793,12 +793,11 @@
                            :source "MELPA" :protocol https :inherit t
                            :depth treeless :ref
                            "18d0c9869585e6a9ea5c40678f266cf7f5bb2d2e"))
- (flycheck-overlay :source #1# :recipe
-                   (:source nil :protocol https :inherit t :depth
-                            treeless :host github :repo
-                            "konrad1977/flycheck-overlay" :package
-                            "flycheck-overlay" :ref
-                            "85f838eb36f936bda9ac616f445bf1808118b25c"))
+ (flyover :source #1# :recipe
+          (:source nil :protocol https :inherit t :depth treeless
+                   :host github :repo "konrad1977/flyover" :package
+                   "flyover" :ref
+                   "dbbc13f67c427ca771137937105c256fa5989c64"))
  (flycheck :source #1# :recipe
            (:package "flycheck" :repo "flycheck/flycheck" :fetcher
                      github :files

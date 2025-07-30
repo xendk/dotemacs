@@ -1070,22 +1070,27 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init)))
 
-(setup flycheck-overlay
-  (:elpaca :host github :repo "konrad1977/flycheck-overlay")
+(setup flyover
+  (:elpaca :host github :repo "konrad1977/flyover")
   (:option
-   flycheck-overlay-info-icon "🛈"
-   flycheck-overlay-warning-icon "⚠"
-   flycheck-overlay-error-icon "✘"
-   flycheck-overlay-hide-checker-name nil)
+   ;; The default background is unreadable.
+   flyover-background-lightness 25
+   flyover-info-icon "🛈"
+   flyover-warning-icon "⚠"
+   flyover-error-icon "✘"
+   flyover-hide-checker-name nil
+   flyover-virtual-line-type 'bold-arrow
+   ;; This hides any new errors on the current line, so disable it.
+   flyover-hide-when-cursor-is-on-same-line nil)
   (:with-feature flycheck
     (:with-map flycheck-command-map
       (:bind
-       "o" '+flycheck-overlay-toggle)))
+       "o" '+flyover-toggle)))
   (:hook-into flycheck-mode)
-  (defun +flycheck-overlay-toggle ()
+  (defun +flyover-toggle ()
     (interactive)
-    "Toggle `flycheck-overlay-mode'"
-    (flycheck-overlay-mode 'toggle)))
+    "Toggle `flyover-mode'"
+    (flyover-mode 'toggle)))
 
 (setup flycheck-eglot
   (:elpaca t)
