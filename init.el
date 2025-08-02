@@ -1098,12 +1098,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-feature flycheck
     (:with-map flycheck-command-map
       (:bind
-       "o" '+flyover-toggle)))
+       "o" 'flyover-toggle)))
   (:hook-into flycheck-mode)
-  (defun +flyover-toggle ()
-    (interactive)
-    "Toggle `flyover-mode'"
-    (flyover-mode 'toggle))
   ;; Add hooks to change background when dark mode switches. We have
   ;; to re-enable flyover-mode to make it update the overlay backgrounds.
   (defun +flyover-light-background () (setq flyover-background-lightness 75) (when flyover-mode (flyover-mode 1)))
