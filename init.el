@@ -1080,7 +1080,21 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
            (not (member (f-filename (f-parent (buffer-file-name))) '("tests")))))))
 
 (setup flycheck-eldev
-  (:elpaca t))
+  (:elpaca t)
+  (:when-loaded
+    ;; flycheck-eldev rewrites the command of the emacs-lisp checker
+    ;; and uses that. The emacs-lisp checker uses `source-inplace',
+    ;; which uses a temp `flycheck_' file next to the original source.
+    ;; This doesn't play well with custode and eldev which ends up
+    ;; seeing both files and generating autoloads for both, which in
+    ;; turn makes elpaca throw up when it can't find the `flycheck_'
+    ;; file later. We work around this by redefining the emacs-lisp
+    ;; checker to use `source' instead which saves the file to a
+    ;; temporary directory. This probably isn't without side-effects,
+    ;; one would imagine some references can't be resolved when the
+    ;; file isn't in its original directory, but it's a limitation
+    ;; we'll have to live with.
+    (put 'emacs-lisp 'flycheck-command '("emacs" (eval flycheck-emacs-args) (eval (let ((path (pcase flycheck-emacs-lisp-load-path (`inherit load-path) (p (seq-map #'expand-file-name p))))) (flycheck-prepend-with-option "--directory" path))) (option "--eval" flycheck-emacs-lisp-package-user-dir nil flycheck-option-emacs-lisp-package-user-dir) (option "--eval" flycheck-emacs-lisp-initialize-packages nil flycheck-option-emacs-lisp-package-initialize) (option "--eval" flycheck-emacs-lisp-check-declare nil flycheck-option-emacs-lisp-check-declare) "--eval" (eval (flycheck-emacs-lisp-bytecomp-config-form)) "--eval" (eval flycheck-emacs-lisp-check-form) "--" source))))
 
 (setup flyover
   (:elpaca :host github :repo "konrad1977/flyover")
