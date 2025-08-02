@@ -1085,8 +1085,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup flyover
   (:elpaca :host github :repo "konrad1977/flyover")
   (:option
-   ;; The default background is unreadable.
-   flyover-background-lightness 25
+   ;; The default background is unreadable in dark mode, set default
+   ;; depending whether dark mode is currently set..
+   flyover-background-lightness (if (auto-dark--is-dark-mode) 25 75)
    flyover-info-icon "🛈"
    flyover-warning-icon "⚠"
    flyover-error-icon "✘"
@@ -1102,7 +1103,15 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (defun +flyover-toggle ()
     (interactive)
     "Toggle `flyover-mode'"
-    (flyover-mode 'toggle)))
+    (flyover-mode 'toggle))
+  ;; Add hooks to change background when dark mode switches. We have
+  ;; to re-enable flyover-mode to make it update the overlay backgrounds.
+  (defun +flyover-light-background () (setq flyover-background-lightness 75) (when flyover-mode (flyover-mode 1)))
+  (defun +flyover-dark-background () (setq flyover-background-lightness 25) (when flyover-mode (flyover-mode 1)))
+  (:with-function +flyover-dark-background
+    (:hook-into auto-dark-dark-mode-hook))
+  (:with-function +flyover-light-background
+    (:hook-into auto-dark-light-mode-hook)))
 
 (setup flycheck-eglot
   (:elpaca t)
