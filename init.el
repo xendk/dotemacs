@@ -1037,10 +1037,16 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:elpaca t))
 
 (setup buttercup
+  (:elpaca t)
   (:require +buttercup)
   (:with-function +buttercup-minor-mode-maybe
-    (:hook-into emacs-lisp-mode))
-  (:elpaca t))
+    (:hook-into emacs-lisp-mode)))
+
+(setup assess
+  (:elpaca t)
+  (:require +assess)
+  (:with-function +assess-maybe-require
+    (:hook-into emacs-lisp-mode)))
 
 (setup ecukes
   (:elpaca t))
