@@ -58,3 +58,7 @@
 /tree-sitter
 # Various storage for well-behaved (or just configured) packages 
 /var
+
+# Added automatically by ‘eldev init’.
+/.eldev
+/Eldev-local

@@ -1,4 +1,7 @@
 ;;; init.el --- Xens emacs configuration.  -*- flycheck-emacs-lisp-load-path: inherit; -*-
+;;;
+;; Version: 0.1
+;;
 ;;; Commentary:
 
 ;; My Emacs init.el.

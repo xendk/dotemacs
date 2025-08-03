@@ -1,0 +1,18 @@
+; -*- mode: emacs-lisp; lexical-binding: t -*-
+
+;; Most things we need is in melpa.
+(eldev-use-package-archive 'melpa)
+
+;; As this is not a regular package, tell Eldev what were working
+;; with.
+(setf eldev-project-main-file "init.el"
+      eldev-main-fileset '(:and ("init.el"
+                                 "early-init.el"
+                                 "lisp/*.el")
+                                (:not ("**/flycheck_*.el"))))
+
+;; Tell where to look for files in tests.
+(eldev-add-loading-roots 'test "lisp")
+
+;; Extra libraries to help buttercup.
+(eldev-add-extra-dependencies 'test 'assess)
