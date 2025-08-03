@@ -39,8 +39,8 @@ Movement:
 
 M-< beginning-of-buffer
 M-> end-of-buffer
-C-M-f           forward-sexp
-C-M-b           backward-sexp
+C-M-f           forward-sexp (also C-M-right)
+C-M-b           backward-sexp (also C-M-left)
 C-M-d           down-list
 C-M-n           forward-list
 C-M-p           backward-list
