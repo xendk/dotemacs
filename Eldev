@@ -1,5 +1,8 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 
+;; This was somewhat inspired by
+;; https://www.d12frosted.io/posts/2021-04-09-emacs-d
+
 ;; Most things we need is in melpa.
 (eldev-use-package-archive 'melpa)
 
