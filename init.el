@@ -1093,11 +1093,81 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     ;; turn makes elpaca throw up when it can't find the `flycheck_'
     ;; file later. We work around this by redefining the emacs-lisp
     ;; checker to use `source' instead which saves the file to a
-    ;; temporary directory. This probably isn't without side-effects,
-    ;; one would imagine some references can't be resolved when the
-    ;; file isn't in its original directory, but it's a limitation
-    ;; we'll have to live with.
-    (put 'emacs-lisp 'flycheck-command '("emacs" (eval flycheck-emacs-args) (eval (let ((path (pcase flycheck-emacs-lisp-load-path (`inherit load-path) (p (seq-map #'expand-file-name p))))) (flycheck-prepend-with-option "--directory" path))) (option "--eval" flycheck-emacs-lisp-package-user-dir nil flycheck-option-emacs-lisp-package-user-dir) (option "--eval" flycheck-emacs-lisp-initialize-packages nil flycheck-option-emacs-lisp-package-initialize) (option "--eval" flycheck-emacs-lisp-check-declare nil flycheck-option-emacs-lisp-check-declare) "--eval" (eval (flycheck-emacs-lisp-bytecomp-config-form)) "--eval" (eval flycheck-emacs-lisp-check-form) "--" source))))
+    ;; temporary directory.
+    (put 'emacs-lisp 'flycheck-command '("emacs" (eval flycheck-emacs-args) (eval (let ((path (pcase flycheck-emacs-lisp-load-path (`inherit load-path) (p (seq-map #'expand-file-name p))))) (flycheck-prepend-with-option "--directory" path))) (option "--eval" flycheck-emacs-lisp-package-user-dir nil flycheck-option-emacs-lisp-package-user-dir) (option "--eval" flycheck-emacs-lisp-initialize-packages nil flycheck-option-emacs-lisp-package-initialize) (option "--eval" flycheck-emacs-lisp-check-declare nil flycheck-option-emacs-lisp-check-declare) "--eval" (eval (flycheck-emacs-lisp-bytecomp-config-form)) "--eval" (eval flycheck-emacs-lisp-check-form) "--" source))
+
+    ;; However, this makes flycheck-eldev unable to detect the
+    ;; package. This works, pushed upstream:
+    ;; https://github.com/flycheck/flycheck-eldev/issues/2
+    (defun flycheck-eldev--build-command-line ()
+      `("--quiet" "--no-time" "--color=never" "--no-debug" "--no-backtrace-on-abort"
+        ,@(if (flycheck-eldev-project-trusted-p default-directory)
+              ;; If the standard Emacs Lisp checker provides a command line we don't expect,
+              ;; throw it away and replace with one based on Flycheck 32.  Otherwise we
+              ;; rewrite the command line provided by the standard checker, so we get any
+              ;; future improvements for free.
+              (let* ((super         (let ((flycheck-emacs-lisp-load-path           nil)
+                                          (flycheck-emacs-lisp-initialize-packages nil))
+                                      (flycheck-checker-substituted-arguments 'emacs-lisp)))
+                     (head          (-drop-last 2 super))
+                     (tail          (-take-last 2 super))
+                     (filename      (cadr tail))
+                     (real-filename (buffer-file-name))
+                     eval-forms)
+                (while head
+                  (when (string= (pop head) "--eval")
+                    (if (string-match-p (rx "(" (or "setq" "setf") " package-user-dir") (car head))
+                        ;; Just discard, Eldev will take care of this.  Binding
+                        ;; `flycheck-emacs-lisp-package-user-dir' to nil would not be enough.
+                        (pop head)
+                      (push (pop head) eval-forms))))
+                (unless (and (string= (car tail) "--")
+                             (--any (string-match-p (rx "(byte-compile") it) eval-forms)
+                             (--any (string-match-p (rx "command-line-args-left") it) eval-forms))
+                  ;; If the command line is something we don't expect, use a failsafe.
+                  (setf eval-forms `(,(flycheck-emacs-lisp-bytecomp-config-form) ,flycheck-emacs-lisp-check-form)))
+                ;; Explicitly specify various options in case a user has different defaults.
+                `("--as-is" "--load-newer"
+                  ;; Don't load file `Eldev' or `Eldev-local' if we are checking it.
+                  ,@(cond ((file-equal-p real-filename "Eldev")
+                           `("--setup-first" ,(flycheck-sexp-to-string '(setf eldev-skip-project-config t))))
+                          ((file-equal-p real-filename "Eldev-local")
+                           `("--setup-first" ,(flycheck-sexp-to-string '(setf eldev-skip-local-project-config t)))))
+                  ;; Ignore the original file for project initialization purposes.  If
+                  ;; `eldev-project-main-file' is specified, this does nothing.
+                  "--setup-first"
+                  ,(flycheck-sexp-to-string
+                    `(advice-add #'eldev--package-dir-info :around
+                                 (lambda (original)
+                                   (eldev-advised
+                                    (#'insert-file-contents
+                                     :around (lambda (original filename &rest arguments)
+                                               (if (file-equal-p filename ,real-filename)
+                                                   ;; Load the temp
+                                                   ;; file instead.
+                                                   (apply original ,filename arguments)
+                                                 (apply original filename arguments))))
+                                    (funcall original)))))
+                  ;; When checking project's main file, use the temporary as the main file
+                  ;; instead.
+                  "--setup"
+                  ,(flycheck-sexp-to-string
+                    `(when (and eldev-project-main-file (file-equal-p eldev-project-main-file ,real-filename))
+                       (setf eldev-project-main-file ,filename)))
+                  ;; Special handling for test files: load extra dependencies as if testing
+                  ;; now.  Likewise for loading roots.
+                  "--setup"
+                  ,(flycheck-sexp-to-string
+                    `(when (eldev-filter-files '(,real-filename) eldev-test-fileset)
+                       (apply #'eldev-add-extra-dependencies 'exec (cdr (assq 'test eldev--extra-dependencies)))
+                       (apply #'eldev-add-loading-roots 'exec (cdr (assq 'test eldev--loading-roots)))))
+                  "exec" "--load" "--dont-require" "--lexical"
+                  ,(flycheck-sexp-to-string `(eldev-output ,flycheck-eldev--byte-compilation-start-mark))
+                  ,(flycheck-sexp-to-string `(setf command-line-args-left (list "--" ,filename)))
+                  ,@(nreverse eval-forms)))
+            `("--setup-first"
+              ,(flycheck-sexp-to-string
+                `(signal 'eldev-error '(,flycheck-eldev-project-is-not-trusted-error)))))))))
 
 (setup flyover
   (:elpaca :host github :repo "konrad1977/flyover")
