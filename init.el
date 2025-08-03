@@ -1529,6 +1529,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;; TODO https://github.com/unmonoqueteclea/jira.el
 
+(setup keepachangelog
+  (:elpaca :type git :host github :repo "xendk/keepachangelog.el")
+  (:global
+   "C-c a" keepachangelog-add-entry))
+
 (setup reaper
   (:elpaca t)
   (:with-hook reaper-autofile-functions
