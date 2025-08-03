@@ -48,6 +48,9 @@
    load-prefer-newer t
    ;; Give mini-buffers a bit more room
    max-mini-window-height 0.33
+   ;; Add cursor-intangible so the cursor can't move to the prompt
+   ;; (which is read only).
+   minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
    ;; Allow for dragging the region.
    mouse-drag-and-drop-region t
    ;; Drag to other programs (not sure this works).
