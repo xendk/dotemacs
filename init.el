@@ -1048,6 +1048,12 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-function +assess-maybe-require
     (:hook-into emacs-lisp-mode)))
 
+(setup with-simulated-input
+  (:elpaca t)
+  (:require +with-simulated-input)
+  (:with-function +with-simulated-input-maybe-require
+    (:hook-into emacs-lisp-mode)))
+
 (setup ecukes
   (:elpaca t))
 
