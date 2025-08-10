@@ -231,6 +231,13 @@
                       :source "MELPA" :protocol https :inherit t
                       :depth treeless :ref
                       "9ba1456b0a389a2f7b42b6f42a4208ddd87ce609"))
+ (m-buffer :source #1# :recipe
+           (:package "m-buffer" :fetcher github :repo
+                     "phillord/m-buffer-el" :files
+                     (:defaults "m-buffer-doc.org" "m-buffer-doc.css")
+                     :source "MELPA" :protocol https :inherit t :depth
+                     treeless :ref
+                     "5e7714835b2289f61dad24c0b5cf98d28fc313b0"))
  (prescient :source #1# :recipe
             (:package "prescient" :fetcher github :repo
                       "radian-software/prescient.el" :files
@@ -398,6 +405,12 @@
                    :source "MELPA" :protocol https :inherit t :depth
                    treeless :ref
                    "7515ef42e0bfb0fd45d2e283e654271fe20cf447"))
+ (keepachangelog :source #1# :recipe
+                 (:source nil :protocol https :inherit t :depth
+                          treeless :type git :host github :repo
+                          "xendk/keepachangelog.el" :package
+                          "keepachangelog" :ref
+                          "b21e9f80da69d0f1944beadb7eb3baac47f373ee"))
  (ellama :source #1# :recipe
          (:package "ellama" :repo "s-kostyaev/ellama" :fetcher github
                    :files
@@ -415,7 +428,7 @@
           (:source nil :protocol https :inherit t :depth treeless
                    :type git :host github :repo "xendk/custode.el"
                    :package "custode" :ref
-                   "b5cf54f53c5dc3cb3f0261e13764a8d8faf8d021"))
+                   "d8ecf2defd0b8f1e5e9df5ca70e819a01027e4ea"))
  (yaml-mode :source #1# :recipe
             (:package "yaml-mode" :repo "yoshiki/yaml-mode" :fetcher
                       github :files
@@ -771,7 +784,7 @@
                                       "*-pkg.el"))
                            :source "MELPA" :protocol https :inherit t
                            :depth treeless :ref
-                           "e3d5cdaf8183bd9d1cf66857d21bf86052b1d703"))
+                           "3e59793f1e2c48fe31b9498450b91b9c08c0bc1a"))
  (flycheck :source #1# :recipe
            (:package "flycheck" :repo "flycheck/flycheck" :fetcher
                      github :files
@@ -791,6 +804,19 @@
                    :source "MELPA" :protocol https :inherit t :depth
                    treeless :ref
                    "41c9c40be00de009823db774eb7c6b493ae86c02"))
+ (assess :source #1# :recipe
+         (:package "assess" :fetcher github :repo "phillord/assess"
+                   :old-names (sisyphus) :files
+                   ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+                    "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+                    "doc/*.texinfo" "lisp/*.el" "docs/dir"
+                    "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+                    (:exclude ".dir-locals.el" "test.el" "tests.el"
+                              "*-test.el" "*-tests.el" "LICENSE"
+                              "README*" "*-pkg.el"))
+                   :source "MELPA" :protocol https :inherit t :depth
+                   treeless :ref
+                   "cadeb24a5d8261fad4bdfdc09e7d571cc395a6ca"))
  (buttercup :source #1# :recipe
             (:package "buttercup" :fetcher github :repo
                       "jorgenschaefer/emacs-buttercup" :files
