@@ -805,7 +805,7 @@ LIST-SIZE is ignored."
   (with-eval-after-load 'vertico-multiform
     ;; Show jinx completions in a grid
     (add-to-list 'vertico-multiform-categories
-                 '(jinx grid))))
+                 '(jinx grid (vertico-grid-annotate . 20)))))
 
 (setup visual-regexp
   (:elpaca t)
