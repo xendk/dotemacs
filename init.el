@@ -1243,10 +1243,16 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup cov
   (:elpaca t)
-  (:face
-   cov-heavy-face '(:foreground "green")
-   cov-light-face '(:foreground "orange")
-   cov-none-face '(:foreground "red"))
+  (:theme-face doom-nord-light
+               cov-heavy-face (:foreground "green4")
+               cov-med-face (:foreground "yellow2")
+               cov-light-face (:foreground "orange2")
+               cov-none-face (:foreground "red"))
+  (:theme-face doom-nord-aurora
+               cov-heavy-face (:foreground "green")
+               cov-med-face (:foreground "yellow")
+               cov-light-face (:foreground "orange")
+               cov-none-face (:foreground "red"))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
 
