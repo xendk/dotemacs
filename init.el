@@ -1352,7 +1352,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-function gfm-mode
     (:files ".md"))
   (:with-hook gfm-mode-hook
-    (:hook auto-fill-mode)))
+    (:hook auto-fill-mode))
+  ;; Make backspace delete the selection if active.
+  (put 'markdown-outdent-or-delete 'delete-selection t))
 
 (setup nginx-mode
   (:elpaca t))
