@@ -117,7 +117,10 @@
    ;; Used to M-DEL deleting a word.
    "M-<delete>" kill-word
    ;; Quickly delete the current buffer.
-   "C-x C-k" kill-current-buffer)
+   "C-x C-k" kill-current-buffer
+   ;; Move the macro keymap previously on "C-x C-k" to the
+   ;; `compose-mail' binding.
+   "C-x m" kmacro-keymap)
 
   ;; Show column number in mode-line.
   (column-number-mode)
