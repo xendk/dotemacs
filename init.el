@@ -1251,12 +1251,16 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
                cov-heavy-face (:foreground "green4")
                cov-med-face (:foreground "yellow2")
                cov-light-face (:foreground "orange2")
-               cov-none-face (:foreground "red"))
+               cov-none-face (:foreground "red")
+               cov-coverage-run-face (:foreground "green4")
+               cov-coverage-not-run-face (:foreground "red"))
   (:theme-face doom-nord-aurora
                cov-heavy-face (:foreground "green")
                cov-med-face (:foreground "yellow")
                cov-light-face (:foreground "orange")
-               cov-none-face (:foreground "red"))
+               cov-none-face (:foreground "red")
+               cov-coverage-run-face (:foreground "green")
+               cov-coverage-not-run-face (:foreground "red"))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
 
