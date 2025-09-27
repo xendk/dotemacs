@@ -211,6 +211,10 @@
    ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (setup editorconfig
+  ;; Emacs 30 js-json-mode doesn't inherit from js-mode, but the
+  ;; editorconfig included with 30 doesn't know, this, so update to
+  ;; latest version.
+  (:elpaca t)
   (:option
    ;; Makefiles always use tabs. So exclude them.
    editorconfig-exclude-modes '(makefile-gmake-mode))
