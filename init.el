@@ -928,7 +928,7 @@ LIST-SIZE is ignored."
 (setup completion-preview
   (:with-map completion-preview-active-mode-map
     (:option
-     completion-preview-minimum-symbol-length nil)
+     completion-preview-minimum-symbol-length 2)
     (:bind
      "TAB" completion-preview-complete
      "M-n" completion-preview-next-candidate
