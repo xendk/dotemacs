@@ -19,3 +19,7 @@
 
 ;; Extra libraries to help buttercup.
 (eldev-add-extra-dependencies 'test 'assess)
+
+;; Dependencies for specific tests.
+;; +php-mode
+(eldev-add-extra-dependencies 'test 'php-mode 'smartparens)
