@@ -678,8 +678,12 @@ LIST-SIZE is ignored."
 
 ;; Collection of editing tweaks I've collected over the years.
 (setup +editing
+  (:require +editing)
   (:global
-   "M-SPC" cycle-spacing))
+   "M-SPC" cycle-spacing)
+  (:with-map prog-mode-map
+    (:bind
+     "C-o" +open-line)))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (setup iso-transl
@@ -1609,9 +1613,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    "C-c x" xen-map
    "M-c" xen-casing-map
    "C-c y" xen-edit-clipboard)
-  (:with-map prog-mode-map
-    (:bind
-     "C-o" xen-open))
   (:with-map xen-casing-map
     (:bind
      "c" '("Capitalize" . capitalize-word)

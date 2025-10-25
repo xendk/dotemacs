@@ -64,13 +64,6 @@
       (interactive)
       (find-file (locate-user-emacs-file "todo"))))
 
-(defun xen-open ()
-  "Open new line, with proper indentation."
-  (interactive)
-  (beginning-of-line)
-  (call-interactively 'open-line)
-  (indent-for-tab-command))
-
 (defun xen-char-syntax ()
   "Show the syntax class of the character following point."
   (interactive)
