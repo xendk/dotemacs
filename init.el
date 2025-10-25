@@ -676,6 +676,11 @@ LIST-SIZE is ignored."
 
 ;;; Editing
 
+;; Collection of editing tweaks I've collected over the years.
+(setup +editing
+  (:global
+   "M-SPC" cycle-spacing))
+
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (setup iso-transl
   (:require iso-transl))
@@ -1600,7 +1605,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:require xen)
   (:global
    "RET" xen-newline
-   "M-SPC" xen-cycle-spacing
    "C-S-l" xen-mark-lines
    "C-c x" xen-map
    "M-c" xen-casing-map
