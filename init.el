@@ -1402,6 +1402,10 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Make backspace delete the selection if active.
   (put 'markdown-outdent-or-delete 'delete-selection t))
 
+;; For editing Markdown code blocks.
+(setup edit-indirect
+  (:elpaca t))
+
 (setup nginx-mode
   (:elpaca t))
 
@@ -1509,6 +1513,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
+
+(setup eca
+  (:elpaca :type git :host github :repo "editor-code-assistant/eca-emacs"))
 
 (setup ellama
   (:elpaca t)
