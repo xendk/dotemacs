@@ -12,6 +12,8 @@
   (let* ((match (or match 0))
          (ov (make-overlay (match-beginning match) (match-end match))))
     (overlay-put ov 'ovrainbow t)
+    ;; TODO look into using overlay priority to make rainbow overlay
+    ;; win over the region.
     (overlay-put ov 'face `((:foreground ,(if (> 0.5 (rainbow-x-color-luminance color))
                                               "white" "black"))
                             (:background ,color)))))
