@@ -560,6 +560,9 @@
 
 (setup magit-todos
   (:elpaca t)
+  (:option
+   ;; Make trailing colon optional.
+   magit-todos-keyword-suffix ":? ")
   (with-eval-after-load 'magit
     (magit-todos-mode 1)))
 
