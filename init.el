@@ -1130,7 +1130,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:option
    ;; PHP checkers are replaced by eglot and phpactor.
    flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
-   flycheck-global-modes (quote (not org-mode vterm-mode)))
+   flycheck-global-modes (quote (not org-mode vterm-mode))
+   ;; Hide temp files. May hide them from file watchers.
+   flycheck-temp-prefix ".flycheck")
   (:bind
    "M-<up>" flycheck-previous-error
    "M-<down>" flycheck-next-error)
