@@ -603,7 +603,6 @@
 ;; Dropped dimmer, annoyances kept creeping up. auto-dim-other-buffers
 ;; is a simpler alternative, but taking a break for the time being.
 
-;; IDEA A section that collects TODOs/FIXMEs/IDEAs from this file.
 (setup dashboard
   (:elpaca t)
   (:require dashboard page-break-lines)
@@ -828,6 +827,7 @@ LIST-SIZE is ignored."
    ;; Center text when using this mode
    visual-fill-column-center-text t))
 
+;; TODO hook to ask for confirmation if there's errors in a commit message.
 (setup jinx
   (:elpaca t)
   (:when-loaded
@@ -951,6 +951,9 @@ LIST-SIZE is ignored."
   (global-corfu-mode)
   (add-to-list 'corfu-continue-commands #'+corfu-move-to-minibuffer))
 
+;; https://jtamagnan.com/posts/%C3%A0-la-mode-corfu-cape-and-completion-preview/
+;; mentions upcoming completion-preview-insert-word and
+;; completion-preview-insert-sexp which sounds promising.
 (setup completion-preview
   (:with-map completion-preview-active-mode-map
     (:option
@@ -1006,6 +1009,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    xref-show-xrefs-function #'consult-xref
    xref-show-definitions-function #'consult-xref)
   (:global
+   ;; TODO Rewrite to use last kill if no region, and bind it to
+   ;; C-S-<tab>, leaving this for vanilla consult-line.
    "C-<tab>" +consult-line
    "C-x b" +consult-buffer-by-project
    ;; IDEA: a consult-yank-pop that always show the completion, even
@@ -1247,6 +1252,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    code-review-auth-login-marker 'forge)
   (:hook emojify-mode))
 
+;; TODO: is it possible to get list of open projects and mass close them?
 (setup project
   (:require project)
   (:require +project)
@@ -1367,6 +1373,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup enh-ruby-mode
   (:elpaca t)
+  ;; TODO this doesn't work anymore?
   (:files "*.rb"))
 
 (setup feature-mode
@@ -1392,6 +1399,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup js-mode
   (:files "*.ts"))
 
+;; TODO bind C-v to wrap region in `[]' and yank into a following
+;; `()'. Both GitHub and Zulip allows for selecting text and pasting
+;; to create links, so lets follow the lead.
 (setup markdown-mode
   (:elpaca t)
   ;; Use gfm-mode in md files per default.
@@ -1629,8 +1639,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup string-inflection
   (:elpaca t))
-
-;; TODO https://www.jamescherti.com/emacs-highlight-keywords-like-todo-fixme-note/
 
 
 
