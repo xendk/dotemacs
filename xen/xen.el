@@ -98,16 +98,6 @@ Actually shrinks the region if the point is at the start of the region."
 
 ;; misc minor modes
 
-(defun xen-cycle-spacing (&optional n)
-  "Delete all spaces and tabs around point, leaving one space (or N spaces).
-If N is negative, delete newlines as well, leaving -N spaces.
-
-Subsequent calls will delete all spaces, or revert to the original spacing.
-
-See also `cycle-spacing'."
-    (interactive "*p")
-    (cycle-spacing n))
-
 (defvar xen-edit-clipboard-mode-map
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap (kbd "C-c C-c") 'xen-edit-clipboard-save)
