@@ -628,6 +628,11 @@ LIST-SIZE is ignored."
 
 ;;; Navigation
 
+(setup +jump-to-matching
+  (:require +jump-to-matching)
+  (:global
+   "C-(" +jump-to-matching))
+
 ;; Needed for avy binding.
 (setup +global-override-map
   (:require +global-override-map))
