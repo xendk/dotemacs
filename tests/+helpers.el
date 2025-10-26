@@ -51,7 +51,7 @@ See +test-with-temp-buffer."
   `(+test-with-temp-buffer ,initial
                            (php-mode)
                            (smartparens-mode)
-                           (sp-local-pair 'php-mode "/*" "*/" :post-handlers '((xen-php-handle-docstring "*")))
+                           (sp-local-pair 'php-mode "/*" "*/" :post-handlers '((+php-handle-docstring "*")))
                            ,@forms))
 
 (defmacro +test-with-temp-elisp-buffer (initial &rest forms)
