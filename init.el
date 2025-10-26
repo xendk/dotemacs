@@ -134,15 +134,18 @@
   ;; Further inspiration:
   ;; https://www.reddit.com/r/emacs/comments/345by9/having_the_background_face_for_selection_region/
   (setq redisplay-highlight-region-function
-        (lambda (start end window rol)
+        (lambda (start end window rol &optional face)
+          (unless face (setq face 'region))
           (if (not (overlayp rol))
               (let ((nrol (make-overlay start end)))
                 (funcall redisplay-unhighlight-region-function rol)
                 (overlay-put nrol 'window window)
-                (overlay-put nrol 'face 'region)
+                (overlay-put nrol 'face face)
                 ;; Flycheck uses priorities of 100-ish, so we go higher than that.
                 (overlay-put nrol 'priority '(200 . 100))
                 nrol)
+            (unless (eq (overlay-get rol 'face) face)
+              (overlay-put rol 'face face))
             (unless (and (eq (overlay-buffer rol) (current-buffer))
                          (eq (overlay-start rol) start)
                          (eq (overlay-end rol) end))
