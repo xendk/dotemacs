@@ -4,7 +4,6 @@
 
 ;;; Code:
 
-;; TODO Use `global-hl-line-modes' instead.
 (defun +hl-line-mode ()
   "Enable `hl-line-mode' unless in minibuffer or vterm-mode."
   (unless (or (minibufferp)
