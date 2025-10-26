@@ -538,6 +538,10 @@
   (:with-function +display-line-numbers-mode
     (:hook-into prog-mode)))
 
+(setup hl-todo
+  (:elpaca t)
+  (global-hl-todo-mode))
+
 (setup highlight-symbol
   (:require +highlight-symbol)
   (:elpaca t)
@@ -553,6 +557,11 @@
                highlight-symbol-face (:background "#38404f"))
   (add-hook 'activate-mark-hook '+highlight-symbol-mode-deactivate)
   (add-hook 'deactivate-mark-hook '+highlight-symbol-mode-reactivate))
+
+(setup magit-todos
+  (:elpaca t)
+  (with-eval-after-load 'magit
+    (magit-todos-mode 1)))
 
 (setup page-break-lines
   (:elpaca t)
