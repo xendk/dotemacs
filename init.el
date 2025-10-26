@@ -716,6 +716,9 @@ LIST-SIZE is ignored."
    ;; Only skip typed closing pair when we're at it.
    sp-autoskip-closing-pair 'always-end
    sp-show-pair-from-inside t)
+  ;; Also highlight pair content.
+  (:face sp-show-pair-match-content-face
+         '(:extend t :inherit 'highlight-symbol-face))
   (:when-loaded
     (require 'smartparens-config)
     (smartparens-global-mode 1)
