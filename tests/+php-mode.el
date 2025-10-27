@@ -316,3 +316,30 @@ function __construct() {
     (+test-with-temp-php-buffer
      "use Name\\Space\\Balls as Class;"
      (expect (+php-qualify-type "Class") :to-equal "\\Name\\Space\\Balls"))))
+
+(describe "+php-mode-backend-namespace"
+  (it "should return nothing if no parent src directory"
+    (spy-on 'locate-dominating-file :and-return-value nil)
+    (expect (+php-mode-backend-namespace "namespace ") :to-be nil))
+
+  (it "should handle files in src"
+    (spy-on 'buffer-file-name :and-return-value "/home/user/project/src/File.php")
+    (spy-on 'locate-dominating-file :and-return-value "/home/user/project/")
+    (expect (+php-mode-backend-namespace "namespace ") :to-equal "namespace ;"))
+
+  (it "should use the path in src as namespace"
+    (spy-on 'buffer-file-name :and-return-value "/home/user/project/src/Name/Space/File.php")
+    (spy-on 'locate-dominating-file :and-return-value "/home/user/project/")
+    (expect (+php-mode-backend-namespace "namespace ") :to-equal "namespace Name\\Space;"))
+
+  (it "should handle Drupal modules"
+    (spy-on 'buffer-file-name :and-return-value "/home/user/project/src/Name/Space/File.php")
+    (spy-on 'file-exists-p :and-call-fake (lambda (file) (equal file "/home/user/project/project.info.yml")))
+    (spy-on 'locate-dominating-file :and-return-value "/home/user/project/")
+    (expect (+php-mode-backend-namespace "namespace ") :to-equal "namespace Drupal\\project\\Name\\Space;"))
+
+  (it "should handle Drupal modules files in root"
+    (spy-on 'buffer-file-name :and-return-value "/home/user/project/src/File.php")
+    (spy-on 'file-exists-p :and-call-fake (lambda (file) (equal file "/home/user/project/project.info.yml")))
+    (spy-on 'locate-dominating-file :and-return-value "/home/user/project/")
+    (expect (+php-mode-backend-namespace "namespace ") :to-equal "namespace Drupal\\project;")))

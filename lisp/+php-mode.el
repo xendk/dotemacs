@@ -20,7 +20,8 @@
     (+php-mode-backend-prefix . "class ")
     (+php-mode-backend-prefix . "enum ")
     (+php-mode-backend-prefix . "interface ")
-    (+php-mode-backend-prefix . "trait ")))
+    (+php-mode-backend-prefix . "trait ")
+    (+php-mode-backend-namespace . "namespace ")))
 
 (defun +php-mode-backend-prefix (prefix)
   "Return class/interface based on the current file name.
@@ -28,6 +29,22 @@
 PREFIX is the current completion prefix."
   (concat prefix (file-name-sans-extension
                   (file-name-nondirectory (buffer-file-name)))))
+
+(defun +php-mode-backend-namespace (prefix)
+  "Return a suitable namespace using filename huristics.
+
+PREFIX is the prefix."
+  (when-let ((root (locate-dominating-file (buffer-file-name) "src")))
+    ;; Really convoluted, could use a refactor.
+    (let* ((root (expand-file-name root))
+           (src (directory-file-name (file-name-concat root "src/")))
+           (project (file-name-nondirectory (directory-file-name root)))
+           (parents (string-remove-prefix
+                     "/"
+                     (string-remove-prefix src (directory-file-name (file-name-directory (buffer-file-name))))))
+           (is-drupal (file-exists-p (file-name-concat root (concat project ".info.yml"))))
+           (namespace (string-replace "/" "\\" parents)))
+      (concat prefix (when is-drupal (concat "Drupal\\" project (unless (string-empty-p namespace) "\\"))) namespace ";"))))
 
 ;; TODO: "function (drupal-module-name)" in drupal-mode would be nice.
 (defun +php-mode-backend (action &optional arg &rest _)
