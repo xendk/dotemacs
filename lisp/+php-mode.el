@@ -103,33 +103,6 @@ closing paren/brace."
 
 
 ;; Helper for turning fully qualified class name into a use statement.
-(defun +php-bounds-of-fq-class-at-point ()
-  "Grab the PHP namespaced class at point.
-
-Strips any leading backslash."
-  (save-excursion
-    (let (start end class)
-      ;; TODO: Use thing-at-point, see `define-thing-chars'.
-      (skip-chars-backward "\\\\A-Za-z0-9_")
-      (setq start (point))
-      (skip-chars-forward "\\\\A-Za-z0-9_")
-      (setq end (point))
-      (when (> end start)
-        (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
-        ;; Need at least one inline backslash in order to be a
-        ;; namespaced class.
-        (when (string-match-p (regexp-quote "\\") class)
-          (cons start end))))))
-
-(defun +php-find-use-block ()
-  "Find starting position of PHP use block."
-  (interactive)
-  (let ((inhibit-message t))
-    (goto-char (point-min))
-    (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
-      (forward-line))
-    (not (eobp))))
-
 (defun +php-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
   (interactive)
@@ -156,6 +129,33 @@ Strips any leading backslash."
             (forward-line -1)
             ;; TODO: Try if pulse.el works for us.
             (insert (substring line 0 -1))))))))
+
+(defun +php-bounds-of-fq-class-at-point ()
+  "Grab the PHP namespaced class at point.
+
+Strips any leading backslash."
+  (save-excursion
+    (let (start end class)
+      ;; TODO: Use thing-at-point, see `define-thing-chars'.
+      (skip-chars-backward "\\\\A-Za-z0-9_")
+      (setq start (point))
+      (skip-chars-forward "\\\\A-Za-z0-9_")
+      (setq end (point))
+      (when (> end start)
+        (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
+        ;; Need at least one inline backslash in order to be a
+        ;; namespaced class.
+        (when (string-match-p (regexp-quote "\\") class)
+          (cons start end))))))
+
+(defun +php-find-use-block ()
+  "Find starting position of PHP use block."
+  (interactive)
+  (let ((inhibit-message t))
+    (goto-char (point-min))
+    (while (looking-at "\\(<\\?php\\|declare\\|namespace\\|[[:space:]]*$\\)")
+      (forward-line))
+    (not (eobp))))
 
 ;; These (+php-wrap-handler, +php-handle-docstring and helpers) was
 ;; originally copied from the smartparens' authors personal
