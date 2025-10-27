@@ -103,23 +103,23 @@ closing paren/brace."
 
 
 ;; Helper for turning fully qualified class name into a use statement.
-;; TODO: should return start and end to make it easier to replace.
-(defun +php-grab-class ()
+(defun +php-bounds-of-fq-class-at-point ()
   "Grab the PHP namespaced class at point.
 
 Strips any leading backslash."
-  (let (start end class)
-    ;; TODO: Use thing-at-point, see `define-thing-chars'.
-    (skip-chars-backward "\\\\A-Za-z0-9_")
-    (setq start (point))
-    (skip-chars-forward "\\\\A-Za-z0-9_")
-    (setq end (point))
-    (when (> end start)
-      (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
-      ;; Need at least one inline backslash in order to be a
-      ;; namespaced class.
-      (when (string-match-p (regexp-quote "\\") class)
-        class))))
+  (save-excursion
+    (let (start end class)
+      ;; TODO: Use thing-at-point, see `define-thing-chars'.
+      (skip-chars-backward "\\\\A-Za-z0-9_")
+      (setq start (point))
+      (skip-chars-forward "\\\\A-Za-z0-9_")
+      (setq end (point))
+      (when (> end start)
+        (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
+        ;; Need at least one inline backslash in order to be a
+        ;; namespaced class.
+        (when (string-match-p (regexp-quote "\\") class)
+          (cons start end))))))
 
 (defun +php-find-use-block ()
   "Find starting position of PHP use block."
@@ -133,12 +133,16 @@ Strips any leading backslash."
 (defun +php-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
   (interactive)
-  (let (class current-line)
-    (save-excursion
-      (setq class (+php-grab-class))
-      (when class
+  (let* ((pos (+php-bounds-of-fq-class-at-point))
+         (class (and pos (buffer-substring (car pos) (cdr pos))))
+         current-line)
+    (when pos
+      (delete-region (car pos) (cdr pos))
+      (insert (car (last (split-string class "\\\\")))))
+    (when pos
+      (save-excursion
         (when-let ((use-block (+php-find-use-block))
-                   (line (concat "use " class ";\n")))
+                   (line (concat "use " (string-remove-prefix "\\" class) ";\n")))
           (unless (looking-at "use ")
             (forward-line -1)
             (insert "\n"))
@@ -151,17 +155,7 @@ Strips any leading backslash."
             (insert "\n")
             (forward-line -1)
             ;; TODO: Try if pulse.el works for us.
-            (insert (substring line 0 -1))))))
-    (when class
-      (let (start
-            end
-            (bare-class (car (last (split-string class "\\\\")))))
-        (skip-chars-backward "\\\\A-Za-z0-9_")
-        (setq start (point))
-        (skip-chars-forward "\\\\A-Za-z0-9_")
-        (setq end (point))
-        (delete-region start end)
-        (insert bare-class)))))
+            (insert (substring line 0 -1))))))))
 
 ;; These (+php-wrap-handler, +php-handle-docstring and helpers) was
 ;; originally copied from the smartparens' authors personal
