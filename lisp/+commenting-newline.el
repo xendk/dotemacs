@@ -35,6 +35,9 @@ Pass ARG and INTERACTIVE to `newline'."
           (+commenting-newline-default-indent-new-line)))
     (newline arg interactive)))
 
+;; Tell delsel than +commenting-newline should delete selection.
+(put '+commenting-newline 'delete-selection t)
+
 (defun +commenting-newline-default-indent-new-line ()
   "Call `default-indent-new-line', or handles `emacs-lisp-mode' specifically."
   (if (eq major-mode 'emacs-lisp-mode)

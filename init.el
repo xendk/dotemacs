@@ -1669,9 +1669,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
      "n" '("UPPER_SNAKE" . string-inflection-upcase)
      "a" '("camelCase" . string-inflection-lower-camelcase)
      "m" '("CamelCase" . string-inflection-camelcase)
-     "k" '("kebab-case" . string-inflection-kebab-case)))
-  ;; Tell delsel than xen-newline should delete selection.
-  (put 'xen-newline 'delete-selection t))
+     "k" '("kebab-case" . string-inflection-kebab-case))))
 
 
 
