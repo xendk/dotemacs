@@ -27,7 +27,7 @@
 
 ;; Set foreground and background color to avoid flashing when
 ;; doom-theme gets activated. And set font too.
-;; TODO: This could be determined automatically:
+;; Font size could be determined automatically:
 ;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
 (custom-set-faces '(default
                     ;; Colors disabled for the moment as they override
