@@ -106,7 +106,7 @@ closing paren/brace."
 (defun +php-make-use ()
   "Add a PHP use statement for the fully-qualified name at point."
   (interactive)
-  (let* ((pos (+php-bounds-of-fq-class-at-point))
+  (let* ((pos (bounds-of-thing-at-point 'qualified-class))
          (class (and pos (buffer-substring (car pos) (cdr pos))))
          current-line)
     (when pos
@@ -130,21 +130,23 @@ closing paren/brace."
             ;; TODO: Try if pulse.el works for us.
             (insert (substring line 0 -1))))))))
 
+(put 'qualified-class 'bounds-of-thing-at-point '+php-bounds-of-fq-class-at-point)
+
 (defun +php-bounds-of-fq-class-at-point ()
   "Get the bounds of PHP namespaced class at point."
-  (save-excursion
-    (let (start end class)
-      ;; TODO: Use thing-at-point, see `define-thing-chars'.
-      (skip-chars-backward "\\\\A-Za-z0-9_")
-      (setq start (point))
-      (skip-chars-forward "\\\\A-Za-z0-9_")
-      (setq end (point))
-      (when (> end start)
-        (setq class (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
-        ;; Need at least one inline backslash in order to be a
-        ;; namespaced class.
-        (when (string-match-p (regexp-quote "\\") class)
-          (cons start end))))))
+  (let ((start (save-excursion
+                 (skip-chars-backward "\\\\A-Za-z0-9_")
+                 (point)))
+        (end (save-excursion
+               (skip-chars-forward "\\\\A-Za-z0-9_")
+               (point)))
+        class)
+    (when (> end start)
+      ;; Need at least one inline backslash in order to be a
+      ;; namespaced class.
+      (when (string-match-p (regexp-quote "\\")
+                            (string-remove-prefix "\\" (buffer-substring-no-properties start end)))
+        (cons start end)))))
 
 (defun +php-find-use-block ()
   "Find starting position of PHP use block."
