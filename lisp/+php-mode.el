@@ -131,9 +131,7 @@ closing paren/brace."
             (insert (substring line 0 -1))))))))
 
 (defun +php-bounds-of-fq-class-at-point ()
-  "Grab the PHP namespaced class at point.
-
-Strips any leading backslash."
+  "Get the bounds of PHP namespaced class at point."
   (save-excursion
     (let (start end class)
       ;; TODO: Use thing-at-point, see `define-thing-chars'.
