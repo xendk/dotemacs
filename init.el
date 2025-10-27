@@ -707,6 +707,11 @@ LIST-SIZE is ignored."
     (:bind
      "C-o" +open-line)))
 
+(setup +commenting-newline
+  (:require +commenting-newline)
+  (:global
+   "RET" +commenting-newline))
+
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (setup iso-transl
   (:require iso-transl))
@@ -1651,7 +1656,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:load-from (concat user-emacs-directory "xen"))
   (:require xen)
   (:global
-   "RET" xen-newline
    "C-S-l" xen-mark-lines
    "C-c x" xen-map
    "M-c" xen-casing-map

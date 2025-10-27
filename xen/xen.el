@@ -123,93 +123,11 @@ Actually shrinks the region if the point is at the start of the region."
       (xen-edit-clipboard-mode))
     (switch-to-buffer buffer)))
 
-(defun xen-newline (&optional arg interactive)
-  "Insert a newline, handling comments.
-
-Uses `default-indent-new-line' in comments and `newline' otherwise.
-
-After two empty line comments, it'll delete both.
-
-Pass ARG and INTERACTIVE to `newline'."
-  (interactive "*P\np")
-  (barf-if-buffer-read-only)
-
-  ;; Use syntax table to determine if we're in a comment (gleaned from
-  ;; mwim).
-  (if (xen-in-comment)
-      ;; Remove the comment if we're looking at two empty single line
-      ;; comments.
-      (let ((empty-comment-start (xen-empty-comment-start)))
-        (if empty-comment-start
-            (delete-region empty-comment-start (point))
-          (xen-default-indent-new-line)))
-    (newline arg interactive)))
-
-(defun xen-empty-comment-start ()
-  "Return start of empty comment block.
-
-If we're on the second empty single line comment."
-  (if comment-start
-      (ignore-errors
-        (if (xen-comment-is-empty)
-            (let ((this-start (xen-in-comment))
-                  (trimmed-comment-start (string-trim-right comment-start)))
-              (save-excursion
-                (forward-line -1)
-                (if (xen-in-comment)
-                    (let ((start-of-comment (xen-in-comment)))
-                      (if (xen-comment-is-empty)
-                          ;; We got an empty comment on the previous
-                          ;; line, return it, if it matches the
-                          ;; comment-start (block comments shouldn't).
-                          (progn
-                            (goto-char start-of-comment)
-                            (if (looking-at-p trimmed-comment-start)
-                                start-of-comment))))
-                  ;; Return the start of the original if there's no
-                  ;; comment on the previous line.
-                  (progn
-                    (goto-char this-start)
-                    (if (looking-at-p trimmed-comment-start)
-                        this-start)))))))))
-
-(defun xen-comment-is-empty ()
-  "Determine if comment is empty."
-  (let ((in-comment (xen-in-comment)))
-    (if in-comment
-        (save-excursion
-          (goto-char in-comment)
-          ;; In modes without a unique comment character (php-mode being one
-          ;; example), the start comment char(s) doesn't have the comment
-          ;; start syntax. So look up the syntax of the first char in the
-          ;; comment and skip that class.
-          (let ((syntax-class (char-syntax (char-after))))
-            (skip-syntax-forward (string syntax-class))
-            ;; Skip white-space.
-            (skip-syntax-forward "-")
-            (or (eobp) (eq (char-syntax (char-after)) ?>)))))))
-
-(defun xen-in-comment ()
-  "Return start of comment, or nil if not inside comment."
-  (let ((syn (syntax-ppss)))
-    (and (nth 4 syn)
-         (nth 8 syn))))
-
-(defun xen-default-indent-new-line ()
-  "Call `default-indent-new-line', or handles `emacs-lisp-mode' specifically."
-  (if (eq major-mode 'emacs-lisp-mode)
-      (let (comment-start num-semis)
-        (save-excursion
-          (goto-char (xen-in-comment))
-          (setq comment-start (point))
-          (skip-chars-forward ";")
-          (setq num-semis (- (point) comment-start)))
-        (insert "\n")
-        (insert (make-string num-semis ?\;) " "))
-    (default-indent-new-line)))
-
 (defun xen-jitter-type (string)
-  "Type STRING to buffer."
+  "Type STRING to buffer, in a semi-natural way.
+
+Insert string character by character, but add a random delay to make it
+less machine-like."
   (let ((jitter 5))
     (dolist (char (string-to-list string))
       (insert char)
