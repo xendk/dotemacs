@@ -732,7 +732,7 @@ LIST-SIZE is ignored."
    sp-show-pair-from-inside t)
   ;; Also highlight pair content.
   (:face sp-show-pair-match-content-face
-         '(:extend t :inherit 'highlight-symbol-face))
+         '(:extend t :inherit 'hl-line))
   (:when-loaded
     (require 'smartparens-config)
     (smartparens-global-mode 1)
