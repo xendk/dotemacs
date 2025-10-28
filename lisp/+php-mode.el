@@ -13,7 +13,6 @@
 
 ;; A custom company-backend (which cape-company-to-capf will make a
 ;; proper capf) completes some very common PHP idioms.
-;; TODO: Maybe this is better done with tempel?
 (defvar +php-mode-backend-alist
   '(("declare(strict_types=1);" . "declare")
     ("<?php" . "<?ph")
