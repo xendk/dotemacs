@@ -20,7 +20,6 @@
      (expect (+jump-to-matching) :to-throw)))
 
   (describe "with sp-show-pair-from-inside"
-    ;;:var ((sp-show-pair-from-inside t))
     (it "jumps to matching parenthesis, when point is after"
       (defvar sp-show-pair-from-inside)
       (let ((sp-show-pair-from-inside t))
