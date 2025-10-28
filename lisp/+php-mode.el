@@ -349,12 +349,12 @@ type differ."
 (defun +php-translate-type-annotation (type)
   "Translate TYPE into string for annotation.
 
-If the TYPE is array, return mixed[].  If the type is an object,
+If the TYPE is array, return array<>.  If the type is an object,
 return as it is.  If type is nil, return an empty string."
-      (cond
-       ((equal type "array") "array<>")
-       ((stringp type) type)
-       ((null type) "")))
+  (cond
+   ((equal type "array") "array<>")
+   ((stringp type) type)
+   ((null type) "")))
 
 (defun +php-get-function-name ()
   "Get the name of the function.
