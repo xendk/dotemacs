@@ -538,7 +538,7 @@
                line-number (:foreground "#585f6c" :background unspecified)
                line-number-minor-tick (:foreground "#797e89" :background unspecified)
                line-number-major-tick (:foreground "#9a9fa6" :background unspecified))
-  (:with-function +display-line-numbers-mode
+  (:with-function +maybe-display-line-numbers-mode
     (:hook-into prog-mode)))
 
 (setup hl-todo

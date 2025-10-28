@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(defun +display-line-numbers-mode ()
+(defun +maybe-display-line-numbers-mode ()
   "Enable line numbers in file-visiting buffers."
   (when (buffer-file-name (buffer-base-buffer))
     (display-line-numbers-mode 1)))
