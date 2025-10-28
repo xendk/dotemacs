@@ -50,6 +50,7 @@ use Something
 
 func(Class);
 ")))
+
   (it "should add in a use block if none exists"
     (+test-with-temp-php-buffer
      "
@@ -61,6 +62,7 @@ use Namespaced\\Class;
 
 func(Class);
 ")))
+
   (it "should add in a use block after namespace if none exists"
     (+test-with-temp-php-buffer
      "<?php
@@ -142,6 +144,7 @@ protected $var;
 
 function __construct(int $var) {}
 ")))
+
       (it "should fully qualify type"
         (+test-with-temp-php-buffer
          "
@@ -275,6 +278,7 @@ function banana($x) {
 function banana($x) {
 }
 "))))
+
       (it "doesn't add void return type"
         (+test-with-temp-php-buffer
          "
@@ -290,6 +294,7 @@ function banana(): void {
 function banana(): void {
 }
 ")))
+
       (it "doesn't add return type for constructor"
         (+test-with-temp-php-buffer
          "
