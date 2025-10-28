@@ -348,3 +348,10 @@ function __construct() {
     (spy-on 'file-exists-p :and-call-fake (lambda (file) (equal file "/home/user/project/project.info.yml")))
     (spy-on 'locate-dominating-file :and-return-value "/home/user/project/")
     (expect (+php-mode-backend-namespace "namespace ") :to-equal "namespace Drupal\\project;")))
+
+(describe "+php-mark-namespaced"
+  (it "should mark the namespace and class"
+    (+test-with-temp-php-buffer
+     "\\Some\\Namespace\\|ClassM"
+     (+php-mark-namespaced)
+     (+expect-buffer-equals "|\\Some\\Namespace\\ClassM"))))

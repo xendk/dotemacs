@@ -69,8 +69,7 @@ Adds a few often used completions. ACTION is either prefix' or
                        cand))
                    +php-mode-backend-alist)))))
 
-;; Expand region
-;; TODO expander that'll mark the whole class/namespace in a use statement.
+;; Expand region support.
 (defun +php-mode-expansions ()
   "My expand-region setup for php-mode."
   (make-local-variable 'er/try-expand-list)
@@ -78,6 +77,7 @@ Adds a few often used completions. ACTION is either prefix' or
                              er/mark-word
                              er/mark-symbol
                              er/mark-symbol-with-prefix
+                             +php-mark-namespaced
                              +php-mark-next-accessor
                              +php-mark-method-call-or-array
                              er/mark-comment
@@ -117,6 +117,17 @@ closing paren/brace."
           (forward-list))
       (exchange-point-and-mark))))
 
+(defun +php-mark-namespaced ()
+  "Mark namespaced class.
+
+Presuming that current symbol is already marked, mark the whole namespace and class."
+  (interactive)
+  (let ((symbol-regexp "\\s_\\|\\sw\\|\\s\\"))
+    (when (or (looking-at symbol-regexp)
+              (er/looking-back-on-line symbol-regexp))
+      (skip-syntax-forward "_w\\")
+      (set-mark (point))
+      (skip-syntax-backward "_w\\"))))
 
 ;; Helper for turning fully qualified class name into a use statement.
 (defun +php-make-use ()
