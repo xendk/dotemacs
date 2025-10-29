@@ -118,6 +118,7 @@
    "M-<delete>" kill-word
    ;; Quickly delete the current buffer.
    "C-x C-k" kill-current-buffer
+   "M-SPC" cycle-spacing
    ;; Move the macro keymap previously on "C-x C-k" to the
    ;; `compose-mail' binding.
    "C-x m" kmacro-keymap)
@@ -702,7 +703,6 @@ LIST-SIZE is ignored."
 (setup +editing
   (:require +editing)
   (:global
-   "M-SPC" cycle-spacing
    "C-S-l" +mark-lines)
   (:with-map prog-mode-map
     (:bind
