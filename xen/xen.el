@@ -69,21 +69,6 @@
   (interactive)
   (message (char-to-string (char-syntax (char-after)))))
 
-(defun xen-mark-lines ()
-  "Mark the current line, or expand the selection to another line.
-
-Actually shrinks the region if the point is at the start of the region."
-  (interactive)
-  (let ((start (point)))
-    (progn
-      (if (not (region-active-p))
-          (progn
-            (beginning-of-line)
-            (set-mark (point))
-            (goto-char start)))
-      (end-of-line)
-      (forward-char))))
-
 (defun xen-xml-pretty ()
   "Run xmllint -pretty - on the region."
   (interactive)
