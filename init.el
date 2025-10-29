@@ -1380,7 +1380,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup enh-ruby-mode
   (:elpaca t)
-  ;; TODO this doesn't work anymore?
   (:files "*.rb"))
 
 (setup feature-mode
