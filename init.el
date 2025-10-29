@@ -44,7 +44,7 @@
    ;; Recursive buffers can be a bit of a mindfuck at times, but a
    ;; godsend at others.
    enable-recursive-minibuffers t
-   ;; TODO: exchange-point-and-mark-highlight-region in Emacs 31?
+   ;; exchange-point-and-mark-highlight-region in Emacs 31 sounds interesting.
    history-delete-duplicates t
    ;; Increase margin for horizontal scroll
    hscroll-margin 15
@@ -779,7 +779,8 @@ LIST-SIZE is ignored."
    ;; Use subword expansion
    expand-region-subword-enabled t)
   (:global
-   ;; TODO figure out a good place for er/contract-region.
+   ;; Rather than binding er/contract-region, try to use C-S-SPC SPC
+   ;; SPC ... Then - will contract (and 0 reset).
    "C-S-SPC" er/expand-region))
 
 (setup multiple-cursors
