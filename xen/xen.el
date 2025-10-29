@@ -76,11 +76,6 @@
                          (region-beginning) (region-end)
                          "xmllint -format -" nil t)))
 
-;; Define a FontAwesome face.
-(make-face 'xen-font-awesome-face)
-(set-face-attribute 'xen-font-awesome-face nil
-                    :family "FontAwesome")
-
 ;; misc minor modes
 
 (defvar xen-edit-clipboard-mode-map
