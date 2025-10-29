@@ -39,30 +39,8 @@
   "Personal configuration."
   :group 'emacs)
 
-;; My own prefix command. Bound in init.el.
-(defvar xen-map)
-(define-prefix-command 'xen-map)
-
 (defvar xen-casing-map)
 (define-prefix-command 'xen-casing-map)
-
-(define-key xen-map (kbd "e")
-  #'(lambda()
-      "Open init.el."
-      (interactive)
-      (find-file (locate-user-emacs-file "init.el"))))
-
-(define-key xen-map (kbd "t")
-  #'(lambda()
-      "Open tips file."
-      (interactive)
-      (find-file (locate-user-emacs-file "tips"))))
-
-(define-key xen-map (kbd "o")
-  #'(lambda()
-      "Open todo file."
-      (interactive)
-      (find-file (locate-user-emacs-file "todo"))))
 
 (defun xen-char-syntax ()
   "Show the syntax class of the character following point."

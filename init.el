@@ -703,7 +703,10 @@ LIST-SIZE is ignored."
 (setup +editing
   (:require +editing)
   (:global
-   "C-S-l" +mark-lines)
+   "C-S-l" +mark-lines
+   "C-c x e" +edit-init
+   "C-c x t" +edit-tips
+   "C-c x o" +edit-todo)
   (:with-map prog-mode-map
     (:bind
      "C-o" +open-line)))
@@ -1657,7 +1660,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:load-from (concat user-emacs-directory "xen"))
   (:require xen)
   (:global
-   "C-c x" xen-map
    "M-c" xen-casing-map
    "C-c y" xen-edit-clipboard)
   (:with-map xen-casing-map

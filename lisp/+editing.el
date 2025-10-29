@@ -27,5 +27,21 @@ Actually shrinks the region if the point is at the start of the region."
       (end-of-line)
       (forward-char))))
 
+(defun +edit-init ()
+  "Open init.el."
+  (interactive)
+  (find-file (locate-user-emacs-file "init.el")))
+
+(defun +edit-tips ()
+  "Open tips file."
+  (interactive)
+  (find-file (locate-user-emacs-file "tips")))
+
+(defun +edit-todo ()
+  "Open todo file."
+  (interactive)
+  (find-file (locate-user-emacs-file "todo")))
+
+
 (provide '+editing)
 ;;; +editing.el ends here
