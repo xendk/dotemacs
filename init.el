@@ -323,6 +323,11 @@
    save-place-file (concat user-emacs-directory "saveplaces"))
   (save-place-mode))
 
+(setup sort
+  (:with-map embark-region-map
+    (:bind
+     "s" sort-lines
+     "u" delete-duplicate-lines)))
 ;; For more treesitter setup, look at
 ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
 (setup treesit
@@ -1059,13 +1064,10 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    "C-," embark-act
    "C-." embark-dwim
    "C-h B" embark-bindings)
-  ;; TODO: Move these to the packages that define the function.
   ;; (:embark region "s" sort-lines) would be nice.
   (:with-map embark-region-map
     (:bind
-     "s" sort-lines
-     "S" +embark-sort-lines-caseless
-     "u" delete-duplicate-lines))
+     "S" +embark-sort-lines-caseless))
   ;; Consult previews in collect buffers.
   (:with-hook embark-collect-mode
     (:hook consult-preview-at-point-mode)))
