@@ -5,6 +5,8 @@
 ;;; Code:
 
 (declare-function magit-get-current-branch "magit")
+(declare-function magit-file-status "magit")
+(declare-function keepachangelog-add-entry "keepachangelog")
 
 (defun +magit-commit-setup-jira ()
   "Insert Jira issue number in commit message if branch name contain one."
@@ -26,12 +28,18 @@
 ;; confirmation. Could check if any changes to the file is actually
 ;; staged, but this covers the most common case of "forgot to update
 ;; the changelog".
-;; TODO: y/n/e to quickly edit it (recursive edit?).
 (define-advice magit-commit-create
-    (:before-until (orig-fun &rest args) +magit-commit-changelog-check)
+    (:before-until (_orig-fun &rest _args) +magit-commit-changelog-check)
   (if (file-exists-p "CHANGELOG.md")
       (unless (magit-file-status "CHANGELOG.md")
-        (not (y-or-n-p "Changelog not updated, continue?")))))
+        (let* ((read-answer-short 1)
+               (answer (read-answer "Changelog not updated, continue? "
+                                    '(("yes" ?y "commit")
+                                      ("no" ?n "cancel")
+                                      ("add" ?a "add to changelog")))))
+          (cond ((equal answer "no") t)
+                ((equal answer "add") (call-interactively #'keepachangelog-add-entry))
+                (t nil))))))
 
 (provide '+magit)
 ;;; +magit.el ends here
