@@ -1266,7 +1266,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    code-review-auth-login-marker 'forge)
   (:hook emojify-mode))
 
-;; TODO: is it possible to get list of open projects and mass close them?
 (setup project
   (:require project)
   (:require +project)
@@ -1286,7 +1285,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
      "S" +project-vterm
      ;; TODO: possibly move to new package
      "U" xen-docker-compose-up
-     "g" consult-ripgrep)
+     "g" consult-ripgrep
+     "K" +project-kill-buffers-of-all-projects)
     ;; Remove obsoleted.
     (:unbind "e" "v"))
   ;; Remap to the old projectile prefix. :global does not support
