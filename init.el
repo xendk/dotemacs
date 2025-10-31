@@ -842,7 +842,6 @@ LIST-SIZE is ignored."
    ;; Center text when using this mode
    visual-fill-column-center-text t))
 
-;; TODO hook to ask for confirmation if there's errors in a commit message.
 (setup jinx
   (:elpaca t)
   (:when-loaded
