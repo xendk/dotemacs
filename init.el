@@ -1024,7 +1024,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    xref-show-xrefs-function #'consult-xref
    xref-show-definitions-function #'consult-xref)
   (:global
-   ;; TODO Rewrite to use last kill if no region, and bind it to
    ;; C-S-<tab>, leaving this for vanilla consult-line.
    "C-<tab>" +consult-line
    "C-x b" +consult-buffer-by-project
