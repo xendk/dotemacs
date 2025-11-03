@@ -33,7 +33,7 @@
                                                  minibuffer-inactive-mode
                                                  vterm-mode
                                                  )
-  "Modes where xen-paired-delete mode is inactive if allowed globally."
+  "Modes where xen-paired-delete mode is inactive if enabled globally."
   :type '(repeat symbol)
   :group 'xen-paired-delete)
 
@@ -61,7 +61,9 @@ only work when ARG is 1 or the region is not active."
            (t nil)))))))
 
 (defun xen-paired-delete-delete-char-advice (orig-fun n &optional kill-flag)
-  "Advice for delete char.  ORIG-FUN is the overridden function. Pass N and KILL-FLAG to original."
+  "Advice for delete char.
+
+ORIG-FUN is the overridden function. Pass N and KILL-FLAG to original."
   (if (and xen-paired-delete-mode
            (not
             (boundp 'xen-paired-delete-char-disabled)))
@@ -72,7 +74,7 @@ only work when ARG is 1 or the region is not active."
     (funcall orig-fun n kill-flag)))
 
 (defun xen-paired-delete-disable-advice (orig-fun &rest args)
-  "Advice to disable paired delete in for some functions.  Call ORIG-FUN with ARGS."
+  "Advice to disable paired delete for some functions.  Call ORIG-FUN with ARGS."
   (let ((xen-paired-delete-char-disabled t))
     (apply orig-fun args)))
 
