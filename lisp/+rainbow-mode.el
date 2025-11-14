@@ -7,6 +7,9 @@
 
 ;;; Code:
 
+(declare-function rainbow-colorize-match "rainbow-mode")
+(declare-function rainbow-turn-off "rainbow-mode")
+
 (defun +rainbow-colorize-match (color &optional match)
   "Override `rainbow-colorize-match' to use overlays."
   (let* ((match (or match 0))
@@ -21,6 +24,9 @@
 (defun +rainbow-clear-overlays ()
   "Clear all rainbow overlays."
   (remove-overlays (point-min) (point-max) 'ovrainbow t))
+
+(advice-add #'rainbow-colorize-match :override #'+rainbow-colorize-match)
+(advice-add #'rainbow-turn-off :after #'+rainbow-clear-overlays)
 
 (provide '+rainbow-mode)
 ;;; +rainbow-mode.el ends here

@@ -594,8 +594,6 @@
 (setup rainbow-mode
   (:elpaca t)
   (:also-load +rainbow-mode)
-  (advice-add #'rainbow-colorize-match :override #'+rainbow-colorize-match)
-  (advice-add #'rainbow-turn-off :after #'+rainbow-clear-overlays)
   (:hook-into css-mode))
 
 (setup diff-hl
