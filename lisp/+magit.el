@@ -38,7 +38,7 @@
                                       ("no" ?n "cancel")
                                       ("add" ?a "add to changelog")))))
           (cond ((equal answer "no") t)
-                ((equal answer "add") (call-interactively #'keepachangelog-add-entry))
+                ((equal answer "add") (call-interactively #'keepachangelog-add-entry) nil)
                 (t nil))))))
 
 (provide '+magit)
