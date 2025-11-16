@@ -9,17 +9,19 @@
 
 (declare-function rainbow-colorize-match "rainbow-mode")
 (declare-function rainbow-turn-off "rainbow-mode")
+(declare-function rainbow-x-color-luminance "rainbow-mode")
 
 (defun +rainbow-colorize-match (color &optional match)
   "Override `rainbow-colorize-match' to use overlays."
   (let* ((match (or match 0))
          (ov (make-overlay (match-beginning match) (match-end match))))
     (overlay-put ov 'ovrainbow t)
-    ;; TODO look into using overlay priority to make rainbow overlay
-    ;; win over the region.
     (overlay-put ov 'face `((:foreground ,(if (> 0.5 (rainbow-x-color-luminance color))
                                               "white" "black"))
-                            (:background ,color)))))
+                            (:background ,color)))
+    ;; Smartparens has a priority of 1000 on paren contents, so go
+    ;; above that.
+    (overlay-put ov 'priority '(1001 . 100))))
 
 (defun +rainbow-clear-overlays ()
   "Clear all rainbow overlays."
