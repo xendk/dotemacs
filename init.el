@@ -187,7 +187,8 @@
 
 (setup autoinsert
   ;; Offer to automatically populate some new files.
-  (auto-insert-mode))
+  (auto-insert-mode)
+  (:require +auto-insert))
 
 (setup browse-url
   (:option
