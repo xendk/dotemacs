@@ -31,5 +31,14 @@
                (file-name-nondirectory (buffer-file-name)) " ends here
 "))
 
+(add-to-list 'auto-insert-alist
+             ;; Template for test files in .config/emacs.
+             '((".config/emacs/tests/.*\\.el\\'" . "Emacs Lisp custom configuration")
+               nil ";;; -*- lexical-binding: t; -*-
+
+(require 'buttercup)
+
+"))
+
 (provide '+auto-insert)
 ;;; +auto-insert.el ends here
