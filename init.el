@@ -1649,6 +1649,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup string-inflection
   (:elpaca t))
 
+(setup wakatime-mode
+  (:elpaca t)
+  (load (locate-user-emacs-file "wakatime-key.el") :noerror :nomessage)
+  (global-wakatime-mode))
+
 
 
 ;;; My own stuff.

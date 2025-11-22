@@ -58,6 +58,8 @@
 /tree-sitter
 # Various storage for well-behaved (or just configured) packages 
 /var
+# Key for Wakatime.
+/wakatime-key.el
 
 # Added automatically by ‘eldev init’.
 /.eldev
