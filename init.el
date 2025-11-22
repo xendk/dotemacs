@@ -1202,7 +1202,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
        "!" 'consult-flycheck))))
 
 (setup indentinator
-  (:elpaca :host github :repo "xendk/indentinator.el")
+  (:elpaca t)
   (:option
    ;; Speed up reindentation
    indentinator-idle-time 0.005)
