@@ -64,6 +64,16 @@ See +test-with-temp-buffer."
                            (emacs-lisp-mode)
                            ,@forms))
 
+(defmacro +with-selected-region (region &rest forms)
+  "Mark REGION and run FORMS."
+  (declare (indent 1))
+  `(progn
+     (goto-char (point-min))
+     (search-forward ,region)
+     (push-mark nil t t)
+     (backward-char (length ,region))
+     ,@forms))
+
 (defun +expect-buffer-equals (result)
   "Compare buffer to RESULT.
 
