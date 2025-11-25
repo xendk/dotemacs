@@ -1409,11 +1409,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup js-mode
   (:files "*.ts"))
 
-;; TODO bind C-v to wrap region in `[]' and yank into a following
-;; `()'. Both GitHub and Zulip allows for selecting text and pasting
-;; to create links, so lets follow the lead.
 (setup markdown-mode
   (:elpaca t)
+  (:require +markdown-mode)
+  (:bind
+   "C-v" +markdown-paste-link)
   ;; Use gfm-mode in md files per default.
   (:with-function gfm-mode
     (:files ".md"))
