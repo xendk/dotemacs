@@ -49,7 +49,7 @@ PREFIX is the prefix."
 (defun +php-mode-backend (action &optional arg &rest _)
   "My custom Company backend for PHP mode.
 
-Adds a few often used completions. ACTION is either prefix' or
+Adds a few often used completions. ACTION is either `prefix' or
 `candidates', ARG the relevant argument."
   (pcase action
     ('prefix (let ((prefix (save-excursion
