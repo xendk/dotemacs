@@ -7,7 +7,7 @@
 
 (describe "+php-make-use"
   (it "should move class to use block"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "
 use Something
 
@@ -22,7 +22,7 @@ func(Class);
 ")))
 
   (it "should do nothing if not on a valid FQ-name"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "
 use Something
 
@@ -36,7 +36,7 @@ func(\\Class);
 ")))
 
   (it "should not duplicate uses"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "
 use Namespaced\\Class;
 use Something
@@ -52,7 +52,7 @@ func(Class);
 ")))
 
   (it "should add in a use block if none exists"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "
 func(\\Namespaced\\Cl|ass);
 "
@@ -64,7 +64,7 @@ func(Class);
 ")))
 
   (it "should add in a use block after namespace if none exists"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "<?php
 
 namespace Banana;
@@ -85,7 +85,7 @@ func(Class);
   (describe "doc-comment"
     (describe "for variables"
       (it "should add empty @var"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 $var = somefunc();
@@ -99,7 +99,7 @@ $var = somefunc();
 
     (describe "for classes/interfaces"
       (it "should add empty doc-comment"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 class Test {}
@@ -114,7 +114,7 @@ class Test {}
 
     (describe "for properties"
       (it "should add empty @var"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 protected $var;
@@ -128,7 +128,7 @@ protected $var;
 ")))
 
       (it "should get @var type from constructor"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 protected $var;
@@ -146,7 +146,7 @@ function __construct(int $var) {}
 ")))
 
       (it "should fully qualify type"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 use Name\\Sub\\Space\\Class;
 |
@@ -167,7 +167,7 @@ function __construct(Class $var) {}
 
     (describe "for functions"
       (it "should work at the end of buffer"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "|"
          (execute-kbd-macro (kbd "/**"))
          (+expect-buffer-equals "/**
@@ -175,7 +175,7 @@ function __construct(Class $var) {}
  */")))
 
       (it "adds argument doc-comments when required"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(array $x): int {
@@ -191,7 +191,7 @@ function banana(array $x): int {
 ")))
 
       (it "adds return doc-comments when required"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(int $x): array {
@@ -207,7 +207,7 @@ function banana(int $x): array {
 ")))
 
       (it "adds both argument and return doc-comments when required"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(array $x): array {
@@ -225,7 +225,7 @@ function banana(array $x): array {
 ")))
 
       (it "groups parameters and return as it should"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(array $x, array $y): array {
@@ -244,7 +244,7 @@ function banana(array $x, array $y): array {
 ")))
 
       (it "adds a newline and * when no doc-comment are needed"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(int $x): int {
@@ -260,7 +260,7 @@ function banana(int $x): int {
 ")))
 
       (it "adds empty doc-comments for unknown types"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana($x) {
@@ -280,7 +280,7 @@ function banana($x) {
 "))))
 
       (it "doesn't add void return type"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function banana(): void {
@@ -296,7 +296,7 @@ function banana(): void {
 ")))
 
       (it "doesn't add return type for constructor"
-        (+test-with-temp-php-buffer
+        (+with-temp-php-buffer
          "
 |
 function __construct() {
@@ -313,12 +313,12 @@ function __construct() {
 
 (describe "+php-qualify-type"
   (it "should get the type from simple use statements"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "use Name\\Space\\Class;"
      (expect (+php-qualify-type "Class") :to-equal "\\Name\\Space\\Class")))
 
   (it "should get the type from use as statements"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "use Name\\Space\\Balls as Class;"
      (expect (+php-qualify-type "Class") :to-equal "\\Name\\Space\\Balls"))))
 
@@ -351,7 +351,7 @@ function __construct() {
 
 (describe "+php-mark-namespaced"
   (it "should mark the namespace and class"
-    (+test-with-temp-php-buffer
+    (+with-temp-php-buffer
      "\\Some\\Namespace\\|ClassM"
      (+php-mark-namespaced)
      (+expect-buffer-equals "|\\Some\\Namespace\\ClassM"))))

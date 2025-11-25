@@ -6,7 +6,7 @@
 
 (describe "+jump-to-matching"
   (it "jumps to matching parenthesis"
-    (+test-with-temp-buffer
+    (+with-temp-buffer
      " |(    ) " ()
      (+jump-to-matching)
      (+expect-buffer-equals " (    |) ")
@@ -15,7 +15,7 @@
      (+expect-buffer-equals " |(    ) ")))
 
   (it "throws, when point is after"
-    (+test-with-temp-buffer
+    (+with-temp-buffer
      " (|    ) " ()
      (expect (+jump-to-matching) :to-throw)))
 
@@ -23,7 +23,7 @@
     (it "jumps to matching parenthesis, when point is after"
       (defvar sp-show-pair-from-inside)
       (let ((sp-show-pair-from-inside t))
-        (+test-with-temp-buffer
+        (+with-temp-buffer
          " (|    ) " ()
          (+jump-to-matching)
          (+expect-buffer-equals " (    )| ")

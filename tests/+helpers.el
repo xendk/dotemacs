@@ -11,7 +11,7 @@
 
 (require 'buttercup)
 
-(defmacro +test-with-temp-buffer (initial initform &rest forms)
+(defmacro +with-temp-buffer (initial initform &rest forms)
   "Setup a new buffer, then run FORMS.
 
 First, INITFORM are run in the newly created buffer.
@@ -42,31 +42,31 @@ Finally, FORMS are run."
              (delete-char -1)))
          ,@forms))))
 
-(defmacro +test-with-temp-php-buffer (initial &rest forms)
+(defmacro +with-temp-php-buffer (initial &rest forms)
   "Setup a new `php-mode' buffer.
 
-See +test-with-temp-buffer."
+See +with-temp-buffer."
   (declare (indent 1)
            (debug (form body)))
-  `(+test-with-temp-buffer ,initial
-                           (php-mode)
-                           (smartparens-mode)
-                           (sp-local-pair 'php-mode "/*" "*/" :post-handlers '((+php-handle-docstring "*")))
-                           ,@forms))
+  `(+with-temp-buffer ,initial
+                      (php-mode)
+                      (smartparens-mode)
+                      (sp-local-pair 'php-mode "/*" "*/" :post-handlers '((+php-handle-docstring "*")))
+                      ,@forms))
 
-(defmacro +test-with-temp-elisp-buffer (initial &rest forms)
+(defmacro +with-temp-elisp-buffer (initial &rest forms)
   "Setup a new `emacs-lisp-mode' buffer.
 
-See +test-with-temp-buffer."
+See +with-temp-buffer."
   (declare (indent 1)
            (debug (form body)))
-  `(+test-with-temp-buffer ,initial
+  `(+with-temp-buffer ,initial
                            (emacs-lisp-mode)
                            ,@forms))
 
 (defmacro +with-selected-region (region &rest forms)
   "Mark REGION and run FORMS."
-  (declare (indent 1))
+  (declare (indent defun))
   `(progn
      (goto-char (point-min))
      (search-forward ,region)

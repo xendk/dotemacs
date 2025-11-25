@@ -6,7 +6,7 @@
 
 (describe "+with-selected-region"
   (it "marks the given region"
-    (+test-with-temp-buffer
+    (+with-temp-buffer
      "one two three"
      (transient-mark-mode)
      (+with-selected-region
