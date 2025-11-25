@@ -154,7 +154,6 @@ Presuming that current symbol is already marked, mark the whole namespace and cl
           (unless (equal line current-line)
             (insert "\n")
             (forward-line -1)
-            ;; TODO: Try if pulse.el works for us.
             (insert (substring line 0 -1))))))))
 
 (put 'qualified-class 'bounds-of-thing-at-point '+php-bounds-of-fq-class-at-point)
