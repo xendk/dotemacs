@@ -1380,7 +1380,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    drupal/phpcs-standard nil))
 
 (setup elisp-mode
-  (:devdoc "elisp"))
+  (:require +elisp-mode)
+  (:with-mode emacs-lisp-mode
+    (:bind
+     "C-c C-t" +elisp-mode-test-switch)
+    (:devdoc "elisp")))
 
 (setup enh-ruby-mode
   (:elpaca t)
