@@ -4,6 +4,13 @@
 
 ;;; Code:
 
+(declare-function which-key--hide-popup-ignore-command "which-key")
+(declare-function which-key--show-keymap "which-key")
+(declare-function embark--truncate-target "embark")
+(declare-function embark-which-key-indicator "embark")
+(declare-function embark-completing-read-prompter "embark")
+(defvar embark-indicators)
+
 (defun +embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
 The which-key help message will show the type and value of the
@@ -28,7 +35,10 @@ targets."
                    (not (string-suffix-p "-argument" (cdr binding))))))))
 
 (defun +embark-hide-which-key-indicator (fn &rest args)
-  "Hide the which-key indicator immediately when using the completing-read prompter."
+  "Hide the which-key indicator immediately when using `completing-read'.
+
+FN is the origiginal `embark-completing-read-prompter' function being
+advised, ARGS is the orignal args."
   (which-key--hide-popup-ignore-command)
   (let ((embark-indicators
          (remq #'embark-which-key-indicator embark-indicators)))
