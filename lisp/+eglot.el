@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(declare-function eglot--lookup-mode "eglot")
+
 (defun +eglot ()
   "Enable eglot in supported buffers."
   (require 'eglot)
