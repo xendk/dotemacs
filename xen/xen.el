@@ -39,9 +39,6 @@
   "Personal configuration."
   :group 'emacs)
 
-(defvar xen-casing-map)
-(define-prefix-command 'xen-casing-map)
-
 (defun xen-char-syntax ()
   "Show the syntax class of the character following point."
   (interactive)

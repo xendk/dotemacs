@@ -705,11 +705,24 @@ LIST-SIZE is ignored."
 ;; Collection of editing tweaks I've collected over the years.
 (setup +editing
   (:require +editing)
+  (defvar +casing-map)
+  (define-prefix-command '+casing-map)
   (:global
    "C-S-l" +mark-lines
    "C-c x e" +edit-init
    "C-c x t" +edit-tips
-   "C-c x o" +edit-todo)
+   "C-c x o" +edit-todo
+   "M-c" +casing-map)
+  (:with-map +casing-map
+    (:bind
+     "c" '("Capitalize" . capitalize-word)
+     "u" '("UPPERCASE" . upcase-word)
+     "l" '("downcase" . downcase-word)
+     "s" '("snake_case" . string-inflection-underscore)
+     "n" '("UPPER_SNAKE" . string-inflection-upcase)
+     "a" '("camelCase" . string-inflection-lower-camelcase)
+     "m" '("CamelCase" . string-inflection-camelcase)
+     "k" '("kebab-case" . string-inflection-kebab-case)))
   (:with-map prog-mode-map
     (:bind
      "C-o" +open-line)))
@@ -1661,24 +1674,12 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 
 ;;; My own stuff.
-;; TODO: most of this should be moved to +editing. Clipboard editing
-;; to +edit-clipboard.
+;; TODO: Clipboard editing to +edit-clipboard.
 (setup xen
   (:load-from (concat user-emacs-directory "xen"))
   (:require xen)
   (:global
-   "M-c" xen-casing-map
-   "C-c y" xen-edit-clipboard)
-  (:with-map xen-casing-map
-    (:bind
-     "c" '("Capitalize" . capitalize-word)
-     "u" '("UPPERCASE" . upcase-word)
-     "l" '("downcase" . downcase-word)
-     "s" '("snake_case" . string-inflection-underscore)
-     "n" '("UPPER_SNAKE" . string-inflection-upcase)
-     "a" '("camelCase" . string-inflection-lower-camelcase)
-     "m" '("CamelCase" . string-inflection-camelcase)
-     "k" '("kebab-case" . string-inflection-kebab-case))))
+   "C-c y" xen-edit-clipboard))
 
 
 
