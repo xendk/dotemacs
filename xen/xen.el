@@ -35,10 +35,6 @@
 ;; External functions.
 (declare-function vterm "vterm" (&optional arg))
 
-(defgroup xen nil
-  "Personal configuration."
-  :group 'emacs)
-
 (defun xen-char-syntax ()
   "Show the syntax class of the character following point."
   (interactive)
