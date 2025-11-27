@@ -47,33 +47,6 @@
                          (region-beginning) (region-end)
                          "xmllint -format -" nil t)))
 
-;; misc minor modes
-
-(defvar xen-edit-clipboard-mode-map
-  (let ((keymap (make-sparse-keymap)))
-    (define-key keymap (kbd "C-c C-c") 'xen-edit-clipboard-save)
-    keymap)
-  "Keymap for xen-edit-clipboard-mode.")
-
-(define-minor-mode xen-edit-clipboard-mode
-  "Minor mode for editing clipboard."
-  :keymap xen-edit-clipboard-mode-map)
-
-(defun xen-edit-clipboard-save ()
-  "Replace the clipboard content with the current buffers content and kill buffer."
-  (interactive)
-  (kill-new (buffer-string) t)
-  (kill-buffer))
-
-(defun xen-edit-clipboard ()
-  "Open a new buffer with the contents of the clipboard/top of `kill-ring'."
-  (interactive)
-  (let ((buffer (generate-new-buffer "*Clipboard*")))
-    (with-current-buffer buffer
-      (yank)
-      (xen-edit-clipboard-mode))
-    (switch-to-buffer buffer)))
-
 (defun xen-jitter-type (string)
   "Type STRING to buffer, in a semi-natural way.
 

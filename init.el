@@ -727,6 +727,11 @@ LIST-SIZE is ignored."
     (:bind
      "C-o" +open-line)))
 
+(setup +edit-clipboard
+  (:require ++edit-clipboard)
+  (:global
+   "C-c y" +edit-clipboard))
+
 (setup +commenting-newline
   (:require +commenting-newline)
   (:global
@@ -1673,12 +1678,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 
 ;;; My own stuff.
-;; TODO: Clipboard editing to +edit-clipboard.
 (setup xen
   (:load-from (concat user-emacs-directory "xen"))
-  (:require xen)
-  (:global
-   "C-c y" xen-edit-clipboard))
+  (:require xen))
 
 
 
