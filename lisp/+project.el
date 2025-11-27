@@ -9,6 +9,7 @@
 (declare-function project-name "project")
 (declare-function +vterm-switch-to-shell "+vterm")
 (declare-function vterm "vterm")
+(defvar vterm-shell)
 
 (defun +project-switch-to-shell ()
   "Switch to shell buffer in project. Use completion if multiple buffers."
@@ -52,6 +53,23 @@
         (let ((default-directory (project-root project)))
           (message "killing %s" (project-name project))
           (project-kill-buffers t))))))
+
+(defun +project-docker-compose-up ()
+  "Run docker-compose up.
+
+Not strictly a project command, as it simply looks for a dominating
+docker-compose.yml file, but it mostly coincide with a project."
+  (interactive)
+  (let* ((docker-compose-file
+          (or (locate-dominating-file default-directory "docker-compose.yml")
+              (user-error "No docker-compose.yml found")))
+         (default-directory docker-compose-file)
+         (buffer-name (concat " *docker compose up "
+                              (abbreviate-file-name docker-compose-file) " *")))
+    (if (get-buffer buffer-name)
+        (pop-to-buffer buffer-name '(display-buffer-reuse-window display-buffer-same-window))
+      (let ((vterm-shell "docker compose up"))
+        (vterm buffer-name)))))
 
 (provide '+project)
 ;;; +project.el ends here

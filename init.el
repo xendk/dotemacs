@@ -1292,8 +1292,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:bind
      "s" +project-switch-to-shell
      "S" +project-vterm
-     ;; TODO: possibly move to new package
-     "U" xen-docker-compose-up
+     "U" +projcet-docker-compose-up
      "g" consult-ripgrep
      "K" +project-kill-buffers-of-all-projects)
     ;; Remove obsoleted.
