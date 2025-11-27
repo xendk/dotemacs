@@ -1285,14 +1285,13 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:require +project)
   (:option
    ;; magit-extras normally sets this, but Magit is lazyloaded.
-   (append project-switch-commands) '(magit-project-status "Magit")
-   (append project-switch-commands) '(+project-vterm "vTerm" ?s)
-   (append project-switch-commands) '(consult-ripgrep "Find regexp")
+   (append* project-switch-commands) '((magit-project-status "Magit")
+                                       (+project-vterm "vTerm" ?s)
+                                       (consult-ripgrep "Find regexp"))
    ;; Remove those obsoleted by the above.
-   (remove project-switch-commands) '(project-find-regexp "Find regexp")
-   (remove project-switch-commands) '(project-eshell "Eshell")
-   (remove project-switch-commands) '(project-vc-dir "VC-Dir")
-   )
+   (remove* project-switch-commands) '((project-find-regexp "Find regexp")
+                                       (project-eshell "Eshell")
+                                       (project-vc-dir "VC-Dir")))
   (:with-map project-prefix-map
     (:bind
      "s" +project-switch-to-shell
