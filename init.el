@@ -1676,10 +1676,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 
 
-;;; My own stuff.
-(setup xen
-  (:load-from (concat user-emacs-directory "xen"))
-  (:require xen))
+;; Random stuff that has no other home.
+(setup +misc
+  (:require +misc))
 
 
 
