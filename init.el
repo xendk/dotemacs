@@ -521,9 +521,6 @@
 
 (setup hl-line
   (:require +hl-line)
-  (:option
-   ;; Only highlight the current line in the active window.
-   hl-line-sticky-flag nil)
   (:with-function +hl-line-mode
     (:hook-into after-change-major-mode)))
 
