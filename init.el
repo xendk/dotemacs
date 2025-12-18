@@ -784,11 +784,11 @@ LIST-SIZE is ignored."
     ;; (require 'smartparens-html)
     ))
 
-(setup xen-paired-delete
-  (:load-from (concat user-emacs-directory "xen"))
+(setup paired-delete
+  (:elpaca :host github :repo "xendk/paired-delete.el")
   (with-eval-after-load 'smartparens
-    (:require xen-paired-delete)
-    (global-xen-paired-delete-mode)))
+    (:require paired-delete)
+    (global-paired-delete-mode)))
 
 ;; https://github.com/casouri/expreg might be an interesting
 ;; alternative when we get tree-sitter.
