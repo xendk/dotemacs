@@ -34,16 +34,16 @@
       ;; and (("CHANGELOG.md" nil 77 77)) for a partially staged.
       (unless (eq ?M (nth 2 (car (magit-file-status "CHANGELOG.md"))))
         (let* ((read-answer-short 1)
-               (answer (read-answer "Changelog not updated, continue? "
-                                    '(("yes" ?y "commit")
-                                      ("no" ?n "cancel")
-                                      ("add" ?a "add to changelog")))))
-          (cond ((equal answer "no") t)
+               (answer (read-answer "Update changelog? "
+                                    '(("yes" ?y "abort commit and add to changelog")
+                                      ("no" ?n "continue committing")
+                                      ("abort" ?a "abort commit")))))
+          (cond ((equal answer "no") nil)
                 ;; This could enable a minor-mode which binds C-c C-c
                 ;; to a function that stages the CHANGELOG.md file and
                 ;; calls `magit-commit-create' again.
-                ((equal answer "add") (call-interactively #'keepachangelog-add-entry) t)
-                (t nil))))))
+                ((equal answer "yes") (call-interactively #'keepachangelog-add-entry) t)
+                (t t))))))
 
 (provide '+magit)
 ;;; +magit.el ends here
