@@ -24,14 +24,15 @@
       (push-mark)
       (goto-char (point-min)))))
 
-;; If there's an untouched CHANGELOG.md in the repo, ask for
-;; confirmation. Could check if any changes to the file is actually
-;; staged, but this covers the most common case of "forgot to update
-;; the changelog".
+;; If there's a CHANGELOG.md in the repo, and no changes is staged for
+;; it, ask for confirmation.
 (define-advice magit-commit-create
     (:before-until (_orig-fun &rest _args) +magit-commit-changelog-check)
   (if (file-exists-p "CHANGELOG.md")
-      (unless (magit-file-status "CHANGELOG.md")
+      ;; `magit-file-status' returns (("CHANGELOG.md" nil 32 77)) for
+      ;; an unstaged file, (("CHANGELOG.md" nil 77 32)) for a staged
+      ;; and (("CHANGELOG.md" nil 77 77)) for a partially staged.
+      (unless (eq ?M (nth 2 (car (magit-file-status "CHANGELOG.md"))))
         (let* ((read-answer-short 1)
                (answer (read-answer "Changelog not updated, continue? "
                                     '(("yes" ?y "commit")
