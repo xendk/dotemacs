@@ -39,7 +39,10 @@
                                       ("no" ?n "cancel")
                                       ("add" ?a "add to changelog")))))
           (cond ((equal answer "no") t)
-                ((equal answer "add") (call-interactively #'keepachangelog-add-entry) nil)
+                ;; This could enable a minor-mode which binds C-c C-c
+                ;; to a function that stages the CHANGELOG.md file and
+                ;; calls `magit-commit-create' again.
+                ((equal answer "add") (call-interactively #'keepachangelog-add-entry) t)
                 (t nil))))))
 
 (provide '+magit)
