@@ -459,7 +459,15 @@
                ;; base for a lot of thing. Set it to a fifty-fifty mix
                ;; of auroras base5 and base6 colors (the latter is too
                ;; light).
-               shadow (:foreground "#6e778a")))
+               shadow (:foreground "#6e778a"))
+  (unless xen-primary
+    ;; Adjust the background color a bit so it's easier to distinguish
+    ;; between the primary and additional testing instances. We cannot
+    ;; use the macro here as it adds the face at macro expansion time.
+    ;; And for some reason, without the :foreground the text turns
+    ;; black in all-but-the-first frame.
+    (+add-theme-face 'doom-nord-aurora
+                     'default '(:background "#3E3445" :foreground "#ECEFF4"))))
 
 (setup doom-modeline
   (:elpaca t)
