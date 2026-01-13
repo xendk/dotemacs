@@ -105,6 +105,8 @@
    indent-tabs-mode nil
    ;; Don't move by visual lines
    line-move-visual nil
+   ;; Exclude commands that's explicitly for other modes.
+   read-extended-command-predicate 'command-completion-default-include-p
    ;; Don't lose clips from other programs
    save-interprogram-paste-before-kill t
    ;; Allow for repeatedly popping the mark using C-SPC
