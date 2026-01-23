@@ -1563,15 +1563,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; adding a lighter for a single minor-mode.
   (add-to-list 'global-mode-string (list t custode-lighter)))
 
-(setup eca
-  (:elpaca :type git :host github :repo "editor-code-assistant/eca-emacs"))
-
-(setup ellama
-  (:elpaca t)
-  (:global
-   "C-c e" ellama-transient-main-menu)
-  (:option ellama-auto-scroll t))
-
 (setup agent-shell
   (:elpaca t)
   (:global
