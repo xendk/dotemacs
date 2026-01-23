@@ -1572,6 +1572,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    "C-c e" ellama-transient-main-menu)
   (:option ellama-auto-scroll t))
 
+(setup agent-shell
+  (:elpaca t)
+  (:global
+   "C-c w" agent-shell))
+
 ;; TODO https://github.com/unmonoqueteclea/jira.el
 
 (setup keepachangelog
