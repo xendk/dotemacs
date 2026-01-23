@@ -1464,9 +1464,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    ;; Don't mess with using S-cursors for window selection
    org-support-shift-select t
    ;; Use cleaner looking org-indent-mode
-   org-startup-indented t)
-  ;; Might need a manual autoload for feature mode.
-  )
+   org-startup-indented t))
 
 (setup php-mode
   (:elpaca t)
