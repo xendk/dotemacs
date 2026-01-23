@@ -1435,8 +1435,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Also use for schema files.
   (:files "*.graphqls"))
 
-(setup js-mode
-  (:files "*.ts"))
+(setup typescript-ts-mode
+  (:files "*.tsx?"))
 
 (setup markdown-mode
   (:elpaca t)
