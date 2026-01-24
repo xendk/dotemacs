@@ -1567,7 +1567,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:global
    "C-c w" agent-shell))
 
-;; TODO https://github.com/unmonoqueteclea/jira.el
+;; Maybe look into https://github.com/unmonoqueteclea/jira.el
 
 (setup keepachangelog
   (:elpaca :type git :host github :repo "xendk/keepachangelog.el")
