@@ -4,9 +4,12 @@
 
 ;;; Code:
 
+(declare-function magit-commit-create "magit")
 (declare-function magit-get-current-branch "magit")
 (declare-function magit-file-status "magit")
+(declare-function magit-stage-files "magit")
 (declare-function keepachangelog-add-entry "keepachangelog")
+(declare-function nerd-icons-devicon "nerd-icons")
 
 (defun +magit-commit-setup-jira ()
   "Insert Jira issue number in commit message if branch name contain one."
@@ -42,8 +45,37 @@
                 ;; This could enable a minor-mode which binds C-c C-c
                 ;; to a function that stages the CHANGELOG.md file and
                 ;; calls `magit-commit-create' again.
-                ((equal answer "yes") (call-interactively #'keepachangelog-add-entry) t)
+                ((equal answer "yes")
+                 (call-interactively #'keepachangelog-add-entry)
+                 (+magit-changelog-commit-mode 1)
+                 t)
                 (t t))))))
+
+(defvar +magit-changelog-commit-mode-lighter
+  '(:eval (when +magit-changelog-commit-mode
+            (concat " " (nerd-icons-devicon "nf-dev-git"))))
+  "Mode lighter for +magit-changelog-commit-mode.")
+
+(put '+magit-changelog-commit-mode-lighter 'risky-local-variable t)
+
+(defvar +magit-changelog-commit-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-c") #'+magit-commit-changelog)
+    map)
+  "Keymap for `+magit-changelog-commit-mode'.")
+
+(define-minor-mode +magit-changelog-commit-mode
+  "Minor mode for committing after editing CHANGELOG."
+  :lighter +magit-changelog-commit-mode-lighter
+  :init-value nil
+  :keymap +magit-changelog-commit-mode-map)
+
+(defun +magit-commit-changelog ()
+  "Save buffer, stage CHANGELOG.md, and retry commit."
+  (interactive)
+  (save-buffer)
+  (magit-stage-files '("CHANGELOG.md"))
+  (call-interactively #'magit-commit-create))
 
 (provide '+magit)
 ;;; +magit.el ends here

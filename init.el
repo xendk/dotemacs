@@ -1275,7 +1275,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-hook git-commit-mode-hook
     (:hook turn-on-auto-fill)
     ;; History in commit buffers
-    (:hook git-commit-save-message)))
+    (:hook git-commit-save-message))
+  (add-to-list 'global-mode-string '(t +magit-changelog-commit-mode-lighter)))
 
 ;; Try out https://github.com/doomelpa/code-review now that
 ;; github-review doesn't work anymore.
