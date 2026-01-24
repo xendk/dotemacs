@@ -1560,7 +1560,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
        "u" custode-prefix-map)))
   ;; Add lighter to mode-line (this is how doom-modeline) suggests
   ;; adding a lighter for a single minor-mode.
-  (add-to-list 'global-mode-string (list t custode-lighter)))
+  (add-to-list 'global-mode-string '(t custode-lighter)))
 
 (setup agent-shell
   (:elpaca t)
