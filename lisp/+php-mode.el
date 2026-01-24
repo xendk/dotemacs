@@ -45,7 +45,6 @@ PREFIX is the prefix."
            (namespace (string-replace "/" "\\" parents)))
       (concat prefix (when is-drupal (concat "Drupal\\" project (unless (string-empty-p namespace) "\\"))) namespace ";"))))
 
-;; TODO: "function (drupal-module-name)" in drupal-mode would be nice.
 (defun +php-mode-backend (action &optional arg &rest _)
   "My custom Company backend for PHP mode.
 
