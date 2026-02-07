@@ -629,10 +629,11 @@
    ;; Use the project switch project command.
    dashboard-projects-switch-function 'project-switch-project
    dashboard-startup-banner 'logo
-   dashboard-items '((projects . 10) (+tip))
+   dashboard-items '((projects . 10) (+upgrades) (+tip))
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
-   (append dashboard-item-generators) '(+tip . +dashboard-tip))
+   (append* dashboard-item-generators) '((+tip . +dashboard-tip)
+                                         (+upgrades . +dashboard-insert-apt-upgrades)))
 
   (when (< (length command-line-args) 2)
     (dashboard-insert-startupify-lists)
