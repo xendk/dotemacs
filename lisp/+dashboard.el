@@ -19,7 +19,7 @@ LIST-SIZE is ignored."
   (let ((tips (with-temp-buffer
                 (insert-file-contents (locate-user-emacs-file "tips"))
                 (split-string (buffer-string) "\f" t))))
-    (insert (elt tips (random (length tips)))))
+    (dashboard-insert-center (elt tips (random (length tips)))))
   (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
 
 (defun +dashboard-insert-apt-upgrades (_list-size)
