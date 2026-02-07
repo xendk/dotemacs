@@ -620,6 +620,7 @@
 (setup dashboard
   (:elpaca t)
   (:require dashboard page-break-lines)
+  (:also-load +dashboard)
   (:option
    ;; Use page-break-lines-mode
    dashboard-page-separator "\n\f\n"
@@ -628,21 +629,10 @@
    ;; Use the project switch project command.
    dashboard-projects-switch-function 'project-switch-project
    dashboard-startup-banner 'logo
-   dashboard-items '((projects . 10) (xen-tip))
+   dashboard-items '((projects . 10) (+tip))
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
-   (append dashboard-item-generators) '(xen-tip . xen-dashboard-tip))
-  (defun xen-dashboard-tip (list-size)
-    "Insert a tip into the dashboard.
-
-LIST-SIZE is ignored."
-    (dashboard-insert-heading "Tip of the day" "t")
-    (insert "\n")
-    (let ((tips (with-temp-buffer
-                  (insert-file-contents (locate-user-emacs-file "tips"))
-                  (split-string (buffer-string) "\f" t))))
-      (insert (elt tips (random (length tips)))))
-    (dashboard-insert-shortcut 'tip "t" "Tip of the day"))
+   (append dashboard-item-generators) '(+tip . +dashboard-tip))
 
   (when (< (length command-line-args) 2)
     (dashboard-insert-startupify-lists)
