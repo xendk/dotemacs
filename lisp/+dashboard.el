@@ -26,7 +26,8 @@ LIST-SIZE is ignored."
   "Insert a list of pending APT upgrades using aptglance.
 
 _LIST-SIZE is ignored."
-  (let* ((cmd "apt 2>/dev/null list --upgradable | /home/xen/dev/tools/aptglance/aptglance.rb")
+  (let* ((cmd (format "apt 2>/dev/null list --upgradable | %s"
+                      (expand-file-name "bin/aptglance.rb" user-emacs-directory)))
          (output (string-trim (shell-command-to-string cmd))))
     (if (not (string-empty-p output))
         (progn (dashboard-insert-heading "Pending APT Upgrades")
