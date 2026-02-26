@@ -69,12 +69,12 @@ end
 
 if formatted.size.positive?
   biggest = formatted.max_by { |item| item.length }
-  columns = (80 / (biggest.length + 3)).floor
+  columns = [(80 / (biggest.length + 3)).floor, 1].max
 
   # How much space do we have to pass out?
   space_leftover = ((80 - (columns * biggest.length)).floor)
 
-  spacing = " " * (space_leftover / (columns + 1)).floor
+  spacing = " " * [(space_leftover / (columns + 1)).floor, 0].max
 
   formatted.each_slice(columns) { |items|
     puts items.join(spacing)
