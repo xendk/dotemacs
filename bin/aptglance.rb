@@ -6,7 +6,12 @@ def abbreviate_version(current, new)
   # Find the index of the first differing character
   diff_index = current.chars.zip(new.chars).find_index { |c, n| c != n }
   
-  return new unless diff_index # No difference found
+  # return new unless diff_index # No difference found
+  # If there's no diff, it means that either one is a prefix of the
+  # other or they're equal. Assume it's current that's the shorter,
+  # this doesn't quite do the right thing in the other cases, but they
+  # shouldn't happen.
+  diff_index = current.length - 1 unless diff_index
 
   # Go backwards from the character *before* the diff to find the preceding segment separator ('.', '-', or '+').
   i = diff_index - 1
