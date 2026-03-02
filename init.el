@@ -720,9 +720,9 @@
      "u" '("UPPERCASE" . upcase-word)
      "l" '("downcase" . downcase-word)
      "s" '("snake_case" . string-inflection-underscore)
-     "n" '("UPPER_SNAKE" . string-inflection-upcase)
+     "S" '("SCREAMING_SNAKE" . string-inflection-upcase)
      "a" '("camelCase" . string-inflection-lower-camelcase)
-     "m" '("CamelCase" . string-inflection-camelcase)
+     "A" '("PascalCase" . string-inflection-camelcase)
      "k" '("kebab-case" . string-inflection-kebab-case)))
   (:with-map prog-mode-map
     (:bind
