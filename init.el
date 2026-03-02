@@ -1,4 +1,4 @@
-;;; init.el --- Xens emacs configuration.  -*- flycheck-emacs-lisp-load-path: inherit; -*-
+;;; init.el --- Xens emacs configuration.  -*- lexical-binding: t; flycheck-emacs-lisp-load-path: inherit; -*-
 ;;
 ;; We don't really use version, but Eldev requires it.
 ;; Version: 0.1
