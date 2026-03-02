@@ -874,6 +874,7 @@
   (:global
    "M-$" jinx-correct
    "C-M-$" jinx-languages)
+  (:hook-into agent-shell-mode)
   (global-jinx-mode)
   (with-eval-after-load 'vertico-multiform
     ;; Show jinx completions in a grid
