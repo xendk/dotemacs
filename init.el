@@ -1186,7 +1186,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:option
    ;; The default background is unreadable in dark mode, set default
    ;; depending whether dark mode is currently set..
-   flyover-background-lightness (if (auto-dark--is-dark-mode) 25 75)
+   flyover-background-lightness (if (eq auto-dark--last-dark-mode-state 'dark) 25 75)
    flyover-info-icon "🛈"
    flyover-warning-icon "⚠"
    flyover-error-icon "✘"
