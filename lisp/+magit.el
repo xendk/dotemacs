@@ -5,6 +5,8 @@
 ;;; Code:
 
 (declare-function magit-commit-create "magit")
+(declare-function magit-commit-arguments "magit")
+(declare-function magit-get "magit")
 (declare-function magit-get-current-branch "magit")
 (declare-function magit-file-status "magit")
 (declare-function magit-stage-files "magit")
@@ -76,6 +78,20 @@
   (save-buffer)
   (magit-stage-files '("CHANGELOG.md"))
   (call-interactively #'magit-commit-create))
+
+(defun +magit-commit-as-gemini (&optional args)
+  "Commit with Gemini as Author and current user as Co-author.
+
+Preserves existing ARGS."
+  (interactive (list (magit-commit-arguments)))
+  (let* ((user-name (magit-get "user.name"))
+         (user-email (magit-get "user.email"))
+         (co-author (format "\nCo-authored-by: %s <%s>" user-name user-email))
+         ;; Combine current transient args with our specific overrides
+         (common-args (append args
+                              (list "--author=Gemini <gemini@google.com>"
+                                    "--trailer" co-author))))
+    (magit-commit-create common-args)))
 
 (provide '+magit)
 ;;; +magit.el ends here
