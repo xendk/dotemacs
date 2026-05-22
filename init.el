@@ -1270,7 +1270,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:hook git-commit-save-message))
   (add-to-list 'global-mode-string '(t +magit-changelog-commit-mode-lighter))
   (transient-append-suffix 'magit-commit "c"
-    '("G" "Commit as Gemini" +magit-commit-as-gemini)))
+    '("G" "Commit with Gemini" +magit-commit-with-gemini)))
 
 ;; Try out https://github.com/doomelpa/code-review now that
 ;; github-review doesn't work anymore.

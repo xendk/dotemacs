@@ -79,18 +79,14 @@
   (magit-stage-files '("CHANGELOG.md"))
   (call-interactively #'magit-commit-create))
 
-(defun +magit-commit-as-gemini (&optional args)
-  "Commit with Gemini as Author and current user as Co-author.
+(defun +magit-commit-with-gemini (&optional args)
+  "Commit with Gemini as Assisted-By.
 
 Preserves existing ARGS."
   (interactive (list (magit-commit-arguments)))
-  (let* ((user-name (magit-get "user.name"))
-         (user-email (magit-get "user.email"))
-         (co-author (format "\nCo-authored-by: %s <%s>" user-name user-email))
+  (let* ((assisted-by  "\nAssisted-by: Gemini")
          ;; Combine current transient args with our specific overrides
-         (common-args (append args
-                              (list "--author=Gemini <gemini@google.com>"
-                                    "--trailer" co-author))))
+         (common-args (append args (list "--trailer" assisted-by))))
     (magit-commit-create common-args)))
 
 (provide '+magit)
