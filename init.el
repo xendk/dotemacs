@@ -193,13 +193,6 @@
   ;; Offer to automatically populate some new files.
   (auto-insert-mode))
 
-(setup browse-url
-  (:option
-   ;; Use browse-url-generic-program
-   browse-url-browser-function 'browse-url-generic
-   ;; Set a working browser
-   browse-url-generic-program "sensible-browser"))
-
 (setup cc-vars
   (:option
    ;; Use indent from c-style
