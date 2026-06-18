@@ -1513,14 +1513,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup request
   (:elpaca t))
 
-(setup rjsx-mode
-  (:elpaca t)
-  (:option
-   ;; Strictly defined by js2-mode, but it's pulled in as a dependency.
-   ;; Don't require semi-colons if not needed
-   js2-strict-missing-semi-warning nil)
-  (:magic "import.*react"))
-
 (setup slim-mode
   (:elpaca t))
 
