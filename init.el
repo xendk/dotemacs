@@ -1267,6 +1267,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (transient-append-suffix 'magit-commit "c"
     '("G" "Commit with Gemini" +magit-commit-with-gemini)))
 
+(setup magit-browse-commit
+  (:elpaca :host github :repo "bbw9n/magit-browse-commit")
+  (with-eval-after-load 'magit-blame
+    (define-key magit-blame-mode-map (kbd "M-o") #'magit-browse-commit-at-point)))
+
 ;; Try out https://github.com/doomelpa/code-review now that
 ;; github-review doesn't work anymore.
 (setup forge
