@@ -554,6 +554,8 @@
 
 (setup hl-todo
   (:elpaca t)
+  (:when-loaded
+    (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393")))
   (global-hl-todo-mode))
 
 (setup highlight-symbol
