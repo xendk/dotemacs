@@ -29,8 +29,6 @@ An alternative might be a globalized minor mode map, and ensuring
 the minor mode is loaded first."
   (interactive)
   (if (or (window-minibuffer-p)
-          (and (eq major-mode 'vterm-mode)
-               (not (bound-and-true-p vterm-copy-mode)))
           ;; Corfu has it's own quick keys.
           completion-in-region-mode)
       (let ((emulation-mode-map-alists nil)

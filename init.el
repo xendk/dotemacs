@@ -662,7 +662,8 @@
   (:option
    avy-background t
    avy-keys '(?u ?e ?o ?a ?h ?t ?n ?s)
-   avy-style 'de-bruijn)
+   avy-style 'de-bruijn
+   avy-all-windows 'all-frames)
   (:global-override
    "S-SPC" +avy-goto-char-timer)
   (:global
@@ -1600,6 +1601,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
      "C-c s" +vterm-switch-to-shell
      "C-c S" vterm))
   (:bind
+   ;; Allow for avy. Most useful for navigating out of terminal
+   ;; window.
+   "S-SPC" avy-goto-char-timer
    ;; Fish understands C-g too.
    "C-g" vterm--self-insert
    "C-q" vterm-send-next-key
