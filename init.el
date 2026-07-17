@@ -1552,6 +1552,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup agent-shell
   (:elpaca t)
+  (:option
+   agent-shell-goose-authentication '(:none t))
   (:global
    "C-c w" agent-shell))
 
