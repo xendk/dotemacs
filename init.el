@@ -675,7 +675,10 @@
   (:global
    "M-g g" +avy-goto-line
    "M-g M-g" +avy-goto-line
-   "M-u" avy-goto-char-in-line))
+   "M-u" avy-goto-char-in-line)
+  (:with-map isearch-mode-map
+    (:bind
+     "S-SPC" avy-isearch)))
 
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
