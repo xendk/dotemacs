@@ -31,5 +31,23 @@ less machine-like."
                      (/ (- (/ jitter 2.0) (random (+ jitter 1))) 100.0))
                   4.0)))))
 
+(defun +systemd-import-environment ()
+  "Import environment variables from the systemd user manager.
+
+Handles setting variable `exec-path' from PATH environment variable set
+by systemd, and ensures the WAYLAND_DISPLAY and other important
+variables are propagated to sub-shells."
+  (interactive)
+  (when (executable-find "systemctl")
+    (with-temp-buffer
+      (when (zerop (call-process "systemctl" nil t nil "--user" "show-environment"))
+        (goto-char (point-min))
+        (while (re-search-forward "^\\([^= \t\n]+\\)=\\(.*\\)$" nil t)
+          (let ((var (match-string 1))
+                (val (match-string 2)))
+            (setenv var val)
+            (when (string= var "PATH")
+              (setq exec-path (append (parse-colon-path val) (list exec-directory))))))))))
+
 (provide '+misc)
 ;;; +misc.el ends here

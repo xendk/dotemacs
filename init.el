@@ -1646,11 +1646,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;;; Utils
 
-(setup exec-path-from-shell
-  (:elpaca t)
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
 (setup git-attr
   (:elpaca :host github :repo "arnested/emacs-git-attr"))
 
@@ -1680,7 +1675,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;; Random stuff that has no other home.
 (setup +misc
-  (:require +misc))
+  (:require +misc)
+  ;; Run the importer whenever launching a client frame (emacsclient).
+  (add-hook 'server-after-make-frame-hook #'+systemd-import-environment))
 
 
 
