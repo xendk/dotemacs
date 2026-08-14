@@ -1360,11 +1360,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup apib-mode
   (:elpaca t)
-  (:files "*.apib"))
+  (:match-file "*.apib"))
 
 (setup caddyfile-mode
   (:elpaca t)
-  (:files "caddy.conf"))
+  (:match-file "caddy.conf"))
 
 (setup crystal-mode
   (:elpaca t)
@@ -1375,7 +1375,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:bind
    "C-c C-t" crystal-spec-switch)
   (:with-mode html-mode
-    (:files "*.ecr"))
+    (:match-file "*.ecr"))
   ;; Tell eglot about the crystalline server.
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
@@ -1430,7 +1430,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup enh-ruby-mode
   (:elpaca t)
-  (:files "*.rb"))
+  (:match-file "*.rb"))
 
 (setup feature-mode
   (:elpaca t)
@@ -1450,10 +1450,10 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup graphql-mode
   (:elpaca t)
   ;; Also use for schema files.
-  (:files "*.graphqls"))
+  (:match-file "*.graphqls"))
 
 (setup typescript-ts-mode
-  (:files "*.tsx?"))
+  (:match-file "*.tsx?"))
 
 (setup markdown-mode
   (:elpaca t)
@@ -1462,7 +1462,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    "C-v" +markdown-paste-link)
   ;; Use gfm-mode in md files per default.
   (:with-function gfm-mode
-    (:files ".md"))
+    (:match-file ".md"))
   (:with-hook gfm-mode-hook
     (:hook auto-fill-mode))
   ;; Make backspace delete the selection if active.
@@ -1476,7 +1476,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:elpaca t))
 
 (setup org-mode
-  (:files "*.org")
+  (:match-file "*.org")
   (:option
    ;; Don't mess with using S-cursors for window selection
    org-support-shift-select t
@@ -1486,7 +1486,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup php-mode
   (:elpaca t)
   (:also-load +php-mode)
-  (:files "*.module")
+  (:match-file "*.module")
   (:devdoc "php")
   (:option
    php-mode-coding-style 'psr2
@@ -1550,7 +1550,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup yaml-mode
   (:elpaca t)
   ;; Extend with neon and dist.
-  (:file-match "\\.(e?ya?ml|neon)\\(.dist\\)?$")
+  (:match-file "*.yaml.dist" "*.yml.dist" "*.neon")
   ;; Tell delsel than yaml-electric-backspace should simply delete
   ;; selection, and not call yaml-electric-backspace when doing so.
   (put 'yaml-electric-backspace 'delete-selection 'supersede))
@@ -1600,11 +1600,13 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup restclient
   (:elpaca t)
-  (:files "*.http"))
+  (:match-file "*.http"))
 
 (setup speed-type
   (:elpaca t))
 
+;; TODO maybe upgrade to
+;; https://github.com/rwc9u/emacs-libgterm ?
 (setup vterm
   (:elpaca t)
   (:require +vterm)

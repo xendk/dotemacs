@@ -98,14 +98,6 @@ If PATH does not exist, abort the evaluation."
                 (file-name-nondirectory
                  (directory-file-name (cadr args))))))
 
-;; Alternative to :file-match
-(setup-define :files
-  (lambda (glob)
-    `(add-to-list 'auto-mode-alist (cons ,(wildcard-to-regexp glob) ',(setup-get 'mode))))
-  :documentation "Associate the current mode with files that match GLOB."
-  :debug '(form)
-  :repeatable t)
-
 (setup-define :bind-prefix
   (lambda (key prefix)
     `(define-key ,(setup-get 'map) ,key ,prefix))
