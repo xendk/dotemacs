@@ -84,7 +84,7 @@
 
 Preserves existing ARGS."
   (interactive (list (magit-commit-arguments)))
-  (let* ((assisted-by  "\nAssisted-by: Gemini")
+  (let* ((assisted-by  "Assisted-by: Gemini")
          ;; Combine current transient args with our specific overrides
          (common-args (append args (list "--trailer" assisted-by))))
     (magit-commit-create common-args)))
