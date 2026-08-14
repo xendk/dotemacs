@@ -1277,7 +1277,11 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:hook git-commit-save-message))
   (add-to-list 'global-mode-string '(t +magit-changelog-commit-mode-lighter))
   (transient-append-suffix 'magit-commit "c"
-    '("G" "Commit with Gemini" +magit-commit-with-gemini)))
+    '("G" "Commit with Gemini" +magit-commit-with-gemini))
+  (with-eval-after-load 'magit
+    (magit-add-section-hook 'magit-status-sections-hook
+                            'magit-insert-worktrees
+                            'magit-insert-untracked-files)))
 
 (setup magit-browse-commit
   (:elpaca :host github :repo "bbw9n/magit-browse-commit")
