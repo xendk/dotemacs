@@ -1568,7 +1568,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:elpaca t)
   (:also-load +agent-shell)
   (:option
-   agent-shell-goose-authentication '(:none t))
+   agent-shell-goose-authentication '(:none t)
+   agent-shell-chat-mode-enabled t)
 
   (:hook +agent-shell-mode-setup)
   (:global
