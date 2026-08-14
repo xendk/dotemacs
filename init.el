@@ -1379,7 +1379,13 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Tell eglot about the crystalline server.
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
-                 '(crystal-mode . ("crystalline" "--stdio"))))
+                 '(crystal-mode .
+                                ;; We're experimenting a bit here.
+                                ;; ("crystalline" "--stdio")
+                                ("/home/xen/dev/contrib/cr-analyzer/bin/cr-analyzer")
+                                ;; ("/home/xen/dev/contrib/lattice/bin/lattice")
+                                ;; ("/home/xen/dev/contrib/crystal-lsp/bin/crystal_v2_lsp")
+                                )))
   (with-eval-after-load 'cape
     (defalias 'crystal-capf (cape-capf-super
                              (cape-capf-inside-code
