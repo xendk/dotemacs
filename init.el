@@ -94,6 +94,10 @@
   (:option
    ;; Don't need the startup screen anymore.
    inhibit-startup-screen t
+   ;; Show the dashboard per default when no file is passed to
+   ;; emacsclient.
+   initial-buffer-choice (lambda ()
+                           (get-buffer " *dashboard*"))
    ;; Set email address
    user-mail-address "xen@xen.dk"))
 
@@ -619,6 +623,8 @@
   (:require dashboard page-break-lines)
   (:also-load +dashboard)
   (:option
+   ;; Hide the buffor in listings.
+   dashboard-buffer-name " *dashboard*"
    ;; Use page-break-lines-mode
    dashboard-page-separator "\n\f\n"
    ;; Use project backend
