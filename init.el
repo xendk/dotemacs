@@ -67,6 +67,10 @@
    scroll-margin 5
    ;; Don't jump around when scrolling
    scroll-preserve-screen-position t
+   ;; Raise the amount of memory undo can use.
+   undo-limit 67108864
+   undo-strong-limit 100663296
+   undo-outer-limit 1006632960
    ;; I'm grown up, I can manage using y/n for even destructive commands.
    use-short-answers t
    ;; Disable (mouse) dialogs, something is confusing Emacs making it
@@ -840,25 +844,24 @@
   (:elpaca t)
   (:hook-into prog-mode feature-mode))
 
-(setup undo-tree
-  ;; Pull package directly from maintainer, the elpa package is behind.
-  (:elpaca :type git :host gitlab :repo "tsc25/undo-tree")
+;; Consider https://codeberg.org/ideasman42/emacs-undo-fu-session to
+;; get the persistent undo feature of undo-tree back.
+(setup vundo
+  (:elpaca t)
   (:option
-   undo-tree-auto-save-history t
-   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo-history")))
-   undo-tree-visualizer-diff nil
-   undo-tree-visualizer-relative-timestamps t
-   undo-tree-visualizer-timestamps t
-   ;; Don't use undo-tree in special-mode buffers
-   undo-tree-incompatible-major-modes '(term-mode special-mode))
-  (:with-map undo-tree-visualizer-mode-map
-    (:bind
-     ;; Make return accept currently selected revision and q
-     ;; (and C-g) abort. The defaults are weird.
-     "<return>" undo-tree-visualizer-quit
-     "C-g" undo-tree-visualizer-abort
-     "q" undo-tree-visualizer-abort))
-  (global-undo-tree-mode))
+   ;; Prettier than ASCII.
+   vundo-glyph-alist vundo-unicode-symbols
+   ;; Less horizontal spacing.
+   vundo-compact-display t)
+  ;; The original undo-tree visualization binding. Retained for muscle memory.
+  (:global "C-x u" vundo)
+  (:theme-face doom-nord-light
+               vundo-highlight (:foreground "#99324B")
+               vundo-saved (:foreground "#398EAC"))
+  (:theme-face doom-nord-aurora
+               vundo-highlight (:foreground "#BF616A")
+               vundo-saved (:foreground "#507681"))
+  (vundo-popup-mode 1))
 
 (setup visual-fill-column
   (:elpaca t)
