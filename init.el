@@ -891,15 +891,17 @@
     (add-to-list 'vertico-multiform-categories
                  '(jinx grid (vertico-grid-annotate . 20)))))
 
-(setup visual-regexp
+(setup visual-replace
   (:elpaca t)
-  (:option
-   ;; Show preview
-   vr/default-replace-preview t)
-  (:global
-   "C-c r" vr/replace
-   "C-c q" vr/query-replace
-   "C-c m" vr/mc-mark))
+  ;; TODO consider using visual-replace-from-isearch,
+  ;; visual-replace-from-isearch and visual-replace-selected.
+  (:theme-face doom-nord-light
+               visual-replace-delete-match (:foreground "#99324B")
+               visual-replace-replacement (:foreground "#4F894C"))
+  (:theme-face doom-nord-aurora
+               visual-replace-delete-match (:foreground "#BF616A")
+               visual-replace-replacement (:foreground "#A3BE8C"))
+  (visual-replace-global-mode))
 
 (setup avy-zap
   (:elpaca t)
