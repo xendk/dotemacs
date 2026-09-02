@@ -99,9 +99,11 @@
    ;; Don't need the startup screen anymore.
    inhibit-startup-screen t
    ;; Show the dashboard per default when no file is passed to
-   ;; emacsclient.
-   initial-buffer-choice (lambda ()
-                           (get-buffer " *dashboard*"))
+   ;; emacesclient. Logic duplicates the logic for showing dashboard.
+   initial-buffer-choice (if (< (length command-line-args) 2)
+                             (lambda ()
+                               (get-buffer " *dashboard*"))
+                           nil)
    ;; Set email address
    user-mail-address "xen@xen.dk"))
 
