@@ -205,9 +205,7 @@
 (setup cc-vars
   (setopt
    ;; Use indent from c-style
-   c-basic-offset 'set-from-style
-   ;; Set c-styles
-   c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu"))))
+   c-basic-offset 'set-from-style))
 
 (setup compile
   (setopt
