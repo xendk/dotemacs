@@ -634,7 +634,7 @@
    ;; Use the project switch project command.
    dashboard-projects-switch-function 'project-switch-project
    dashboard-startup-banner 'logo
-   dashboard-items '((projects . 10) (+upgrades) (+tip))
+   dashboard-items '((projects . 10) (+upgrades . 0) (+tip . 0))
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
    dashboard-item-generators (append dashboard-item-generators
@@ -859,17 +859,17 @@
 
 (setup jinx
   (:elpaca t)
-  (:when-loaded
+  (with-eval-after-load 'php-mode
     (setopt
      ;; Add strings to faces spell-checked by jinx
      jinx-include-faces (append jinx-include-faces
                                 '((php-mode font-lock-comment-face font-lock-string-face php-string)))
      ;; Add PHP to camelCase modes
-     jinx-camel-modes (append jinx-camel-modes '(php-mode)))
-    (:with-map jinx-overlay-map
-      ;; Unbind mouse button on overlays. I keep activating correction
-      ;; when clicking to activate window.
-      (:unbind "<mouse-1>")))
+     jinx-camel-modes (append jinx-camel-modes '(php-mode))))
+  (:with-map jinx-overlay-map
+    ;; Unbind mouse button on overlays. I keep activating correction
+    ;; when clicking to activate window.
+    (:unbind "<mouse-1>"))
   (keymap-global-set "M-$" 'jinx-correct)
   (keymap-global-set "C-M-$" 'jinx-languages)
   (:hook-into agent-shell-mode)
