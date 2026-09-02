@@ -33,7 +33,7 @@
 
 ;; Real core emacs stuff, most of this shows up as being in "C source code".
 (setup core
-  (:option
+  (setopt
    ;; Only scroll current line
    auto-hscroll-mode 'current-line
    ;; Lock files mess with watchers, and I don't have much use for it
@@ -84,18 +84,18 @@
    "<mouse-7>" ignore))
 
 (setup novice
-  (:option
+  (setopt
    ;; Disable the disabled command feature. At 27+ years of Emacs
    ;; usage, I think I can handle it.
    disabled-command-function nil))
 
 (setup warnings
-  (:option
+  (setopt
    ;; Only show warnings buffer on errors
    warning-minimum-level :error))
 
 (setup startup
-  (:option
+  (setopt
    ;; Don't need the startup screen anymore.
    inhibit-startup-screen t
    ;; Show the dashboard per default when no file is passed to
@@ -108,7 +108,7 @@
    user-mail-address "xen@xen.dk"))
 
 (setup simple
-  (:option
+  (setopt
    ;; Also delete newlines on backward-delete-char-untabify
    backward-delete-char-untabify-method 'all
    ;; Print everything when eval'ing
@@ -167,7 +167,7 @@
             rol))))
 
 (setup files
-  (:option
+  (setopt
    ;; Don't place backups next to the original file, but move them to
    ;; <user-emacs-directory>/backups
    backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
@@ -175,7 +175,7 @@
    safe-local-variable-values '((flycheck-emacs-lisp-load-path . inherit))))
 
 (setup ansi-color
-  (:option
+  (setopt
    ;; Better ANSI colors
    ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold])
   ;; `ansi-color-compilation-filter' interprets ANSI codes in the region
@@ -194,7 +194,7 @@
       (funcall orig-func))))
 
 (setup auth-source
-  (:option
+  (setopt
    ;; Move auth-sources to XDG_CONFIG
    auth-sources '("~/.config/emacs/authinfo.gpg")))
 
@@ -203,14 +203,14 @@
   (auto-insert-mode))
 
 (setup cc-vars
-  (:option
+  (setopt
    ;; Use indent from c-style
    c-basic-offset 'set-from-style
    ;; Set c-styles
    c-default-style '((java-mode . "java") (awk-mode . "awk") (php-mod . "psr2") (other . "gnu"))))
 
 (setup compile
-  (:option
+  (setopt
    ;; We've activated `ansi-color-compilation-filter', so tell
    ;; compilation programs colors are OK
    compilation-environment '("TERM=xterm-256color"))
@@ -218,7 +218,7 @@
     (:hook ansi-color-compilation-filter)))
 
 (setup ediff-wind
-  (:option
+  (setopt
    ediff-split-window-function 'split-window-horizontally
    ;; Use a single frame for all ediff windows
    ediff-window-setup-function 'ediff-setup-windows-plain))
@@ -228,7 +228,7 @@
   ;; editorconfig included with 30 doesn't know, this, so update to
   ;; latest version.
   (:elpaca t)
-  (:option
+  (setopt
    ;; Makefiles always use tabs. So exclude them.
    editorconfig-exclude-modes '(makefile-gmake-mode))
   (editorconfig-mode 1))
@@ -243,12 +243,12 @@
   (keymap-global-set "C-z" nil))
 
 (setup help
-  (:option
+  (setopt
    ;; Makes it easier to dismiss them with q
    help-window-select t))
 
 (setup isearch
-  (:option
+  (setopt
    ;; Show counts in isearch
    isearch-lazy-count t
    ;; Counts before the search string messes with readability...
@@ -257,12 +257,12 @@
    lazy-count-suffix-format " [%s of %s]"))
 
 (setup jit-lock
-  (:option
+  (setopt
    ;; Seconds idle before starting to fontify in the background
    jit-lock-stealth-time 10))
 
 (setup js
-  (:option
+  (setopt
    js-indent-level 2))
 
 (setup mb-depth
@@ -273,22 +273,22 @@
   (keymap-global-set "C-S-d" 'duplicate-dwim))
 
 (setup mouse
-  (:option
+  (setopt
    ;; Yank at point, not pointer position when mouse-yanking
    mouse-yank-at-point t))
 
 (setup mwheel
-  (:option
+  (setopt
    ;; Make scrollwheel behave more like in other apps
    mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control)))))
 
 (setup paragraphs
-  (:option
+  (setopt
    ;; Don't require double space after period to consider it a sentence
    sentence-end-double-space nil))
 
 (setup password-cache
-  (:option
+  (setopt
    ;; Cache passwords a bit longer
    password-cache-expiry 3600))
 
@@ -298,17 +298,17 @@
            (auto-fill-mode))))
 
 (setup replace
-  (:option
+  (setopt
    ;; Highlight matches when query-replacing
    query-replace-highlight t))
 
 (setup recentf
-  (:option
+  (setopt
    ;; Save more items in recent files
    recentf-max-saved-items 500))
 
 (setup savehist
-  (:option
+  (setopt
    ;; Save mini-buffer history
    savehist-save-minibuffer-history t
    ;; Other interesting things to save
@@ -323,7 +323,7 @@
   (savehist-mode))
 
 (setup save-place
-  (:option
+  (setopt
    save-place-file (concat user-emacs-directory "saveplaces"))
   (save-place-mode))
 
@@ -343,7 +343,7 @@
           (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src")))))
 
 (setup uniquify
-  (:option
+  (setopt
    ;; Re-uniquify buffers after killing some
    uniquify-after-kill-buffer-p t
    ;; Use appended brackets for file path
@@ -352,12 +352,12 @@
    uniquify-trailing-separator-p t))
 
 (setup url-cookie
-  (:option
+  (setopt
    ;; Don't require confirmation on cookies
    url-cookie-confirmation 'nil))
 
 (setup wdired
-  (:option
+  (setopt
    ;; Allow C-x C-q to change permissions too
    wdired-allow-to-change-permissions t)
   (:bind
@@ -365,7 +365,7 @@
    "<return>" wdired-finish-edit))
 
 (setup which-key
-  (:option
+  (setopt
    which-key-idle-secondary-delay 0.1
    which-key-mode t
    which-key-popup-type 'side-window
@@ -376,7 +376,7 @@
 
 (setup whitespace
   (:require whitespace)
-  (:option
+  (setopt
    ;; Make tabs more visible
    whitespace-style '(face tabs tab-mark))
 
@@ -419,7 +419,7 @@
 
 (setup doom-themes
   (:elpaca t)
-  (:option
+  (setopt
    ;; Make the comments and modeline brighter.
    doom-nord-light-brighter-comments t
    doom-nord-aurora-brighter-comments t
@@ -476,14 +476,15 @@
   (:hook (lambda ()
            (doom-modeline-set-modeline 'xen-main 'default)))
   (:when-loaded
-    (:option
+    (setopt
      ;; Get the old simpler format for the `check' segment.
      doom-modeline-check-simple-format t
      doom-modeline-buffer-file-name-style 'truncate-except-project
-     (prepend* doom-modeline-mode-alist) '((vterm-mode . xen-minimal)
-                                           (lisp-interaction-mode . xen-minimal)
-                                           (dashboard-mode . xen-minimal)
-                                           (help-mode . xen-minimal)))
+     doom-modeline-mode-alist (append '((vterm-mode . xen-minimal)
+                                        (lisp-interaction-mode . xen-minimal)
+                                        (dashboard-mode . xen-minimal)
+                                        (help-mode . xen-minimal))
+                                      doom-modeline-mode-alist))
 
     ;; Define an alternative 'main that has `check' after `buffer-info'
     ;; so it's visible even if the mode-line gets truncated.
@@ -526,7 +527,7 @@
 
 (setup auto-dark
   (:elpaca t)
-  (:option
+  (setopt
    auto-dark-themes '((doom-nord-aurora) (doom-nord-light)))
   (auto-dark-mode))
 
@@ -540,7 +541,7 @@
 
 (setup display-line-numbers-mode
   (:require +display-line-numbers-mode)
-  (:option
+  (setopt
    ;; Only grow room for line numbers
    display-line-numbers-grow-only t
    ;; Show major line ever 20 lines
@@ -567,7 +568,7 @@
 (setup highlight-symbol
   (:require +highlight-symbol)
   (:elpaca t)
-  (:option
+  (setopt
    highlight-symbol-idle-delay 0.5)
   (keymap-global-set "M-<left>" 'highlight-symbol-prev)
   (keymap-global-set "M-<right>" 'highlight-symbol-next)
@@ -581,7 +582,7 @@
 
 (setup magit-todos
   (:elpaca t)
-  (:option
+  (setopt
    ;; Make trailing colon optional.
    magit-todos-keyword-suffix ":? "
    ;; Cache search result for five minutes.
@@ -625,7 +626,7 @@
   (:elpaca t)
   (:require dashboard page-break-lines)
   (:also-load +dashboard)
-  (:option
+  (setopt
    ;; Hide the buffor in listings.
    dashboard-buffer-name " *dashboard*"
    ;; Use page-break-lines-mode
@@ -638,8 +639,9 @@
    dashboard-items '((projects . 10) (+upgrades) (+tip))
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
-   (append* dashboard-item-generators) '((+tip . +dashboard-tip)
-                                         (+upgrades . +dashboard-insert-apt-upgrades)))
+   dashboard-item-generators (append dashboard-item-generators
+                                     '((+tip . +dashboard-tip)
+                                       (+upgrades . +dashboard-insert-apt-upgrades))))
 
   (when (< (length command-line-args) 2)
     (dashboard-insert-startupify-lists)
@@ -667,7 +669,7 @@
 (setup avy
   (:elpaca t)
   (:require +avy)
-  (:option
+  (setopt
    avy-background t
    avy-keys '(?u ?e ?o ?a ?h ?t ?n ?s)
    avy-style 'de-bruijn
@@ -756,7 +758,7 @@
 (setup smartparens
   (:elpaca t)
   (:require smartparens)
-  (:option
+  (setopt
    ;; Let xen-paired-delete-mode handle deletion.
    sp-autodelete-closing-pair nil
    sp-autodelete-opening-pair nil
@@ -803,7 +805,7 @@
 ;; much more.
 (setup expand-region
   (:elpaca t)
-  (:option
+  (setopt
    ;; Use subword expansion
    expand-region-subword-enabled t)
   ;; Rather than binding er/contract-region, try to use C-S-SPC SPC
@@ -836,7 +838,7 @@
 ;; get the persistent undo feature of undo-tree back.
 (setup vundo
   (:elpaca t)
-  (:option
+  (setopt
    ;; Prettier than ASCII.
    vundo-glyph-alist vundo-unicode-symbols
    ;; Less horizontal spacing.
@@ -853,18 +855,19 @@
 
 (setup visual-fill-column
   (:elpaca t)
-  (:option
+  (setopt
    ;; Center text when using this mode
    visual-fill-column-center-text t))
 
 (setup jinx
   (:elpaca t)
   (:when-loaded
-    (:option
+    (setopt
      ;; Add strings to faces spell-checked by jinx
-     (append jinx-include-faces) '(php-mode font-lock-comment-face font-lock-string-face php-string)
+     jinx-include-faces (append jinx-include-faces
+                                '((php-mode font-lock-comment-face font-lock-string-face php-string)))
      ;; Add PHP to camelCase modes
-     (append jinx-camel-modes) 'php-mode)
+     jinx-camel-modes (append jinx-camel-modes '(php-mode)))
     (:with-map jinx-overlay-map
       ;; Unbind mouse button on overlays. I keep activating correction
       ;; when clicking to activate window.
@@ -898,7 +901,7 @@
 (setup yasnippet
   (:elpaca t)
   (:require yasnippet)
-  (:option
+  (setopt
    yas-choose-keys-first nil
    yas-choose-tables-first t
    yas-fallback-behavior 'call-other-command
@@ -916,7 +919,7 @@
 
 (setup vertico
   (:elpaca :files (:defaults "extensions/*"))
-  (:option
+  (setopt
    ;; Same keys as avy.
    vertico-quick1 "ueoa"
    vertico-quick2 "htns")
@@ -928,7 +931,7 @@
 
 (setup vertico-prescient
   (:elpaca t)
-  (:option
+  (setopt
    prescient-filter-method '(literal initialism prefix regexp)
    prescient-sort-full-matches-first t)
   (vertico-prescient-mode 1)
@@ -936,7 +939,7 @@
 
 (setup corfu
   (:elpaca :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
-  (:option
+  (setopt
    ;; Show more candidates
    corfu-count 20
    ;; Let suggestions wrap around
@@ -986,7 +989,7 @@
 ;; completion-preview-insert-sexp which sounds promising.
 (setup completion-preview
   (:with-map completion-preview-active-mode-map
-    (:option
+    (setopt
      completion-preview-minimum-symbol-length 2)
     (:bind
      "TAB" completion-preview-complete
@@ -1031,7 +1034,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; invoked anyway.
   (:require consult)
   (:also-load +consult)
-  (:option
+  (setopt
    ;; Limit the max fontification size to avoid sluggishness
    consult-fontify-max-size 102400
    consult-narrow-key "<"
@@ -1061,7 +1064,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup embark
   (:elpaca t)
   (:also-load +embark)
-  (:option
+  (setopt
    ;; Make embark-verbose-indicator shrink to content
    embark-verbose-indicator-display-action
    '(display-buffer-at-bottom (window-height . fit-window-to-buffer))
@@ -1070,9 +1073,10 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
                        embark-highlight-indicator
                        embark-isearch-highlight-indicator)
    ;; Hide the mode line of the Embark live/completions buffers
-   (append display-buffer-alist) '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+   display-buffer-alist (append display-buffer-alist
+                                '(("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                                    nil
-                                   (window-parameters (mode-line-format . none))))
+                                   (window-parameters (mode-line-format . none))))))
   (keymap-global-set "C-," 'embark-act)
   (keymap-global-set "C-." 'embark-dwim)
   (keymap-global-set "C-h B" 'embark-bindings)
@@ -1096,7 +1100,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup orderless
   (:elpaca t)
-  (:option completion-styles '(orderless partial-completion basic))
+  (setopt completion-styles '(orderless partial-completion basic))
   (setq completion-category-defaults nil))
 
 
@@ -1143,7 +1147,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup eldoc
   (:also-load +eldoc)
-  (:option
+  (setopt
    ;; Limit maximum number of lines displayed in the echo-area
    eldoc-echo-area-use-multiline-p 5)
   ;; No binding, eglot ensures it's available on C-h . and C-c ! H.
@@ -1151,7 +1155,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup flycheck
   (:elpaca t)
-  (:option
+  (setopt
    ;; PHP checkers are replaced by eglot and phpactor.
    flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
    flycheck-global-modes (quote (not org-mode vterm-mode))
@@ -1179,7 +1183,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup flyover
   (:elpaca :host github :repo "konrad1977/flyover")
-  (:option
+  (setopt
    ;; The default background is unreadable in dark mode, set default
    ;; depending whether dark mode is currently set..
    flyover-background-lightness (if (eq auto-dark--last-dark-mode-state 'dark) 25 75)
@@ -1219,7 +1223,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup indentinator
   (:elpaca t)
-  (:option
+  (setopt
    ;; Speed up reindentation
    indentinator-idle-time 0.005)
   ;; Doesn't play nice with Makefiles, which is a prog-mode.
@@ -1239,7 +1243,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup magit
   (:elpaca t)
   (:also-load +magit)
-  (:option
+  (setopt
    ;; Don't bind global keys, we have our own
    magit-define-global-key-bindings nil
    ;; Full window status buffer
@@ -1285,22 +1289,25 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup code-review
   (:elpaca :host github :repo "phelrine/code-review" :branch "fix/closql-update")
-  (:option
+  (setopt
    code-review-auth-login-marker 'forge)
   (:hook emojify-mode))
 
 (setup project
   (:require project)
   (:require +project)
-  (:option
+  (setopt
    ;; magit-extras normally sets this, but Magit is lazyloaded.
-   (append* project-switch-commands) '((magit-project-status "Magit")
-                                       (+project-vterm "vTerm" ?s)
-                                       (consult-ripgrep "Find regexp"))
+   project-switch-commands (append project-switch-commands
+                                   '((magit-project-status "Magit")
+                                     (+project-vterm "vTerm" ?s)
+                                     (consult-ripgrep "Find regexp")))
    ;; Remove those obsoleted by the above.
-   (remove* project-switch-commands) '((project-find-regexp "Find regexp")
-                                       (project-eshell "Eshell")
-                                       (project-vc-dir "VC-Dir")))
+   project-switch-commands (seq-remove (lambda (x)
+                                         (memq (car x) '(project-find-regexp
+                                                         project-eshell
+                                                         project-vc-dir)))
+                                       project-switch-commands))
   (:with-map project-prefix-map
     (:bind
      "s" +project-switch-to-shell
@@ -1314,7 +1321,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup devdocs
   (:elpaca t)
-  (:option
+  (setopt
    ;; Always select the window.
    devdocs-window-select t)
   (keymap-global-set "C-h ," (lambda ()
@@ -1390,7 +1397,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
                        nil t)))))
 
 (setup css-mode
-  (:option
+  (setopt
    ;; Use rainbow-mode hacked to use overlays so it works nicely with hl-line
    css-fontify-colors nil
    ;; Set default CSS indent offset
@@ -1401,7 +1408,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup drupal-mode
   (:elpaca :host github :repo "arnested/drupal-mode" :branch "develop")
-  (:option
+  (setopt
    drupal-ignore-paths-regexp "\\(vendor\\|node_modules\\|features/bootstrap\\|tests/behat\\|tests/codecept\\)"
    ;; Explicitly set this to nil to suppress trying to set flycheck-phpcs-standard
    drupal/phpcs-standard nil))
@@ -1462,7 +1469,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup org-mode
   (:match-file "*.org")
-  (:option
+  (setopt
    ;; Don't mess with using S-cursors for window selection
    org-support-shift-select t
    ;; Use cleaner looking org-indent-mode
@@ -1473,7 +1480,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:also-load +php-mode)
   (:match-file "*.module")
   (:devdoc "php")
-  (:option
+  (setopt
    php-mode-coding-style 'psr2
    php-mode-enable-project-coding-style nil)
   (:bind
@@ -1529,7 +1536,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup vcl-mode
   (:elpaca t)
-  (:option
+  (setopt
    vcl-indent-level 2))
 
 (setup yaml-mode
@@ -1558,7 +1565,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup agent-shell
   (:elpaca t)
   (:also-load +agent-shell)
-  (:option
+  (setopt
    ;; Use the nicer looking chat mode.
    agent-shell-chat-mode-enabled t
    ;; Use Hermes. Change to `preselect' if experimenting with another
@@ -1595,7 +1602,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup vterm
   (:elpaca t)
   (:require +vterm)
-  (:option
+  (setopt
    vterm-max-scrollback 100000
    vterm-buffer-name-string "vterm: %s"
    ;; Makes copy/paste work better
@@ -1657,7 +1664,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup keyfreq
   (:elpaca t)
-  (:option
+  (setopt
    keyfreq-autosave-mode t
    keyfreq-file (concat user-emacs-directory "keyfreq")
    keyfreq-file-lock (concat user-emacs-directory "keyfreq.lock"))
