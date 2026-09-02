@@ -28,13 +28,5 @@ global maps, major-mode maps and keymaps in
 (add-to-list 'emulation-mode-map-alists
              `((+global-override-mode . ,+global-override-map)))
 
-(setup-define :global-override
-  (lambda (key command)
-    `(define-key +global-override-map ,key ,command))
-  :documentation "Globally bind KEY to COMMAND, overriding both major and minor modes."
-  :debug '(form sexp)
-  :ensure '(kbd func)
-  :repeatable t)
-
 (provide '+global-override-map)
 ;;; +global-override-map.el ends here

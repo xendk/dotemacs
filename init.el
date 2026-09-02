@@ -125,15 +125,14 @@
    shift-select-mode nil
    ;; Want to stick to end of line
    track-eol t)
-  (:global
-   ;; Used to M-DEL deleting a word.
-   "M-<delete>" kill-word
-   ;; Quickly delete the current buffer.
-   "C-x C-k" kill-current-buffer
-   "M-SPC" cycle-spacing
-   ;; Move the macro keymap previously on "C-x C-k" to the
-   ;; `compose-mail' binding.
-   "C-x m" kmacro-keymap)
+  ;; Used to M-DEL deleting a word.
+  (keymap-global-set "M-<delete>" 'kill-word)
+  ;; Quickly delete the current buffer.
+  (keymap-global-set "C-x C-k" 'kill-current-buffer)
+  (keymap-global-set "M-SPC" 'cycle-spacing)
+  ;; Move the macro keymap previously on "C-x C-k" to the
+  ;; `compose-mail' binding.
+  (keymap-global-set "C-x m" 'kmacro-keymap)
 
   ;; Show column number in mode-line.
   (column-number-mode)
@@ -238,9 +237,8 @@
     (emacs-lock-mode 'kill)))
 
 (setup frame
-  (:global
-   ;; Don't iconify on C-z.
-   "C-z" nil))
+  ;; Don't iconify on C-z.
+  (keymap-global-set "C-z" nil))
 
 (setup help
   (:option
@@ -270,8 +268,7 @@
   (minibuffer-depth-indicate-mode))
 
 (setup misc
-  (:global
-   "C-S-d" duplicate-dwim))
+  (keymap-global-set "C-S-d" 'duplicate-dwim))
 
 (setup mouse
   (:option
@@ -391,18 +388,17 @@
   (global-whitespace-mode))
 
 (setup window
-  (:global
-   ;; Scrolling on C-v confuses me when my muscle memory tries to use it as paste.
-   "C-v" nil
-   ;; Take out it's mate for consistency.
-   "M-v" nil
-   ;; Often I want to kill the window too.
-   "C-x K" kill-buffer-and-window
-   ;; Window resizing.
-   "S-C-<left>" shrink-window-horizontally
-   "S-C-<right>" enlarge-window-horizontally
-   "S-C-<down>" shrink-window
-   "S-C-<up>" enlarge-window)
+  ;; Scrolling on C-v confuses me when my muscle memory tries to use it as paste.
+  (keymap-global-set "C-v" nil)
+  ;; Take out it's mate for consistency.
+  (keymap-global-set "M-v" nil)
+  ;; Often I want to kill the window too.
+  (keymap-global-set "C-x K" 'kill-buffer-and-window)
+  ;; Window resizing.
+  (keymap-global-set "C-S-<left>" 'shrink-window-horizontally)
+  (keymap-global-set "C-S-<right>" 'enlarge-window-horizontally)
+  (keymap-global-set "C-S-<down>" 'shrink-window)
+  (keymap-global-set "C-S-<up>" 'enlarge-window)
 
   ;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
   ;; explains how to make display-buffer display things like you want.
@@ -571,9 +567,8 @@
   (:elpaca t)
   (:option
    highlight-symbol-idle-delay 0.5)
-  (:global
-   "M-<left>" highlight-symbol-prev
-   "M-<right>" highlight-symbol-next)
+  (keymap-global-set "M-<left>" 'highlight-symbol-prev)
+  (keymap-global-set "M-<right>" 'highlight-symbol-next)
   (:hook-into prog-mode)
   (:theme-face doom-nord-light
                highlight-symbol-face (:background "#ced7e5"))
@@ -659,8 +654,7 @@
 
 (setup +jump-to-matching
   (:require +jump-to-matching)
-  (:global
-   "C-(" +jump-to-matching))
+  (keymap-global-set "C-(" '+jump-to-matching))
 
 ;; Needed for avy binding.
 (setup +global-override-map
@@ -674,12 +668,10 @@
    avy-keys '(?u ?e ?o ?a ?h ?t ?n ?s)
    avy-style 'de-bruijn
    avy-all-windows 'all-frames)
-  (:global-override
-   "S-SPC" +avy-goto-char-timer)
-  (:global
-   "M-g g" +avy-goto-line
-   "M-g M-g" +avy-goto-line
-   "M-u" avy-goto-char-in-line)
+  (keymap-set +global-override-map "S-SPC" '+avy-goto-char-timer)
+  (keymap-global-set "M-g g" '+avy-goto-line)
+  (keymap-global-set "M-g M-g" '+avy-goto-line)
+  (keymap-global-set "M-u" 'avy-goto-char-in-line)
   (:with-map isearch-mode-map
     (:bind
      "S-SPC" avy-isearch)))
@@ -706,9 +698,8 @@
 
 (setup mwim
   (:elpaca t)
-  (:global
-   "C-a" mwim-beginning
-   "C-e" mwim-end))
+  (keymap-global-set "C-a" 'mwim-beginning)
+  (keymap-global-set "C-e" 'mwim-end))
 
 
 
@@ -719,12 +710,11 @@
   (:require +editing)
   (defvar +casing-map)
   (define-prefix-command '+casing-map)
-  (:global
-   "C-S-l" +mark-lines
-   "C-c x e" +edit-init
-   "C-c x t" +edit-tips
-   "C-c x o" +edit-todo
-   "M-c" +casing-map)
+  (keymap-global-set "C-S-l" '+mark-lines)
+  (keymap-global-set "C-c x e" '+edit-init)
+  (keymap-global-set "C-c x t" '+edit-tips)
+  (keymap-global-set "C-c x o" '+edit-todo)
+  (keymap-global-set "M-c" '+casing-map)
   (:with-map +casing-map
     (:bind
      "c" '("Capitalize" . capitalize-word)
@@ -741,13 +731,11 @@
 
 (setup +edit-clipboard
   (:require ++edit-clipboard)
-  (:global
-   "C-c y" +edit-clipboard))
+  (keymap-global-set "C-c y" '+edit-clipboard))
 
 (setup +commenting-newline
   (:require +commenting-newline)
-  (:global
-   "RET" +commenting-newline))
+  (keymap-global-set "RET" '+commenting-newline))
 
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (setup iso-transl
@@ -814,31 +802,27 @@
   (:option
    ;; Use subword expansion
    expand-region-subword-enabled t)
-  (:global
-   ;; Rather than binding er/contract-region, try to use C-S-SPC SPC
-   ;; SPC ... Then - will contract (and 0 reset).
-   "C-S-SPC" er/expand-region))
+  ;; Rather than binding er/contract-region, try to use C-S-SPC SPC
+  ;; SPC ... Then - will contract (and 0 reset).
+  (keymap-global-set "C-S-SPC" 'er/expand-region))
 
 (setup multiple-cursors
   (:elpaca t)
-  (:global
-   "C-<" mc/mark-previous-like-this
-   "C->" mc/mark-next-like-this
-   "C-M-m" mc/mark-more-like-this-extended
-   "C-*" mc/mark-all-like-this
-   "C-%" mc/mark-all-in-region
-   "C-=" mc/mark-all-like-this-dwim))
+  (keymap-global-set "C-<" 'mc/mark-previous-like-this)
+  (keymap-global-set "C->" 'mc/mark-next-like-this)
+  (keymap-global-set "C-M-m" 'mc/mark-more-like-this-extended)
+  (keymap-global-set "C-*" 'mc/mark-all-like-this)
+  (keymap-global-set "C-%" 'mc/mark-all-in-region)
+  (keymap-global-set "C-=" 'mc/mark-all-like-this-dwim))
 
 (setup move-text
   (:elpaca t)
-  (:global
-   "C-M-<up>" move-text-up
-   "C-M-<down>" move-text-down))
+  (keymap-global-set "C-M-<up>" 'move-text-up)
+  (keymap-global-set "C-M-<down>" 'move-text-down))
 
 (setup multi-line
   (:elpaca t)
-  (:global
-   "C-c d" multi-line))
+  (keymap-global-set "C-c d" 'multi-line))
 
 (setup ws-butler
   (:elpaca t)
@@ -854,7 +838,7 @@
    ;; Less horizontal spacing.
    vundo-compact-display t)
   ;; The original undo-tree visualization binding. Retained for muscle memory.
-  (:global "C-x u" vundo)
+  (keymap-global-set  "C-x u" 'vundo)
   (:theme-face doom-nord-light
                vundo-highlight (:foreground "#99324B")
                vundo-saved (:foreground "#398EAC"))
@@ -881,9 +865,8 @@
       ;; Unbind mouse button on overlays. I keep activating correction
       ;; when clicking to activate window.
       (:unbind "<mouse-1>")))
-  (:global
-   "M-$" jinx-correct
-   "C-M-$" jinx-languages)
+  (keymap-global-set "M-$" 'jinx-correct)
+  (keymap-global-set "C-M-$" 'jinx-languages)
   (:hook-into agent-shell-mode)
   (global-jinx-mode)
   (with-eval-after-load 'vertico-multiform
@@ -905,9 +888,8 @@
 
 (setup avy-zap
   (:elpaca t)
-  (:global
-   "M-Z" avy-zap-to-char-dwim
-   "M-z" avy-zap-up-to-char-dwim))
+  (keymap-global-set "M-Z" 'avy-zap-to-char-dwim)
+  (keymap-global-set "M-z" 'avy-zap-up-to-char-dwim))
 
 (setup yasnippet
   (:elpaca t)
@@ -1052,15 +1034,14 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    ;; Use Consult to select xref locations with preview.
    xref-show-xrefs-function #'consult-xref
    xref-show-definitions-function #'consult-xref)
-  (:global
-   ;; C-S-<tab>, leaving this for vanilla consult-line.
-   "C-<tab>" +consult-line
-   "C-x b" +consult-buffer-by-project
-   ;; IDEA: a consult-yank-pop that always show the completion, even
-   ;; after yank.
-   "M-y" consult-yank-pop
-   "M-g m" consult-mark
-   "M-g k" consult-global-mark)
+  ;; C-S-<tab>, leaving this for vanilla consult-line.
+  (keymap-global-set "C-<tab>" '+consult-line)
+  (keymap-global-set "C-x b" '+consult-buffer-by-project)
+  ;; IDEA: a consult-yank-pop that always show the completion, even
+  ;; after yank.
+  (keymap-global-set "M-y" 'consult-yank-pop)
+  (keymap-global-set "M-g m" 'consult-mark)
+  (keymap-global-set "M-g k" 'consult-global-mark)
   (:with-map isearch-mode-map
     (:bind
      "M-e" consult-isearch-history
@@ -1088,10 +1069,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    (append display-buffer-alist) '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                                    nil
                                    (window-parameters (mode-line-format . none))))
-  (:global
-   "C-," embark-act
-   "C-." embark-dwim
-   "C-h B" embark-bindings)
+  (keymap-global-set "C-," 'embark-act)
+  (keymap-global-set "C-." 'embark-dwim)
+  (keymap-global-set "C-h B" 'embark-bindings)
   ;; (:embark region "s" sort-lines) would be nice.
   (:with-map embark-region-map
     (:bind
@@ -1267,10 +1247,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    ;; Don't require selecting a commit if point is already on one when
    ;; creating fixup and squash commits.
    magit-commit-squash-confirm nil)
-  (:global
-   "C-c g g" '("Status" . magit-status)
-   "C-c g d" '("Dispatch" . magit-dispatch)
-   "C-c g f" '("File dispatch" . magit-file-dispatch))
+  (keymap-global-set "C-c g g" '("Status" . magit-status))
+  (keymap-global-set "C-c g d" '("Dispatch" . magit-dispatch))
+  (keymap-global-set "C-c g f" '("File dispatch" . magit-file-dispatch))
   (:with-feature project
     (:with-map project-prefix-map
       (:bind "m" magit-project-status)))
@@ -1327,8 +1306,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
      "K" +project-kill-buffers-of-all-projects)
     ;; Remove obsoleted.
     (:unbind "e" "v"))
-  ;; Remap to the old projectile prefix. :global does not support
-  ;; keymaps. Add :global-map?
   (keymap-global-set "C-c p" project-prefix-map))
 
 (setup devdocs
@@ -1336,10 +1313,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:option
    ;; Always select the window.
    devdocs-window-select t)
-  (:global
-   "C-h ," (lambda ()
-             (interactive)
-             (devdocs-lookup nil (thing-at-point 'symbol t)))))
+  (keymap-global-set "C-h ," (lambda ()
+                               (interactive)
+                               (devdocs-lookup nil (thing-at-point 'symbol t)))))
 
 (setup cov
   (:elpaca t)
@@ -1579,26 +1555,26 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:elpaca t)
   (:also-load +agent-shell)
   (:option
-   agent-shell-goose-authentication '(:none t)
-   agent-shell-chat-mode-enabled t)
+   ;; Use the nicer looking chat mode.
+   agent-shell-chat-mode-enabled t
+   ;; Use Hermes. Change to `preselect' if experimenting with another
+   ;; agent.
+   agent-shell-preferred-agent-config '(auto . hermes))
 
   (:hook +agent-shell-mode-setup)
-  (:global
-   "C-c w" agent-shell))
+  (keymap-global-set "C-c w" 'agent-shell))
 
 ;; Maybe look into https://github.com/unmonoqueteclea/jira.el
 
 (setup keepachangelog
   (:elpaca :type git :host github :repo "xendk/keepachangelog.el")
-  (:global
-   "C-c a" keepachangelog-add-entry))
+  (keymap-global-set "C-c a" 'keepachangelog-add-entry))
 
 (setup reaper
   (:elpaca t)
   (:with-hook reaper-autofile-functions
     (:hook xen-reaper-autofile-function))
-  (:global
-   "C-c h" reaper)
+  (keymap-global-set "C-c h" 'reaper)
   (load (locate-user-emacs-file "reaper-key.el") :noerror :nomessage)
   ;; Store the autofile function in an uncommitted file.
   (load (locate-user-emacs-file "xen-reaper.el") :noerror :nomessage))
@@ -1624,9 +1600,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    vterm-set-bold-hightbright t)
   ;; Would seem like a catch 22, but we always load consult.
   (with-eval-after-load 'consult
-    (:global
-     "C-c s" +vterm-switch-to-shell
-     "C-c S" vterm))
+    (keymap-global-set "C-c s" '+vterm-switch-to-shell)
+    (keymap-global-set "C-c S" 'vterm))
   (:bind
    ;; Allow for avy. Most useful for navigating out of terminal
    ;; window.
