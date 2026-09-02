@@ -583,7 +583,9 @@
   (:elpaca t)
   (:option
    ;; Make trailing colon optional.
-   magit-todos-keyword-suffix ":? ")
+   magit-todos-keyword-suffix ":? "
+   ;; Cache search result for five minutes.
+   magit-todos-update 300)
   (with-eval-after-load 'magit
     (magit-todos-mode 1)))
 
