@@ -737,6 +737,8 @@
   (:require ++edit-clipboard)
   (keymap-global-set "C-c y" '+edit-clipboard))
 
+;; On the subject of comments:
+;; https://emacsredux.com/blog/2026/02/25/so-many-ways-to-work-with-comments/
 (setup +commenting-newline
   (:require +commenting-newline)
   (keymap-global-set "RET" '+commenting-newline))
@@ -810,6 +812,7 @@
   ;; SPC ... Then - will contract (and 0 reset).
   (keymap-global-set "C-S-SPC" 'er/expand-region))
 
+;; TODO consider https://github.com/victorhge/iedit
 (setup multiple-cursors
   (:elpaca t)
   (keymap-global-set "C-<" 'mc/mark-previous-like-this)
@@ -1151,6 +1154,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; No binding, eglot ensures it's available on C-h . and C-c ! H.
   (global-eldoc-mode 1))
 
+;; TODO time to go back to flymake?
 (setup flycheck
   (:elpaca t)
   (setopt
@@ -1233,9 +1237,12 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
               twig-mode
               crystal-mode))
 
-;; Magit needs a newer version of transient than the one shipped with
-;; emacs.
+;; Magit needs a newer version of transient and compat than the one
+;; shipped with emacs.
 (setup transient
+  (:elpaca t))
+
+(setup compat
   (:elpaca t))
 
 (setup magit
@@ -1418,6 +1425,16 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
      "C-c C-t" +elisp-mode-test-switch)
     (:devdoc "elisp")))
 
+;; Gemini has this to say: enh-ruby-mode & Custom Major Modes
+;; (go-mode, yaml-mode, dockerfile-mode, etc.)
+
+;; Status: Replaced by core Tree-sitter modes (*-ts-mode).
+
+;; Modern Alternative: Emacs 29+ includes native ruby-ts-mode,
+;; go-ts-mode, yaml-ts-mode, dockerfile-ts-mode, and bash-ts-mode.
+;; enh-ruby-mode in particular is legacy; standard ruby-ts-mode +
+;; eglot is the modern standard.
+;; Consider https://github.com/renzmann/treesit-auto for this.
 (setup enh-ruby-mode
   (:elpaca t)
   (:match-file "*.rb"))
@@ -1438,6 +1455,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup typescript-ts-mode
   (:match-file "*.tsx?"))
 
+;; Try out https://whhone.com/posts/markdown-indent-mode/
+;; Or maybe it's time for https://github.com/dnouri/md-ts-mode
 (setup markdown-mode
   (:elpaca t)
   (:require +markdown-mode)
@@ -1542,6 +1561,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;;; Tools
 
+;; TODO add https://github.com/jamescherti/buffer-terminator.el?tab=readme-ov-file
+
 (setup custode
   (:elpaca :type git :host github :repo "xendk/custode.el")
   (global-custode-mode)
@@ -1590,6 +1611,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;; TODO maybe upgrade to
 ;; https://github.com/rwc9u/emacs-libgterm ?
+;; TODO try out https://codeberg.org/akib/emacs-eat
 (setup vterm
   (:elpaca t)
   (:require +vterm)
