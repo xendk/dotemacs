@@ -604,10 +604,10 @@
   (:theme-face doom-nord-aurora
                region-occurrences-highlighter-face (:background "#38404f")))
 
-(setup rainbow-mode
+(setup colorful-mode
   (:elpaca t)
-  (:also-load +rainbow-mode)
-  (:hook-into css-mode))
+  (setopt colorful-use-prefix t)
+  (global-colorful-mode))
 
 (setup diff-hl
   (:elpaca t)
