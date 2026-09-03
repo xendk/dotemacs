@@ -1430,13 +1430,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup fish-mode
   (:elpaca t))
 
-(setup go-mode
-  (:elpaca t)
-  (:when-loaded
-    ;; Tell gopls that we're using go modules.
-    (setenv "GO111MODULE" "on"))
-  (:hook subword-mode))
-
 (setup graphql-mode
   (:elpaca t)
   ;; Also use for schema files.
