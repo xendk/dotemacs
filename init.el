@@ -884,10 +884,10 @@
   ;; TODO consider using visual-replace-from-isearch,
   ;; visual-replace-from-isearch and visual-replace-selected.
   (:theme-face doom-nord-light
-               visual-replace-delete-match (:foreground "#99324B")
+               visual-replace-delete-match (:foreground "#99324B" :strike-through t)
                visual-replace-replacement (:foreground "#4F894C"))
   (:theme-face doom-nord-aurora
-               visual-replace-delete-match (:foreground "#BF616A")
+               visual-replace-delete-match (:foreground "#BF616A"  :strike-through t)
                visual-replace-replacement (:foreground "#A3BE8C"))
   (visual-replace-global-mode))
 
