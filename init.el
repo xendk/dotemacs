@@ -1170,6 +1170,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; after everything is loaded.
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init))
+  (global-flycheck-eglot-mode 1)
   (:when-loaded
     ;; Don't enable checkdoc in test files. This is a bit heavy
     ;; handed, but the original is buggy anyway (it's missing a
@@ -1209,12 +1210,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:hook-into auto-dark-dark-mode-hook))
   (:with-function +flyover-light-background
     (:hook-into auto-dark-light-mode-hook)))
-
-(setup flycheck-eglot
-  (:elpaca t)
-  (with-eval-after-load 'eglot
-    (with-eval-after-load 'flycheck
-      (global-flycheck-eglot-mode 1))))
 
 (setup consult-flycheck
   (:elpaca t)
