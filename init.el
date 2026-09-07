@@ -1186,7 +1186,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    flycheck-disabled-checkers '(javascript-jshint php php-phpcs)
    flycheck-global-modes (quote (not org-mode vterm-mode))
    ;; Hide temp files. May hide them from file watchers.
-   flycheck-temp-prefix ".flycheck")
+   flycheck-temp-prefix ".flycheck"
+   ;; Show errors at the end of the line, for other lines than the current.
+   flycheck-annotate-other-lines-style 'sideline)
   (:bind
    "M-<up>" flycheck-previous-error
    "M-<down>" flycheck-next-error)
@@ -1195,6 +1197,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:with-function global-flycheck-mode
     (:hook-into elpaca-after-init))
   (global-flycheck-eglot-mode 1)
+  (global-flycheck-annotate-mode 1)
   (:when-loaded
     ;; Don't enable checkdoc in test files. This is a bit heavy
     ;; handed, but the original is buggy anyway (it's missing a
@@ -1207,33 +1210,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup flycheck-eldev
   (:elpaca t))
-
-(setup flyover
-  (:elpaca :host github :repo "konrad1977/flyover")
-  (setopt
-   ;; The default background is unreadable in dark mode, set default
-   ;; depending whether dark mode is currently set..
-   flyover-background-lightness (if (eq auto-dark--last-dark-mode-state 'dark) 25 75)
-   flyover-info-icon "🛈"
-   flyover-warning-icon "⚠"
-   flyover-error-icon "✘"
-   flyover-hide-checker-name nil
-   flyover-virtual-line-type 'bold-arrow
-   ;; This hides any new errors on the current line, so disable it.
-   flyover-hide-when-cursor-is-on-same-line nil)
-  (:with-feature flycheck
-    (:with-map flycheck-command-map
-      (:bind
-       "o" 'flyover-toggle)))
-  (:hook-into flycheck-mode)
-  ;; Add hooks to change background when dark mode switches. We have
-  ;; to re-enable flyover-mode to make it update the overlay backgrounds.
-  (defun +flyover-light-background () (setq flyover-background-lightness 75) (when flyover-mode (flyover-mode 1)))
-  (defun +flyover-dark-background () (setq flyover-background-lightness 25) (when flyover-mode (flyover-mode 1)))
-  (:with-function +flyover-dark-background
-    (:hook-into auto-dark-dark-mode-hook))
-  (:with-function +flyover-light-background
-    (:hook-into auto-dark-light-mode-hook)))
 
 (setup consult-flycheck
   (:elpaca t)
