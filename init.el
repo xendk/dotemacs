@@ -76,12 +76,11 @@
    ;; Disable (mouse) dialogs, something is confusing Emacs making it
    ;; think some commands were mouse initiated
    use-dialog-box nil)
-  (:bind
-   ;; Horizontal scrolling on trackpad produces these, which makes Emacs
-   ;; print warnings about undefined keys. I don't want to do anything on
-   ;; horizontal scroll.
-   "<mouse-6>" ignore
-   "<mouse-7>" ignore))
+  ;; Horizontal scrolling on trackpad produces these, which makes Emacs
+  ;; print warnings about undefined keys. I don't want to do anything on
+  ;; horizontal scroll.
+  (keymap-global-set "<mouse-6>" nil)
+  (keymap-global-set "<mouse-7>" nil))
 
 (setup novice
   (setopt
