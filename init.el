@@ -20,6 +20,12 @@
   ;; most likely used for testing something, so debug on error.
   (toggle-debug-on-error))
 
+;; When flycheck runs checks on this file, we need to load these
+;; that's normally required in early-init.el.
+(eval-when-compile
+  (require '+elpaca)
+  (require '+setup))
+
 
 
 ;;; Emacs
@@ -174,6 +180,7 @@
    safe-local-variable-values '((flycheck-emacs-lisp-load-path . inherit))))
 
 (setup ansi-color
+  (defvar compilation-filter-start)
   (setopt
    ;; Better ANSI colors
    ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold])
@@ -325,13 +332,17 @@
   (save-place-mode))
 
 (setup sort
+  (defvar embark-region-map)
   (:with-map embark-region-map
     (:bind
      "s" sort-lines
      "u" delete-duplicate-lines)))
+
 ;; For more treesitter setup, look at
 ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
 (setup treesit
+  ;; https://github.com/renzmann/treesit-auto probably obsoletes this.
+  (defvar treesit-language-source-alist)
   (setq treesit-language-source-alist
         '(
           ;; (cpp . "https://github.com/tree-sitter/tree-sitter-cpp")
@@ -353,7 +364,9 @@
    ;; Don't require confirmation on cookies
    url-cookie-confirmation 'nil))
 
+(declare-function wdired-finish-edit "wdired")
 (setup wdired
+  (defvar wdired-mode-map)
   (setopt
    ;; Allow C-x C-q to change permissions too
    wdired-allow-to-change-permissions t)
@@ -532,12 +545,12 @@
   (:elpaca t))
 
 (setup hl-line
-  (:require +hl-line)
+  (require '+hl-line)
   (:with-function +hl-line-mode
     (:hook-into after-change-major-mode)))
 
 (setup display-line-numbers-mode
-  (:require +display-line-numbers-mode)
+  (require '+display-line-numbers-mode)
   (setopt
    ;; Only grow room for line numbers
    display-line-numbers-grow-only t
@@ -682,6 +695,10 @@
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
 (setup windmove
+  (defvar org-shiftup-final-hook)
+  (defvar org-shiftleft-final-hook)
+  (defvar org-shiftdown-final-hook)
+  (defvar org-shiftright-final-hook)
   ;; Shift is default.
   (windmove-default-keybindings)
   (windmove-swap-states-default-keybindings '(shift meta))
@@ -710,7 +727,7 @@
 
 ;; Collection of editing tweaks I've collected over the years.
 (setup +editing
-  (:require +editing)
+  (require '+editing)
   (defvar +casing-map)
   (define-prefix-command '+casing-map)
   (keymap-global-set "C-S-l" '+mark-lines)
@@ -987,7 +1004,14 @@
 ;; https://jtamagnan.com/posts/%C3%A0-la-mode-corfu-cape-and-completion-preview/
 ;; mentions upcoming completion-preview-insert-word and
 ;; completion-preview-insert-sexp which sounds promising.
+(declare-function completion-preview-complete "completion-preview")
+(declare-function completion-preview-next-candidate "completion-preview")
+(declare-function completion-preview-prev-candidate "completion-preview")
+(declare-function completion-preview-active-mode "completion-preview")
+(declare-function completion-preview--inhibit-update "completion-preview")
 (setup completion-preview
+  (defvar completion-preview-active-mode-map)
+  (defvar completion-preview--overlay)
   (:with-map completion-preview-active-mode-map
     (setopt
      completion-preview-minimum-symbol-length 2)
@@ -1014,7 +1038,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
                                 (setq-local completion-preview-sort-function newval))
                             (setopt completion-preview-sort-function newval)))))
 
-  (defun +completion-preview-before-corfu--in-region (&rest args)
+  (defun +completion-preview-before-corfu--in-region (&rest _args)
     "Disable completion-preview before corfu is triggered."
     (when completion-preview--overlay
       (overlay-put completion-preview--overlay 'after-string "")
@@ -1135,7 +1159,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 ;;;; General
 
 (setup eglot
-  (:require +eglot)
+  (defvar eglot-withhold-process-id)
+  (require '+eglot)
   (:with-function +eglot
     (:hook-into prog-mode)
     (with-eval-after-load 'yaml-mode
@@ -1292,9 +1317,10 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    code-review-auth-login-marker 'forge)
   (:hook emojify-mode))
 
+(declare-function consult-ripgrep "consult")
 (setup project
-  (:require project)
-  (:require +project)
+  (require 'project)
+  (require '+project)
   (setopt
    ;; magit-extras normally sets this, but Magit is lazyloaded.
    project-switch-commands (append project-switch-commands
@@ -1311,7 +1337,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:bind
      "s" +project-switch-to-shell
      "S" +project-vterm
-     "U" +projcet-docker-compose-up
+     "U" +project-docker-compose-up
      "g" consult-ripgrep
      "K" +project-kill-buffers-of-all-projects)
     ;; Remove obsoleted.
@@ -1413,7 +1439,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    drupal/phpcs-standard nil))
 
 (setup elisp-mode
-  (:require +elisp-mode)
+  (require '+elisp-mode)
   (:with-mode emacs-lisp-mode
     (:bind
      "C-c C-t" +elisp-mode-test-switch)
@@ -1695,7 +1721,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 ;; Random stuff that has no other home.
 (setup +misc
-  (:require +misc)
+  (require '+misc)
   ;; Run the importer whenever launching a client frame (emacsclient).
   (add-hook 'server-after-make-frame-hook #'+systemd-import-environment))
 
