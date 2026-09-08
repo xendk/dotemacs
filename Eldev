@@ -12,7 +12,8 @@
       eldev-main-fileset '(:and ("init.el"
                                  "early-init.el"
                                  "lisp/*.el")
-                                (:not ("**/flycheck_*.el"))))
+                                (:not ("**/flycheck_*.el"))
+                                (:not ("elpaca/**/*.el"))))
 
 ;; Tell where to look for files in tests.
 (eldev-add-loading-roots 'test "lisp")
