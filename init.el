@@ -903,6 +903,7 @@
   (:elpaca t)
   ;; TODO consider using visual-replace-from-isearch,
   ;; visual-replace-from-isearch and visual-replace-selected.
+  (setopt visual-replace-minibuffer-mode-hook '(visual-replace-toggle-query))
   (:theme-face doom-nord-light
                visual-replace-delete-match (:foreground "#99324B" :strike-through t)
                visual-replace-replacement (:foreground "#4F894C"))
