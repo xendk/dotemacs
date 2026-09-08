@@ -10,6 +10,7 @@
      "<?php\n// |"
      (expect (+commenting-newline-comment-line-is-empty) :to-be t)
      ))
+
   (it "recognises empty comments"
     (+with-temp-php-buffer
      "<?php\n// |\n"
@@ -18,6 +19,7 @@
     (+with-temp-php-buffer
      "<?php\n//   |   \n"
      (expect (+commenting-newline-comment-line-is-empty) :to-be t)))
+
   (it "recognises non-empty comments"
     (+with-temp-php-buffer
      "<?php\n// t|\n"
@@ -26,10 +28,12 @@
     (+with-temp-php-buffer
      "<?php\n// |x\n"
      (expect (+commenting-newline-comment-line-is-empty) :to-be nil)))
+
   (it "returns nil when not in comment"
     (+with-temp-php-buffer
      "<?php\nt|x\n"
      (expect (+commenting-newline-comment-line-is-empty) :to-be nil)))
+
   (it "handles elisp comments"
     (+with-temp-elisp-buffer
      "; |"
@@ -51,18 +55,21 @@
 
 // |"
      (expect (+commenting-newline-empty-comment-start) :to-be 8)))
+
   (it "returns comment start for single empty comment without whitespace"
     (+with-temp-php-buffer
      "<?php
 
 //|"
      (expect (+commenting-newline-empty-comment-start) :to-be 8)))
+
   (it "returns nil on non-empty comment"
     (+with-temp-php-buffer
      "<?php
 
 // t|"
      (expect (+commenting-newline-empty-comment-start) :to-be nil)))
+
   (it "returns nil on first empty comment"
     (+with-temp-php-buffer
      "<?php
@@ -70,6 +77,7 @@
 // t
 // |"
      (expect (+commenting-newline-empty-comment-start) :to-be nil)))
+
   (it "returns start of first on second empty comment"
     (+with-temp-php-buffer
      "<?php
@@ -78,6 +86,7 @@
 //
 // |"
      (expect (+commenting-newline-empty-comment-start) :to-be 13)))
+
   (it "shouldn't fail on comment on first line of buffer"
     (+with-temp-php-buffer
      "// |"
@@ -98,12 +107,12 @@
   (describe "for php-mode"
     (it "should handle multiline comments"
       (+with-temp-php-buffer
-       "<php
+       "<?php
 /**
  * |
  */"
        (+commenting-newline)
-       (+expect-buffer-equals "<php
+       (+expect-buffer-equals "<?php
 /**
  *
  * |
@@ -111,11 +120,11 @@
 
     (it "should handle start of multiline comments"
       (+with-temp-php-buffer
-       "<php\n/**|\n *\n */\n"
+       "<?php\n/**|\n *\n */\n"
        (+commenting-newline)
        ;; Sadly there's not a space before point, but that's an issue
        ;; with `default-indent-new-line'.
-       (+expect-buffer-equals "<php\n/**\n *|\n *\n */\n"))))
+       (+expect-buffer-equals "<?php\n/**\n *|\n *\n */\n"))))
 
   (describe "for emacs-lisp-mode"
     (it "Handles insertion properly"
