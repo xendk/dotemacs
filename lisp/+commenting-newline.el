@@ -49,7 +49,11 @@ Pass ARG and INTERACTIVE to `newline'."
           (setq num-semis (- (point) comment-start)))
         (insert "\n")
         (insert (make-string num-semis ?\;) " "))
-    (default-indent-new-line)))
+    ;; Without comment-multi-line, it defaults to closing current
+    ;; comment and restarting a new one. c-mode used to set it per
+    ;; default, but the new php-mode doesn't.
+    (let ((comment-multi-line t))
+      (default-indent-new-line))))
 
 (defun +commenting-newline-comment-line-is-empty ()
   "Determine if comment is empty."
