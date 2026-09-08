@@ -1,11 +1,12 @@
-;;; init.el --- Xens emacs configuration.  -*- lexical-binding: t; flycheck-emacs-lisp-load-path: inherit; -*-
+;;; init.el --- Xens emacs configuration.  -*- lexical-binding: t; flycheck-emacs-lisp-load-path: inherit; flycheck-disabled-checkers: (elisp-eldev); -*-
 ;;
 ;; We don't really use version, but Eldev requires it.
 ;; Version: 0.1
 ;;
 ;;; Commentary:
 
-;; My Emacs init.el.
+;; My Emacs init.el. The elisp-eldev checker is disabled as using
+;; eldev for linting init.el requires a bit of special setup.
 
 ;;; Code:
 
