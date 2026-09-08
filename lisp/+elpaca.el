@@ -6,9 +6,6 @@
 
 ;;; Code:
 
-;; This is the installer from
-;; https://github.com/progfolio/elpaca?tab=readme-ov-file#installer
-;; copied verbatim.
 (defvar elpaca-installer-version 0.12)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -17,6 +14,10 @@
                               :ref nil :depth 1 :inherit ignore
                               :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca-activate)))
+
+;; This is the installer from
+;; https://github.com/progfolio/elpaca?tab=readme-ov-file#installer
+;; copied verbatim.
 (let* ((repo  (expand-file-name "elpaca/" elpaca-sources-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
        (order (cdr elpaca-order))
