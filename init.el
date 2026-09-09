@@ -825,8 +825,6 @@
   (:elpaca t)
   (:hook-into prog-mode feature-mode))
 
-;; Consider https://codeberg.org/ideasman42/emacs-undo-fu-session to
-;; get the persistent undo feature of undo-tree back.
 (setup vundo
   (:elpaca t)
   (setopt
@@ -843,6 +841,14 @@
                vundo-highlight (:foreground "#BF616A")
                vundo-saved (:foreground "#507681"))
   (vundo-popup-mode 1))
+
+(declare-function undo-fu-session-global-mode "undo-fu-session")
+(setup undo-fu-session
+  (:elpaca t)
+  (setopt
+   undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")
+   undo-fu-session-directory (locate-user-emacs-file "undo-history"))
+  (undo-fu-session-global-mode))
 
 (setup visual-fill-column
   (:elpaca t)
