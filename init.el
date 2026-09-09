@@ -1551,9 +1551,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (setopt
    ;; Use the nicer looking chat mode.
    agent-shell-chat-mode-enabled t
-   ;; Use Hermes. Change to `preselect' if experimenting with another
-   ;; agent.
-   agent-shell-preferred-agent-config '(auto . hermes))
+   ;; Use Pi agent. Change to `preselect' if experimenting with
+   ;; another agent.
+   agent-shell-preferred-agent-config '(auto . pi))
 
   (:hook +agent-shell-mode-setup)
   (keymap-global-set "C-c w" 'agent-shell))
