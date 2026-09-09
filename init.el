@@ -1349,6 +1349,8 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (add-to-list 'eglot-server-programs
                  '(crystal-mode .
                                 ;; We're experimenting a bit here.
+                                ;; Retry crystalline, 0.19 version
+                                ;; should be an improvement.
                                 ;; ("crystalline" "--stdio")
                                 ("/home/xen/dev/contrib/cr-analyzer/bin/cr-analyzer")
                                 ;; ("/home/xen/dev/contrib/lattice/bin/lattice")
