@@ -1432,7 +1432,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (:match-file "*.graphqls"))
 
 (setup typescript-ts-mode
-  (:match-file "*.tsx?"))
+  (:match-file "*.tsx" "*.ts"))
 
 ;; Try out https://whhone.com/posts/markdown-indent-mode/
 ;; Or maybe it's time for https://github.com/dnouri/md-ts-mode
