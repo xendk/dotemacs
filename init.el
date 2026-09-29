@@ -708,6 +708,7 @@
   (keymap-global-set "C-c x e" '+edit-init)
   (keymap-global-set "C-c x t" '+edit-tips)
   (keymap-global-set "C-c x o" '+edit-todo)
+  (keymap-global-set "C-c x w" '+edit-work)
   (keymap-global-set "M-c" '+casing-map)
   (:with-map +casing-map
     (:bind

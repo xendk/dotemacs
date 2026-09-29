@@ -42,6 +42,11 @@ Actually shrinks the region if the point is at the start of the region."
   (interactive)
   (find-file (locate-user-emacs-file "todo")))
 
+(defun +edit-work ()
+  "Open work file."
+  (interactive)
+  (find-file (locate-user-emacs-file "work/work.org")))
+
 
 (provide '+editing)
 ;;; +editing.el ends here
