@@ -1459,7 +1459,14 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    ;; Don't mess with using S-cursors for window selection
    org-support-shift-select t
    ;; Use cleaner looking org-indent-mode
-   org-startup-indented t))
+   org-startup-indented t
+   ;; Hide / and * when used for italic/bold. We'll see if that messes
+   ;; with filenames.
+   org-hide-emphasis-markers t))
+
+(setup org-tidy
+  (:elpaca t)
+  (:hook-into org-mode))
 
 (setup php-mode
   (:elpaca t)
