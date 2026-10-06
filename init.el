@@ -662,9 +662,7 @@
   (keymap-global-set "M-g g" '+avy-goto-line)
   (keymap-global-set "M-g M-g" '+avy-goto-line)
   (keymap-global-set "M-u" 'avy-goto-char-in-line)
-  (:with-map isearch-mode-map
-    (:bind
-     "S-SPC" avy-isearch)))
+  (define-key isearch-mode-map (kbd "S-SPC") #'avy-isearch))
 
 ;; http://www.emacswiki.org/emacs/WindMove
 ;; Built in.
