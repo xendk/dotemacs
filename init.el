@@ -1366,16 +1366,19 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
                              ;; cape-dict could be handy, if we could
                              ;; get orderless to only prefix match it.
                              (cape-capf-inside-comment #'cape-dabbrev)))
-    (:hook (lambda ()
-             ;; Eglot sets up completion-at-point-functions in
-             ;; its minor mode, so use eglot-managed-mode-hook
-             ;; to override it.
-             (add-hook 'eglot-managed-mode-hook
-                       (lambda ()
-                         (setq-local
-                          completion-at-point-functions
-                          (list #'crystal-capf)))
-                       nil t)))))
+    ;; TODO this is why switching language server didn't improve
+    ;; completion.
+    ;; (:hook (lambda ()
+    ;;          ;; Eglot sets up completion-at-point-functions in
+    ;;          ;; its minor mode, so use eglot-managed-mode-hook
+    ;;          ;; to override it.
+    ;;          (add-hook 'eglot-managed-mode-hook
+    ;;                    (lambda ()
+    ;;                      (setq-local
+    ;;                       completion-at-point-functions
+    ;;                       (list #'crystal-capf)))
+    ;;                    nil t)))
+    ))
 
 (setup css-mode
   (setopt
