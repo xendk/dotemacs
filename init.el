@@ -1684,6 +1684,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   ;; Run the importer whenever launching a client frame (emacsclient).
   (add-hook 'server-after-make-frame-hook #'+systemd-import-environment))
 
+(setup +work
+  (require '+work))
+
 
 
 (load custom-file)
