@@ -1473,10 +1473,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
    ;; with filenames.
    org-hide-emphasis-markers t))
 
-(setup org-tidy
-  (:elpaca t)
-  (:hook-into org-mode))
-
 (setup php-mode
   (:elpaca t)
   (:also-load +php-mode)
