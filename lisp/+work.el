@@ -5,13 +5,21 @@
 ;; Minor mode and helper functions for my work.org file.
 
 ;;; Code:
+(require 'transient)
 
 (defvar +work-mode-map
   (let ((keymap (make-sparse-keymap)))
-    (define-key keymap (kbd "C-c C-h") '+work-set-harvest-project)
-    (define-key keymap (kbd "C-c h") '+work-harvest-clock-in)
+    (define-key keymap (kbd "C-c w") '+work-dispatch)
     keymap)
   "Keymap for +work-mode.")
+
+(transient-define-prefix +work-dispatch ()
+  "Transient menu for work-related functions."
+  ["Harvest"
+   ("h" "Set Project & Task" +work-set-harvest-project)
+   ("c" "Clock In" +work-harvest-clock-in)]
+  ["Jira"
+   ("j" "Insert Ticket" +work-insert-jira-ticket)])
 
 (define-minor-mode +work-mode
   "Minor mode for work.org."
@@ -85,6 +93,29 @@ restart it. Otherwise, create a new timer."
              (reaper-api "POST" "time_entries" harvest-payload "Started timer")
              (reaper-refresh)
              (message "Created a new Harvest entry for: %s" title))))))))
+
+(defun +work-insert-jira-ticket ()
+  "Run jira.rb, select a ticket, and insert it as an `org-mode' item.
+If point is not on an empty line, it will be inserted after an empty
+line after the current line."
+  (interactive)
+  (let* ((script (expand-file-name "bin/jira.rb" user-emacs-directory))
+         (output (let ((default-directory user-emacs-directory))
+                   (shell-command-to-string script)))
+         (lines (split-string output "\n" t))
+         ;; Filter out non-ticket lines (like header or errors)
+         (tickets (seq-filter (lambda (line)
+                                (string-match-p "^[A-Z0-9]+-[0-9]+ " line))
+                              lines)))
+    (unless tickets
+      (user-error "No tickets found or error running jira.rb: %s" output))
+    (let ((selected (completing-read "Ticket: " tickets)))
+      (unless (looking-at-p "^[ \t]*$")
+        (end-of-line)
+        (if (re-search-forward "^[ \t]*\n" nil t)
+            (goto-char (match-end 0))
+          (insert "\n\n")))
+      (insert "* " selected "\n"))))
 
 (provide '+work)
 ;;; +work.el ends here
