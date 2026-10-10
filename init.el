@@ -28,6 +28,32 @@
   (require '+setup))
 
 
+;;; Upgrade built in packages. This is done in a seperate elpaca round
+;;; to ensure that the package is properly replaced before anything
+;;; uses it.
+
+;; Transient relies on compat.
+(setup compat
+  (:elpaca t))
+
+;; Magit needs a newer version of transient than the one shipped with
+;; emacs.
+(setup transient
+  (:elpaca t))
+
+(setup editorconfig
+  ;; Emacs 30 js-json-mode doesn't inherit from js-mode, but the
+  ;; editorconfig included with 30 doesn't know, this, so update to
+  ;; latest version.
+  (:elpaca t)
+  (setopt
+   ;; Makefiles always use tabs. So exclude them.
+   editorconfig-exclude-modes '(makefile-gmake-mode))
+  (editorconfig-mode 1))
+
+(elpaca-wait)
+
+
 
 ;;; Emacs
 
@@ -200,16 +226,6 @@
    ediff-split-window-function 'split-window-horizontally
    ;; Use a single frame for all ediff windows
    ediff-window-setup-function 'ediff-setup-windows-plain))
-
-(setup editorconfig
-  ;; Emacs 30 js-json-mode doesn't inherit from js-mode, but the
-  ;; editorconfig included with 30 doesn't know, this, so update to
-  ;; latest version.
-  (:elpaca t)
-  (setopt
-   ;; Makefiles always use tabs. So exclude them.
-   editorconfig-exclude-modes '(makefile-gmake-mode))
-  (editorconfig-mode 1))
 
 (setup emacs-lock
   ;; Protect scratch buffer against accidental killing.
@@ -1211,14 +1227,6 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
               enh-ruby-mode
               twig-mode
               crystal-mode))
-
-;; Magit needs a newer version of transient and compat than the one
-;; shipped with emacs.
-(setup transient
-  (:elpaca t))
-
-(setup compat
-  (:elpaca t))
 
 (setup magit
   (:elpaca t)
