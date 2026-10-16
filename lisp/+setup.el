@@ -10,7 +10,6 @@
 (declare-function elpaca-wait "elpaca")
 (declare-function setup-define "setup")
 (declare-function setup-get "setup")
-(declare-function setup-quit "setup")
 
 (defvar setup)
 (defvar setup-attributes)
@@ -78,21 +77,6 @@ ENTRIES are like in `custom-set-faces', but as they're not in the
   (lambda (&rest entries)
     `(+setup-set-faces ,@entries))
   :documentation "Set faces like `custom-set-faces' using `+setup-set-faces'.")
-
-(setup-define :load-from
-  (lambda (path)
-    `(let ((path* (expand-file-name ,path)))
-       (if (file-exists-p path*)
-           (add-to-list 'load-path path*)
-         ,(setup-quit))))
-  :documentation "Add PATH to load path.
-This macro can be used as NAME, and it will replace itself with
-the nondirectory part of PATH.
-If PATH does not exist, abort the evaluation."
-  :shorthand (lambda (args)
-               (intern
-                (file-name-nondirectory
-                 (directory-file-name (cadr args))))))
 
 (setup-define :bind-prefix
   (lambda (key prefix)
