@@ -13,6 +13,9 @@
 (declare-function keepachangelog-add-entry "keepachangelog")
 (declare-function nerd-icons-devicon "nerd-icons")
 
+(defvar +magit-llm-history nil
+  "History of LLM names used by `+magit-commit-with-llm'.")
+
 (defun +magit-commit-setup-jira ()
   "Insert Jira issue number in commit message if branch name contain one."
   (let ((ISSUEKEY "[[:alpha:][:digit:]]\\{2,\\}-[[:digit:]]+"))
@@ -79,15 +82,20 @@
   (magit-stage-files '("CHANGELOG.md"))
   (call-interactively #'magit-commit-create))
 
-(defun +magit-commit-with-gemini (&optional args)
-  "Commit with Gemini as Assisted-By.
+(defun +magit-commit-with-llm (llm &optional args)
+  "Commit with LLM as Assisted-by.
 
-Preserves existing ARGS."
-  (interactive (list (magit-commit-arguments)))
-  (let* ((assisted-by  "Assisted-by: Gemini")
-         ;; Combine current transient args with our specific overrides
-         (common-args (append args (list "--trailer" assisted-by))))
-    (magit-commit-create common-args)))
+Prompts for LLM, defaulting to the last one used. Preserves existing
+ARGS."
+  (interactive
+   (let* ((default (car +magit-llm-history))
+          (llm (completing-read (format-prompt "LLM" default)
+                                (delete-dups (copy-sequence +magit-llm-history))
+                                nil nil nil '+magit-llm-history default)))
+     (when (string-empty-p llm)
+       (user-error "No LLM given"))
+     (list llm (magit-commit-arguments))))
+  (magit-commit-create (append args (list "--trailer" (concat "Assisted-by: " llm)))))
 
 (provide '+magit)
 ;;; +magit.el ends here

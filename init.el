@@ -1257,7 +1257,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
     (:hook git-commit-save-message))
   (add-to-list 'global-mode-string '(t +magit-changelog-commit-mode-lighter))
   (transient-append-suffix 'magit-commit "c"
-    '("G" "Commit with Gemini" +magit-commit-with-gemini))
+    '("C" "Commit with LLM" +magit-commit-with-llm))
   (with-eval-after-load 'magit
     (magit-add-section-hook 'magit-status-sections-hook
                             'magit-insert-worktrees
