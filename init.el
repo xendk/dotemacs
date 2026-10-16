@@ -426,7 +426,7 @@
    doom-nord-light-brighter-modeline t
    doom-nord-aurora-brighter-modeline t
    ;; Remove background color on comments
-   doom-nord-comment-bg nil
+   doom-nord-light-comment-bg nil
    doom-nord-aurora-comment-bg nil)
 
   ;; Pre-load the dark theme.
@@ -444,31 +444,33 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
-  (:theme-face doom-nord-light
-               ;; White background for inactive mode-line is no-go for
-               ;; me.
-               mode-line-inactive (:background "#c9d5e5")
-               ;; Don't know why doom-nord-light sets the
-               ;; internal-border to a color, but reset it for
-               ;; spacious-padding-mode.
-               internal-border (:foreground unspecified :background unspecified :inherit default))
-  (:theme-face doom-nord-aurora
-               ;; And doom-nord-aurora sets the fringe colors rather
-               ;; than inheriting default.
-               fringe (:foreground unspecified :background unspecified :inherit default)
-               ;; Shadow is almost unreadable to me, and it's used as
-               ;; base for a lot of thing. Set it to a fifty-fifty mix
-               ;; of auroras base5 and base6 colors (the latter is too
-               ;; light).
-               shadow (:foreground "#6e778a"))
+  (:faces
+   ;; White background for inactive mode-line is no-go for me in
+   ;; doom-nord-light.
+   '(mode-line-inactive
+     ((((background light)) :background "#c9d5e5")))
+   ;; Don't know why doom-nord-light sets the internal-border to a
+   ;; color, but reset it for spacious-padding-mode.
+   '(internal-border
+     ((((background light)) :foreground unspecified :background unspecified :inherit default)))
+   ;; And doom-nord-aurora sets the fringe colors rather than
+   ;; inheriting default.
+   '(fringe
+     ((((background dark)) :foreground unspecified :background unspecified :inherit default)))
+   ;; Shadow is almost unreadable to me in doom-nord-aurora, and it's
+   ;; used as base for a lot of thing. Set it to a fifty-fifty mix of
+   ;; auroras base5 and base6 colors (the latter is too light).
+   '(shadow
+     ((((background dark)) :foreground "#6e778a"))))
   (unless xen-primary
     ;; Adjust the background color a bit so it's easier to distinguish
-    ;; between the primary and additional testing instances. We cannot
-    ;; use the macro here as it adds the face at macro expansion time.
-    ;; And for some reason, without the :foreground the text turns
-    ;; black in all-but-the-first frame.
-    (+add-theme-face 'doom-nord-aurora
-                     'default '(:background "#3E3445" :foreground "#ECEFF4"))))
+    ;; between the primary and additional testing instances. This is
+    ;; an override spec on top of the font set in early-init.el. And
+    ;; for some reason, without the :foreground the text turns black
+    ;; in all-but-the-first frame.
+    (face-spec-set 'default
+                   '((((background light)) :background "#EADFEF" :foreground "#3B4252")
+                     (((background dark))  :background "#3E3445" :foreground "#ECEFF4")))))
 
 (setup doom-modeline
   (:elpaca t)
@@ -548,14 +550,16 @@
    display-line-numbers-major-tick 20
    ;; Show minor line every 5 lines
    display-line-numbers-minor-tick 5)
-  (:theme-face doom-nord-light
-               line-number (:foreground "#bec7d8" :background unspecified)
-               line-number-minor-tick (:foreground "#989fac" :background unspecified)
-               line-number-major-tick (:foreground "#727781" :background unspecified))
-  (:theme-face doom-nord-aurora
-               line-number (:foreground "#585f6c" :background unspecified)
-               line-number-minor-tick (:foreground "#797e89" :background unspecified)
-               line-number-major-tick (:foreground "#9a9fa6" :background unspecified))
+  (:faces
+   '(line-number
+     ((((background light)) :foreground "#bec7d8" :background unspecified)
+      (((background dark))  :foreground "#585f6c" :background unspecified)))
+   '(line-number-minor-tick
+     ((((background light)) :foreground "#989fac" :background unspecified)
+      (((background dark))  :foreground "#797e89" :background unspecified)))
+   '(line-number-major-tick
+     ((((background light)) :foreground "#727781" :background unspecified)
+      (((background dark))  :foreground "#9a9fa6" :background unspecified))))
   (:with-function +maybe-display-line-numbers-mode
     (:hook-into prog-mode)))
 
@@ -573,10 +577,10 @@
   (keymap-global-set "M-<left>" 'highlight-symbol-prev)
   (keymap-global-set "M-<right>" 'highlight-symbol-next)
   (:hook-into prog-mode)
-  (:theme-face doom-nord-light
-               highlight-symbol-face (:background "#ced7e5"))
-  (:theme-face doom-nord-aurora
-               highlight-symbol-face (:background "#38404f"))
+  (:faces
+   '(highlight-symbol-face
+     ((((background light)) :background "#ced7e5")
+      (((background dark))  :background "#38404f"))))
   (add-hook 'activate-mark-hook '+highlight-symbol-mode-deactivate)
   (add-hook 'deactivate-mark-hook '+highlight-symbol-mode-reactivate))
 
@@ -601,10 +605,10 @@
     (:bind
      "M-<up>" region-occurrences-highlighter-prev
      "M-<down>" region-occurrences-highlighter-next))
-  (:theme-face doom-nord-light
-               region-occurrences-highlighter-face (:background "#ced7e5"))
-  (:theme-face doom-nord-aurora
-               region-occurrences-highlighter-face (:background "#38404f")))
+  (:faces
+   '(region-occurrences-highlighter-face
+     ((((background light)) :background "#ced7e5")
+      (((background dark))  :background "#38404f")))))
 
 (setup colorful-mode
   (:elpaca t)
@@ -772,8 +776,9 @@
    sp-autoskip-closing-pair 'always-end
    sp-show-pair-from-inside t)
   ;; Also highlight pair content.
-  (:face sp-show-pair-match-content-face
-         '(:extend t :inherit 'hl-line))
+  (:faces
+   '(sp-show-pair-match-content-face
+     ((t :extend t :inherit hl-line))))
   (:when-loaded
     (require 'smartparens-config)
     (smartparens-global-mode 1)
@@ -849,12 +854,13 @@
    vundo-compact-display t)
   ;; The original undo-tree visualization binding. Retained for muscle memory.
   (keymap-global-set  "C-x u" 'vundo)
-  (:theme-face doom-nord-light
-               vundo-highlight (:foreground "#99324B")
-               vundo-saved (:foreground "#398EAC"))
-  (:theme-face doom-nord-aurora
-               vundo-highlight (:foreground "#BF616A")
-               vundo-saved (:foreground "#507681"))
+  (:faces
+   '(vundo-highlight
+     ((((background light)) :foreground "#99324B")
+      (((background dark))  :foreground "#BF616A")))
+   '(vundo-saved
+     ((((background light)) :foreground "#398EAC")
+      (((background dark))  :foreground "#507681"))))
   (vundo-popup-mode 1))
 
 (declare-function undo-fu-session-global-mode "undo-fu-session")
@@ -898,12 +904,13 @@
   ;; TODO consider using visual-replace-from-isearch,
   ;; visual-replace-from-isearch and visual-replace-selected.
   (setopt visual-replace-minibuffer-mode-hook '(visual-replace-toggle-query))
-  (:theme-face doom-nord-light
-               visual-replace-delete-match (:foreground "#99324B" :strike-through t)
-               visual-replace-replacement (:foreground "#4F894C"))
-  (:theme-face doom-nord-aurora
-               visual-replace-delete-match (:foreground "#BF616A"  :strike-through t)
-               visual-replace-replacement (:foreground "#A3BE8C"))
+  (:faces
+   '(visual-replace-delete-match
+     ((((background light)) :foreground "#99324B" :strike-through t)
+      (((background dark))  :foreground "#BF616A" :strike-through t)))
+   '(visual-replace-replacement
+     ((((background light)) :foreground "#4F894C")
+      (((background dark))  :foreground "#A3BE8C"))))
   (visual-replace-global-mode))
 
 (setup avy-zap
@@ -1319,20 +1326,23 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup cov
   (:elpaca t)
-  (:theme-face doom-nord-light
-               cov-heavy-face (:foreground "green4")
-               cov-med-face (:foreground "yellow2")
-               cov-light-face (:foreground "orange2")
-               cov-none-face (:foreground "red")
-               cov-coverage-run-face (:foreground "green4")
-               cov-coverage-not-run-face (:foreground "red"))
-  (:theme-face doom-nord-aurora
-               cov-heavy-face (:foreground "green")
-               cov-med-face (:foreground "yellow")
-               cov-light-face (:foreground "orange")
-               cov-none-face (:foreground "red")
-               cov-coverage-run-face (:foreground "green")
-               cov-coverage-not-run-face (:foreground "red"))
+  (:faces
+   '(cov-heavy-face
+     ((((background light)) :foreground "green4")
+      (((background dark))  :foreground "green")))
+   '(cov-med-face
+     ((((background light)) :foreground "yellow2")
+      (((background dark))  :foreground "yellow")))
+   '(cov-light-face
+     ((((background light)) :foreground "orange2")
+      (((background dark))  :foreground "orange")))
+   '(cov-none-face
+     ((t :foreground "red")))
+   '(cov-coverage-run-face
+     ((((background light)) :foreground "green4")
+      (((background dark))  :foreground "green")))
+   '(cov-coverage-not-run-face
+     ((t :foreground "red"))))
   (:hook-into emacs-lisp-mode php-mode js-mode))
 
 

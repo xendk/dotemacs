@@ -25,21 +25,6 @@
 ;; Add a bit of spacing for pop-os/shells window highlight.
 (add-to-list 'default-frame-alist '(internal-border-width . 3))
 
-;; Set foreground and background color to avoid flashing when
-;; doom-theme gets activated. And set font too.
-;; Font size could be determined automatically:
-;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
-(custom-set-faces '(default
-                    ;; Colors disabled for the moment as they override
-                    ;; the latter themes.
-                    ((t ( ;; :foreground "#3B4252"
-                         ;; :background "#E5E9F0"
-                         :height 120
-                         :width semi-condensed
-                         :foundry "FBI "
-                         :family "Input")))
-                    'now "Customized in early-init.el"))
-
 ;; Disable tool-bar, scroll-bars and menu-bar.
 (dolist (disable-mode '(tool-bar-mode
                         menu-bar-mode
@@ -52,6 +37,21 @@
 
 (require '+elpaca)
 (require '+setup)
+
+;; Set foreground and background color to avoid flashing when
+;; doom-theme gets activated. And set font too.
+;; Font size could be determined automatically:
+;; https://emacs.stackexchange.com/questions/28390/quickly-adjusting-text-to-dpi-changes
+(+setup-set-faces
+ '(default
+   ;; Colors disabled for the moment as they override the latter
+   ;; themes.
+   ((t ;; :foreground "#3B4252"
+       ;; :background "#E5E9F0"
+       :height 120
+       :width semi-condensed
+       :foundry "FBI "
+       :family "Input"))))
 
 (provide 'early-init)
 

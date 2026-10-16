@@ -49,39 +49,35 @@ contains an alist with the key `elpaca'."
 The ORDER can be used to deduce the feature context."
   :shorthand #'cadr)
 
-(setup-define :face
-  (lambda (face spec)
-    `(custom-set-faces (list ',face (list (list t ,spec)) 'now "Customized by `setup'.")))
-  :documentation "Customize FACE with SPEC using `custom-set-faces'."
-  :repeatable t)
+;; Faces are set in their own theme rather than the `user' theme that
+;; `custom-set-faces' uses, as Customize saves everything in the latter
+;; to `custom-file'.
+(deftheme +setup "Faces set by `+setup-set-faces' and :faces.")
+(enable-theme '+setup)
 
-(defvar +theme-faces (make-hash-table :test 'equal :size 5)
-  "Face definitions per theme.")
+(defun +setup-raise-theme (theme)
+  "Re-enable the `+setup' theme when enabling THEME.
+Keeps it above other themes (`user' stays on top regardless)."
+  ;; Enabling any theme also enables `user', so reacting to it would
+  ;; recurse endlessly.
+  (unless (memq theme '(+setup user))
+    (enable-theme '+setup)))
 
-(defun +add-theme-face (theme face spec)
-  "Add FACE SPECS to THEME."
-  (push (list face spec) (gethash theme +theme-faces (list))))
+(add-hook 'enable-theme-functions #'+setup-raise-theme)
 
-(defun +add-theme-faces-hook (theme)
-  "Add :theme-face defined faces to THEME when enabled."
-  (let ((custom--inhibit-theme-enable nil))
-    (when-let ((specs (gethash theme +theme-faces)))
-      (cl-loop for (face spec) in specs do
-               (custom-theme-set-faces theme `(,face ((t ,spec)) t "Theme customized by `setup'."))))))
+(defun +setup-set-faces (&rest entries)
+  "Set faces in the `+setup' theme.
+ENTRIES are like in `custom-set-faces', but as they're not in the
+`user' theme, Customize won't save them to `custom-file'."
+  (apply #'custom-theme-set-faces '+setup entries)
+  ;; Settings for non-user themes are only recorded, not applied.
+  (dolist (entry entries)
+    (custom-theme-recalc-face (car entry))))
 
-(add-hook 'enable-theme-functions '+add-theme-faces-hook)
-
-(setup-define :theme-face
-  (lambda (theme face spec)
-    ;; We're calling +add-theme-face directly to ensure that the face
-    ;; is saved when the theme is enabled. Else elpaca would defer it
-    ;; until the package has been made available.
-    (+add-theme-face theme face spec)
-    ;; Don't return anything as it would be inserted in place of the
-    ;; macro.
-    nil)
-  :documentation "Customize FACE with SPEC in THEME  using `custom-theme-set-faces'."
-  :repeatable '(1 . 2))
+(setup-define :faces
+  (lambda (&rest entries)
+    `(+setup-set-faces ,@entries))
+  :documentation "Set faces like `custom-set-faces' using `+setup-set-faces'.")
 
 (setup-define :load-from
   (lambda (path)
