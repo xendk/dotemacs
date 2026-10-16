@@ -906,7 +906,7 @@
   (:elpaca t)
   ;; TODO consider using visual-replace-from-isearch,
   ;; visual-replace-from-isearch and visual-replace-selected.
-  (setopt visual-replace-minibuffer-mode-hook '(visual-replace-toggle-query))
+  (add-hook 'visual-replace-minibuffer-mode-hook #'visual-replace-toggle-query)
   (:faces
    '(visual-replace-delete-match
      ((((background light)) :foreground "#99324B" :strike-through t)

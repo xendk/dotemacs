@@ -9,9 +9,11 @@
 
 ;;; Code:
 
+;; Disable package.el, I use Elpaca. Not with `setopt', as that would
+;; load package.el to get the variable definition.
+(setq package-enable-at-startup nil)
+
 (setopt
- ;; Disable package.el, I use Elpaca.
- package-enable-at-startup nil
  ;; Disable the mode-line in the "initial buffer" which is shown while
  ;; initializing. This prevents ugly old-school mode-line showing up
  ;; before doom-modeline has done its thing.
