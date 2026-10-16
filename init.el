@@ -640,17 +640,20 @@
    ;; Use the project switch project command.
    dashboard-projects-switch-function 'project-switch-project
    dashboard-startup-banner 'logo
-   dashboard-items '((projects . 10) (+upgrades . 0) (+tip . 0))
+   dashboard-items '((projects . 10) (+upgrades . 0) (+tip . 0) (+warnings . 10))
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
    dashboard-item-generators (append dashboard-item-generators
                                      '((+tip . +dashboard-tip)
-                                       (+upgrades . +dashboard-insert-apt-upgrades))))
+                                       (+upgrades . +dashboard-insert-apt-upgrades)
+                                       (+warnings . +dashboard-insert-warnings))))
 
   (when (< (length command-line-args) 2)
     (dashboard-insert-startupify-lists)
+    ;; Refresh rather than just switch, to include warnings from the
+    ;; rest of init.
     (add-hook 'elpaca-after-init-hook (lambda ()
-                                        (switch-to-buffer dashboard-buffer-name)
+                                        (dashboard-open)
                                         (goto-char (point-min))
                                         (redisplay)
                                         (run-hooks 'dashboard-after-initialize-hook)))))

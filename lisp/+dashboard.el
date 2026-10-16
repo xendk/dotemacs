@@ -8,6 +8,9 @@
 (declare-function dashboard-insert-shortcut "dashboard")
 (declare-function dashboard-insert-center "dashboard")
 
+;; For the `dashboard-insert-section' macro.
+(require 'dashboard)
+
 (defvar dashboard--section-starts)
 
 (defun +dashboard-tip (_list-size)
@@ -37,6 +40,50 @@ _LIST-SIZE is ignored."
       ;; Ugly hack to pretend section doesn't exist.
       (delete-char -1)
       (pop dashboard--section-starts))))
+
+(defconst +dashboard-warning-regexp
+  (rx bol (*? nonl)
+      (group (or "Emergency" "Error" "Warning" "Debug")
+             (? " (" (* (not ")")) ")")
+             ": "))
+  "Regexp matching the start of a warning in the *Warnings* buffer.")
+
+(defun +dashboard-warnings ()
+  "Return the first line of each warning in the *Warnings* buffer.
+The position of the warning is in the `+warning-pos' text property."
+  (when-let* ((buffer (get-buffer "*Warnings*")))
+    (with-current-buffer buffer
+      (save-excursion
+        (goto-char (point-min))
+        (let (warnings)
+          (while (re-search-forward +dashboard-warning-regexp nil t)
+            (push (propertize (buffer-substring-no-properties (match-beginning 1)
+                                                              (line-end-position))
+                              '+warning-pos (match-beginning 1))
+                  warnings))
+          (nreverse warnings))))))
+
+(defun +dashboard-goto-warning (pos)
+  "Show the warning at POS in the *Warnings* buffer."
+  (pop-to-buffer "*Warnings*")
+  (goto-char pos))
+
+(defun +dashboard-insert-warnings (list-size)
+  "Insert up to LIST-SIZE warnings from the *Warnings* buffer.
+Inserts nothing if there's no warnings."
+  (if-let* ((warnings (+dashboard-warnings)))
+      (dashboard-insert-section
+       "Warnings:"
+       warnings
+       list-size
+       '+warnings
+       "w"
+       `(lambda (&rest _)
+          (+dashboard-goto-warning ,(get-text-property 0 '+warning-pos el)))
+       el)
+    ;; Ugly hack to pretend section doesn't exist.
+    (delete-char -1)
+    (pop dashboard--section-starts)))
 
 (provide '+dashboard)
 ;;; +dashboard.el ends here
