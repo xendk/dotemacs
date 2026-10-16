@@ -10,15 +10,15 @@
 
 ;;; Code:
 
-;; Start server if not already running.
-(require 'server)
-(defvar xen-primary (not (server-running-p)) "Whether this Emacs is \"Primary\".")
-(if xen-primary
-    (progn
-      (server-start)
-      (add-hook 'kill-emacs-hook (lambda () (server-start 1))))
-  ;; If it's running, this is the second instance of Emacs, which is
-  ;; most likely used for testing something, so debug on error.
+;; The primary Emacs is the unnamed daemon run by systemd, which
+;; starts the server itself. Anything else is most likely used for
+;; testing something.
+(defvar xen-primary (eq (daemonp) t) "Whether this Emacs is \"Primary\".")
+;; Debug on error in interactive test instances (`emacs-pgtk'). Not in
+;; named daemons (see `+init-check'), as it makes Elpaca re-signal
+;; config errors rather than logging them, and there's no frame for
+;; the debugger.
+(unless (daemonp)
   (toggle-debug-on-error))
 
 ;; When flycheck runs checks on this file, we need to load these
@@ -1690,6 +1690,9 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 (setup +work
   (require '+work))
+
+(setup +init-check
+  (require '+init-check))
 
 
 
