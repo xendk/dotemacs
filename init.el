@@ -16,8 +16,8 @@
 (defvar xen-primary (eq (daemonp) t) "Whether this Emacs is \"Primary\".")
 ;; Debug on error in interactive test instances (`emacs-pgtk'). Not in
 ;; named daemons (see `+init-check'), as it makes Elpaca re-signal
-;; config errors rather than logging them, and there's no frame for
-;; the debugger.
+;; configuration errors rather than logging them, and there's no frame
+;; for the debugger.
 (unless (daemonp)
   (toggle-debug-on-error))
 
@@ -28,7 +28,7 @@
   (require '+setup))
 
 
-;;; Upgrade built in packages. This is done in a seperate elpaca round
+;;; Upgrade built in packages. This is done in a separate elpaca round
 ;;; to ensure that the package is properly replaced before anything
 ;;; uses it.
 
@@ -94,7 +94,7 @@
    mouse-drag-and-drop-region-cross-program t
    ;; Disable IM context so S-SPC works.
    pgtk-use-im-context-on-new-connection nil
-   ;; Scroll linewise rather than jumping
+   ;; Scroll line-wise rather than jumping
    scroll-conservatively 2
    ;; Keep a margin to top/bottom of window
    scroll-margin 5
@@ -273,7 +273,7 @@
 
 (setup mwheel
   (setopt
-   ;; Make scrollwheel behave more like in other apps
+   ;; Make scroll-wheel behave more like in other apps
    mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control)))))
 
 (setup paragraphs
@@ -386,7 +386,7 @@
    (cdr (assoc 'tab-mark whitespace-display-mappings))
    '(?\t [?↹ ?\t] [?\t]))
 
-  ;; Enable whitespace mode globally.
+  ;; Enable white-space mode globally.
   (global-whitespace-mode))
 
 (setup window
@@ -429,7 +429,7 @@
    doom-nord-comment-bg nil
    doom-nord-aurora-comment-bg nil)
 
-  ;; Preload the dark theme.
+  ;; Pre-load the dark theme.
   (load-theme 'doom-nord-aurora t t)
   ;; Load and enable the light theme
   (load-theme 'doom-nord-light t)
@@ -1040,7 +1040,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
       (overlay-put completion-preview--overlay 'after-string "")
       ;; Disable preview.
       (completion-preview-active-mode -1)
-      ;; We need to inhibit update, else it will redisplay together
+      ;; We need to inhibit update, else it will re-display together
       ;; with the corfu popup.
       (completion-preview--inhibit-update)))
 
@@ -1217,7 +1217,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 (setup indentinator
   (:elpaca t)
   (setopt
-   ;; Speed up reindentation
+   ;; Speed up re-indentation
    indentinator-idle-time 0.005)
   ;; Doesn't play nice with Makefiles, which is a prog-mode.
   (:hook-into emacs-lisp-mode
@@ -1286,7 +1286,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
   (require 'project)
   (require '+project)
   (setopt
-   ;; magit-extras normally sets this, but Magit is lazyloaded.
+   ;; magit-extras normally sets this, but Magit is lazy-loaded.
    project-switch-commands (append project-switch-commands
                                    '((magit-project-status "Magit")
                                      (+project-vterm "vTerm" ?s)
@@ -1658,7 +1658,7 @@ set (i.e., OPERATION is \\='set).  This excludes, e.g., let bindings."
 
 
 
-;;; Utils
+;;; Utilities
 
 (setup git-attr
   (:elpaca :host github :repo "arnested/emacs-git-attr"))
