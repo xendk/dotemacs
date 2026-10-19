@@ -110,6 +110,8 @@ Removes the column, then the line number, then the whole line."
                             :filter ,(lambda (command)
                                        (when (+review--after-location-p)
                                          command))))
+    (keymap-set keymap "C-c C-c" '+review-bury)
+    (keymap-set keymap "C-c C-k" '+review-kill)
     keymap)
   "Keymap for `+review-comments-mode'.")
 
@@ -124,6 +126,28 @@ Removes the column, then the line number, then the whole line."
 (define-derived-mode +review-comments-mode text-mode "Review"
   "Major mode for review notes buffers."
   (setq-local font-lock-defaults '(+review--font-lock-keywords)))
+
+(defun +review--quit (kill)
+  "Remove the review window, and bury the buffer, or KILL it."
+  (let ((buffer (current-buffer)))
+    ;; The sole window can't be deleted, so just switch it away.
+    (if (one-window-p)
+        (if kill (kill-buffer) (bury-buffer))
+      (delete-window)
+      (if kill (kill-buffer buffer) (bury-buffer buffer)))))
+
+(defun +review-bury ()
+  "Bury the review buffer and remove its window."
+  (interactive)
+  (+review--quit nil))
+
+(defun +review-kill ()
+  "Kill the review buffer and remove its window.
+Asks for confirmation if the buffer has any notes."
+  (interactive)
+  (when (or (string-blank-p (buffer-string))
+            (yes-or-no-p "Kill review buffer and lose its notes? "))
+    (+review--quit t)))
 
 (defun +review--buffer (project)
   "Return the review buffer of PROJECT, creating it if needed."

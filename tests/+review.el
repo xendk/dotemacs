@@ -222,3 +222,60 @@
     (+review-visit)
     (expect (line-number-at-pos) :to-be 2)
     (expect (current-column) :to-be 0)))
+
+(describe "+review-bury and +review-kill"
+  :var (review-buffer code-window)
+  (before-each
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (setq code-window (selected-window))
+    (setq review-buffer (generate-new-buffer "*review*"))
+    (with-current-buffer review-buffer
+      (+review-comments-mode))
+    (select-window (split-window)))
+
+  (after-each
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (when (buffer-live-p review-buffer)
+      (kill-buffer review-buffer)))
+
+  (it "C-c C-c buries the buffer and removes the window"
+    (switch-to-buffer review-buffer)
+    (call-interactively (key-binding (kbd "C-c C-c")))
+    (expect (count-windows) :to-be 1)
+    (expect (selected-window) :to-be code-window)
+    (expect (buffer-live-p review-buffer) :to-be t)
+    (expect (car (last (buffer-list))) :to-be review-buffer))
+
+  (it "C-c C-k kills an empty buffer without asking"
+    (spy-on 'yes-or-no-p)
+    (switch-to-buffer review-buffer)
+    (call-interactively (key-binding (kbd "C-c C-k")))
+    (expect 'yes-or-no-p :not :to-have-been-called)
+    (expect (count-windows) :to-be 1)
+    (expect (buffer-live-p review-buffer) :to-be nil))
+
+  (it "C-c C-k kills a buffer with notes when confirmed"
+    (spy-on 'yes-or-no-p :and-return-value t)
+    (switch-to-buffer review-buffer)
+    (insert "foo.el:1:1: note")
+    (call-interactively (key-binding (kbd "C-c C-k")))
+    (expect 'yes-or-no-p :to-have-been-called)
+    (expect (count-windows) :to-be 1)
+    (expect (buffer-live-p review-buffer) :to-be nil))
+
+  (it "C-c C-k keeps a buffer with notes when not confirmed"
+    (spy-on 'yes-or-no-p :and-return-value nil)
+    (switch-to-buffer review-buffer)
+    (insert "foo.el:1:1: note")
+    (call-interactively (key-binding (kbd "C-c C-k")))
+    (expect (count-windows) :to-be 2)
+    (expect (buffer-live-p review-buffer) :to-be t))
+
+  (it "switches the buffer away in a sole window"
+    (delete-other-windows)
+    (switch-to-buffer review-buffer)
+    (call-interactively (key-binding (kbd "C-c C-c")))
+    (expect (window-buffer) :not :to-be review-buffer)
+    (expect (buffer-live-p review-buffer) :to-be t)))
