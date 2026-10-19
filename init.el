@@ -755,6 +755,11 @@
   (:require +commenting-newline)
   (keymap-global-set "RET" '+commenting-newline))
 
+;; Collect review notes for handing to an LLM.
+(setup +review
+  (:require +review)
+  (+review-mode))
+
 ;; Standard Emacs package. Dead keys work when this is loaded.
 (setup iso-transl
   (:require iso-transl))
