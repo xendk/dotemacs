@@ -100,3 +100,60 @@
   (it "errors in buffers not visiting a file"
     (with-temp-buffer
       (expect (+review-insert) :to-throw 'user-error))))
+
+(describe "+review-visit"
+  :var (root review-buffer)
+  (before-each
+    (setq root (file-name-as-directory (make-temp-file "review" t)))
+    (with-temp-file (expand-file-name "foo.el" root)
+      (insert "one\ntwo three\n"))
+    (setq review-buffer (generate-new-buffer "*review*"))
+    (with-current-buffer review-buffer
+      (+review-comments-mode)
+      (setq +review--project-root root)
+      (insert "foo.el:2:5: a note\n"))
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (split-window)
+    (switch-to-buffer review-buffer)
+    (goto-char (point-min)))
+
+  (after-each
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (kill-buffer review-buffer)
+    (when-let* ((buffer (find-buffer-visiting (expand-file-name "foo.el" root))))
+      (kill-buffer buffer))
+    (delete-directory root t))
+
+  (it "binds RET to visit only on the location"
+    (expect (key-binding (kbd "RET")) :to-be '+review-visit)
+    (forward-char 10)
+    (expect (key-binding (kbd "RET")) :to-be '+review-visit)
+    (forward-char 2)
+    (expect (key-binding (kbd "RET")) :not :to-be '+review-visit))
+
+  (it "visits the location in the other window"
+    (let ((review-window (selected-window)))
+      (+review-visit)
+      (expect (selected-window) :not :to-be review-window)
+      (expect (window-buffer review-window) :to-be review-buffer)
+      (expect (buffer-file-name) :to-equal (expand-file-name "foo.el" root))
+      (expect (line-number-at-pos) :to-be 2)
+      (expect (current-column) :to-be 4)
+      (expect (count-windows) :to-be 2)))
+
+  (it "errors when not on a location"
+    (forward-char 14)
+    (expect (+review-visit) :to-throw 'user-error)))
+
+(describe "+review-comments-mode"
+  (it "highlights locations like compilation-mode"
+    (with-temp-buffer
+      (+review-comments-mode)
+      (insert "sub/foo.el:12:5: a note")
+      (font-lock-ensure)
+      (expect (get-text-property 1 'face) :to-be 'compilation-info)
+      (expect (get-text-property 12 'face) :to-be 'compilation-line-number)
+      (expect (get-text-property 15 'face) :to-be 'compilation-column-number)
+      (expect (get-text-property 19 'face) :to-be nil))))
