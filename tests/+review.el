@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (require 'buttercup)
+(require 'tests/+helpers)
 (require '+review)
 
 (defvar +review-test-buffers nil
@@ -157,3 +158,67 @@
       (expect (get-text-property 12 'face) :to-be 'compilation-line-number)
       (expect (get-text-property 15 'face) :to-be 'compilation-column-number)
       (expect (get-text-property 19 'face) :to-be nil))))
+
+(describe "+review-delete-backward"
+  :var (del)
+  (before-each
+    (setq del (lambda () (call-interactively (key-binding (kbd "DEL"))))))
+
+  (it "removes column, then line, then the whole line"
+    (+with-temp-buffer "a.el:1:1: x\ninit.el:928:1: |" (+review-comments-mode)
+      (funcall del)
+      (+expect-buffer-equals "a.el:1:1: x\ninit.el:928: |")
+      (funcall del)
+      (+expect-buffer-equals "a.el:1:1: x\ninit.el: |")
+      (funcall del)
+      (+expect-buffer-equals "a.el:1:1: x|")))
+
+  (it "removes a line in the middle of the buffer"
+    (+with-temp-buffer "a.el:1:1: x\ninit.el: |\nb.el:2:2: y" (+review-comments-mode)
+      (funcall del)
+      (+expect-buffer-equals "a.el:1:1: x\n|b.el:2:2: y")))
+
+  (it "trims the location even when there's a note"
+    (+with-temp-buffer "init.el:928:1: |note" (+review-comments-mode)
+      (funcall del)
+      (+expect-buffer-equals "init.el:928: |note")))
+
+  (it "doesn't remove a line with a note"
+    (+with-temp-buffer "init.el: |note" (+review-comments-mode)
+      (funcall del)
+      (+expect-buffer-equals "init.el:|note")))
+
+  (it "deletes normally elsewhere"
+    (+with-temp-buffer "init.el:928:1: no|te" (+review-comments-mode)
+      (funcall del)
+      (+expect-buffer-equals "init.el:928:1: n|te"))))
+
+(describe "+review-visit with partial locations"
+  :var (root review-buffer)
+  (before-each
+    (setq root (file-name-as-directory (make-temp-file "review" t)))
+    (with-temp-file (expand-file-name "foo.el" root)
+      (insert "one\ntwo three\n"))
+    (setq review-buffer (generate-new-buffer "*review*"))
+    (with-current-buffer review-buffer
+      (+review-comments-mode)
+      (setq +review--project-root root)
+      (insert "foo.el:2: a note\n"))
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (split-window)
+    (switch-to-buffer review-buffer)
+    (goto-char (point-min)))
+
+  (after-each
+    (let ((ignore-window-parameters t))
+      (delete-other-windows))
+    (kill-buffer review-buffer)
+    (when-let* ((buffer (find-buffer-visiting (expand-file-name "foo.el" root))))
+      (kill-buffer buffer))
+    (delete-directory root t))
+
+  (it "goes to the start of the line without a column"
+    (+review-visit)
+    (expect (line-number-at-pos) :to-be 2)
+    (expect (current-column) :to-be 0)))

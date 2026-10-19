@@ -29,20 +29,56 @@
   "Root of the project the review buffer belongs to.")
 (put '+review--project-root 'permanent-local t)
 
+;; Line and column are optional, as `+review-delete-backward' trims
+;; them. No whitespace in the file name, so a note starting with
+;; "Note: " isn't mistaken for a location.
 (defconst +review--location-regexp
-  "^\\([^:\n]+\\):\\([0-9]+\\):\\([0-9]+\\):"
+  "^\\([^: \t\n]+\\)\\(?::\\([0-9]+\\)\\(?::\\([0-9]+\\)\\)?\\)?:"
   "Regexp matching a location at the start of a review note.")
 
 (defun +review--location-at-point ()
-  "Return (FILE LINE COLUMN) if point is on the location of a note."
+  "Return (FILE LINE COLUMN) if point is on the location of a note.
+LINE and COLUMN are nil if the location doesn't have them."
   (let ((pos (point)))
     (save-excursion
       (beginning-of-line)
       (when (and (looking-at +review--location-regexp)
-                 (<= pos (match-end 3)))
+                 (< pos (match-end 0)))
         (list (match-string-no-properties 1)
-              (string-to-number (match-string-no-properties 2))
-              (string-to-number (match-string-no-properties 3)))))))
+              (and (match-beginning 2)
+                   (string-to-number (match-string-no-properties 2)))
+              (and (match-beginning 3)
+                   (string-to-number (match-string-no-properties 3))))))))
+
+(defun +review--after-location-p ()
+  "Return non-nil if point is right after a location and its space.
+Sets the match data to the location."
+  (let ((pos (point)))
+    (save-excursion
+      (beginning-of-line)
+      (and (looking-at (concat +review--location-regexp " "))
+           (= pos (match-end 0))
+           ;; Removing the whole line would lose the note.
+           (or (match-beginning 2) (= pos (line-end-position)))))))
+
+(defun +review-delete-backward ()
+  "Make the location before point less precise.
+Removes the column, then the line number, then the whole line."
+  (interactive)
+  (unless (+review--after-location-p)
+    (user-error "Not after a location"))
+  (cond ((match-beginning 3)
+         (delete-region (1- (match-beginning 3)) (match-end 3)))
+        ((match-beginning 2)
+         (delete-region (1- (match-beginning 2)) (match-end 2)))
+        ;; On the last line, take the preceding newline instead, so
+        ;; point ends up at the end of the previous note.
+        ((and (= (line-end-position) (point-max))
+              (> (line-beginning-position) (point-min)))
+         (delete-region (1- (line-beginning-position)) (point-max)))
+        (t
+         (delete-region (line-beginning-position)
+                        (min (1+ (line-end-position)) (point-max))))))
 
 (defun +review-visit ()
   "Visit the location of the review note at point in another window."
@@ -55,9 +91,10 @@
                    '((display-buffer-reuse-window
                       display-buffer-use-some-window)
                      (inhibit-same-window . t)))
-    (goto-char (point-min))
-    (forward-line (1- line))
-    (move-to-column (1- column))))
+    (when line
+      (goto-char (point-min))
+      (forward-line (1- line))
+      (move-to-column (1- (or column 1))))))
 
 (defvar +review-comments-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -67,6 +104,12 @@
                             :filter ,(lambda (command)
                                        (when (+review--location-at-point)
                                          command))))
+    ;; Likewise DEL is only special right after a location.
+    (keymap-set keymap "DEL"
+                `(menu-item "" +review-delete-backward
+                            :filter ,(lambda (command)
+                                       (when (+review--after-location-p)
+                                         command))))
     keymap)
   "Keymap for `+review-comments-mode'.")
 
@@ -74,8 +117,8 @@
 (defvar +review--font-lock-keywords
   `((,+review--location-regexp
      (1 'compilation-info)
-     (2 'compilation-line-number)
-     (3 'compilation-column-number)))
+     (2 'compilation-line-number nil t)
+     (3 'compilation-column-number nil t)))
   "Font lock keywords for `+review-comments-mode'.")
 
 (define-derived-mode +review-comments-mode text-mode "Review"
