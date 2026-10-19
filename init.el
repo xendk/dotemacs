@@ -746,7 +746,7 @@
      "C-o" +open-line)))
 
 (setup +edit-clipboard
-  (:require ++edit-clipboard)
+  (:require +edit-clipboard)
   (keymap-global-set "C-c y" '+edit-clipboard))
 
 ;; On the subject of comments:
